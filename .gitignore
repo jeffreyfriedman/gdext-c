@@ -1,0 +1,35 @@
+# Build artifacts
+*.o
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+
+# Build directories
+/build/
+/cmake-build-*/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Generated files
+/docs/html/
+/docs/latex/
+
+# Test outputs
+/tests/*.log
+/tests/bin/
+
+# Package manager
+/node_modules/
+/vendor/
+/__pycache__/
+*.pyc
+
