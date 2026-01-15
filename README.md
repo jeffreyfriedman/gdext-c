@@ -1,392 +1,279 @@
-# gdext-c: Universal C Library for Godot GDExtension
+# gdext-c
 
-**One C library. Every language.**
+**Pure C GDExtension layer for Godot 4.x** - No Rust, No C++, Just C!
 
-`gdext-c` provides a clean, simple C API for creating Godot GDExtensions in ANY programming language. Instead of each language implementing GDExtension from scratch, they can all use this battle-tested C foundation.
+🎯 **Goal:** Provide a minimal, clean C interface to Godot's GDExtension API that can be used as a foundation for bindings in any language (Go, Ruby, Python, etc.)
 
-## Why gdext-c?
+## ✨ Features
 
-### The Problem
+- ✅ **Pure C89** - Maximum portability
+- ✅ **Zero Dependencies** - Only `gdextension_interface.h` from Godot
+- ✅ **Object Creation** - Create any Godot class via `classdb_construct_object`
+- ✅ **Scene Tree Access** - Get root node, navigate scene tree
+- ✅ **Variant Helpers** - Convert between C types and Godot Variants
+- ✅ **Method Calling** - Call methods on Godot objects
+- ✅ **Array Support** - PackedInt32Array, PackedVector3Array, etc.
+- ✅ **Singleton Access** - Get Engine, DisplayServer, etc.
 
-Every language binding for Godot reinvents the wheel:
-- `godot-rust`: Full Rust implementation (~50K+ lines)
-- `godot-cpp`: Full C++ wrapper (complex build)
-- `gdnative-python`: Custom Python implementation
-- Each language duplicates the same GDExtension plumbing!
-
-### The Solution
-
-**One C library, many language bindings:**
+## 🏗️ Architecture
 
 ```
-Language Binding          gdext-c           Godot Engine
-───────────────────      ─────────          ────────────
-gdext-go (Go)       ─→                  
-gdext-rb (Ruby)     ─→   libgdext_c   ─→   GDExtension
-gdext-py (Python)   ─→                     (C++ API)
-gdext-js (JS)       ─→
-...etc              ─→
+┌─────────────────────────────────────────────────────────┐
+│                    Your Application                      │
+│                  (Go, Ruby, Python, etc.)                │
+└────────────────────┬────────────────────────────────────┘
+                     │
+                     │ CGO / FFI
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│                      gdext-c                             │
+│          (Pure C wrapper around GDExtension API)         │
+└────────────────────┬────────────────────────────────────┘
+                     │
+                     │ GDExtensionInterface
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│                    Godot Engine                          │
+│             (Provides GDExtension API)                   │
+└─────────────────────────────────────────────────────────┘
 ```
 
-**Benefits:**
-- ✅ Focus on language idioms, not GDExtension plumbing
-- ✅ Share improvements across all languages
-- ✅ Lower barrier to entry for new language bindings
-- ✅ Battle-tested, production-ready foundation
-- ✅ Simple C API - easy to use from any language
+### Key Design Decisions
 
-## Features
+1. **Centralized Interface:** All GDExtension function pointers stored in `GDExtensionInterface` struct
+2. **No Global State:** All functions check initialization before proceeding
+3. **Explicit Memory Management:** Caller owns returned pointers
+4. **Simple API Surface:** Minimal, orthogonal functions
 
-- 🚀 **Universal**: Works with ANY programming language that has C FFI
-- ⚡ **Fast**: Zero overhead abstraction over Godot's C++ API
-- 📦 **Tiny**: ~100 KB library, minimal dependencies
-- 🎯 **Simple**: Flat C API, no complex types or templates
-- 📚 **Well-documented**: Every function documented with examples
-- ✅ **Battle-tested**: Powering production games
-- 🔓 **MIT Licensed**: Use anywhere, commercially or personally
+## 📦 Components
 
-## Quick Start
+```
+gdext-c/
+├── include/
+│   ├── gdext_c.h              # Public API
+│   └── gdextension_interface.h # From Godot (generated)
+├── src/
+│   ├── core/
+│   │   ├── gdext_c_core.c     # Initialization
+│   │   └── gdext_c_core.h     # Internal interface struct
+│   ├── api/
+│   │   ├── gdext_c_objects.c  # Object creation
+│   │   ├── gdext_c_variants.c # Variant conversions
+│   │   ├── gdext_c_method_calling.c # Method calls
+│   │   └── gdext_c_arrays.c   # Array handling
+│   └── scene/
+│       └── scene_access.c     # Scene tree operations
+└── Makefile                   # Build configuration
+```
+
+## 🚀 Quick Start
 
 ### 1. Build the Library
 
 ```bash
-cd gdext-c
 make
 ```
 
 This produces `libgdext_c.dylib` (macOS), `libgdext_c.so` (Linux), or `libgdext_c.dll` (Windows).
 
-### 2. Use in Your Language
+### 2. Initialize in Your GDExtension
 
-#### Go Example
+```c
+#include "gdext_c.h"
 
-```go
-package main
-
-// #cgo LDFLAGS: -lgdext_c
-// #include <gdext_c.h>
-import "C"
-
-func main() {
-    // Initialize
-    C.gdext_c_initialize(procAddress)
+GDExtensionBool GDN_EXPORT my_extension_init(
+    GDExtensionInterfaceGetProcAddress p_get_proc_address,
+    GDExtensionClassLibraryPtr p_library,
+    GDExtensionInitialization *r_initialization
+) {
+    // Initialize gdext-c with Godot's proc_address
+    if (!gdext_c_initialize(p_get_proc_address)) {
+        return false;
+    }
     
-    // Create a node
-    node := C.gdext_c_create_object(C.CString("Node3D"))
-    
-    // Set position
-    pos := C.gdext_c_vec3_new(10.0, 0.0, 5.0)
-    C.gdext_c_set_property_vec3(node, C.CString("position"), pos)
+    // Now you can use gdext-c functions!
+    return true;
 }
 ```
 
-#### Ruby Example
+### 3. Create Objects and Call Methods
 
-```ruby
-require 'ffi'
+```c
+// Create a Node3D
+gdext_c_object_t node = gdext_c_create_object("Node3D");
 
-module Godot
-  extend FFI::Library
-  ffi_lib 'gdext_c'
-  
-  attach_function :gdext_c_create_object, [:string], :pointer
-  attach_function :gdext_c_set_property_vec3, [:pointer, :string, Vector3.by_value], :bool
-  
-  class Node3D
-    def initialize
-      @ptr = Godot.gdext_c_create_object("Node3D")
-    end
-    
-    def position=(pos)
-      Godot.gdext_c_set_property_vec3(@ptr, "position", pos)
-    end
-  end
-end
+// Create a variant
+GDExtensionVariantPtr pos_x = gdext_c_variant_from_float(10.5);
 
-# Use it
-node = Godot::Node3D.new
-node.position = Godot::Vector3.new(10, 0, 5)
+// Call a method
+GDExtensionVariantPtr result = gdext_c_call_method1(
+    node, "set_position_x", pos_x
+);
+
+// Clean up
+gdext_c_variant_free(pos_x);
+gdext_c_variant_free(result);
 ```
 
-#### Python Example
-
-```python
-import ctypes
-
-libgdext_c = ctypes.CDLL('libgdext_c.so')
-
-class Vector3(ctypes.Structure):
-    _fields_ = [("x", ctypes.c_float), ("y", ctypes.c_float), ("z", ctypes.c_float)]
-
-libgdext_c.gdext_c_create_object.argtypes = [ctypes.c_char_p]
-libgdext_c.gdext_c_create_object.restype = ctypes.c_void_p
-
-class Node3D:
-    def __init__(self):
-        self._ptr = libgdext_c.gdext_c_create_object(b"Node3D")
-    
-    @property
-    def position(self):
-        return self._position
-    
-    @position.setter
-    def position(self, pos):
-        libgdext_c.gdext_c_set_property_vec3(self._ptr, b"position", pos)
-
-# Use it
-node = Node3D()
-node.position = Vector3(10, 0, 5)
-```
-
-## API Overview
+## 🔧 API Reference
 
 ### Initialization
 
 ```c
-bool gdext_c_initialize(gdext_c_proc_address_func proc_address);
+bool gdext_c_initialize(GDExtensionInterfaceGetProcAddress proc_address);
 bool gdext_c_is_initialized(void);
+const GDExtensionInterface* gdext_c_get_interface_functions(void);
 ```
 
 ### Object Creation
 
 ```c
 gdext_c_object_t gdext_c_create_object(const char* class_name);
-void gdext_c_free_object(gdext_c_object_t object);
 ```
 
 ### Scene Tree
 
 ```c
-gdext_c_object_t gdext_c_get_singleton(const char* singleton_name);
 gdext_c_object_t gdext_c_get_root_node(void);
 gdext_c_object_t gdext_c_get_node(const char* path);
-bool gdext_c_add_child(gdext_c_object_t parent, gdext_c_object_t child);
 ```
 
-### Properties
+### Variants
 
 ```c
-bool gdext_c_get_property_vec3(gdext_c_object_t object, const char* property, gdext_c_vec3* out);
-bool gdext_c_set_property_vec3(gdext_c_object_t object, const char* property, gdext_c_vec3 value);
-bool gdext_c_set_property_float(gdext_c_object_t object, const char* property, float value);
-// ... and more
+// Creation
+GDExtensionVariantPtr gdext_c_variant_new_nil(void);
+GDExtensionVariantPtr gdext_c_variant_from_int(int64_t value);
+GDExtensionVariantPtr gdext_c_variant_from_float(double value);
+GDExtensionVariantPtr gdext_c_variant_from_bool(int value);
+GDExtensionVariantPtr gdext_c_variant_from_string(const char* value);
+GDExtensionVariantPtr gdext_c_variant_from_vector3(float x, float y, float z);
+GDExtensionVariantPtr gdext_c_variant_from_color(float r, float g, float b, float a);
+GDExtensionVariantPtr gdext_c_variant_from_object(gdext_c_object_t object);
+
+// Extraction
+int64_t gdext_c_variant_to_int(GDExtensionConstVariantPtr variant);
+double gdext_c_variant_to_float(GDExtensionConstVariantPtr variant);
+bool gdext_c_variant_to_bool(GDExtensionConstVariantPtr variant);
+// ... etc
+
+// Cleanup
+void gdext_c_variant_free(GDExtensionVariantPtr variant);
 ```
 
 ### Method Calling
 
 ```c
-gdext_c_object_t gdext_c_call_method_void(gdext_c_object_t object, const char* method);
-gdext_c_object_t gdext_c_call_method(gdext_c_object_t object, const char* method, void** args, int arg_count);
+GDExtensionVariantPtr gdext_c_call_method(
+    gdext_c_object_t object,
+    const char* method_name,
+    GDExtensionConstVariantPtr* args,
+    int arg_count
+);
+
+// Convenience wrappers
+GDExtensionVariantPtr gdext_c_call_method0(gdext_c_object_t object, const char* method_name);
+GDExtensionVariantPtr gdext_c_call_method1(gdext_c_object_t object, const char* method_name, GDExtensionConstVariantPtr arg1);
+// ... up to gdext_c_call_method3
 ```
 
-### Error Handling
+### Arrays
 
 ```c
-gdext_c_error gdext_c_get_last_error(void);
-const char* gdext_c_get_error_message(void);
+GDExtensionVariantPtr gdext_c_variant_from_packed_int32_array(int32_t* values, int count);
+GDExtensionVariantPtr gdext_c_variant_from_packed_vector3_array(float* values, int count);
 ```
 
-See `include/gdext_c.h` for complete API documentation.
-
-## Project Structure
-
-```
-gdext-c/
-├── include/
-│   ├── gdext_c.h                  # Public API
-│   └── gdextension_interface.h   # Godot interface
-├── src/
-│   ├── core/                      # Core functionality
-│   │   ├── gdextension_entry.c
-│   │   ├── gdextension_bridge.c
-│   │   ├── string_name_helper.c
-│   │   └── class_registration.c
-│   ├── scene/                     # Scene tree operations
-│   │   └── scene_access.c
-│   ├── api/                       # API wrappers
-│   └── math/                      # Math helpers
-├── examples/
-│   └── hello_world/               # Minimal example
-├── bindings/
-│   ├── go/                        # Go bindings
-│   ├── ruby/                      # Ruby bindings
-│   └── python/                    # Python bindings
-├── tests/                         # Unit tests
-└── docs/                          # Documentation
-```
-
-## Language Bindings
-
-### Official Bindings
-
-| Language | Project | Status | Maintainer |
-|----------|---------|--------|------------|
-| Go | [gdext-go](../gdext-go) | ✅ Stable | @yourname |
-| Ruby | [gdext-rb](bindings/ruby) | 🚧 Alpha | TBD |
-| Python | [gdext-py](bindings/python) | 📝 Planned | TBD |
-
-### Creating Your Own Binding
-
-Want to create a binding for your language? See [docs/PORTING.md](docs/PORTING.md) for a step-by-step guide!
-
-**It's easier than you think** - the C API handles all the hard parts. You just need to:
-1. Call C functions from your language (FFI)
-2. Wrap them in idiomatic APIs for your language
-3. Add language-specific conveniences
-
-## Examples
-
-### Hello World (C)
+## 📚 Example: Complete Workflow
 
 ```c
-#include <gdext_c.h>
+#include "gdext_c.h"
 
-// GDExtension initialization callback
-void initialize(void* proc_address, void* library) {
-    // Initialize gdext-c
-    gdext_c_initialize(proc_address);
+void example() {
+    // 1. Create a MeshInstance3D
+    gdext_c_object_t mesh_inst = gdext_c_create_object("MeshInstance3D");
     
-    // Create a custom node
-    void* node = gdext_c_create_object("Node");
+    // 2. Create a BoxMesh
+    gdext_c_object_t box_mesh = gdext_c_create_object("BoxMesh");
     
-    // Add to scene
-    void* root = gdext_c_get_root_node();
-    gdext_c_add_child(root, node);
+    // 3. Set mesh size
+    GDExtensionVariantPtr size_x = gdext_c_variant_from_float(2.0);
+    GDExtensionVariantPtr size_y = gdext_c_variant_from_float(2.0);
+    GDExtensionVariantPtr size_z = gdext_c_variant_from_float(2.0);
+    GDExtensionVariantPtr size = gdext_c_variant_from_vector3(2.0, 2.0, 2.0);
+    gdext_c_call_method1(box_mesh, "set_size", size);
+    
+    // 4. Assign mesh to instance
+    GDExtensionVariantPtr mesh_variant = gdext_c_variant_from_object(box_mesh);
+    gdext_c_call_method1(mesh_inst, "set_mesh", mesh_variant);
+    
+    // 5. Add to scene tree
+    gdext_c_object_t root = gdext_c_get_root_node();
+    GDExtensionVariantPtr node_variant = gdext_c_variant_from_object(mesh_inst);
+    gdext_c_call_method1(root, "add_child", node_variant);
+    
+    // 6. Clean up
+    gdext_c_variant_free(size_x);
+    gdext_c_variant_free(size_y);
+    gdext_c_variant_free(size_z);
+    gdext_c_variant_free(size);
+    gdext_c_variant_free(mesh_variant);
+    gdext_c_variant_free(node_variant);
 }
 ```
 
-See `examples/` for more!
+## 🧪 Testing
 
-## Building from Source
+The library is tested by integration with a complete AAA game framework: [action-adventure-framework](https://github.com/jeffreyfriedman/action-adventure-framework)
 
-### Requirements
+## 🎯 Roadmap
 
-- C compiler (gcc, clang, MSVC)
-- Make (or CMake)
-- Godot 4.x
-
-### Build
-
-```bash
-make                # Build library
-make install        # Install to /usr/local
-make clean          # Clean build artifacts
-```
-
-### CMake (Alternative)
-
-```bash
-mkdir build && cd build
-cmake ..
-make
-```
-
-## Testing
-
-```bash
-cd tests
-make test
-```
-
-## Documentation
-
-- [API Reference](docs/API.md) - Complete API documentation
-- [Tutorial](docs/TUTORIAL.md) - Step-by-step guide
-- [Porting Guide](docs/PORTING.md) - Create bindings for new languages
-- [Architecture](docs/ARCHITECTURE.md) - Design and implementation
-
-## Performance
-
-`gdext-c` adds **zero overhead** compared to using Godot's C++ API directly:
-
-- Function call overhead: < 5%
-- Memory overhead: 0 bytes
-- Binary size: ~100 KB
-- Startup time: < 1ms
-
-Benchmarks available in `tests/benchmarks/`.
-
-## Contributing
-
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-**Especially wanted:**
-- New language bindings
-- Documentation improvements
-- Bug reports and fixes
-- Performance optimizations
-
-## Comparison
-
-### vs. godot-rust
-
-| Feature | godot-rust | gdext-c |
-|---------|------------|---------|
-| Language | Rust only | Any language! |
-| Complexity | High | Low |
-| Binary Size | ~2 MB | ~100 KB |
-| Dependencies | Rust toolchain | C compiler only |
-
-### vs. godot-cpp
-
-| Feature | godot-cpp | gdext-c |
-|---------|-----------|---------|
-| Language | C++ only | Any language! |
-| API | Complex | Simple |
-| Learning Curve | Steep | Gentle |
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
-## Acknowledgments
-
-- **Godot Engine** - Amazing game engine
-- **godot-rust** - Inspiration for GDExtension work
-- **Community** - Feedback and contributions
-
-## Status
-
-**Version**: 0.1.0 (Alpha)  
-**Status**: Production-ready for Go bindings, other languages in development
-
-## Roadmap
-
-- [x] Core API implementation
-- [x] Go bindings (stable)
-- [ ] Ruby bindings (alpha)
-- [ ] Python bindings (planned)
-- [ ] JavaScript bindings (planned)
+- [x] Object creation
+- [x] Scene tree access
+- [x] Variant conversions (primitives)
+- [x] Method calling
+- [x] PackedArrays
+- [ ] Property getters/setters (in progress)
+- [ ] Signal connections
+- [ ] Resource loading
+- [ ] Dictionary support
+- [ ] More PackedArray types
+- [ ] Error handling improvements
 - [ ] Comprehensive test suite
-- [ ] API stabilization (1.0.0)
 
-## Links
+## 🤝 Contributing
 
-- **Website**: https://gdext-c.org (coming soon)
-- **Documentation**: https://docs.gdext-c.org (coming soon)
-- **GitHub**: https://github.com/yourusername/gdext-c
-- **Discord**: https://discord.gg/gdext-c (coming soon)
+This is a **dogfooding project** - we're using it to build real games! Contributions welcome, especially:
+- Bug fixes
+- Additional Variant types
+- Platform support (Windows, Linux)
+- Documentation improvements
+- Example projects in other languages
 
-## FAQ
+## 📝 License
 
-**Q: Why C and not C++ or Rust?**  
-A: C has the most stable ABI and is the easiest to call from other languages. Every language has C FFI.
+MIT License - See LICENSE file
 
-**Q: Does this work with Godot 3.x?**  
-A: No, only Godot 4.x (GDExtension). For Godot 3.x, use GDNative.
+## 🔗 Related Projects
 
-**Q: Can I use this in commercial games?**  
-A: Yes! MIT licensed - use anywhere.
+- [gdext-go](https://github.com/jeffreyfriedman/gdext-go) - Go bindings using gdext-c
+- [action-adventure-framework](https://github.com/jeffreyfriedman/action-adventure-framework) - Complete AAA game using gdext-go
+- [godot-rust](https://github.com/godot-rust/gdext) - Rust bindings (different approach)
 
-**Q: How do I report bugs?**  
-A: Open an issue on GitHub with reproduction steps.
+## 💡 Why gdext-c?
 
-**Q: Can I help with [Language] bindings?**  
-A: YES! See docs/PORTING.md to get started.
+**Problem:** GDExtension API is complex and error-prone to use directly. Most language bindings re-implement the same wrapper code.
+
+**Solution:** gdext-c provides a clean, tested C layer that:
+- Handles the complexity of `proc_address` lookups
+- Provides type-safe variant conversions
+- Simplifies method calling
+- Works as a foundation for any language binding
+
+**Result:** Write your language binding once, get all the benefits of gdext-c for free!
 
 ---
 
-**Made with ❤️ for the Godot community**
+**Status:** ✅ Core functionality complete, actively developed, production-ready for basic use cases.
 
-**Star us on GitHub if you find this useful!** ⭐
-
+**Note:** Property setters have a known crash bug that is actively being debugged. Object creation, method calling, and variant conversions all work correctly.
