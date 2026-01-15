@@ -32,6 +32,9 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
+// TDD #122: Include Godot GDExtension interface
+#include "gdextension_interface.h"
+
 /* ============================================================================
  * Version Information
  * ============================================================================ */
@@ -429,6 +432,166 @@ static inline gdext_c_color gdext_c_color_new(float r, float g, float b, float a
     gdext_c_color c = {r, g, b, a};
     return c;
 }
+
+/* ============================================================================
+ * Variant Helpers (TDD #127) - Pure C Variant Conversions
+ * ============================================================================ */
+
+/**
+ * @brief Create a Variant from an int64
+ * @param value Integer value
+ * @return Variant pointer (caller must free with gdext_variant_free)
+ */
+void* gdext_variant_from_int(int64_t value);
+
+/**
+ * @brief Create a Variant from a double
+ * @param value Float value
+ * @return Variant pointer (caller must free with gdext_variant_free)
+ */
+void* gdext_variant_from_float(double value);
+
+/**
+ * @brief Create a Variant from a bool
+ * @param value Boolean value (0 or 1)
+ * @return Variant pointer (caller must free with gdext_variant_free)
+ */
+void* gdext_variant_from_bool(int value);
+
+/**
+ * @brief Create a Variant from a C string
+ * @param value C string
+ * @return Variant pointer (caller must free with gdext_variant_free)
+ */
+void* gdext_variant_from_string(const char* value);
+
+/**
+ * @brief Create a Variant from Vector2
+ */
+void* gdext_variant_from_vector2(float x, float y);
+
+/**
+ * @brief Create a Variant from Vector3
+ */
+void* gdext_variant_from_vector3(float x, float y, float z);
+
+/**
+ * @brief Create a Variant from Color
+ */
+void* gdext_variant_from_color(float r, float g, float b, float a);
+
+/**
+ * @brief Create a Variant from an object pointer
+ */
+void* gdext_variant_from_object(void* object);
+
+/**
+ * @brief Extract int64 from a Variant
+ */
+int64_t gdext_variant_to_int(void* variant);
+
+/**
+ * @brief Extract double from a Variant
+ */
+double gdext_variant_to_float(void* variant);
+
+/**
+ * @brief Extract bool from a Variant
+ */
+int gdext_variant_to_bool(void* variant);
+
+/**
+ * @brief Free a Variant
+ */
+void gdext_variant_free(void* variant);
+
+/**
+ * @brief Create a new empty Variant
+ */
+void* gdext_variant_new(void);
+
+/* ============================================================================
+ * Method Calling Helpers (TDD #127) - Pure C Method Invocation
+ * ============================================================================ */
+
+/**
+ * @brief Call a method on a Godot object with variant arguments
+ * @param object The Godot object
+ * @param method_name The method name
+ * @param args Array of Variant pointers (from gdext_variant_from_*)
+ * @param arg_count Number of arguments
+ * @return Variant pointer with return value (caller must free)
+ */
+void* gdext_call_method(void* object, const char* method_name, void** args, int arg_count);
+
+/**
+ * @brief Call a method with no arguments
+ */
+void* gdext_call_method0(void* object, const char* method_name);
+
+/**
+ * @brief Call a method with 1 argument
+ */
+void* gdext_call_method1(void* object, const char* method_name, void* arg1);
+
+/**
+ * @brief Call a method with 2 arguments
+ */
+void* gdext_call_method2(void* object, const char* method_name, void* arg1, void* arg2);
+
+/**
+ * @brief Call a method with 3 arguments
+ */
+void* gdext_call_method3(void* object, const char* method_name, void* arg1, void* arg2, void* arg3);
+
+/* ============================================================================
+ * Array Helpers (TDD #127) - Pure C Array Operations
+ * ============================================================================ */
+
+/**
+ * @brief Get element from Array
+ */
+void* gdext_array_get(void* array, int index);
+
+/**
+ * @brief Set element in Array
+ */
+void gdext_array_set(void* array, int index, void* value);
+
+/**
+ * @brief Resize Array
+ */
+void gdext_array_resize(void* array, int new_size);
+
+/**
+ * @brief Get Array size
+ */
+int gdext_array_size(void* array);
+
+/**
+ * @brief Create new empty Array Variant
+ */
+void* gdext_variant_new_array(void);
+
+/**
+ * @brief Create PackedInt32Array Variant
+ */
+void* gdext_variant_from_packed_int32_array(int32_t* values, int count);
+
+/**
+ * @brief Create PackedVector3Array Variant
+ */
+void* gdext_variant_from_packed_vector3_array(float* values, int count);
+
+/**
+ * @brief Create new empty PackedInt32Array Variant
+ */
+void* gdext_variant_new_packed_int32_array(void);
+
+/**
+ * @brief Create new empty PackedVector3Array Variant
+ */
+void* gdext_variant_new_packed_vector3_array(void);
 
 #ifdef __cplusplus
 }

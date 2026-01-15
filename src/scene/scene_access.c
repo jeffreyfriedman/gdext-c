@@ -1,193 +1,115 @@
+/**
+ * @file scene_access.c
+ * @brief Scene tree access for gdext-c
+ * 
+ * TDD #122: Pure C scene tree operations
+ */
+
+#include "../../include/gdext_c.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "gdextension_bridge.h"
 
-// TDD #104: Pure C implementation of node access
-// Replaces Rust gdext_go_get_node() with pure C + GDExtension API
+// TDD #127: Use new interface-based approach
+#include "../core/gdext_c_core.h"
 
-// TDD #106: Implement scene node access using GDExtension C API
-void *gdext_c_get_scene_node(const char *node_path) {
-    printf("[C Bridge] 🔍 TDD #106: gdext_c_get_scene_node('%s')\n", node_path);
-    fflush(stdout);
-    
-    if (node_path == NULL) {
-        printf("[C Bridge] ❌ TDD #106: NULL node_path\n");
-        fflush(stdout);
+/**
+ * @brief Get the root node of the scene tree
+ * 
+ * TDD #122: Access scene tree via Engine.get_main_loop().get_root()
+ * 
+ * @return Root node pointer, or NULL on failure
+ */
+gdext_c_object_t gdext_c_get_root_node(void) {
+    if (!gdext_c_is_initialized()) {
+        fprintf(stderr, "[gdext-c] ❌ Library not initialized! Call gdext_c_initialize() first\n");
         return NULL;
     }
     
-    // Step 1: Get proc_address
-    typedef void* (*GetProcAddressFunc)(const char*);
-    void* proc_addr = gdext_c_bridge_get_proc_address();
-    if (!proc_addr) {
-        fprintf(stderr, "[C Bridge] ❌ TDD #106: proc_address is NULL!\n");
-        fflush(stderr);
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get interface!\n");
         return NULL;
     }
-    GetProcAddressFunc get_proc_addr = (GetProcAddressFunc)proc_addr;
-    printf("[C Bridge] ✅ TDD #106: Got proc_address: %p\n", proc_addr);
+    
+    printf("[gdext-c] 🌳 TDD #122: Getting scene tree root node...\n");
     fflush(stdout);
     
-    // Step 2: Get global_get_singleton function
-    typedef void* (*GlobalGetSingletonFunc)(const void*);
-    GlobalGetSingletonFunc global_get_singleton = 
-        (GlobalGetSingletonFunc)get_proc_addr("global_get_singleton");
-    
-    if (!global_get_singleton) {
-        fprintf(stderr, "[C Bridge] ❌ TDD #106: global_get_singleton not available!\n");
-        fflush(stderr);
-        return NULL;
-    }
-    printf("[C Bridge] ✅ TDD #106: Got global_get_singleton function\n");
-    fflush(stdout);
-    
-    // Step 3: Get Engine singleton and call get_main_loop()
-    printf("[C Bridge] 🔍 TDD #106: Getting Engine singleton...\n");
-    fflush(stdout);
-    
+    // Step 1: Get Engine singleton
     char engine_sn[64] = {0};
-    g_string_name_new_with_latin1_chars(engine_sn, "Engine", 0);
+    iface->string_name_new_with_latin1_chars(engine_sn, "Engine", 0);
+    void* engine = iface->global_get_singleton(engine_sn);
     
-    void* engine = global_get_singleton(engine_sn);
     if (!engine) {
-        fprintf(stderr, "[C Bridge] ❌ TDD #106: Failed to get Engine singleton!\n");
-        fflush(stderr);
+        fprintf(stderr, "[gdext-c] ❌ Failed to get Engine singleton!\n");
         return NULL;
     }
-    printf("[C Bridge] ✅ TDD #106: Got Engine singleton: %p\n", engine);
-    fflush(stdout);
     
-    // Step 4: Get classdb_get_method_bind function
-    typedef void* (*ClassDBGetMethodBindFunc)(const void*, const void*, int64_t);
-    ClassDBGetMethodBindFunc classdb_get_method_bind = 
-        (ClassDBGetMethodBindFunc)get_proc_addr("classdb_get_method_bind");
-    
-    if (!classdb_get_method_bind) {
-        fprintf(stderr, "[C Bridge] ❌ TDD #106: classdb_get_method_bind not available!\n");
-        fflush(stderr);
-        return NULL;
-    }
-    printf("[C Bridge] ✅ TDD #106: Got classdb_get_method_bind function\n");
-    fflush(stdout);
-    
-    // Step 5: Get SceneTree via Engine.get_main_loop() with correct Godot 4.5 hash
-    // TDD #107: Hash found from extension_api.json: 1016888095
-    printf("[C Bridge] 🔍 TDD #107: Getting Engine.get_main_loop() with correct hash...\n");
-    fflush(stdout);
-    
+    // Step 2: Call Engine.get_main_loop() to get SceneTree
     char engine_class_sn[64] = {0};
     char get_main_loop_sn[64] = {0};
-    g_string_name_new_with_latin1_chars(engine_class_sn, "Engine", 0);
-    g_string_name_new_with_latin1_chars(get_main_loop_sn, "get_main_loop", 0);
+    iface->string_name_new_with_latin1_chars(engine_class_sn, "Engine", 0);
+    iface->string_name_new_with_latin1_chars(get_main_loop_sn, "get_main_loop", 0);
     
-    // Hash from Godot 4.5 extension_api.json
-    void* get_main_loop_bind = classdb_get_method_bind(engine_class_sn, get_main_loop_sn, 1016888095);
-    
+    void* get_main_loop_bind = iface->classdb_get_method_bind(engine_class_sn, get_main_loop_sn, 1016888095);
     if (!get_main_loop_bind) {
-        fprintf(stderr, "[C Bridge] ❌ TDD #107: Failed to get Engine.get_main_loop method bind!\n");
-        fprintf(stderr, "[C Bridge] 💡 TDD #107: Hash 1016888095 from extension_api.json\n");
-        fflush(stderr);
+        fprintf(stderr, "[gdext-c] ❌ Failed to get Engine.get_main_loop method bind!\n");
         return NULL;
     }
-    
-    printf("[C Bridge] ✅ TDD #107: Got Engine.get_main_loop method bind: %p\n", get_main_loop_bind);
-    fflush(stdout);
-    
-    // Step 6: Call Engine.get_main_loop() to get SceneTree  
-    typedef void (*ObjectMethodBindPtrcallFunc)(void*, void*, const void**, void*);
-    ObjectMethodBindPtrcallFunc object_method_bind_ptrcall = 
-        (ObjectMethodBindPtrcallFunc)get_proc_addr("object_method_bind_ptrcall");
-    
-    if (!object_method_bind_ptrcall) {
-        fprintf(stderr, "[C Bridge] ❌ TDD #107: object_method_bind_ptrcall not available!\n");
-        fflush(stderr);
-        return NULL;
-    }
-    
-    printf("[C Bridge] 🔍 TDD #107: Calling Engine.get_main_loop()...\n");
-    fflush(stdout);
     
     void* scene_tree = NULL;
-    object_method_bind_ptrcall(get_main_loop_bind, engine, NULL, &scene_tree);
+    iface->object_method_bind_ptrcall(get_main_loop_bind, engine, NULL, &scene_tree);
     
     if (!scene_tree) {
-        fprintf(stderr, "[C Bridge] ❌ TDD #107: Engine.get_main_loop() returned NULL!\n");
-        fflush(stderr);
+        fprintf(stderr, "[gdext-c] ❌ Failed to get SceneTree!\n");
         return NULL;
     }
     
-    printf("[C Bridge] ✅ TDD #107: Got SceneTree from Engine.get_main_loop(): %p\n", scene_tree);
-    fflush(stdout);
+    // Step 3: Call SceneTree.get_root() to get root node
+    char scene_tree_class_sn[64] = {0};
+    char get_root_sn[64] = {0};
+    iface->string_name_new_with_latin1_chars(scene_tree_class_sn, "SceneTree", 0);
+    iface->string_name_new_with_latin1_chars(get_root_sn, "get_root", 0);
     
-    // Step 7: Get object_method_bind_ptrcall for calling SceneTree.get_root()
-    typedef void (*ObjectMethodBindPtrcallFunc2)(void*, void*, const void**, void*);
-    ObjectMethodBindPtrcallFunc2 object_method_bind_ptrcall2 = 
-        (ObjectMethodBindPtrcallFunc2)get_proc_addr("object_method_bind_ptrcall");
-    
-    if (!object_method_bind_ptrcall2) {
-        fprintf(stderr, "[C Bridge] ❌ TDD #107: object_method_bind_ptrcall not available!\n");
-        fflush(stderr);
+    void* get_root_bind = iface->classdb_get_method_bind(scene_tree_class_sn, get_root_sn, 1757182445);
+    if (!get_root_bind) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get SceneTree.get_root method bind!\n");
         return NULL;
     }
-    printf("[C Bridge] ✅ TDD #107: Got object_method_bind_ptrcall function\n");
-    fflush(stdout);
     
-    // Step 8: If requesting "/root", call SceneTree.get_root()
-    if (strcmp(node_path, "/root") == 0) {
-        printf("[C Bridge] 🔍 TDD #106: Requesting /root, calling SceneTree.get_root()...\n");
-        fflush(stdout);
-        
-        char scene_tree_class_sn[64] = {0};
-        char get_root_sn[64] = {0};
-        g_string_name_new_with_latin1_chars(scene_tree_class_sn, "SceneTree", 0);
-        g_string_name_new_with_latin1_chars(get_root_sn, "get_root", 0);
-        
-        printf("[C Bridge] 🔍 TDD #107: Getting method bind for SceneTree.get_root()...\n");
-        fflush(stdout);
-        
-        // Hash from Godot 4.5 extension_api.json: 1757182445
-        void* get_root_bind = classdb_get_method_bind(scene_tree_class_sn, get_root_sn, 1757182445);
-        if (!get_root_bind) {
-            fprintf(stderr, "[C Bridge] ❌ TDD #106: Failed to get SceneTree.get_root method bind!\n");
-            fflush(stderr);
-            return NULL;
-        }
-        
-        printf("[C Bridge] ✅ TDD #106: Got SceneTree.get_root method bind: %p\n", get_root_bind);
-        fflush(stdout);
-        
-        printf("[C Bridge] 🔍 TDD #106: Calling SceneTree.get_root()...\n");
-        fflush(stdout);
-        
-        void* root_node = NULL;
-        object_method_bind_ptrcall2(get_root_bind, scene_tree, NULL, &root_node);
-        
-        printf("[C Bridge] 🔍 TDD #106: get_root() returned: %p\n", root_node);
-        fflush(stdout);
-        
-        if (!root_node) {
-            fprintf(stderr, "[C Bridge] ❌ TDD #106: SceneTree.get_root() returned NULL!\n");
-            fflush(stderr);
-            return NULL;
-        }
-        
-        printf("[C Bridge] ✅ TDD #106: Got root node: %p\n", root_node);
-        fflush(stdout);
-        return root_node;
+    void* root_node = NULL;
+    iface->object_method_bind_ptrcall(get_root_bind, scene_tree, NULL, &root_node);
+    
+    if (!root_node) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get root node!\n");
+        return NULL;
     }
     
-    // Step 9: For other paths, we'd call SceneTree.get_node(path)
-    // TODO: Implement get_node(path) for non-root paths
-    printf("[C Bridge] ⏳ TDD #106: Non-root paths not yet implemented\n");
-    printf("[C Bridge] 💡 TDD #106: Use SceneTree.get_root() for now\n");
+    printf("[gdext-c] ✅ TDD #122: Got scene tree root node: %p\n", root_node);
     fflush(stdout);
     
+    return (gdext_c_object_t)root_node;
+}
+
+/**
+ * @brief Get a node by path (e.g., "/root/Main/Player")
+ * 
+ * TDD #122: Node path resolution
+ * 
+ * @param path Node path (Godot NodePath format)
+ * @return Node pointer, or NULL if not found
+ */
+gdext_c_object_t gdext_c_get_node(const char* path) {
+    if (!path) {
+        fprintf(stderr, "[gdext-c] ❌ NULL path!\n");
+        return NULL;
+    }
+    
+    // For now, only support "/root"
+    if (strcmp(path, "/root") == 0) {
+        return gdext_c_get_root_node();
+    }
+    
+    // TODO: Implement full path resolution (would need SceneTree.get_node(path))
+    printf("[gdext-c] ⚠️  Only '/root' supported currently, got: '%s'\n", path);
     return NULL;
 }
-
-// TDD #105: Wrapper for backward compatibility (calls renamed function)
-void *gdext_go_get_node(const char *node_path) {
-    return gdext_c_get_scene_node(node_path);
-}
-
