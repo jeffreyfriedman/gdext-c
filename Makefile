@@ -4,6 +4,10 @@
 CC := cc
 CFLAGS := -fPIC -std=c11 -O2 -Wall -Wextra -Iinclude
 LDFLAGS := -dynamiclib
+# TDD #133: Set install_name to @rpath so the library can be found at runtime
+ifeq ($(shell uname),Darwin)
+    LDFLAGS += -install_name @rpath/libgdext_c.dylib
+endif
 
 # Source files
 SRC_CORE := $(wildcard src/core/*.c)
@@ -23,6 +27,18 @@ else ifeq ($(shell uname),Darwin)
 else
     LIB := libgdext_c.so
 endif
+
+# TDD #137: Code generation
+API_JSON ?= /Users/jeffreyfriedman/src/gamedev/gdext-go/extension_api.json
+
+.PHONY: generate
+generate:
+	@echo "🔧 TDD #137: Generating C bindings from extension_api.json..."
+	@cd cmd/generate && go run main.go \
+		--input $(API_JSON) \
+		--output ../../generated \
+		--max-classes 0
+	@echo "✅ Generated bindings in generated/"
 
 # Default target
 all: $(LIB)

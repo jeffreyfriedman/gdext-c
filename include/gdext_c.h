@@ -544,6 +544,67 @@ void* gdext_call_method2(void* object, const char* method_name, void* arg1, void
  */
 void* gdext_call_method3(void* object, const char* method_name, void* arg1, void* arg2, void* arg3);
 
+/**
+ * @brief TDD #133: Call a method via call_deferred
+ * 
+ * CRITICAL for scene tree modifications (add_child, remove_child, queue_free, etc.)
+ * GDExtension REQUIRES deferred calls for scene tree changes to avoid crashes.
+ * 
+ * @param object The Godot object
+ * @param method_name The method to call deferred
+ * @param args Array of variant pointers
+ * @param arg_count Number of arguments
+ * @return Variant pointer (usually NIL for deferred calls)
+ */
+void* gdext_call_method_deferred(void* object, const char* method_name, void** args, int arg_count);
+
+/**
+ * @brief Helper: Call a method deferred with 1 argument
+ * 
+ * Perfect for add_child(child) - the most common deferred call!
+ */
+void* gdext_call_method1_deferred(void* object, const char* method_name, void* arg1);
+
+/**
+ * @brief TDD #133 Option B: Add child deferred with object pointers
+ * 
+ * Specialized function for add_child that accepts object pointers directly
+ * instead of variants. Handles variant conversion internally to avoid
+ * crashes in Go ToVariant() calls.
+ * 
+ * @param parent_object The parent object (raw pointer, NOT a variant)
+ * @param child_object The child object to add (raw pointer, NOT a variant)
+ * @return Variant pointer (usually NIL, should be freed by caller)
+ */
+void* gdext_add_child_deferred(void* parent_object, void* child_object);
+
+/* ============================================================================
+ * Property Access (TDD #128) - Get/Set Object Properties
+ * ============================================================================ */
+
+/**
+ * @brief Set a property on a Godot object
+ * 
+ * @param object The object to set the property on
+ * @param property_name The name of the property
+ * @param value The value to set (as a Variant)
+ * @return true on success, false on failure
+ */
+bool gdext_c_object_set_property(gdext_c_object_t object, const char* property_name, GDExtensionConstVariantPtr value);
+
+/**
+ * @brief Get a property from a Godot object
+ * 
+ * @param object The object to get the property from
+ * @param property_name The name of the property
+ * @return The property value as a Variant, or NULL on failure
+ */
+void* gdext_c_object_get_property(gdext_c_object_t object, const char* property_name);
+
+/* Legacy compatibility (for existing code) */
+#define gdext_set_property(obj, name, val) (gdext_c_object_set_property((gdext_c_object_t)(obj), (name), (val)) ? 1 : 0)
+#define gdext_get_property(obj, name) gdext_c_object_get_property((gdext_c_object_t)(obj), (name))
+
 /* ============================================================================
  * Array Helpers (TDD #127) - Pure C Array Operations
  * ============================================================================ */
