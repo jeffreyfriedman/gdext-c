@@ -172,6 +172,79 @@ func main() {
 	log.Printf("✅ Generated:")
 	log.Printf("   Header: %s", config.HeaderFile)
 	log.Printf("   Impl:   %s", config.ImplFile)
+
+	// TDD #142: Generate builtin types
+	log.Printf("🔧 TDD #142: Generating builtin types...")
+	if err := generateBuiltinTypes(api, &config); err != nil {
+		log.Fatalf("Failed to generate builtin types: %v", err)
+	}
+	log.Printf("✅ Generated builtin types header")
+}
+
+func generateBuiltinTypes(api *ExtensionAPI, config *GeneratorConfig) error {
+	// For now, just generate struct definitions for core types
+	builtinHeader := filepath.Join(config.OutputDir, "gdext_c_builtin.h")
+	f, err := os.Create(builtinHeader)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	fmt.Fprintf(f, `/**
+ * @file gdext_c_builtin.h
+ * @brief Godot builtin types (Vector2, Vector3, Color, etc.)
+ * 
+ * Generated for Godot %s - TDD #142
+ */
+
+#ifndef GDEXT_C_BUILTIN_H
+#define GDEXT_C_BUILTIN_H
+
+#include <stdint.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* Vector2 */
+typedef struct {
+    float x;
+    float y;
+} gdext_c_vector2_t;
+
+/* Vector3 */
+typedef struct {
+    float x;
+    float y;
+    float z;
+} gdext_c_vector3_t;
+
+/* Vector4 */
+typedef struct {
+    float x, y, z, w;
+} gdext_c_vector4_t;
+
+/* Color */
+typedef struct {
+    float r, g, b, a;
+} gdext_c_color_t;
+
+/* Rect2 */
+typedef struct {
+    gdext_c_vector2_t position;
+    gdext_c_vector2_t size;
+} gdext_c_rect2_t;
+
+/* TODO: More builtin types (Transform2D, Transform3D, Quaternion, etc.) */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* GDEXT_C_BUILTIN_H */
+`, api.Header.VersionFull)
+
+	return nil
 }
 
 func parseExtensionAPI(filepath string) (*ExtensionAPI, error) {
