@@ -10,10 +10,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 /* Global GDExtension interface (defined in gdext_c_core.c) */
 extern GDExtensionInterface iface_impl;
 #define iface (&iface_impl)
+
+/* ============================================================================
+ * Version Information (TDD #143)
+ * ============================================================================ */
+
+const char* gdext_c_get_godot_version(void) {
+    return GDEXT_C_GODOT_VERSION_STRING;
+}
+
+bool gdext_c_check_version_compatible(int major, int minor) {
+    // Compatible if same major version and equal or newer minor version
+    if (major != GDEXT_C_GODOT_VERSION_MAJOR) {
+        fprintf(stderr, "[gdext-c] ⚠️  TDD #143: Version mismatch! Generated for %d.%d, runtime is %d.%d\\n",
+                GDEXT_C_GODOT_VERSION_MAJOR, GDEXT_C_GODOT_VERSION_MINOR, major, minor);
+        return false;
+    }
+    if (minor < GDEXT_C_GODOT_VERSION_MINOR) {
+        fprintf(stderr, "[gdext-c] ⚠️  TDD #143: Runtime Godot %d.%d is older than generated %d.%d\\n",
+                major, minor, GDEXT_C_GODOT_VERSION_MAJOR, GDEXT_C_GODOT_VERSION_MINOR);
+        return false;
+    }
+    return true;
+}
 
 /* ============================================================================
  * Class: AESContext

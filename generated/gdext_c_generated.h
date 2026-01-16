@@ -18,6 +18,29 @@ extern "C" {
 #endif
 
 /* ============================================================================
+ * Version Information (TDD #143)
+ * ============================================================================ */
+
+#define GDEXT_C_GODOT_VERSION_MAJOR 4
+#define GDEXT_C_GODOT_VERSION_MINOR 5
+#define GDEXT_C_GODOT_VERSION_PATCH 0
+#define GDEXT_C_GODOT_VERSION_STRING "Godot Engine v4.5.stable.official"
+
+/**
+ * @brief Get the Godot version this library was generated for
+ * @return Version string (e.g., "Godot Engine v4.5.stable.official")
+ */
+const char* gdext_c_get_godot_version(void);
+
+/**
+ * @brief Check if runtime Godot version is compatible
+ * @param major Major version (e.g., 4)
+ * @param minor Minor version (e.g., 5)
+ * @return true if compatible, false otherwise
+ */
+bool gdext_c_check_version_compatible(int major, int minor);
+
+/* ============================================================================
  * Class: AESContext
  * Inherits: RefCounted
  * ============================================================================ */

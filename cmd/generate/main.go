@@ -86,7 +86,28 @@ type EnumValueDef struct {
 }
 
 type BuiltinClass struct {
+	Name         string          `json:"name"`
+	IsKeyed      bool            `json:"is_keyed"`
+	Members      []BuiltinMember `json:"members"`
+	Methods      []MethodDef     `json:"methods"`
+	Constructors []Constructor   `json:"constructors"`
+	Operators    []Operator      `json:"operators"`
+}
+
+type BuiltinMember struct {
 	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type Constructor struct {
+	Index     int        `json:"index"`
+	Arguments []Argument `json:"arguments"`
+}
+
+type Operator struct {
+	Name       string      `json:"name"`
+	ReturnType string      `json:"return_type"`
+	RightType  string      `json:"right_type"`
 }
 
 type Singleton struct {
@@ -105,11 +126,14 @@ type UtilityFunction struct {
 
 // Generator configuration
 type GeneratorConfig struct {
-	InputFile   string
-	OutputDir   string
-	HeaderFile  string
-	ImplFile    string
-	MaxClasses  int // 0 = all classes
+	InputFile      string
+	OutputDir      string
+	HeaderFile     string
+	ImplFile       string
+	BuiltinHeader  string
+	BuiltinImpl    string
+	MaxClasses     int  // 0 = all classes
+	GenBuiltins    bool // Generate builtin types
 }
 
 func main() {
@@ -211,7 +235,34 @@ func generateHeader(api *ExtensionAPI, classes []ClassDef, outputPath string) er
 extern "C" {
 #endif
 
-`, api.Header.VersionFull)
+/* ============================================================================
+ * Version Information (TDD #143)
+ * ============================================================================ */
+
+#define GDEXT_C_GODOT_VERSION_MAJOR %d
+#define GDEXT_C_GODOT_VERSION_MINOR %d
+#define GDEXT_C_GODOT_VERSION_PATCH %d
+#define GDEXT_C_GODOT_VERSION_STRING "%s"
+
+/**
+ * @brief Get the Godot version this library was generated for
+ * @return Version string (e.g., "Godot Engine v4.5.stable.official")
+ */
+const char* gdext_c_get_godot_version(void);
+
+/**
+ * @brief Check if runtime Godot version is compatible
+ * @param major Major version (e.g., 4)
+ * @param minor Minor version (e.g., 5)
+ * @return true if compatible, false otherwise
+ */
+bool gdext_c_check_version_compatible(int major, int minor);
+
+`, api.Header.VersionFull, 
+    api.Header.VersionMajor, 
+    api.Header.VersionMinor, 
+    api.Header.VersionPatch,
+    api.Header.VersionFull)
 
 	// Generate function declarations for each class
 	for _, class := range classes {
@@ -301,10 +352,34 @@ func generateImpl(api *ExtensionAPI, classes []ClassDef, outputPath string) erro
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 /* Global GDExtension interface (defined in gdext_c_core.c) */
 extern GDExtensionInterface iface_impl;
 #define iface (&iface_impl)
+
+/* ============================================================================
+ * Version Information (TDD #143)
+ * ============================================================================ */
+
+const char* gdext_c_get_godot_version(void) {
+    return GDEXT_C_GODOT_VERSION_STRING;
+}
+
+bool gdext_c_check_version_compatible(int major, int minor) {
+    // Compatible if same major version and equal or newer minor version
+    if (major != GDEXT_C_GODOT_VERSION_MAJOR) {
+        fprintf(stderr, "[gdext-c] ⚠️  TDD #143: Version mismatch! Generated for %%d.%%d, runtime is %%d.%%d\\n",
+                GDEXT_C_GODOT_VERSION_MAJOR, GDEXT_C_GODOT_VERSION_MINOR, major, minor);
+        return false;
+    }
+    if (minor < GDEXT_C_GODOT_VERSION_MINOR) {
+        fprintf(stderr, "[gdext-c] ⚠️  TDD #143: Runtime Godot %%d.%%d is older than generated %%d.%%d\\n",
+                major, minor, GDEXT_C_GODOT_VERSION_MAJOR, GDEXT_C_GODOT_VERSION_MINOR);
+        return false;
+    }
+    return true;
+}
 
 `, api.Header.VersionFull)
 
