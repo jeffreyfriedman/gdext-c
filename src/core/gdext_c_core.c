@@ -17,6 +17,10 @@ static GDExtensionInterfaceGetProcAddress g_proc_address = NULL;
 static GDExtensionInterface g_interface;
 static bool g_initialized = false;
 
+// TDD #140: Export interface for generated code
+// Generated code expects this exact symbol name
+GDExtensionInterface iface_impl;
+
 /**
  * @brief Initialize the gdext-c library
  * 
@@ -94,8 +98,12 @@ bool gdext_c_initialize(gdext_c_proc_address_func proc_address) {
     
     g_initialized = true;
     
+    // TDD #140: Copy interface to exported symbol for generated code
+    memcpy(&iface_impl, &g_interface, sizeof(GDExtensionInterface));
+    
     printf("[gdext-c] ✅ TDD #122: gdext-c initialized successfully!\n");
     printf("[gdext-c] 🎉 TDD #127: Variant/method calling functions ready!\n");
+    printf("[gdext-c] 🎉 TDD #140: Interface exported for generated code!\n");
     fflush(stdout);
     
     return true;

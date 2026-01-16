@@ -10213,12 +10213,12 @@ void gdext_canvas_item_draw_multiline_string_outline(gdext_c_object_t instance, 
 /**
  * @brief CanvasItem.draw_char
  */
-void gdext_canvas_item_draw_char(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t char, int64_t font_size, gdext_c_color modulate, double oversampling);
+void gdext_canvas_item_draw_char(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t char_value, int64_t font_size, gdext_c_color modulate, double oversampling);
 
 /**
  * @brief CanvasItem.draw_char_outline
  */
-void gdext_canvas_item_draw_char_outline(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t char, int64_t font_size, int64_t size, gdext_c_color modulate, double oversampling);
+void gdext_canvas_item_draw_char_outline(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t char_value, int64_t font_size, int64_t size, gdext_c_color modulate, double oversampling);
 
 /**
  * @brief CanvasItem.draw_mesh
@@ -11608,7 +11608,7 @@ gdext_c_object_t gdext_class_d_b_class_get_enum_list(gdext_c_object_t instance, 
 /**
  * @brief ClassDB.class_get_enum_constants
  */
-gdext_c_object_t gdext_class_d_b_class_get_enum_constants(gdext_c_object_t instance, gdext_c_object_t class_name, gdext_c_object_t enum, GDExtensionBool no_inheritance);
+gdext_c_object_t gdext_class_d_b_class_get_enum_constants(gdext_c_object_t instance, gdext_c_object_t class_name, gdext_c_object_t enum_value, GDExtensionBool no_inheritance);
 
 /**
  * @brief ClassDB.class_get_integer_constant_enum
@@ -11618,7 +11618,7 @@ gdext_c_object_t gdext_class_d_b_class_get_integer_constant_enum(gdext_c_object_
 /**
  * @brief ClassDB.is_class_enum_bitfield
  */
-GDExtensionBool gdext_class_d_b_is_class_enum_bitfield(gdext_c_object_t instance, gdext_c_object_t class_name, gdext_c_object_t enum, GDExtensionBool no_inheritance);
+GDExtensionBool gdext_class_d_b_is_class_enum_bitfield(gdext_c_object_t instance, gdext_c_object_t class_name, gdext_c_object_t enum_value, GDExtensionBool no_inheritance);
 
 /**
  * @brief ClassDB.is_class_enabled
@@ -19759,7 +19759,7 @@ gdext_c_object_t gdext_engine_get_singleton(gdext_c_object_t instance, gdext_c_o
 /**
  * @brief Engine.register_singleton
  */
-void gdext_engine_register_singleton(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t instance);
+void gdext_engine_register_singleton(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t instance_arg);
 
 /**
  * @brief Engine.unregister_singleton
@@ -21064,7 +21064,7 @@ double gdext_fast_noise_lite_get_cellular_jitter(gdext_c_object_t instance);
 /**
  * @brief FastNoiseLite.set_cellular_return_type
  */
-void gdext_fast_noise_lite_set_cellular_return_type(gdext_c_object_t instance, int32_t ret);
+void gdext_fast_noise_lite_set_cellular_return_type(gdext_c_object_t instance, int32_t ret_value);
 
 /**
  * @brief FastNoiseLite.get_cellular_return_type
@@ -22134,22 +22134,22 @@ void gdext_font_draw_multiline_string_outline(gdext_c_object_t instance, gdext_c
 /**
  * @brief Font.get_char_size
  */
-gdext_c_vec2 gdext_font_get_char_size(gdext_c_object_t instance, int64_t char, int64_t font_size);
+gdext_c_vec2 gdext_font_get_char_size(gdext_c_object_t instance, int64_t char_value, int64_t font_size);
 
 /**
  * @brief Font.draw_char
  */
-double gdext_font_draw_char(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, int64_t char, int64_t font_size, gdext_c_color modulate, double oversampling);
+double gdext_font_draw_char(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, int64_t char_value, int64_t font_size, gdext_c_color modulate, double oversampling);
 
 /**
  * @brief Font.draw_char_outline
  */
-double gdext_font_draw_char_outline(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, int64_t char, int64_t font_size, int64_t size, gdext_c_color modulate, double oversampling);
+double gdext_font_draw_char_outline(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, int64_t char_value, int64_t font_size, int64_t size, gdext_c_color modulate, double oversampling);
 
 /**
  * @brief Font.has_char
  */
-GDExtensionBool gdext_font_has_char(gdext_c_object_t instance, int64_t char);
+GDExtensionBool gdext_font_has_char(gdext_c_object_t instance, int64_t char_value);
 
 /**
  * @brief Font.get_supported_chars
@@ -22709,7 +22709,7 @@ gdext_c_object_t gdext_font_file_get_opentype_feature_overrides(gdext_c_object_t
 /**
  * @brief FontFile.get_glyph_index
  */
-int64_t gdext_font_file_get_glyph_index(gdext_c_object_t instance, int64_t size, int64_t char, int64_t variation_selector);
+int64_t gdext_font_file_get_glyph_index(gdext_c_object_t instance, int64_t size, int64_t char_value, int64_t variation_selector);
 
 /**
  * @brief FontFile.get_char_from_glyph_index
@@ -30428,7 +30428,7 @@ int32_t gdext_label_get_text_overrun_behavior(gdext_c_object_t instance);
 /**
  * @brief Label.set_ellipsis_char
  */
-void gdext_label_set_ellipsis_char(gdext_c_object_t instance, gdext_c_object_t char);
+void gdext_label_set_ellipsis_char(gdext_c_object_t instance, gdext_c_object_t char_value);
 
 /**
  * @brief Label.get_ellipsis_char
@@ -30528,7 +30528,7 @@ int32_t gdext_label_get_structured_text_bidi_override(gdext_c_object_t instance)
 /**
  * @brief Label.set_structured_text_bidi_override_options
  */
-void gdext_label_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args);
+void gdext_label_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args_value);
 
 /**
  * @brief Label.get_structured_text_bidi_override_options
@@ -30628,7 +30628,7 @@ int32_t gdext_label3_d_get_structured_text_bidi_override(gdext_c_object_t instan
 /**
  * @brief Label3D.set_structured_text_bidi_override_options
  */
-void gdext_label3_d_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args);
+void gdext_label3_d_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args_value);
 
 /**
  * @brief Label3D.get_structured_text_bidi_override_options
@@ -32038,7 +32038,7 @@ int32_t gdext_line_edit_get_structured_text_bidi_override(gdext_c_object_t insta
 /**
  * @brief LineEdit.set_structured_text_bidi_override_options
  */
-void gdext_line_edit_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args);
+void gdext_line_edit_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args_value);
 
 /**
  * @brief LineEdit.get_structured_text_bidi_override_options
@@ -32418,7 +32418,7 @@ int32_t gdext_link_button_get_structured_text_bidi_override(gdext_c_object_t ins
 /**
  * @brief LinkButton.set_structured_text_bidi_override_options
  */
-void gdext_link_button_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args);
+void gdext_link_button_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args_value);
 
 /**
  * @brief LinkButton.get_structured_text_bidi_override_options
@@ -33999,47 +33999,47 @@ int32_t gdext_multi_mesh_get_physics_interpolation_quality(gdext_c_object_t inst
 /**
  * @brief MultiMesh.set_instance_transform
  */
-void gdext_multi_mesh_set_instance_transform(gdext_c_object_t instance, int64_t instance, gdext_c_object_t transform);
+void gdext_multi_mesh_set_instance_transform(gdext_c_object_t instance, int64_t instance_arg, gdext_c_object_t transform);
 
 /**
  * @brief MultiMesh.set_instance_transform_2d
  */
-void gdext_multi_mesh_set_instance_transform_2d(gdext_c_object_t instance, int64_t instance, gdext_c_object_t transform);
+void gdext_multi_mesh_set_instance_transform_2d(gdext_c_object_t instance, int64_t instance_arg, gdext_c_object_t transform);
 
 /**
  * @brief MultiMesh.get_instance_transform
  */
-gdext_c_object_t gdext_multi_mesh_get_instance_transform(gdext_c_object_t instance, int64_t instance);
+gdext_c_object_t gdext_multi_mesh_get_instance_transform(gdext_c_object_t instance, int64_t instance_arg);
 
 /**
  * @brief MultiMesh.get_instance_transform_2d
  */
-gdext_c_object_t gdext_multi_mesh_get_instance_transform_2d(gdext_c_object_t instance, int64_t instance);
+gdext_c_object_t gdext_multi_mesh_get_instance_transform_2d(gdext_c_object_t instance, int64_t instance_arg);
 
 /**
  * @brief MultiMesh.set_instance_color
  */
-void gdext_multi_mesh_set_instance_color(gdext_c_object_t instance, int64_t instance, gdext_c_color color);
+void gdext_multi_mesh_set_instance_color(gdext_c_object_t instance, int64_t instance_arg, gdext_c_color color);
 
 /**
  * @brief MultiMesh.get_instance_color
  */
-gdext_c_color gdext_multi_mesh_get_instance_color(gdext_c_object_t instance, int64_t instance);
+gdext_c_color gdext_multi_mesh_get_instance_color(gdext_c_object_t instance, int64_t instance_arg);
 
 /**
  * @brief MultiMesh.set_instance_custom_data
  */
-void gdext_multi_mesh_set_instance_custom_data(gdext_c_object_t instance, int64_t instance, gdext_c_color custom_data);
+void gdext_multi_mesh_set_instance_custom_data(gdext_c_object_t instance, int64_t instance_arg, gdext_c_color custom_data);
 
 /**
  * @brief MultiMesh.get_instance_custom_data
  */
-gdext_c_color gdext_multi_mesh_get_instance_custom_data(gdext_c_object_t instance, int64_t instance);
+gdext_c_color gdext_multi_mesh_get_instance_custom_data(gdext_c_object_t instance, int64_t instance_arg);
 
 /**
  * @brief MultiMesh.reset_instance_physics_interpolation
  */
-void gdext_multi_mesh_reset_instance_physics_interpolation(gdext_c_object_t instance, int64_t instance);
+void gdext_multi_mesh_reset_instance_physics_interpolation(gdext_c_object_t instance, int64_t instance_arg);
 
 /**
  * @brief MultiMesh.set_custom_aabb
@@ -39164,7 +39164,7 @@ void gdext_node_propagate_notification(gdext_c_object_t instance, int64_t what);
 /**
  * @brief Node.propagate_call
  */
-void gdext_node_propagate_call(gdext_c_object_t instance, gdext_c_object_t method, gdext_c_object_t args, GDExtensionBool parent_first);
+void gdext_node_propagate_call(gdext_c_object_t instance, gdext_c_object_t method, gdext_c_object_t args_value, GDExtensionBool parent_first);
 
 /**
  * @brief Node.set_physics_process
@@ -41183,7 +41183,7 @@ gdext_c_object_t gdext_open_x_r_a_p_i_extension_transform_from_pose(gdext_c_obje
 /**
  * @brief OpenXRAPIExtension.xr_result
  */
-GDExtensionBool gdext_open_x_r_a_p_i_extension_xr_result(gdext_c_object_t instance, int64_t result, gdext_c_object_t format, gdext_c_object_t args);
+GDExtensionBool gdext_open_x_r_a_p_i_extension_xr_result(gdext_c_object_t instance, int64_t result, gdext_c_object_t format, gdext_c_object_t args_value);
 
 /**
  * @brief OpenXRAPIExtension.openxr_is_enabled
@@ -53770,137 +53770,137 @@ gdext_c_object_t gdext_rendering_server_instance_create(gdext_c_object_t instanc
 /**
  * @brief RenderingServer.instance_set_base
  */
-void gdext_rendering_server_instance_set_base(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t base);
+void gdext_rendering_server_instance_set_base(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t base);
 
 /**
  * @brief RenderingServer.instance_set_scenario
  */
-void gdext_rendering_server_instance_set_scenario(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t scenario);
+void gdext_rendering_server_instance_set_scenario(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t scenario);
 
 /**
  * @brief RenderingServer.instance_set_layer_mask
  */
-void gdext_rendering_server_instance_set_layer_mask(gdext_c_object_t instance, gdext_c_object_t instance, int64_t mask);
+void gdext_rendering_server_instance_set_layer_mask(gdext_c_object_t instance, gdext_c_object_t instance_arg, int64_t mask);
 
 /**
  * @brief RenderingServer.instance_set_pivot_data
  */
-void gdext_rendering_server_instance_set_pivot_data(gdext_c_object_t instance, gdext_c_object_t instance, double sorting_offset, GDExtensionBool use_aabb_center);
+void gdext_rendering_server_instance_set_pivot_data(gdext_c_object_t instance, gdext_c_object_t instance_arg, double sorting_offset, GDExtensionBool use_aabb_center);
 
 /**
  * @brief RenderingServer.instance_set_transform
  */
-void gdext_rendering_server_instance_set_transform(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t transform);
+void gdext_rendering_server_instance_set_transform(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t transform);
 
 /**
  * @brief RenderingServer.instance_attach_object_instance_id
  */
-void gdext_rendering_server_instance_attach_object_instance_id(gdext_c_object_t instance, gdext_c_object_t instance, int64_t id);
+void gdext_rendering_server_instance_attach_object_instance_id(gdext_c_object_t instance, gdext_c_object_t instance_arg, int64_t id);
 
 /**
  * @brief RenderingServer.instance_set_blend_shape_weight
  */
-void gdext_rendering_server_instance_set_blend_shape_weight(gdext_c_object_t instance, gdext_c_object_t instance, int64_t shape, double weight);
+void gdext_rendering_server_instance_set_blend_shape_weight(gdext_c_object_t instance, gdext_c_object_t instance_arg, int64_t shape, double weight);
 
 /**
  * @brief RenderingServer.instance_set_surface_override_material
  */
-void gdext_rendering_server_instance_set_surface_override_material(gdext_c_object_t instance, gdext_c_object_t instance, int64_t surface, gdext_c_object_t material);
+void gdext_rendering_server_instance_set_surface_override_material(gdext_c_object_t instance, gdext_c_object_t instance_arg, int64_t surface, gdext_c_object_t material);
 
 /**
  * @brief RenderingServer.instance_set_visible
  */
-void gdext_rendering_server_instance_set_visible(gdext_c_object_t instance, gdext_c_object_t instance, GDExtensionBool visible);
+void gdext_rendering_server_instance_set_visible(gdext_c_object_t instance, gdext_c_object_t instance_arg, GDExtensionBool visible);
 
 /**
  * @brief RenderingServer.instance_geometry_set_transparency
  */
-void gdext_rendering_server_instance_geometry_set_transparency(gdext_c_object_t instance, gdext_c_object_t instance, double transparency);
+void gdext_rendering_server_instance_geometry_set_transparency(gdext_c_object_t instance, gdext_c_object_t instance_arg, double transparency);
 
 /**
  * @brief RenderingServer.instance_teleport
  */
-void gdext_rendering_server_instance_teleport(gdext_c_object_t instance, gdext_c_object_t instance);
+void gdext_rendering_server_instance_teleport(gdext_c_object_t instance, gdext_c_object_t instance_arg);
 
 /**
  * @brief RenderingServer.instance_set_custom_aabb
  */
-void gdext_rendering_server_instance_set_custom_aabb(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t aabb);
+void gdext_rendering_server_instance_set_custom_aabb(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t aabb);
 
 /**
  * @brief RenderingServer.instance_attach_skeleton
  */
-void gdext_rendering_server_instance_attach_skeleton(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t skeleton);
+void gdext_rendering_server_instance_attach_skeleton(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t skeleton);
 
 /**
  * @brief RenderingServer.instance_set_extra_visibility_margin
  */
-void gdext_rendering_server_instance_set_extra_visibility_margin(gdext_c_object_t instance, gdext_c_object_t instance, double margin);
+void gdext_rendering_server_instance_set_extra_visibility_margin(gdext_c_object_t instance, gdext_c_object_t instance_arg, double margin);
 
 /**
  * @brief RenderingServer.instance_set_visibility_parent
  */
-void gdext_rendering_server_instance_set_visibility_parent(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t parent);
+void gdext_rendering_server_instance_set_visibility_parent(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t parent);
 
 /**
  * @brief RenderingServer.instance_set_ignore_culling
  */
-void gdext_rendering_server_instance_set_ignore_culling(gdext_c_object_t instance, gdext_c_object_t instance, GDExtensionBool enabled);
+void gdext_rendering_server_instance_set_ignore_culling(gdext_c_object_t instance, gdext_c_object_t instance_arg, GDExtensionBool enabled);
 
 /**
  * @brief RenderingServer.instance_geometry_set_flag
  */
-void gdext_rendering_server_instance_geometry_set_flag(gdext_c_object_t instance, gdext_c_object_t instance, int32_t flag, GDExtensionBool enabled);
+void gdext_rendering_server_instance_geometry_set_flag(gdext_c_object_t instance, gdext_c_object_t instance_arg, int32_t flag, GDExtensionBool enabled);
 
 /**
  * @brief RenderingServer.instance_geometry_set_cast_shadows_setting
  */
-void gdext_rendering_server_instance_geometry_set_cast_shadows_setting(gdext_c_object_t instance, gdext_c_object_t instance, int32_t shadow_casting_setting);
+void gdext_rendering_server_instance_geometry_set_cast_shadows_setting(gdext_c_object_t instance, gdext_c_object_t instance_arg, int32_t shadow_casting_setting);
 
 /**
  * @brief RenderingServer.instance_geometry_set_material_override
  */
-void gdext_rendering_server_instance_geometry_set_material_override(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t material);
+void gdext_rendering_server_instance_geometry_set_material_override(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t material);
 
 /**
  * @brief RenderingServer.instance_geometry_set_material_overlay
  */
-void gdext_rendering_server_instance_geometry_set_material_overlay(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t material);
+void gdext_rendering_server_instance_geometry_set_material_overlay(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t material);
 
 /**
  * @brief RenderingServer.instance_geometry_set_visibility_range
  */
-void gdext_rendering_server_instance_geometry_set_visibility_range(gdext_c_object_t instance, gdext_c_object_t instance, double min, double max, double min_margin, double max_margin, int32_t fade_mode);
+void gdext_rendering_server_instance_geometry_set_visibility_range(gdext_c_object_t instance, gdext_c_object_t instance_arg, double min, double max, double min_margin, double max_margin, int32_t fade_mode);
 
 /**
  * @brief RenderingServer.instance_geometry_set_lightmap
  */
-void gdext_rendering_server_instance_geometry_set_lightmap(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t lightmap, gdext_c_object_t lightmap_uv_scale, int64_t lightmap_slice);
+void gdext_rendering_server_instance_geometry_set_lightmap(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t lightmap, gdext_c_object_t lightmap_uv_scale, int64_t lightmap_slice);
 
 /**
  * @brief RenderingServer.instance_geometry_set_lod_bias
  */
-void gdext_rendering_server_instance_geometry_set_lod_bias(gdext_c_object_t instance, gdext_c_object_t instance, double lod_bias);
+void gdext_rendering_server_instance_geometry_set_lod_bias(gdext_c_object_t instance, gdext_c_object_t instance_arg, double lod_bias);
 
 /**
  * @brief RenderingServer.instance_geometry_set_shader_parameter
  */
-void gdext_rendering_server_instance_geometry_set_shader_parameter(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t parameter, gdext_c_object_t value);
+void gdext_rendering_server_instance_geometry_set_shader_parameter(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t parameter, gdext_c_object_t value);
 
 /**
  * @brief RenderingServer.instance_geometry_get_shader_parameter
  */
-gdext_c_object_t gdext_rendering_server_instance_geometry_get_shader_parameter(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t parameter);
+gdext_c_object_t gdext_rendering_server_instance_geometry_get_shader_parameter(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t parameter);
 
 /**
  * @brief RenderingServer.instance_geometry_get_shader_parameter_default_value
  */
-gdext_c_object_t gdext_rendering_server_instance_geometry_get_shader_parameter_default_value(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t parameter);
+gdext_c_object_t gdext_rendering_server_instance_geometry_get_shader_parameter_default_value(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t parameter);
 
 /**
  * @brief RenderingServer.instance_geometry_get_shader_parameter_list
  */
-gdext_c_object_t gdext_rendering_server_instance_geometry_get_shader_parameter_list(gdext_c_object_t instance, gdext_c_object_t instance);
+gdext_c_object_t gdext_rendering_server_instance_geometry_get_shader_parameter_list(gdext_c_object_t instance, gdext_c_object_t instance_arg);
 
 /**
  * @brief RenderingServer.instances_cull_aabb
@@ -54200,22 +54200,22 @@ void gdext_rendering_server_canvas_item_set_use_parent_material(gdext_c_object_t
 /**
  * @brief RenderingServer.canvas_item_set_instance_shader_parameter
  */
-void gdext_rendering_server_canvas_item_set_instance_shader_parameter(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t parameter, gdext_c_object_t value);
+void gdext_rendering_server_canvas_item_set_instance_shader_parameter(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t parameter, gdext_c_object_t value);
 
 /**
  * @brief RenderingServer.canvas_item_get_instance_shader_parameter
  */
-gdext_c_object_t gdext_rendering_server_canvas_item_get_instance_shader_parameter(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t parameter);
+gdext_c_object_t gdext_rendering_server_canvas_item_get_instance_shader_parameter(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t parameter);
 
 /**
  * @brief RenderingServer.canvas_item_get_instance_shader_parameter_default_value
  */
-gdext_c_object_t gdext_rendering_server_canvas_item_get_instance_shader_parameter_default_value(gdext_c_object_t instance, gdext_c_object_t instance, gdext_c_object_t parameter);
+gdext_c_object_t gdext_rendering_server_canvas_item_get_instance_shader_parameter_default_value(gdext_c_object_t instance, gdext_c_object_t instance_arg, gdext_c_object_t parameter);
 
 /**
  * @brief RenderingServer.canvas_item_get_instance_shader_parameter_list
  */
-gdext_c_object_t gdext_rendering_server_canvas_item_get_instance_shader_parameter_list(gdext_c_object_t instance, gdext_c_object_t instance);
+gdext_c_object_t gdext_rendering_server_canvas_item_get_instance_shader_parameter_list(gdext_c_object_t instance, gdext_c_object_t instance_arg);
 
 /**
  * @brief RenderingServer.canvas_item_set_visibility_notifier
@@ -55306,7 +55306,7 @@ int32_t gdext_rich_text_label_get_structured_text_bidi_override(gdext_c_object_t
 /**
  * @brief RichTextLabel.set_structured_text_bidi_override_options
  */
-void gdext_rich_text_label_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args);
+void gdext_rich_text_label_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args_value);
 
 /**
  * @brief RichTextLabel.get_structured_text_bidi_override_options
@@ -63107,7 +63107,7 @@ int32_t gdext_text_edit_get_structured_text_bidi_override(gdext_c_object_t insta
 /**
  * @brief TextEdit.set_structured_text_bidi_override_options
  */
-void gdext_text_edit_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args);
+void gdext_text_edit_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args_value);
 
 /**
  * @brief TextEdit.get_structured_text_bidi_override_options
@@ -64412,7 +64412,7 @@ int32_t gdext_text_line_get_text_overrun_behavior(gdext_c_object_t instance);
 /**
  * @brief TextLine.set_ellipsis_char
  */
-void gdext_text_line_set_ellipsis_char(gdext_c_object_t instance, gdext_c_object_t char);
+void gdext_text_line_set_ellipsis_char(gdext_c_object_t instance, gdext_c_object_t char_value);
 
 /**
  * @brief TextLine.get_ellipsis_char
@@ -64647,7 +64647,7 @@ int32_t gdext_text_mesh_get_structured_text_bidi_override(gdext_c_object_t insta
 /**
  * @brief TextMesh.set_structured_text_bidi_override_options
  */
-void gdext_text_mesh_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args);
+void gdext_text_mesh_set_structured_text_bidi_override_options(gdext_c_object_t instance, gdext_c_object_t args_value);
 
 /**
  * @brief TextMesh.get_structured_text_bidi_override_options
@@ -64807,7 +64807,7 @@ int32_t gdext_text_paragraph_get_text_overrun_behavior(gdext_c_object_t instance
 /**
  * @brief TextParagraph.set_ellipsis_char
  */
-void gdext_text_paragraph_set_ellipsis_char(gdext_c_object_t instance, gdext_c_object_t char);
+void gdext_text_paragraph_set_ellipsis_char(gdext_c_object_t instance, gdext_c_object_t char_value);
 
 /**
  * @brief TextParagraph.get_ellipsis_char
@@ -65542,7 +65542,7 @@ gdext_c_vec2 gdext_text_server_font_get_kerning(gdext_c_object_t instance, gdext
 /**
  * @brief TextServer.font_get_glyph_index
  */
-int64_t gdext_text_server_font_get_glyph_index(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, int64_t char, int64_t variation_selector);
+int64_t gdext_text_server_font_get_glyph_index(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, int64_t char_value, int64_t variation_selector);
 
 /**
  * @brief TextServer.font_get_char_from_glyph_index
@@ -65552,7 +65552,7 @@ int64_t gdext_text_server_font_get_char_from_glyph_index(gdext_c_object_t instan
 /**
  * @brief TextServer.font_has_char
  */
-GDExtensionBool gdext_text_server_font_has_char(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t char);
+GDExtensionBool gdext_text_server_font_has_char(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t char_value);
 
 /**
  * @brief TextServer.font_get_supported_chars
@@ -65717,7 +65717,7 @@ gdext_c_object_t gdext_text_server_shaped_text_get_custom_punctuation(gdext_c_ob
 /**
  * @brief TextServer.shaped_text_set_custom_ellipsis
  */
-void gdext_text_server_shaped_text_set_custom_ellipsis(gdext_c_object_t instance, gdext_c_object_t shaped, int64_t char);
+void gdext_text_server_shaped_text_set_custom_ellipsis(gdext_c_object_t instance, gdext_c_object_t shaped, int64_t char_value);
 
 /**
  * @brief TextServer.shaped_text_get_custom_ellipsis
@@ -66137,7 +66137,7 @@ gdext_c_object_t gdext_text_server_string_to_title(gdext_c_object_t instance, gd
 /**
  * @brief TextServer.parse_structured_text
  */
-gdext_c_object_t gdext_text_server_parse_structured_text(gdext_c_object_t instance, int32_t parser_type, gdext_c_object_t args, gdext_c_object_t text);
+gdext_c_object_t gdext_text_server_parse_structured_text(gdext_c_object_t instance, int32_t parser_type, gdext_c_object_t args_value, gdext_c_object_t text);
 
 /* ============================================================================
  * Class: TextServerManager
@@ -69078,7 +69078,7 @@ gdext_c_object_t gdext_touch_screen_button_get_shape(gdext_c_object_t instance);
 /**
  * @brief TouchScreenButton.set_shape_centered
  */
-void gdext_touch_screen_button_set_shape_centered(gdext_c_object_t instance, GDExtensionBool bool);
+void gdext_touch_screen_button_set_shape_centered(gdext_c_object_t instance, GDExtensionBool bool_value);
 
 /**
  * @brief TouchScreenButton.is_shape_centered
@@ -69088,7 +69088,7 @@ GDExtensionBool gdext_touch_screen_button_is_shape_centered(gdext_c_object_t ins
 /**
  * @brief TouchScreenButton.set_shape_visible
  */
-void gdext_touch_screen_button_set_shape_visible(gdext_c_object_t instance, GDExtensionBool bool);
+void gdext_touch_screen_button_set_shape_visible(gdext_c_object_t instance, GDExtensionBool bool_value);
 
 /**
  * @brief TouchScreenButton.is_shape_visible
@@ -69913,7 +69913,7 @@ int32_t gdext_tree_item_get_structured_text_bidi_override(gdext_c_object_t insta
 /**
  * @brief TreeItem.set_structured_text_bidi_override_options
  */
-void gdext_tree_item_set_structured_text_bidi_override_options(gdext_c_object_t instance, int64_t column, gdext_c_object_t args);
+void gdext_tree_item_set_structured_text_bidi_override_options(gdext_c_object_t instance, int64_t column, gdext_c_object_t args_value);
 
 /**
  * @brief TreeItem.get_structured_text_bidi_override_options

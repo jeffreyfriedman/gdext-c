@@ -14,7 +14,8 @@ SRC_CORE := $(wildcard src/core/*.c)
 SRC_SCENE := $(wildcard src/scene/*.c)
 SRC_API := $(wildcard src/api/*.c)
 SRC_MATH := $(wildcard src/math/*.c)
-SRCS := $(SRC_CORE) $(SRC_SCENE) $(SRC_API) $(SRC_MATH)
+SRC_GENERATED := generated/gdext_c_generated.c
+SRCS := $(SRC_CORE) $(SRC_SCENE) $(SRC_API) $(SRC_MATH) $(SRC_GENERATED)
 
 # Object files
 OBJS := $(SRCS:.c=.o)
@@ -48,6 +49,13 @@ $(LIB): $(OBJS)
 	@echo "🔗 Linking $@..."
 	@$(CC) $(LDFLAGS) -o $@ $^
 	@echo "✅ Built gdext-c: $@"
+
+# Ensure generated code exists before compiling
+generated/gdext_c_generated.o: generated/gdext_c_generated.c
+
+# Generate code if source doesn't exist
+generated/gdext_c_generated.c:
+	@if [ ! -f $@ ]; then $(MAKE) generate; fi
 
 # Compile source files
 %.o: %.c
@@ -87,5 +95,5 @@ help:
 	@echo "  uninstall  - Remove from /usr/local"
 	@echo "  help       - Show this help"
 
-.PHONY: all clean install uninstall help
+.PHONY: clean install uninstall help generate
 

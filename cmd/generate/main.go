@@ -366,8 +366,8 @@ func generateMethodImpl(f *os.File, class ClassDef, method MethodDef) error {
 	fmt.Fprintf(f, "    if (method_bind == NULL) {\n")
 	fmt.Fprintf(f, "        char class_sn[64];\n")
 	fmt.Fprintf(f, "        char method_sn[64];\n")
-	fmt.Fprintf(f, "        iface->string_name_new_with_latin1_chars(class_sn, \"%s\");\n", class.Name)
-	fmt.Fprintf(f, "        iface->string_name_new_with_latin1_chars(method_sn, \"%s\");\n", method.Name)
+	fmt.Fprintf(f, "        iface->string_name_new_with_latin1_chars(class_sn, \"%s\", 0);\n", class.Name)
+	fmt.Fprintf(f, "        iface->string_name_new_with_latin1_chars(method_sn, \"%s\", 0);\n", method.Name)
 	fmt.Fprintf(f, "        method_bind = iface->classdb_get_method_bind(class_sn, method_sn, %d);\n", method.Hash)
 	fmt.Fprintf(f, "        if (method_bind == NULL) {\n")
 	fmt.Fprintf(f, "            fprintf(stderr, \"[gdext-c] ERROR: Failed to get method bind for %s.%s\\n\");\n", class.Name, method.Name)
@@ -403,7 +403,12 @@ func generateMethodImpl(f *os.File, class ClassDef, method MethodDef) error {
 
 	// Call method
 	fmt.Fprintf(f, "    // Call method\n")
-	fmt.Fprintf(f, "    iface->object_method_bind_ptrcall(method_bind, instance, ")
+	// Static methods pass NULL as instance
+	if method.IsStatic {
+		fmt.Fprintf(f, "    iface->object_method_bind_ptrcall(method_bind, NULL, ")
+	} else {
+		fmt.Fprintf(f, "    iface->object_method_bind_ptrcall(method_bind, instance, ")
+	}
 	if len(method.Arguments) > 0 {
 		fmt.Fprintf(f, "args, ")
 	} else {
@@ -470,11 +475,30 @@ func mapGodotTypeToCType(godotType string) string {
 }
 
 func sanitizeName(name string) string {
-	// Replace reserved C keywords
+	// Replace reserved C keywords AND conflicting parameter names
 	reserved := map[string]string{
-		"default": "default_value",
-		"class":   "class_name",
-		"new":     "new_value",
+		"default":  "default_value",
+		"class":    "class_name",
+		"new":      "new_value",
+		"char":     "char_value",
+		"enum":     "enum_value",
+		"int":      "int_value",
+		"float":    "float_value",
+		"bool":     "bool_value",
+		"void":     "void_value",
+		"const":    "const_value",
+		"static":   "static_value",
+		"struct":   "struct_value",
+		"union":    "union_value",
+		"typedef":  "typedef_value",
+		"sizeof":   "sizeof_value",
+		"volatile": "volatile_value",
+		"register": "register_value",
+		"extern":   "extern_value",
+		"auto":     "auto_value",
+		"instance": "instance_arg", // Conflicts with our instance parameter!
+		"args":     "args_value",   // Conflicts with our args array!
+		"ret":      "ret_value",    // Conflicts with our ret variable!
 	}
 	if replacement, ok := reserved[name]; ok {
 		return replacement
