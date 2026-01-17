@@ -12,6 +12,7 @@
 
 #include "gdext_c.h"
 #include "gdextension_interface.h"
+#include "gdext_c_builtin.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -78,17 +79,17 @@ int64_t gdext_a_star2_d_get_available_point_id(gdext_c_object_t instance);
 /**
  * @brief AStar2D.add_point
  */
-void gdext_a_star2_d_add_point(gdext_c_object_t instance, int64_t id, gdext_c_vec2 position, double weight_scale);
+void gdext_a_star2_d_add_point(gdext_c_object_t instance, int64_t id, gdext_c_vector2_t position, double weight_scale);
 
 /**
  * @brief AStar2D.get_point_position
  */
-gdext_c_vec2 gdext_a_star2_d_get_point_position(gdext_c_object_t instance, int64_t id);
+gdext_c_vector2_t gdext_a_star2_d_get_point_position(gdext_c_object_t instance, int64_t id);
 
 /**
  * @brief AStar2D.set_point_position
  */
-void gdext_a_star2_d_set_point_position(gdext_c_object_t instance, int64_t id, gdext_c_vec2 position);
+void gdext_a_star2_d_set_point_position(gdext_c_object_t instance, int64_t id, gdext_c_vector2_t position);
 
 /**
  * @brief AStar2D.get_point_weight_scale
@@ -178,12 +179,12 @@ void gdext_a_star2_d_clear(gdext_c_object_t instance);
 /**
  * @brief AStar2D.get_closest_point
  */
-int64_t gdext_a_star2_d_get_closest_point(gdext_c_object_t instance, gdext_c_vec2 to_position, GDExtensionBool include_disabled);
+int64_t gdext_a_star2_d_get_closest_point(gdext_c_object_t instance, gdext_c_vector2_t to_position, GDExtensionBool include_disabled);
 
 /**
  * @brief AStar2D.get_closest_position_in_segment
  */
-gdext_c_vec2 gdext_a_star2_d_get_closest_position_in_segment(gdext_c_object_t instance, gdext_c_vec2 to_position);
+gdext_c_vector2_t gdext_a_star2_d_get_closest_position_in_segment(gdext_c_object_t instance, gdext_c_vector2_t to_position);
 
 /**
  * @brief AStar2D.get_point_path
@@ -208,17 +209,17 @@ int64_t gdext_a_star3_d_get_available_point_id(gdext_c_object_t instance);
 /**
  * @brief AStar3D.add_point
  */
-void gdext_a_star3_d_add_point(gdext_c_object_t instance, int64_t id, gdext_c_vec3 position, double weight_scale);
+void gdext_a_star3_d_add_point(gdext_c_object_t instance, int64_t id, gdext_c_vector3_t position, double weight_scale);
 
 /**
  * @brief AStar3D.get_point_position
  */
-gdext_c_vec3 gdext_a_star3_d_get_point_position(gdext_c_object_t instance, int64_t id);
+gdext_c_vector3_t gdext_a_star3_d_get_point_position(gdext_c_object_t instance, int64_t id);
 
 /**
  * @brief AStar3D.set_point_position
  */
-void gdext_a_star3_d_set_point_position(gdext_c_object_t instance, int64_t id, gdext_c_vec3 position);
+void gdext_a_star3_d_set_point_position(gdext_c_object_t instance, int64_t id, gdext_c_vector3_t position);
 
 /**
  * @brief AStar3D.get_point_weight_scale
@@ -308,12 +309,12 @@ void gdext_a_star3_d_clear(gdext_c_object_t instance);
 /**
  * @brief AStar3D.get_closest_point
  */
-int64_t gdext_a_star3_d_get_closest_point(gdext_c_object_t instance, gdext_c_vec3 to_position, GDExtensionBool include_disabled);
+int64_t gdext_a_star3_d_get_closest_point(gdext_c_object_t instance, gdext_c_vector3_t to_position, GDExtensionBool include_disabled);
 
 /**
  * @brief AStar3D.get_closest_position_in_segment
  */
-gdext_c_vec3 gdext_a_star3_d_get_closest_position_in_segment(gdext_c_object_t instance, gdext_c_vec3 to_position);
+gdext_c_vector3_t gdext_a_star3_d_get_closest_position_in_segment(gdext_c_object_t instance, gdext_c_vector3_t to_position);
 
 /**
  * @brief AStar3D.get_point_path
@@ -353,22 +354,22 @@ gdext_c_object_t gdext_a_star_grid2_d_get_size(gdext_c_object_t instance);
 /**
  * @brief AStarGrid2D.set_offset
  */
-void gdext_a_star_grid2_d_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_a_star_grid2_d_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief AStarGrid2D.get_offset
  */
-gdext_c_vec2 gdext_a_star_grid2_d_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_a_star_grid2_d_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief AStarGrid2D.set_cell_size
  */
-void gdext_a_star_grid2_d_set_cell_size(gdext_c_object_t instance, gdext_c_vec2 cell_size);
+void gdext_a_star_grid2_d_set_cell_size(gdext_c_object_t instance, gdext_c_vector2_t cell_size);
 
 /**
  * @brief AStarGrid2D.get_cell_size
  */
-gdext_c_vec2 gdext_a_star_grid2_d_get_cell_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_a_star_grid2_d_get_cell_size(gdext_c_object_t instance);
 
 /**
  * @brief AStarGrid2D.set_cell_shape
@@ -478,7 +479,7 @@ void gdext_a_star_grid2_d_clear(gdext_c_object_t instance);
 /**
  * @brief AStarGrid2D.get_point_position
  */
-gdext_c_vec2 gdext_a_star_grid2_d_get_point_position(gdext_c_object_t instance, gdext_c_object_t id);
+gdext_c_vector2_t gdext_a_star_grid2_d_get_point_position(gdext_c_object_t instance, gdext_c_object_t id);
 
 /**
  * @brief AStarGrid2D.get_point_data_in_region
@@ -728,12 +729,12 @@ GDExtensionBool gdext_animated_sprite2_d_is_centered(gdext_c_object_t instance);
 /**
  * @brief AnimatedSprite2D.set_offset
  */
-void gdext_animated_sprite2_d_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_animated_sprite2_d_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief AnimatedSprite2D.get_offset
  */
-gdext_c_vec2 gdext_animated_sprite2_d_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_animated_sprite2_d_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief AnimatedSprite2D.set_flip_h
@@ -1053,7 +1054,7 @@ GDExtensionBool gdext_animation_track_is_enabled(gdext_c_object_t instance, int6
 /**
  * @brief Animation.position_track_insert_key
  */
-int64_t gdext_animation_position_track_insert_key(gdext_c_object_t instance, int64_t track_idx, double time, gdext_c_vec3 position);
+int64_t gdext_animation_position_track_insert_key(gdext_c_object_t instance, int64_t track_idx, double time, gdext_c_vector3_t position);
 
 /**
  * @brief Animation.rotation_track_insert_key
@@ -1063,7 +1064,7 @@ int64_t gdext_animation_rotation_track_insert_key(gdext_c_object_t instance, int
 /**
  * @brief Animation.scale_track_insert_key
  */
-int64_t gdext_animation_scale_track_insert_key(gdext_c_object_t instance, int64_t track_idx, double time, gdext_c_vec3 scale);
+int64_t gdext_animation_scale_track_insert_key(gdext_c_object_t instance, int64_t track_idx, double time, gdext_c_vector3_t scale);
 
 /**
  * @brief Animation.blend_shape_track_insert_key
@@ -1073,7 +1074,7 @@ int64_t gdext_animation_blend_shape_track_insert_key(gdext_c_object_t instance, 
 /**
  * @brief Animation.position_track_interpolate
  */
-gdext_c_vec3 gdext_animation_position_track_interpolate(gdext_c_object_t instance, int64_t track_idx, double time_sec, GDExtensionBool backward);
+gdext_c_vector3_t gdext_animation_position_track_interpolate(gdext_c_object_t instance, int64_t track_idx, double time_sec, GDExtensionBool backward);
 
 /**
  * @brief Animation.rotation_track_interpolate
@@ -1083,7 +1084,7 @@ gdext_c_object_t gdext_animation_rotation_track_interpolate(gdext_c_object_t ins
 /**
  * @brief Animation.scale_track_interpolate
  */
-gdext_c_vec3 gdext_animation_scale_track_interpolate(gdext_c_object_t instance, int64_t track_idx, double time_sec, GDExtensionBool backward);
+gdext_c_vector3_t gdext_animation_scale_track_interpolate(gdext_c_object_t instance, int64_t track_idx, double time_sec, GDExtensionBool backward);
 
 /**
  * @brief Animation.blend_shape_track_interpolate
@@ -1198,7 +1199,7 @@ gdext_c_object_t gdext_animation_method_track_get_params(gdext_c_object_t instan
 /**
  * @brief Animation.bezier_track_insert_key
  */
-int64_t gdext_animation_bezier_track_insert_key(gdext_c_object_t instance, int64_t track_idx, double time, double value, gdext_c_vec2 in_handle, gdext_c_vec2 out_handle);
+int64_t gdext_animation_bezier_track_insert_key(gdext_c_object_t instance, int64_t track_idx, double time, double value, gdext_c_vector2_t in_handle, gdext_c_vector2_t out_handle);
 
 /**
  * @brief Animation.bezier_track_set_key_value
@@ -1208,12 +1209,12 @@ void gdext_animation_bezier_track_set_key_value(gdext_c_object_t instance, int64
 /**
  * @brief Animation.bezier_track_set_key_in_handle
  */
-void gdext_animation_bezier_track_set_key_in_handle(gdext_c_object_t instance, int64_t track_idx, int64_t key_idx, gdext_c_vec2 in_handle, double balanced_value_time_ratio);
+void gdext_animation_bezier_track_set_key_in_handle(gdext_c_object_t instance, int64_t track_idx, int64_t key_idx, gdext_c_vector2_t in_handle, double balanced_value_time_ratio);
 
 /**
  * @brief Animation.bezier_track_set_key_out_handle
  */
-void gdext_animation_bezier_track_set_key_out_handle(gdext_c_object_t instance, int64_t track_idx, int64_t key_idx, gdext_c_vec2 out_handle, double balanced_value_time_ratio);
+void gdext_animation_bezier_track_set_key_out_handle(gdext_c_object_t instance, int64_t track_idx, int64_t key_idx, gdext_c_vector2_t out_handle, double balanced_value_time_ratio);
 
 /**
  * @brief Animation.bezier_track_get_key_value
@@ -1223,12 +1224,12 @@ double gdext_animation_bezier_track_get_key_value(gdext_c_object_t instance, int
 /**
  * @brief Animation.bezier_track_get_key_in_handle
  */
-gdext_c_vec2 gdext_animation_bezier_track_get_key_in_handle(gdext_c_object_t instance, int64_t track_idx, int64_t key_idx);
+gdext_c_vector2_t gdext_animation_bezier_track_get_key_in_handle(gdext_c_object_t instance, int64_t track_idx, int64_t key_idx);
 
 /**
  * @brief Animation.bezier_track_get_key_out_handle
  */
-gdext_c_vec2 gdext_animation_bezier_track_get_key_out_handle(gdext_c_object_t instance, int64_t track_idx, int64_t key_idx);
+gdext_c_vector2_t gdext_animation_bezier_track_get_key_out_handle(gdext_c_object_t instance, int64_t track_idx, int64_t key_idx);
 
 /**
  * @brief Animation.bezier_track_interpolate
@@ -1338,12 +1339,12 @@ gdext_c_object_t gdext_animation_get_marker_names(gdext_c_object_t instance);
 /**
  * @brief Animation.get_marker_color
  */
-gdext_c_color gdext_animation_get_marker_color(gdext_c_object_t instance, gdext_c_object_t name);
+gdext_c_color_t gdext_animation_get_marker_color(gdext_c_object_t instance, gdext_c_object_t name);
 
 /**
  * @brief Animation.set_marker_color
  */
-void gdext_animation_set_marker_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color color);
+void gdext_animation_set_marker_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color_t color);
 
 /**
  * @brief Animation.set_length
@@ -1583,7 +1584,7 @@ GDExtensionBool gdext_animation_mixer_is_root_motion_local(gdext_c_object_t inst
 /**
  * @brief AnimationMixer.get_root_motion_position
  */
-gdext_c_vec3 gdext_animation_mixer_get_root_motion_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_animation_mixer_get_root_motion_position(gdext_c_object_t instance);
 
 /**
  * @brief AnimationMixer.get_root_motion_rotation
@@ -1593,12 +1594,12 @@ gdext_c_object_t gdext_animation_mixer_get_root_motion_rotation(gdext_c_object_t
 /**
  * @brief AnimationMixer.get_root_motion_scale
  */
-gdext_c_vec3 gdext_animation_mixer_get_root_motion_scale(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_animation_mixer_get_root_motion_scale(gdext_c_object_t instance);
 
 /**
  * @brief AnimationMixer.get_root_motion_position_accumulator
  */
-gdext_c_vec3 gdext_animation_mixer_get_root_motion_position_accumulator(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_animation_mixer_get_root_motion_position_accumulator(gdext_c_object_t instance);
 
 /**
  * @brief AnimationMixer.get_root_motion_rotation_accumulator
@@ -1608,7 +1609,7 @@ gdext_c_object_t gdext_animation_mixer_get_root_motion_rotation_accumulator(gdex
 /**
  * @brief AnimationMixer.get_root_motion_scale_accumulator
  */
-gdext_c_vec3 gdext_animation_mixer_get_root_motion_scale_accumulator(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_animation_mixer_get_root_motion_scale_accumulator(gdext_c_object_t instance);
 
 /**
  * @brief AnimationMixer.clear_caches
@@ -1928,17 +1929,17 @@ GDExtensionBool gdext_animation_node_blend_space1_d_is_using_sync(gdext_c_object
 /**
  * @brief AnimationNodeBlendSpace2D.add_blend_point
  */
-void gdext_animation_node_blend_space2_d_add_blend_point(gdext_c_object_t instance, gdext_c_object_t node, gdext_c_vec2 pos, int64_t at_index);
+void gdext_animation_node_blend_space2_d_add_blend_point(gdext_c_object_t instance, gdext_c_object_t node, gdext_c_vector2_t pos, int64_t at_index);
 
 /**
  * @brief AnimationNodeBlendSpace2D.set_blend_point_position
  */
-void gdext_animation_node_blend_space2_d_set_blend_point_position(gdext_c_object_t instance, int64_t point, gdext_c_vec2 pos);
+void gdext_animation_node_blend_space2_d_set_blend_point_position(gdext_c_object_t instance, int64_t point, gdext_c_vector2_t pos);
 
 /**
  * @brief AnimationNodeBlendSpace2D.get_blend_point_position
  */
-gdext_c_vec2 gdext_animation_node_blend_space2_d_get_blend_point_position(gdext_c_object_t instance, int64_t point);
+gdext_c_vector2_t gdext_animation_node_blend_space2_d_get_blend_point_position(gdext_c_object_t instance, int64_t point);
 
 /**
  * @brief AnimationNodeBlendSpace2D.set_blend_point_node
@@ -1983,32 +1984,32 @@ int64_t gdext_animation_node_blend_space2_d_get_triangle_count(gdext_c_object_t 
 /**
  * @brief AnimationNodeBlendSpace2D.set_min_space
  */
-void gdext_animation_node_blend_space2_d_set_min_space(gdext_c_object_t instance, gdext_c_vec2 min_space);
+void gdext_animation_node_blend_space2_d_set_min_space(gdext_c_object_t instance, gdext_c_vector2_t min_space);
 
 /**
  * @brief AnimationNodeBlendSpace2D.get_min_space
  */
-gdext_c_vec2 gdext_animation_node_blend_space2_d_get_min_space(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_animation_node_blend_space2_d_get_min_space(gdext_c_object_t instance);
 
 /**
  * @brief AnimationNodeBlendSpace2D.set_max_space
  */
-void gdext_animation_node_blend_space2_d_set_max_space(gdext_c_object_t instance, gdext_c_vec2 max_space);
+void gdext_animation_node_blend_space2_d_set_max_space(gdext_c_object_t instance, gdext_c_vector2_t max_space);
 
 /**
  * @brief AnimationNodeBlendSpace2D.get_max_space
  */
-gdext_c_vec2 gdext_animation_node_blend_space2_d_get_max_space(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_animation_node_blend_space2_d_get_max_space(gdext_c_object_t instance);
 
 /**
  * @brief AnimationNodeBlendSpace2D.set_snap
  */
-void gdext_animation_node_blend_space2_d_set_snap(gdext_c_object_t instance, gdext_c_vec2 snap);
+void gdext_animation_node_blend_space2_d_set_snap(gdext_c_object_t instance, gdext_c_vector2_t snap);
 
 /**
  * @brief AnimationNodeBlendSpace2D.get_snap
  */
-gdext_c_vec2 gdext_animation_node_blend_space2_d_get_snap(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_animation_node_blend_space2_d_get_snap(gdext_c_object_t instance);
 
 /**
  * @brief AnimationNodeBlendSpace2D.set_x_label
@@ -2068,7 +2069,7 @@ GDExtensionBool gdext_animation_node_blend_space2_d_is_using_sync(gdext_c_object
 /**
  * @brief AnimationNodeBlendTree.add_node
  */
-void gdext_animation_node_blend_tree_add_node(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t node, gdext_c_vec2 position);
+void gdext_animation_node_blend_tree_add_node(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t node, gdext_c_vector2_t position);
 
 /**
  * @brief AnimationNodeBlendTree.get_node
@@ -2108,22 +2109,22 @@ gdext_c_object_t gdext_animation_node_blend_tree_get_node_list(gdext_c_object_t 
 /**
  * @brief AnimationNodeBlendTree.set_node_position
  */
-void gdext_animation_node_blend_tree_set_node_position(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_vec2 position);
+void gdext_animation_node_blend_tree_set_node_position(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_vector2_t position);
 
 /**
  * @brief AnimationNodeBlendTree.get_node_position
  */
-gdext_c_vec2 gdext_animation_node_blend_tree_get_node_position(gdext_c_object_t instance, gdext_c_object_t name);
+gdext_c_vector2_t gdext_animation_node_blend_tree_get_node_position(gdext_c_object_t instance, gdext_c_object_t name);
 
 /**
  * @brief AnimationNodeBlendTree.set_graph_offset
  */
-void gdext_animation_node_blend_tree_set_graph_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_animation_node_blend_tree_set_graph_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief AnimationNodeBlendTree.get_graph_offset
  */
-gdext_c_vec2 gdext_animation_node_blend_tree_get_graph_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_animation_node_blend_tree_get_graph_offset(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: AnimationNodeExtension
@@ -2245,7 +2246,7 @@ int32_t gdext_animation_node_one_shot_get_mix_mode(gdext_c_object_t instance);
 /**
  * @brief AnimationNodeStateMachine.add_node
  */
-void gdext_animation_node_state_machine_add_node(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t node, gdext_c_vec2 position);
+void gdext_animation_node_state_machine_add_node(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t node, gdext_c_vector2_t position);
 
 /**
  * @brief AnimationNodeStateMachine.replace_node
@@ -2285,12 +2286,12 @@ gdext_c_object_t gdext_animation_node_state_machine_get_node_list(gdext_c_object
 /**
  * @brief AnimationNodeStateMachine.set_node_position
  */
-void gdext_animation_node_state_machine_set_node_position(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_vec2 position);
+void gdext_animation_node_state_machine_set_node_position(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_vector2_t position);
 
 /**
  * @brief AnimationNodeStateMachine.get_node_position
  */
-gdext_c_vec2 gdext_animation_node_state_machine_get_node_position(gdext_c_object_t instance, gdext_c_object_t name);
+gdext_c_vector2_t gdext_animation_node_state_machine_get_node_position(gdext_c_object_t instance, gdext_c_object_t name);
 
 /**
  * @brief AnimationNodeStateMachine.has_transition
@@ -2335,12 +2336,12 @@ void gdext_animation_node_state_machine_remove_transition(gdext_c_object_t insta
 /**
  * @brief AnimationNodeStateMachine.set_graph_offset
  */
-void gdext_animation_node_state_machine_set_graph_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_animation_node_state_machine_set_graph_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief AnimationNodeStateMachine.get_graph_offset
  */
-gdext_c_vec2 gdext_animation_node_state_machine_get_graph_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_animation_node_state_machine_get_graph_offset(gdext_c_object_t instance);
 
 /**
  * @brief AnimationNodeStateMachine.set_state_machine_type
@@ -2975,22 +2976,22 @@ double gdext_area2_d_get_gravity_point_unit_distance(gdext_c_object_t instance);
 /**
  * @brief Area2D.set_gravity_point_center
  */
-void gdext_area2_d_set_gravity_point_center(gdext_c_object_t instance, gdext_c_vec2 center);
+void gdext_area2_d_set_gravity_point_center(gdext_c_object_t instance, gdext_c_vector2_t center);
 
 /**
  * @brief Area2D.get_gravity_point_center
  */
-gdext_c_vec2 gdext_area2_d_get_gravity_point_center(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_area2_d_get_gravity_point_center(gdext_c_object_t instance);
 
 /**
  * @brief Area2D.set_gravity_direction
  */
-void gdext_area2_d_set_gravity_direction(gdext_c_object_t instance, gdext_c_vec2 direction);
+void gdext_area2_d_set_gravity_direction(gdext_c_object_t instance, gdext_c_vector2_t direction);
 
 /**
  * @brief Area2D.get_gravity_direction
  */
-gdext_c_vec2 gdext_area2_d_get_gravity_direction(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_area2_d_get_gravity_direction(gdext_c_object_t instance);
 
 /**
  * @brief Area2D.set_gravity
@@ -3160,22 +3161,22 @@ double gdext_area3_d_get_gravity_point_unit_distance(gdext_c_object_t instance);
 /**
  * @brief Area3D.set_gravity_point_center
  */
-void gdext_area3_d_set_gravity_point_center(gdext_c_object_t instance, gdext_c_vec3 center);
+void gdext_area3_d_set_gravity_point_center(gdext_c_object_t instance, gdext_c_vector3_t center);
 
 /**
  * @brief Area3D.get_gravity_point_center
  */
-gdext_c_vec3 gdext_area3_d_get_gravity_point_center(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_area3_d_get_gravity_point_center(gdext_c_object_t instance);
 
 /**
  * @brief Area3D.set_gravity_direction
  */
-void gdext_area3_d_set_gravity_direction(gdext_c_object_t instance, gdext_c_vec3 direction);
+void gdext_area3_d_set_gravity_direction(gdext_c_object_t instance, gdext_c_vector3_t direction);
 
 /**
  * @brief Area3D.get_gravity_direction
  */
-gdext_c_vec3 gdext_area3_d_get_gravity_direction(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_area3_d_get_gravity_direction(gdext_c_object_t instance);
 
 /**
  * @brief Area3D.set_gravity
@@ -4465,7 +4466,7 @@ int32_t gdext_audio_effect_spectrum_analyzer_get_fft_size(gdext_c_object_t insta
 /**
  * @brief AudioEffectSpectrumAnalyzerInstance.get_magnitude_for_frequency_range
  */
-gdext_c_vec2 gdext_audio_effect_spectrum_analyzer_instance_get_magnitude_for_frequency_range(gdext_c_object_t instance, double from_hz, double to_hz, int32_t mode);
+gdext_c_vector2_t gdext_audio_effect_spectrum_analyzer_instance_get_magnitude_for_frequency_range(gdext_c_object_t instance, double from_hz, double to_hz, int32_t mode);
 
 /* ============================================================================
  * Class: AudioEffectStereoEnhance
@@ -4905,7 +4906,7 @@ double gdext_audio_stream_generator_get_buffer_length(gdext_c_object_t instance)
 /**
  * @brief AudioStreamGeneratorPlayback.push_frame
  */
-GDExtensionBool gdext_audio_stream_generator_playback_push_frame(gdext_c_object_t instance, gdext_c_vec2 frame);
+GDExtensionBool gdext_audio_stream_generator_playback_push_frame(gdext_c_object_t instance, gdext_c_vector2_t frame);
 
 /**
  * @brief AudioStreamGeneratorPlayback.can_push_buffer
@@ -6346,12 +6347,12 @@ gdext_c_object_t gdext_base_button_get_button_group(gdext_c_object_t instance);
 /**
  * @brief BaseMaterial3D.set_albedo
  */
-void gdext_base_material3_d_set_albedo(gdext_c_object_t instance, gdext_c_color albedo);
+void gdext_base_material3_d_set_albedo(gdext_c_object_t instance, gdext_c_color_t albedo);
 
 /**
  * @brief BaseMaterial3D.get_albedo
  */
-gdext_c_color gdext_base_material3_d_get_albedo(gdext_c_object_t instance);
+gdext_c_color_t gdext_base_material3_d_get_albedo(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_transparency
@@ -6426,12 +6427,12 @@ double gdext_base_material3_d_get_roughness(gdext_c_object_t instance);
 /**
  * @brief BaseMaterial3D.set_emission
  */
-void gdext_base_material3_d_set_emission(gdext_c_object_t instance, gdext_c_color emission);
+void gdext_base_material3_d_set_emission(gdext_c_object_t instance, gdext_c_color_t emission);
 
 /**
  * @brief BaseMaterial3D.get_emission
  */
-gdext_c_color gdext_base_material3_d_get_emission(gdext_c_object_t instance);
+gdext_c_color_t gdext_base_material3_d_get_emission(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_emission_energy_multiplier
@@ -6536,12 +6537,12 @@ double gdext_base_material3_d_get_subsurface_scattering_strength(gdext_c_object_
 /**
  * @brief BaseMaterial3D.set_transmittance_color
  */
-void gdext_base_material3_d_set_transmittance_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_base_material3_d_set_transmittance_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief BaseMaterial3D.get_transmittance_color
  */
-gdext_c_color gdext_base_material3_d_get_transmittance_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_base_material3_d_get_transmittance_color(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_transmittance_depth
@@ -6566,12 +6567,12 @@ double gdext_base_material3_d_get_transmittance_boost(gdext_c_object_t instance)
 /**
  * @brief BaseMaterial3D.set_backlight
  */
-void gdext_base_material3_d_set_backlight(gdext_c_object_t instance, gdext_c_color backlight);
+void gdext_base_material3_d_set_backlight(gdext_c_object_t instance, gdext_c_color_t backlight);
 
 /**
  * @brief BaseMaterial3D.get_backlight
  */
-gdext_c_color gdext_base_material3_d_get_backlight(gdext_c_object_t instance);
+gdext_c_color_t gdext_base_material3_d_get_backlight(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_refraction
@@ -6716,22 +6717,22 @@ int32_t gdext_base_material3_d_get_detail_blend_mode(gdext_c_object_t instance);
 /**
  * @brief BaseMaterial3D.set_uv1_scale
  */
-void gdext_base_material3_d_set_uv1_scale(gdext_c_object_t instance, gdext_c_vec3 scale);
+void gdext_base_material3_d_set_uv1_scale(gdext_c_object_t instance, gdext_c_vector3_t scale);
 
 /**
  * @brief BaseMaterial3D.get_uv1_scale
  */
-gdext_c_vec3 gdext_base_material3_d_get_uv1_scale(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_base_material3_d_get_uv1_scale(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_uv1_offset
  */
-void gdext_base_material3_d_set_uv1_offset(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_base_material3_d_set_uv1_offset(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief BaseMaterial3D.get_uv1_offset
  */
-gdext_c_vec3 gdext_base_material3_d_get_uv1_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_base_material3_d_get_uv1_offset(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_uv1_triplanar_blend_sharpness
@@ -6746,22 +6747,22 @@ double gdext_base_material3_d_get_uv1_triplanar_blend_sharpness(gdext_c_object_t
 /**
  * @brief BaseMaterial3D.set_uv2_scale
  */
-void gdext_base_material3_d_set_uv2_scale(gdext_c_object_t instance, gdext_c_vec3 scale);
+void gdext_base_material3_d_set_uv2_scale(gdext_c_object_t instance, gdext_c_vector3_t scale);
 
 /**
  * @brief BaseMaterial3D.get_uv2_scale
  */
-gdext_c_vec3 gdext_base_material3_d_get_uv2_scale(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_base_material3_d_get_uv2_scale(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_uv2_offset
  */
-void gdext_base_material3_d_set_uv2_offset(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_base_material3_d_set_uv2_offset(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief BaseMaterial3D.get_uv2_offset
  */
-gdext_c_vec3 gdext_base_material3_d_get_uv2_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_base_material3_d_get_uv2_offset(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_uv2_triplanar_blend_sharpness
@@ -7096,12 +7097,12 @@ int64_t gdext_base_material3_d_get_stencil_reference(gdext_c_object_t instance);
 /**
  * @brief BaseMaterial3D.set_stencil_effect_color
  */
-void gdext_base_material3_d_set_stencil_effect_color(gdext_c_object_t instance, gdext_c_color stencil_color);
+void gdext_base_material3_d_set_stencil_effect_color(gdext_c_object_t instance, gdext_c_color_t stencil_color);
 
 /**
  * @brief BaseMaterial3D.get_stencil_effect_color
  */
-gdext_c_color gdext_base_material3_d_get_stencil_effect_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_base_material3_d_get_stencil_effect_color(gdext_c_object_t instance);
 
 /**
  * @brief BaseMaterial3D.set_stencil_effect_outline_thickness
@@ -7446,12 +7447,12 @@ GDExtensionBool gdext_box_container_is_vertical(gdext_c_object_t instance);
 /**
  * @brief BoxMesh.set_size
  */
-void gdext_box_mesh_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_box_mesh_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief BoxMesh.get_size
  */
-gdext_c_vec3 gdext_box_mesh_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_box_mesh_get_size(gdext_c_object_t instance);
 
 /**
  * @brief BoxMesh.set_subdivide_width
@@ -7491,12 +7492,12 @@ int64_t gdext_box_mesh_get_subdivide_depth(gdext_c_object_t instance);
 /**
  * @brief BoxOccluder3D.set_size
  */
-void gdext_box_occluder3_d_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_box_occluder3_d_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief BoxOccluder3D.get_size
  */
-gdext_c_vec3 gdext_box_occluder3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_box_occluder3_d_get_size(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: BoxShape3D
@@ -7506,12 +7507,12 @@ gdext_c_vec3 gdext_box_occluder3_d_get_size(gdext_c_object_t instance);
 /**
  * @brief BoxShape3D.set_size
  */
-void gdext_box_shape3_d_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_box_shape3_d_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief BoxShape3D.get_size
  */
-gdext_c_vec3 gdext_box_shape3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_box_shape3_d_get_size(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: Button
@@ -7851,12 +7852,12 @@ void gdext_c_p_u_particles2_d_restart(gdext_c_object_t instance, GDExtensionBool
 /**
  * @brief CPUParticles2D.set_direction
  */
-void gdext_c_p_u_particles2_d_set_direction(gdext_c_object_t instance, gdext_c_vec2 direction);
+void gdext_c_p_u_particles2_d_set_direction(gdext_c_object_t instance, gdext_c_vector2_t direction);
 
 /**
  * @brief CPUParticles2D.get_direction
  */
-gdext_c_vec2 gdext_c_p_u_particles2_d_get_direction(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_c_p_u_particles2_d_get_direction(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles2D.set_spread
@@ -7901,12 +7902,12 @@ gdext_c_object_t gdext_c_p_u_particles2_d_get_param_curve(gdext_c_object_t insta
 /**
  * @brief CPUParticles2D.set_color
  */
-void gdext_c_p_u_particles2_d_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_c_p_u_particles2_d_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CPUParticles2D.get_color
  */
-gdext_c_color gdext_c_p_u_particles2_d_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_c_p_u_particles2_d_get_color(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles2D.set_color_ramp
@@ -7961,12 +7962,12 @@ double gdext_c_p_u_particles2_d_get_emission_sphere_radius(gdext_c_object_t inst
 /**
  * @brief CPUParticles2D.set_emission_rect_extents
  */
-void gdext_c_p_u_particles2_d_set_emission_rect_extents(gdext_c_object_t instance, gdext_c_vec2 extents);
+void gdext_c_p_u_particles2_d_set_emission_rect_extents(gdext_c_object_t instance, gdext_c_vector2_t extents);
 
 /**
  * @brief CPUParticles2D.get_emission_rect_extents
  */
-gdext_c_vec2 gdext_c_p_u_particles2_d_get_emission_rect_extents(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_c_p_u_particles2_d_get_emission_rect_extents(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles2D.set_emission_points
@@ -8001,12 +8002,12 @@ gdext_c_object_t gdext_c_p_u_particles2_d_get_emission_colors(gdext_c_object_t i
 /**
  * @brief CPUParticles2D.get_gravity
  */
-gdext_c_vec2 gdext_c_p_u_particles2_d_get_gravity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_c_p_u_particles2_d_get_gravity(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles2D.set_gravity
  */
-void gdext_c_p_u_particles2_d_set_gravity(gdext_c_object_t instance, gdext_c_vec2 accel_vec);
+void gdext_c_p_u_particles2_d_set_gravity(gdext_c_object_t instance, gdext_c_vector2_t accel_vec);
 
 /**
  * @brief CPUParticles2D.get_split_scale
@@ -8236,12 +8237,12 @@ gdext_c_object_t gdext_c_p_u_particles3_d_capture_aabb(gdext_c_object_t instance
 /**
  * @brief CPUParticles3D.set_direction
  */
-void gdext_c_p_u_particles3_d_set_direction(gdext_c_object_t instance, gdext_c_vec3 direction);
+void gdext_c_p_u_particles3_d_set_direction(gdext_c_object_t instance, gdext_c_vector3_t direction);
 
 /**
  * @brief CPUParticles3D.get_direction
  */
-gdext_c_vec3 gdext_c_p_u_particles3_d_get_direction(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_c_p_u_particles3_d_get_direction(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles3D.set_spread
@@ -8296,12 +8297,12 @@ gdext_c_object_t gdext_c_p_u_particles3_d_get_param_curve(gdext_c_object_t insta
 /**
  * @brief CPUParticles3D.set_color
  */
-void gdext_c_p_u_particles3_d_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_c_p_u_particles3_d_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CPUParticles3D.get_color
  */
-gdext_c_color gdext_c_p_u_particles3_d_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_c_p_u_particles3_d_get_color(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles3D.set_color_ramp
@@ -8356,12 +8357,12 @@ double gdext_c_p_u_particles3_d_get_emission_sphere_radius(gdext_c_object_t inst
 /**
  * @brief CPUParticles3D.set_emission_box_extents
  */
-void gdext_c_p_u_particles3_d_set_emission_box_extents(gdext_c_object_t instance, gdext_c_vec3 extents);
+void gdext_c_p_u_particles3_d_set_emission_box_extents(gdext_c_object_t instance, gdext_c_vector3_t extents);
 
 /**
  * @brief CPUParticles3D.get_emission_box_extents
  */
-gdext_c_vec3 gdext_c_p_u_particles3_d_get_emission_box_extents(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_c_p_u_particles3_d_get_emission_box_extents(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles3D.set_emission_points
@@ -8396,12 +8397,12 @@ gdext_c_object_t gdext_c_p_u_particles3_d_get_emission_colors(gdext_c_object_t i
 /**
  * @brief CPUParticles3D.set_emission_ring_axis
  */
-void gdext_c_p_u_particles3_d_set_emission_ring_axis(gdext_c_object_t instance, gdext_c_vec3 axis);
+void gdext_c_p_u_particles3_d_set_emission_ring_axis(gdext_c_object_t instance, gdext_c_vector3_t axis);
 
 /**
  * @brief CPUParticles3D.get_emission_ring_axis
  */
-gdext_c_vec3 gdext_c_p_u_particles3_d_get_emission_ring_axis(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_c_p_u_particles3_d_get_emission_ring_axis(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles3D.set_emission_ring_height
@@ -8446,12 +8447,12 @@ double gdext_c_p_u_particles3_d_get_emission_ring_cone_angle(gdext_c_object_t in
 /**
  * @brief CPUParticles3D.get_gravity
  */
-gdext_c_vec3 gdext_c_p_u_particles3_d_get_gravity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_c_p_u_particles3_d_get_gravity(gdext_c_object_t instance);
 
 /**
  * @brief CPUParticles3D.set_gravity
  */
-void gdext_c_p_u_particles3_d_set_gravity(gdext_c_object_t instance, gdext_c_vec3 accel_vec);
+void gdext_c_p_u_particles3_d_set_gravity(gdext_c_object_t instance, gdext_c_vector3_t accel_vec);
 
 /**
  * @brief CPUParticles3D.get_split_scale
@@ -8506,12 +8507,12 @@ void gdext_c_p_u_particles3_d_convert_from_particles(gdext_c_object_t instance, 
 /**
  * @brief CSGBox3D.set_size
  */
-void gdext_c_s_g_box3_d_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_c_s_g_box3_d_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief CSGBox3D.get_size
  */
-gdext_c_vec3 gdext_c_s_g_box3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_c_s_g_box3_d_get_size(gdext_c_object_t instance);
 
 /**
  * @brief CSGBox3D.set_material
@@ -9056,12 +9057,12 @@ gdext_c_object_t gdext_callback_tweener_set_delay(gdext_c_object_t instance, dou
 /**
  * @brief Camera2D.set_offset
  */
-void gdext_camera2_d_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_camera2_d_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Camera2D.get_offset
  */
-gdext_c_vec2 gdext_camera2_d_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_camera2_d_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief Camera2D.set_anchor_mode
@@ -9196,12 +9197,12 @@ double gdext_camera2_d_get_drag_margin(gdext_c_object_t instance, int32_t margin
 /**
  * @brief Camera2D.get_target_position
  */
-gdext_c_vec2 gdext_camera2_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_camera2_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief Camera2D.get_screen_center_position
  */
-gdext_c_vec2 gdext_camera2_d_get_screen_center_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_camera2_d_get_screen_center_position(gdext_c_object_t instance);
 
 /**
  * @brief Camera2D.get_screen_rotation
@@ -9211,12 +9212,12 @@ double gdext_camera2_d_get_screen_rotation(gdext_c_object_t instance);
 /**
  * @brief Camera2D.set_zoom
  */
-void gdext_camera2_d_set_zoom(gdext_c_object_t instance, gdext_c_vec2 zoom);
+void gdext_camera2_d_set_zoom(gdext_c_object_t instance, gdext_c_vector2_t zoom);
 
 /**
  * @brief Camera2D.get_zoom
  */
-gdext_c_vec2 gdext_camera2_d_get_zoom(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_camera2_d_get_zoom(gdext_c_object_t instance);
 
 /**
  * @brief Camera2D.set_custom_viewport
@@ -9321,32 +9322,32 @@ GDExtensionBool gdext_camera2_d_is_margin_drawing_enabled(gdext_c_object_t insta
 /**
  * @brief Camera3D.project_ray_normal
  */
-gdext_c_vec3 gdext_camera3_d_project_ray_normal(gdext_c_object_t instance, gdext_c_vec2 screen_point);
+gdext_c_vector3_t gdext_camera3_d_project_ray_normal(gdext_c_object_t instance, gdext_c_vector2_t screen_point);
 
 /**
  * @brief Camera3D.project_local_ray_normal
  */
-gdext_c_vec3 gdext_camera3_d_project_local_ray_normal(gdext_c_object_t instance, gdext_c_vec2 screen_point);
+gdext_c_vector3_t gdext_camera3_d_project_local_ray_normal(gdext_c_object_t instance, gdext_c_vector2_t screen_point);
 
 /**
  * @brief Camera3D.project_ray_origin
  */
-gdext_c_vec3 gdext_camera3_d_project_ray_origin(gdext_c_object_t instance, gdext_c_vec2 screen_point);
+gdext_c_vector3_t gdext_camera3_d_project_ray_origin(gdext_c_object_t instance, gdext_c_vector2_t screen_point);
 
 /**
  * @brief Camera3D.unproject_position
  */
-gdext_c_vec2 gdext_camera3_d_unproject_position(gdext_c_object_t instance, gdext_c_vec3 world_point);
+gdext_c_vector2_t gdext_camera3_d_unproject_position(gdext_c_object_t instance, gdext_c_vector3_t world_point);
 
 /**
  * @brief Camera3D.is_position_behind
  */
-GDExtensionBool gdext_camera3_d_is_position_behind(gdext_c_object_t instance, gdext_c_vec3 world_point);
+GDExtensionBool gdext_camera3_d_is_position_behind(gdext_c_object_t instance, gdext_c_vector3_t world_point);
 
 /**
  * @brief Camera3D.project_position
  */
-gdext_c_vec3 gdext_camera3_d_project_position(gdext_c_object_t instance, gdext_c_vec2 screen_point, double z_depth);
+gdext_c_vector3_t gdext_camera3_d_project_position(gdext_c_object_t instance, gdext_c_vector2_t screen_point, double z_depth);
 
 /**
  * @brief Camera3D.set_perspective
@@ -9361,7 +9362,7 @@ void gdext_camera3_d_set_orthogonal(gdext_c_object_t instance, double size, doub
 /**
  * @brief Camera3D.set_frustum
  */
-void gdext_camera3_d_set_frustum(gdext_c_object_t instance, double size, gdext_c_vec2 offset, double z_near, double z_far);
+void gdext_camera3_d_set_frustum(gdext_c_object_t instance, double size, gdext_c_vector2_t offset, double z_near, double z_far);
 
 /**
  * @brief Camera3D.make_current
@@ -9401,7 +9402,7 @@ double gdext_camera3_d_get_fov(gdext_c_object_t instance);
 /**
  * @brief Camera3D.get_frustum_offset
  */
-gdext_c_vec2 gdext_camera3_d_get_frustum_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_camera3_d_get_frustum_offset(gdext_c_object_t instance);
 
 /**
  * @brief Camera3D.get_size
@@ -9426,7 +9427,7 @@ void gdext_camera3_d_set_fov(gdext_c_object_t instance, double fov);
 /**
  * @brief Camera3D.set_frustum_offset
  */
-void gdext_camera3_d_set_frustum_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_camera3_d_set_frustum_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Camera3D.set_size
@@ -9541,7 +9542,7 @@ gdext_c_object_t gdext_camera3_d_get_frustum(gdext_c_object_t instance);
 /**
  * @brief Camera3D.is_position_in_frustum
  */
-GDExtensionBool gdext_camera3_d_is_position_in_frustum(gdext_c_object_t instance, gdext_c_vec3 world_point);
+GDExtensionBool gdext_camera3_d_is_position_in_frustum(gdext_c_object_t instance, gdext_c_vector3_t world_point);
 
 /**
  * @brief Camera3D.get_camera_rid
@@ -10066,22 +10067,22 @@ int64_t gdext_canvas_item_get_light_mask(gdext_c_object_t instance);
 /**
  * @brief CanvasItem.set_modulate
  */
-void gdext_canvas_item_set_modulate(gdext_c_object_t instance, gdext_c_color modulate);
+void gdext_canvas_item_set_modulate(gdext_c_object_t instance, gdext_c_color_t modulate);
 
 /**
  * @brief CanvasItem.get_modulate
  */
-gdext_c_color gdext_canvas_item_get_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_canvas_item_get_modulate(gdext_c_object_t instance);
 
 /**
  * @brief CanvasItem.set_self_modulate
  */
-void gdext_canvas_item_set_self_modulate(gdext_c_object_t instance, gdext_c_color self_modulate);
+void gdext_canvas_item_set_self_modulate(gdext_c_object_t instance, gdext_c_color_t self_modulate);
 
 /**
  * @brief CanvasItem.get_self_modulate
  */
-gdext_c_color gdext_canvas_item_get_self_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_canvas_item_get_self_modulate(gdext_c_object_t instance);
 
 /**
  * @brief CanvasItem.set_z_index
@@ -10126,17 +10127,17 @@ GDExtensionBool gdext_canvas_item_is_draw_behind_parent_enabled(gdext_c_object_t
 /**
  * @brief CanvasItem.draw_line
  */
-void gdext_canvas_item_draw_line(gdext_c_object_t instance, gdext_c_vec2 from, gdext_c_vec2 to, gdext_c_color color, double width, GDExtensionBool antialiased);
+void gdext_canvas_item_draw_line(gdext_c_object_t instance, gdext_c_vector2_t from, gdext_c_vector2_t to, gdext_c_color_t color, double width, GDExtensionBool antialiased);
 
 /**
  * @brief CanvasItem.draw_dashed_line
  */
-void gdext_canvas_item_draw_dashed_line(gdext_c_object_t instance, gdext_c_vec2 from, gdext_c_vec2 to, gdext_c_color color, double width, double dash, GDExtensionBool aligned, GDExtensionBool antialiased);
+void gdext_canvas_item_draw_dashed_line(gdext_c_object_t instance, gdext_c_vector2_t from, gdext_c_vector2_t to, gdext_c_color_t color, double width, double dash, GDExtensionBool aligned, GDExtensionBool antialiased);
 
 /**
  * @brief CanvasItem.draw_polyline
  */
-void gdext_canvas_item_draw_polyline(gdext_c_object_t instance, gdext_c_object_t points, gdext_c_color color, double width, GDExtensionBool antialiased);
+void gdext_canvas_item_draw_polyline(gdext_c_object_t instance, gdext_c_object_t points, gdext_c_color_t color, double width, GDExtensionBool antialiased);
 
 /**
  * @brief CanvasItem.draw_polyline_colors
@@ -10146,12 +10147,12 @@ void gdext_canvas_item_draw_polyline_colors(gdext_c_object_t instance, gdext_c_o
 /**
  * @brief CanvasItem.draw_arc
  */
-void gdext_canvas_item_draw_arc(gdext_c_object_t instance, gdext_c_vec2 center, double radius, double start_angle, double end_angle, int64_t point_count, gdext_c_color color, double width, GDExtensionBool antialiased);
+void gdext_canvas_item_draw_arc(gdext_c_object_t instance, gdext_c_vector2_t center, double radius, double start_angle, double end_angle, int64_t point_count, gdext_c_color_t color, double width, GDExtensionBool antialiased);
 
 /**
  * @brief CanvasItem.draw_multiline
  */
-void gdext_canvas_item_draw_multiline(gdext_c_object_t instance, gdext_c_object_t points, gdext_c_color color, double width, GDExtensionBool antialiased);
+void gdext_canvas_item_draw_multiline(gdext_c_object_t instance, gdext_c_object_t points, gdext_c_color_t color, double width, GDExtensionBool antialiased);
 
 /**
  * @brief CanvasItem.draw_multiline_colors
@@ -10161,37 +10162,37 @@ void gdext_canvas_item_draw_multiline_colors(gdext_c_object_t instance, gdext_c_
 /**
  * @brief CanvasItem.draw_rect
  */
-void gdext_canvas_item_draw_rect(gdext_c_object_t instance, gdext_c_object_t rect, gdext_c_color color, GDExtensionBool filled, double width, GDExtensionBool antialiased);
+void gdext_canvas_item_draw_rect(gdext_c_object_t instance, gdext_c_object_t rect, gdext_c_color_t color, GDExtensionBool filled, double width, GDExtensionBool antialiased);
 
 /**
  * @brief CanvasItem.draw_circle
  */
-void gdext_canvas_item_draw_circle(gdext_c_object_t instance, gdext_c_vec2 position, double radius, gdext_c_color color, GDExtensionBool filled, double width, GDExtensionBool antialiased);
+void gdext_canvas_item_draw_circle(gdext_c_object_t instance, gdext_c_vector2_t position, double radius, gdext_c_color_t color, GDExtensionBool filled, double width, GDExtensionBool antialiased);
 
 /**
  * @brief CanvasItem.draw_texture
  */
-void gdext_canvas_item_draw_texture(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_vec2 position, gdext_c_color modulate);
+void gdext_canvas_item_draw_texture(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_vector2_t position, gdext_c_color_t modulate);
 
 /**
  * @brief CanvasItem.draw_texture_rect
  */
-void gdext_canvas_item_draw_texture_rect(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_object_t rect, GDExtensionBool tile, gdext_c_color modulate, GDExtensionBool transpose);
+void gdext_canvas_item_draw_texture_rect(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_object_t rect, GDExtensionBool tile, gdext_c_color_t modulate, GDExtensionBool transpose);
 
 /**
  * @brief CanvasItem.draw_texture_rect_region
  */
-void gdext_canvas_item_draw_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_object_t rect, gdext_c_object_t src_rect, gdext_c_color modulate, GDExtensionBool transpose, GDExtensionBool clip_uv);
+void gdext_canvas_item_draw_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_object_t rect, gdext_c_object_t src_rect, gdext_c_color_t modulate, GDExtensionBool transpose, GDExtensionBool clip_uv);
 
 /**
  * @brief CanvasItem.draw_msdf_texture_rect_region
  */
-void gdext_canvas_item_draw_msdf_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_object_t rect, gdext_c_object_t src_rect, gdext_c_color modulate, double outline, double pixel_range, double scale);
+void gdext_canvas_item_draw_msdf_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_object_t rect, gdext_c_object_t src_rect, gdext_c_color_t modulate, double outline, double pixel_range, double scale);
 
 /**
  * @brief CanvasItem.draw_lcd_texture_rect_region
  */
-void gdext_canvas_item_draw_lcd_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_object_t rect, gdext_c_object_t src_rect, gdext_c_color modulate);
+void gdext_canvas_item_draw_lcd_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_object_t rect, gdext_c_object_t src_rect, gdext_c_color_t modulate);
 
 /**
  * @brief CanvasItem.draw_style_box
@@ -10211,42 +10212,42 @@ void gdext_canvas_item_draw_polygon(gdext_c_object_t instance, gdext_c_object_t 
 /**
  * @brief CanvasItem.draw_colored_polygon
  */
-void gdext_canvas_item_draw_colored_polygon(gdext_c_object_t instance, gdext_c_object_t points, gdext_c_color color, gdext_c_object_t uvs, gdext_c_object_t texture);
+void gdext_canvas_item_draw_colored_polygon(gdext_c_object_t instance, gdext_c_object_t points, gdext_c_color_t color, gdext_c_object_t uvs, gdext_c_object_t texture);
 
 /**
  * @brief CanvasItem.draw_string
  */
-void gdext_canvas_item_draw_string(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, gdext_c_color modulate, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
+void gdext_canvas_item_draw_string(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vector2_t pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, gdext_c_color_t modulate, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
 
 /**
  * @brief CanvasItem.draw_multiline_string
  */
-void gdext_canvas_item_draw_multiline_string(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, gdext_c_color modulate, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
+void gdext_canvas_item_draw_multiline_string(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vector2_t pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, gdext_c_color_t modulate, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
 
 /**
  * @brief CanvasItem.draw_string_outline
  */
-void gdext_canvas_item_draw_string_outline(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t size, gdext_c_color modulate, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
+void gdext_canvas_item_draw_string_outline(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vector2_t pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t size, gdext_c_color_t modulate, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
 
 /**
  * @brief CanvasItem.draw_multiline_string_outline
  */
-void gdext_canvas_item_draw_multiline_string_outline(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, int64_t size, gdext_c_color modulate, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
+void gdext_canvas_item_draw_multiline_string_outline(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vector2_t pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, int64_t size, gdext_c_color_t modulate, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
 
 /**
  * @brief CanvasItem.draw_char
  */
-void gdext_canvas_item_draw_char(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t char_value, int64_t font_size, gdext_c_color modulate, double oversampling);
+void gdext_canvas_item_draw_char(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vector2_t pos, gdext_c_object_t char_value, int64_t font_size, gdext_c_color_t modulate, double oversampling);
 
 /**
  * @brief CanvasItem.draw_char_outline
  */
-void gdext_canvas_item_draw_char_outline(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vec2 pos, gdext_c_object_t char_value, int64_t font_size, int64_t size, gdext_c_color modulate, double oversampling);
+void gdext_canvas_item_draw_char_outline(gdext_c_object_t instance, gdext_c_object_t font, gdext_c_vector2_t pos, gdext_c_object_t char_value, int64_t font_size, int64_t size, gdext_c_color_t modulate, double oversampling);
 
 /**
  * @brief CanvasItem.draw_mesh
  */
-void gdext_canvas_item_draw_mesh(gdext_c_object_t instance, gdext_c_object_t mesh, gdext_c_object_t texture, gdext_c_object_t transform, gdext_c_color modulate);
+void gdext_canvas_item_draw_mesh(gdext_c_object_t instance, gdext_c_object_t mesh, gdext_c_object_t texture, gdext_c_object_t transform, gdext_c_color_t modulate);
 
 /**
  * @brief CanvasItem.draw_multimesh
@@ -10256,7 +10257,7 @@ void gdext_canvas_item_draw_multimesh(gdext_c_object_t instance, gdext_c_object_
 /**
  * @brief CanvasItem.draw_set_transform
  */
-void gdext_canvas_item_draw_set_transform(gdext_c_object_t instance, gdext_c_vec2 position, double rotation, gdext_c_vec2 scale);
+void gdext_canvas_item_draw_set_transform(gdext_c_object_t instance, gdext_c_vector2_t position, double rotation, gdext_c_vector2_t scale);
 
 /**
  * @brief CanvasItem.draw_set_transform_matrix
@@ -10311,12 +10312,12 @@ gdext_c_object_t gdext_canvas_item_get_screen_transform(gdext_c_object_t instanc
 /**
  * @brief CanvasItem.get_local_mouse_position
  */
-gdext_c_vec2 gdext_canvas_item_get_local_mouse_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_canvas_item_get_local_mouse_position(gdext_c_object_t instance);
 
 /**
  * @brief CanvasItem.get_global_mouse_position
  */
-gdext_c_vec2 gdext_canvas_item_get_global_mouse_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_canvas_item_get_global_mouse_position(gdext_c_object_t instance);
 
 /**
  * @brief CanvasItem.get_canvas
@@ -10391,7 +10392,7 @@ void gdext_canvas_item_force_update_transform(gdext_c_object_t instance);
 /**
  * @brief CanvasItem.make_canvas_position_local
  */
-gdext_c_vec2 gdext_canvas_item_make_canvas_position_local(gdext_c_object_t instance, gdext_c_vec2 viewport_point);
+gdext_c_vector2_t gdext_canvas_item_make_canvas_position_local(gdext_c_object_t instance, gdext_c_vector2_t viewport_point);
 
 /**
  * @brief CanvasItem.make_input_local
@@ -10566,12 +10567,12 @@ gdext_c_object_t gdext_canvas_layer_get_final_transform(gdext_c_object_t instanc
 /**
  * @brief CanvasLayer.set_offset
  */
-void gdext_canvas_layer_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_canvas_layer_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief CanvasLayer.get_offset
  */
-gdext_c_vec2 gdext_canvas_layer_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_canvas_layer_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief CanvasLayer.set_rotation
@@ -10586,12 +10587,12 @@ double gdext_canvas_layer_get_rotation(gdext_c_object_t instance);
 /**
  * @brief CanvasLayer.set_scale
  */
-void gdext_canvas_layer_set_scale(gdext_c_object_t instance, gdext_c_vec2 scale);
+void gdext_canvas_layer_set_scale(gdext_c_object_t instance, gdext_c_vector2_t scale);
 
 /**
  * @brief CanvasLayer.get_scale
  */
-gdext_c_vec2 gdext_canvas_layer_get_scale(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_canvas_layer_get_scale(gdext_c_object_t instance);
 
 /**
  * @brief CanvasLayer.set_follow_viewport
@@ -10636,12 +10637,12 @@ gdext_c_object_t gdext_canvas_layer_get_canvas(gdext_c_object_t instance);
 /**
  * @brief CanvasModulate.set_color
  */
-void gdext_canvas_modulate_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_canvas_modulate_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CanvasModulate.get_color
  */
-gdext_c_color gdext_canvas_modulate_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_canvas_modulate_get_color(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: CanvasTexture
@@ -10681,12 +10682,12 @@ gdext_c_object_t gdext_canvas_texture_get_specular_texture(gdext_c_object_t inst
 /**
  * @brief CanvasTexture.set_specular_color
  */
-void gdext_canvas_texture_set_specular_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_canvas_texture_set_specular_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CanvasTexture.get_specular_color
  */
-gdext_c_color gdext_canvas_texture_get_specular_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_canvas_texture_get_specular_color(gdext_c_object_t instance);
 
 /**
  * @brief CanvasTexture.set_specular_shininess
@@ -10906,22 +10907,22 @@ void gdext_char_f_x_transform_set_outline(gdext_c_object_t instance, GDExtension
 /**
  * @brief CharFXTransform.get_offset
  */
-gdext_c_vec2 gdext_char_f_x_transform_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_char_f_x_transform_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief CharFXTransform.set_offset
  */
-void gdext_char_f_x_transform_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_char_f_x_transform_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief CharFXTransform.get_color
  */
-gdext_c_color gdext_char_f_x_transform_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_char_f_x_transform_get_color(gdext_c_object_t instance);
 
 /**
  * @brief CharFXTransform.set_color
  */
-void gdext_char_f_x_transform_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_char_f_x_transform_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CharFXTransform.get_environment
@@ -11001,12 +11002,12 @@ void gdext_character_body2_d_apply_floor_snap(gdext_c_object_t instance);
 /**
  * @brief CharacterBody2D.set_velocity
  */
-void gdext_character_body2_d_set_velocity(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_character_body2_d_set_velocity(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief CharacterBody2D.get_velocity
  */
-gdext_c_vec2 gdext_character_body2_d_get_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_character_body2_d_get_velocity(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody2D.set_safe_margin
@@ -11121,12 +11122,12 @@ void gdext_character_body2_d_set_wall_min_slide_angle(gdext_c_object_t instance,
 /**
  * @brief CharacterBody2D.get_up_direction
  */
-gdext_c_vec2 gdext_character_body2_d_get_up_direction(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_character_body2_d_get_up_direction(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody2D.set_up_direction
  */
-void gdext_character_body2_d_set_up_direction(gdext_c_object_t instance, gdext_c_vec2 up_direction);
+void gdext_character_body2_d_set_up_direction(gdext_c_object_t instance, gdext_c_vector2_t up_direction);
 
 /**
  * @brief CharacterBody2D.set_motion_mode
@@ -11181,37 +11182,37 @@ GDExtensionBool gdext_character_body2_d_is_on_wall_only(gdext_c_object_t instanc
 /**
  * @brief CharacterBody2D.get_floor_normal
  */
-gdext_c_vec2 gdext_character_body2_d_get_floor_normal(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_character_body2_d_get_floor_normal(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody2D.get_wall_normal
  */
-gdext_c_vec2 gdext_character_body2_d_get_wall_normal(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_character_body2_d_get_wall_normal(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody2D.get_last_motion
  */
-gdext_c_vec2 gdext_character_body2_d_get_last_motion(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_character_body2_d_get_last_motion(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody2D.get_position_delta
  */
-gdext_c_vec2 gdext_character_body2_d_get_position_delta(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_character_body2_d_get_position_delta(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody2D.get_real_velocity
  */
-gdext_c_vec2 gdext_character_body2_d_get_real_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_character_body2_d_get_real_velocity(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody2D.get_floor_angle
  */
-double gdext_character_body2_d_get_floor_angle(gdext_c_object_t instance, gdext_c_vec2 up_direction);
+double gdext_character_body2_d_get_floor_angle(gdext_c_object_t instance, gdext_c_vector2_t up_direction);
 
 /**
  * @brief CharacterBody2D.get_platform_velocity
  */
-gdext_c_vec2 gdext_character_body2_d_get_platform_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_character_body2_d_get_platform_velocity(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody2D.get_slide_collision_count
@@ -11246,12 +11247,12 @@ void gdext_character_body3_d_apply_floor_snap(gdext_c_object_t instance);
 /**
  * @brief CharacterBody3D.set_velocity
  */
-void gdext_character_body3_d_set_velocity(gdext_c_object_t instance, gdext_c_vec3 velocity);
+void gdext_character_body3_d_set_velocity(gdext_c_object_t instance, gdext_c_vector3_t velocity);
 
 /**
  * @brief CharacterBody3D.get_velocity
  */
-gdext_c_vec3 gdext_character_body3_d_get_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_velocity(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.set_safe_margin
@@ -11366,12 +11367,12 @@ void gdext_character_body3_d_set_wall_min_slide_angle(gdext_c_object_t instance,
 /**
  * @brief CharacterBody3D.get_up_direction
  */
-gdext_c_vec3 gdext_character_body3_d_get_up_direction(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_up_direction(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.set_up_direction
  */
-void gdext_character_body3_d_set_up_direction(gdext_c_object_t instance, gdext_c_vec3 up_direction);
+void gdext_character_body3_d_set_up_direction(gdext_c_object_t instance, gdext_c_vector3_t up_direction);
 
 /**
  * @brief CharacterBody3D.set_motion_mode
@@ -11426,42 +11427,42 @@ GDExtensionBool gdext_character_body3_d_is_on_wall_only(gdext_c_object_t instanc
 /**
  * @brief CharacterBody3D.get_floor_normal
  */
-gdext_c_vec3 gdext_character_body3_d_get_floor_normal(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_floor_normal(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.get_wall_normal
  */
-gdext_c_vec3 gdext_character_body3_d_get_wall_normal(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_wall_normal(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.get_last_motion
  */
-gdext_c_vec3 gdext_character_body3_d_get_last_motion(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_last_motion(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.get_position_delta
  */
-gdext_c_vec3 gdext_character_body3_d_get_position_delta(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_position_delta(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.get_real_velocity
  */
-gdext_c_vec3 gdext_character_body3_d_get_real_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_real_velocity(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.get_floor_angle
  */
-double gdext_character_body3_d_get_floor_angle(gdext_c_object_t instance, gdext_c_vec3 up_direction);
+double gdext_character_body3_d_get_floor_angle(gdext_c_object_t instance, gdext_c_vector3_t up_direction);
 
 /**
  * @brief CharacterBody3D.get_platform_velocity
  */
-gdext_c_vec3 gdext_character_body3_d_get_platform_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_platform_velocity(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.get_platform_angular_velocity
  */
-gdext_c_vec3 gdext_character_body3_d_get_platform_angular_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_character_body3_d_get_platform_angular_velocity(gdext_c_object_t instance);
 
 /**
  * @brief CharacterBody3D.get_slide_collision_count
@@ -12051,12 +12052,12 @@ gdext_c_object_t gdext_code_edit_get_delimiter_end_key(gdext_c_object_t instance
 /**
  * @brief CodeEdit.get_delimiter_start_position
  */
-gdext_c_vec2 gdext_code_edit_get_delimiter_start_position(gdext_c_object_t instance, int64_t line, int64_t column);
+gdext_c_vector2_t gdext_code_edit_get_delimiter_start_position(gdext_c_object_t instance, int64_t line, int64_t column);
 
 /**
  * @brief CodeEdit.get_delimiter_end_position
  */
-gdext_c_vec2 gdext_code_edit_get_delimiter_end_position(gdext_c_object_t instance, int64_t line, int64_t column);
+gdext_c_vector2_t gdext_code_edit_get_delimiter_end_position(gdext_c_object_t instance, int64_t line, int64_t column);
 
 /**
  * @brief CodeEdit.set_code_hint
@@ -12081,7 +12082,7 @@ void gdext_code_edit_request_code_completion(gdext_c_object_t instance, GDExtens
 /**
  * @brief CodeEdit.add_code_completion_option
  */
-void gdext_code_edit_add_code_completion_option(gdext_c_object_t instance, int32_t type, gdext_c_object_t display_text, gdext_c_object_t insert_text, gdext_c_color text_color, gdext_c_object_t icon, gdext_c_object_t value, int64_t location);
+void gdext_code_edit_add_code_completion_option(gdext_c_object_t instance, int32_t type, gdext_c_object_t display_text, gdext_c_object_t insert_text, gdext_c_color_t text_color, gdext_c_object_t icon, gdext_c_object_t value, int64_t location);
 
 /**
  * @brief CodeEdit.update_code_completion_options
@@ -12216,7 +12217,7 @@ void gdext_code_edit_duplicate_lines(gdext_c_object_t instance);
 /**
  * @brief CodeHighlighter.add_keyword_color
  */
-void gdext_code_highlighter_add_keyword_color(gdext_c_object_t instance, gdext_c_object_t keyword, gdext_c_color color);
+void gdext_code_highlighter_add_keyword_color(gdext_c_object_t instance, gdext_c_object_t keyword, gdext_c_color_t color);
 
 /**
  * @brief CodeHighlighter.remove_keyword_color
@@ -12231,7 +12232,7 @@ GDExtensionBool gdext_code_highlighter_has_keyword_color(gdext_c_object_t instan
 /**
  * @brief CodeHighlighter.get_keyword_color
  */
-gdext_c_color gdext_code_highlighter_get_keyword_color(gdext_c_object_t instance, gdext_c_object_t keyword);
+gdext_c_color_t gdext_code_highlighter_get_keyword_color(gdext_c_object_t instance, gdext_c_object_t keyword);
 
 /**
  * @brief CodeHighlighter.set_keyword_colors
@@ -12251,7 +12252,7 @@ gdext_c_object_t gdext_code_highlighter_get_keyword_colors(gdext_c_object_t inst
 /**
  * @brief CodeHighlighter.add_member_keyword_color
  */
-void gdext_code_highlighter_add_member_keyword_color(gdext_c_object_t instance, gdext_c_object_t member_keyword, gdext_c_color color);
+void gdext_code_highlighter_add_member_keyword_color(gdext_c_object_t instance, gdext_c_object_t member_keyword, gdext_c_color_t color);
 
 /**
  * @brief CodeHighlighter.remove_member_keyword_color
@@ -12266,7 +12267,7 @@ GDExtensionBool gdext_code_highlighter_has_member_keyword_color(gdext_c_object_t
 /**
  * @brief CodeHighlighter.get_member_keyword_color
  */
-gdext_c_color gdext_code_highlighter_get_member_keyword_color(gdext_c_object_t instance, gdext_c_object_t member_keyword);
+gdext_c_color_t gdext_code_highlighter_get_member_keyword_color(gdext_c_object_t instance, gdext_c_object_t member_keyword);
 
 /**
  * @brief CodeHighlighter.set_member_keyword_colors
@@ -12286,7 +12287,7 @@ gdext_c_object_t gdext_code_highlighter_get_member_keyword_colors(gdext_c_object
 /**
  * @brief CodeHighlighter.add_color_region
  */
-void gdext_code_highlighter_add_color_region(gdext_c_object_t instance, gdext_c_object_t start_key, gdext_c_object_t end_key, gdext_c_color color, GDExtensionBool line_only);
+void gdext_code_highlighter_add_color_region(gdext_c_object_t instance, gdext_c_object_t start_key, gdext_c_object_t end_key, gdext_c_color_t color, GDExtensionBool line_only);
 
 /**
  * @brief CodeHighlighter.remove_color_region
@@ -12316,42 +12317,42 @@ gdext_c_object_t gdext_code_highlighter_get_color_regions(gdext_c_object_t insta
 /**
  * @brief CodeHighlighter.set_function_color
  */
-void gdext_code_highlighter_set_function_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_code_highlighter_set_function_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CodeHighlighter.get_function_color
  */
-gdext_c_color gdext_code_highlighter_get_function_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_code_highlighter_get_function_color(gdext_c_object_t instance);
 
 /**
  * @brief CodeHighlighter.set_number_color
  */
-void gdext_code_highlighter_set_number_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_code_highlighter_set_number_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CodeHighlighter.get_number_color
  */
-gdext_c_color gdext_code_highlighter_get_number_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_code_highlighter_get_number_color(gdext_c_object_t instance);
 
 /**
  * @brief CodeHighlighter.set_symbol_color
  */
-void gdext_code_highlighter_set_symbol_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_code_highlighter_set_symbol_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CodeHighlighter.get_symbol_color
  */
-gdext_c_color gdext_code_highlighter_get_symbol_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_code_highlighter_get_symbol_color(gdext_c_object_t instance);
 
 /**
  * @brief CodeHighlighter.set_member_variable_color
  */
-void gdext_code_highlighter_set_member_variable_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_code_highlighter_set_member_variable_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CodeHighlighter.get_member_variable_color
  */
-gdext_c_color gdext_code_highlighter_get_member_variable_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_code_highlighter_get_member_variable_color(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: CollisionObject2D
@@ -12786,12 +12787,12 @@ GDExtensionBool gdext_collision_polygon3_d_is_disabled(gdext_c_object_t instance
 /**
  * @brief CollisionPolygon3D.set_debug_color
  */
-void gdext_collision_polygon3_d_set_debug_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_collision_polygon3_d_set_debug_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CollisionPolygon3D.get_debug_color
  */
-gdext_c_color gdext_collision_polygon3_d_get_debug_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_collision_polygon3_d_get_debug_color(gdext_c_object_t instance);
 
 /**
  * @brief CollisionPolygon3D.set_enable_debug_fill
@@ -12861,12 +12862,12 @@ double gdext_collision_shape2_d_get_one_way_collision_margin(gdext_c_object_t in
 /**
  * @brief CollisionShape2D.set_debug_color
  */
-void gdext_collision_shape2_d_set_debug_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_collision_shape2_d_set_debug_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CollisionShape2D.get_debug_color
  */
-gdext_c_color gdext_collision_shape2_d_get_debug_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_collision_shape2_d_get_debug_color(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: CollisionShape3D
@@ -12906,12 +12907,12 @@ void gdext_collision_shape3_d_make_convex_from_siblings(gdext_c_object_t instanc
 /**
  * @brief CollisionShape3D.set_debug_color
  */
-void gdext_collision_shape3_d_set_debug_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_collision_shape3_d_set_debug_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief CollisionShape3D.get_debug_color
  */
-gdext_c_color gdext_collision_shape3_d_get_debug_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_collision_shape3_d_get_debug_color(gdext_c_object_t instance);
 
 /**
  * @brief CollisionShape3D.set_enable_debug_fill
@@ -12946,12 +12947,12 @@ gdext_c_object_t gdext_color_palette_get_colors(gdext_c_object_t instance);
 /**
  * @brief ColorPicker.set_pick_color
  */
-void gdext_color_picker_set_pick_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_color_picker_set_pick_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ColorPicker.get_pick_color
  */
-gdext_c_color gdext_color_picker_get_pick_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_color_picker_get_pick_color(gdext_c_object_t instance);
 
 /**
  * @brief ColorPicker.set_deferred_mode
@@ -13056,12 +13057,12 @@ GDExtensionBool gdext_color_picker_is_hex_visible(gdext_c_object_t instance);
 /**
  * @brief ColorPicker.add_preset
  */
-void gdext_color_picker_add_preset(gdext_c_object_t instance, gdext_c_color color);
+void gdext_color_picker_add_preset(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ColorPicker.erase_preset
  */
-void gdext_color_picker_erase_preset(gdext_c_object_t instance, gdext_c_color color);
+void gdext_color_picker_erase_preset(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ColorPicker.get_presets
@@ -13071,12 +13072,12 @@ gdext_c_object_t gdext_color_picker_get_presets(gdext_c_object_t instance);
 /**
  * @brief ColorPicker.add_recent_preset
  */
-void gdext_color_picker_add_recent_preset(gdext_c_object_t instance, gdext_c_color color);
+void gdext_color_picker_add_recent_preset(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ColorPicker.erase_recent_preset
  */
-void gdext_color_picker_erase_recent_preset(gdext_c_object_t instance, gdext_c_color color);
+void gdext_color_picker_erase_recent_preset(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ColorPicker.get_recent_presets
@@ -13101,12 +13102,12 @@ int32_t gdext_color_picker_get_picker_shape(gdext_c_object_t instance);
 /**
  * @brief ColorPickerButton.set_pick_color
  */
-void gdext_color_picker_button_set_pick_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_color_picker_button_set_pick_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ColorPickerButton.get_pick_color
  */
-gdext_c_color gdext_color_picker_button_get_pick_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_color_picker_button_get_pick_color(gdext_c_object_t instance);
 
 /**
  * @brief ColorPickerButton.get_picker
@@ -13146,12 +13147,12 @@ GDExtensionBool gdext_color_picker_button_is_editing_intensity(gdext_c_object_t 
 /**
  * @brief ColorRect.set_color
  */
-void gdext_color_rect_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_color_rect_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ColorRect.get_color
  */
-gdext_c_color gdext_color_rect_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_color_rect_get_color(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: Compositor
@@ -13481,12 +13482,12 @@ void gdext_control_accept_event(gdext_c_object_t instance);
 /**
  * @brief Control.get_minimum_size
  */
-gdext_c_vec2 gdext_control_get_minimum_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_minimum_size(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_combined_minimum_size
  */
-gdext_c_vec2 gdext_control_get_combined_minimum_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_combined_minimum_size(gdext_c_object_t instance);
 
 /**
  * @brief Control.set_anchors_preset
@@ -13531,22 +13532,22 @@ void gdext_control_set_anchor_and_offset(gdext_c_object_t instance, int32_t side
 /**
  * @brief Control.set_begin
  */
-void gdext_control_set_begin(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_control_set_begin(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Control.set_end
  */
-void gdext_control_set_end(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_control_set_end(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Control.set_position
  */
-void gdext_control_set_position(gdext_c_object_t instance, gdext_c_vec2 position, GDExtensionBool keep_offsets);
+void gdext_control_set_position(gdext_c_object_t instance, gdext_c_vector2_t position, GDExtensionBool keep_offsets);
 
 /**
  * @brief Control.set_size
  */
-void gdext_control_set_size(gdext_c_object_t instance, gdext_c_vec2 size, GDExtensionBool keep_offsets);
+void gdext_control_set_size(gdext_c_object_t instance, gdext_c_vector2_t size, GDExtensionBool keep_offsets);
 
 /**
  * @brief Control.reset_size
@@ -13556,12 +13557,12 @@ void gdext_control_reset_size(gdext_c_object_t instance);
 /**
  * @brief Control.set_custom_minimum_size
  */
-void gdext_control_set_custom_minimum_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_control_set_custom_minimum_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief Control.set_global_position
  */
-void gdext_control_set_global_position(gdext_c_object_t instance, gdext_c_vec2 position, GDExtensionBool keep_offsets);
+void gdext_control_set_global_position(gdext_c_object_t instance, gdext_c_vector2_t position, GDExtensionBool keep_offsets);
 
 /**
  * @brief Control.set_rotation
@@ -13576,32 +13577,32 @@ void gdext_control_set_rotation_degrees(gdext_c_object_t instance, double degree
 /**
  * @brief Control.set_scale
  */
-void gdext_control_set_scale(gdext_c_object_t instance, gdext_c_vec2 scale);
+void gdext_control_set_scale(gdext_c_object_t instance, gdext_c_vector2_t scale);
 
 /**
  * @brief Control.set_pivot_offset
  */
-void gdext_control_set_pivot_offset(gdext_c_object_t instance, gdext_c_vec2 pivot_offset);
+void gdext_control_set_pivot_offset(gdext_c_object_t instance, gdext_c_vector2_t pivot_offset);
 
 /**
  * @brief Control.get_begin
  */
-gdext_c_vec2 gdext_control_get_begin(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_begin(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_end
  */
-gdext_c_vec2 gdext_control_get_end(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_end(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_position
  */
-gdext_c_vec2 gdext_control_get_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_position(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_size
  */
-gdext_c_vec2 gdext_control_get_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_size(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_rotation
@@ -13616,32 +13617,32 @@ double gdext_control_get_rotation_degrees(gdext_c_object_t instance);
 /**
  * @brief Control.get_scale
  */
-gdext_c_vec2 gdext_control_get_scale(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_scale(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_pivot_offset
  */
-gdext_c_vec2 gdext_control_get_pivot_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_pivot_offset(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_custom_minimum_size
  */
-gdext_c_vec2 gdext_control_get_custom_minimum_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_custom_minimum_size(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_parent_area_size
  */
-gdext_c_vec2 gdext_control_get_parent_area_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_parent_area_size(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_global_position
  */
-gdext_c_vec2 gdext_control_get_global_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_global_position(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_screen_position
  */
-gdext_c_vec2 gdext_control_get_screen_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_control_get_screen_position(gdext_c_object_t instance);
 
 /**
  * @brief Control.get_rect
@@ -13791,7 +13792,7 @@ void gdext_control_add_theme_font_size_override(gdext_c_object_t instance, gdext
 /**
  * @brief Control.add_theme_color_override
  */
-void gdext_control_add_theme_color_override(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color color);
+void gdext_control_add_theme_color_override(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color_t color);
 
 /**
  * @brief Control.add_theme_constant_override
@@ -13851,7 +13852,7 @@ int64_t gdext_control_get_theme_font_size(gdext_c_object_t instance, gdext_c_obj
 /**
  * @brief Control.get_theme_color
  */
-gdext_c_color gdext_control_get_theme_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t theme_type);
+gdext_c_color_t gdext_control_get_theme_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t theme_type);
 
 /**
  * @brief Control.get_theme_constant
@@ -13981,7 +13982,7 @@ gdext_c_object_t gdext_control_get_tooltip_text(gdext_c_object_t instance);
 /**
  * @brief Control.get_tooltip
  */
-gdext_c_object_t gdext_control_get_tooltip(gdext_c_object_t instance, gdext_c_vec2 at_position);
+gdext_c_object_t gdext_control_get_tooltip(gdext_c_object_t instance, gdext_c_vector2_t at_position);
 
 /**
  * @brief Control.set_default_cursor_shape
@@ -13996,7 +13997,7 @@ int32_t gdext_control_get_default_cursor_shape(gdext_c_object_t instance);
 /**
  * @brief Control.get_cursor_shape
  */
-int32_t gdext_control_get_cursor_shape(gdext_c_object_t instance, gdext_c_vec2 position);
+int32_t gdext_control_get_cursor_shape(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Control.set_focus_neighbor
@@ -14181,7 +14182,7 @@ GDExtensionBool gdext_control_is_drag_successful(gdext_c_object_t instance);
 /**
  * @brief Control.warp_mouse
  */
-void gdext_control_warp_mouse(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_control_warp_mouse(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Control.set_shortcut_context
@@ -14636,7 +14637,7 @@ void gdext_curve_set_point_count(gdext_c_object_t instance, int64_t count);
 /**
  * @brief Curve.add_point
  */
-int64_t gdext_curve_add_point(gdext_c_object_t instance, gdext_c_vec2 position, double left_tangent, double right_tangent, int32_t left_mode, int32_t right_mode);
+int64_t gdext_curve_add_point(gdext_c_object_t instance, gdext_c_vector2_t position, double left_tangent, double right_tangent, int32_t left_mode, int32_t right_mode);
 
 /**
  * @brief Curve.remove_point
@@ -14651,7 +14652,7 @@ void gdext_curve_clear_points(gdext_c_object_t instance);
 /**
  * @brief Curve.get_point_position
  */
-gdext_c_vec2 gdext_curve_get_point_position(gdext_c_object_t instance, int64_t index);
+gdext_c_vector2_t gdext_curve_get_point_position(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief Curve.set_point_value
@@ -14801,37 +14802,37 @@ void gdext_curve2_d_set_point_count(gdext_c_object_t instance, int64_t count);
 /**
  * @brief Curve2D.add_point
  */
-void gdext_curve2_d_add_point(gdext_c_object_t instance, gdext_c_vec2 position, gdext_c_vec2 in, gdext_c_vec2 out, int64_t index);
+void gdext_curve2_d_add_point(gdext_c_object_t instance, gdext_c_vector2_t position, gdext_c_vector2_t in, gdext_c_vector2_t out, int64_t index);
 
 /**
  * @brief Curve2D.set_point_position
  */
-void gdext_curve2_d_set_point_position(gdext_c_object_t instance, int64_t idx, gdext_c_vec2 position);
+void gdext_curve2_d_set_point_position(gdext_c_object_t instance, int64_t idx, gdext_c_vector2_t position);
 
 /**
  * @brief Curve2D.get_point_position
  */
-gdext_c_vec2 gdext_curve2_d_get_point_position(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector2_t gdext_curve2_d_get_point_position(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief Curve2D.set_point_in
  */
-void gdext_curve2_d_set_point_in(gdext_c_object_t instance, int64_t idx, gdext_c_vec2 position);
+void gdext_curve2_d_set_point_in(gdext_c_object_t instance, int64_t idx, gdext_c_vector2_t position);
 
 /**
  * @brief Curve2D.get_point_in
  */
-gdext_c_vec2 gdext_curve2_d_get_point_in(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector2_t gdext_curve2_d_get_point_in(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief Curve2D.set_point_out
  */
-void gdext_curve2_d_set_point_out(gdext_c_object_t instance, int64_t idx, gdext_c_vec2 position);
+void gdext_curve2_d_set_point_out(gdext_c_object_t instance, int64_t idx, gdext_c_vector2_t position);
 
 /**
  * @brief Curve2D.get_point_out
  */
-gdext_c_vec2 gdext_curve2_d_get_point_out(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector2_t gdext_curve2_d_get_point_out(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief Curve2D.remove_point
@@ -14846,12 +14847,12 @@ void gdext_curve2_d_clear_points(gdext_c_object_t instance);
 /**
  * @brief Curve2D.sample
  */
-gdext_c_vec2 gdext_curve2_d_sample(gdext_c_object_t instance, int64_t idx, double t);
+gdext_c_vector2_t gdext_curve2_d_sample(gdext_c_object_t instance, int64_t idx, double t);
 
 /**
  * @brief Curve2D.samplef
  */
-gdext_c_vec2 gdext_curve2_d_samplef(gdext_c_object_t instance, double fofs);
+gdext_c_vector2_t gdext_curve2_d_samplef(gdext_c_object_t instance, double fofs);
 
 /**
  * @brief Curve2D.set_bake_interval
@@ -14871,7 +14872,7 @@ double gdext_curve2_d_get_baked_length(gdext_c_object_t instance);
 /**
  * @brief Curve2D.sample_baked
  */
-gdext_c_vec2 gdext_curve2_d_sample_baked(gdext_c_object_t instance, double offset, GDExtensionBool cubic);
+gdext_c_vector2_t gdext_curve2_d_sample_baked(gdext_c_object_t instance, double offset, GDExtensionBool cubic);
 
 /**
  * @brief Curve2D.sample_baked_with_rotation
@@ -14886,12 +14887,12 @@ gdext_c_object_t gdext_curve2_d_get_baked_points(gdext_c_object_t instance);
 /**
  * @brief Curve2D.get_closest_point
  */
-gdext_c_vec2 gdext_curve2_d_get_closest_point(gdext_c_object_t instance, gdext_c_vec2 to_point);
+gdext_c_vector2_t gdext_curve2_d_get_closest_point(gdext_c_object_t instance, gdext_c_vector2_t to_point);
 
 /**
  * @brief Curve2D.get_closest_offset
  */
-double gdext_curve2_d_get_closest_offset(gdext_c_object_t instance, gdext_c_vec2 to_point);
+double gdext_curve2_d_get_closest_offset(gdext_c_object_t instance, gdext_c_vector2_t to_point);
 
 /**
  * @brief Curve2D.tessellate
@@ -14921,17 +14922,17 @@ void gdext_curve3_d_set_point_count(gdext_c_object_t instance, int64_t count);
 /**
  * @brief Curve3D.add_point
  */
-void gdext_curve3_d_add_point(gdext_c_object_t instance, gdext_c_vec3 position, gdext_c_vec3 in, gdext_c_vec3 out, int64_t index);
+void gdext_curve3_d_add_point(gdext_c_object_t instance, gdext_c_vector3_t position, gdext_c_vector3_t in, gdext_c_vector3_t out, int64_t index);
 
 /**
  * @brief Curve3D.set_point_position
  */
-void gdext_curve3_d_set_point_position(gdext_c_object_t instance, int64_t idx, gdext_c_vec3 position);
+void gdext_curve3_d_set_point_position(gdext_c_object_t instance, int64_t idx, gdext_c_vector3_t position);
 
 /**
  * @brief Curve3D.get_point_position
  */
-gdext_c_vec3 gdext_curve3_d_get_point_position(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector3_t gdext_curve3_d_get_point_position(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief Curve3D.set_point_tilt
@@ -14946,22 +14947,22 @@ double gdext_curve3_d_get_point_tilt(gdext_c_object_t instance, int64_t idx);
 /**
  * @brief Curve3D.set_point_in
  */
-void gdext_curve3_d_set_point_in(gdext_c_object_t instance, int64_t idx, gdext_c_vec3 position);
+void gdext_curve3_d_set_point_in(gdext_c_object_t instance, int64_t idx, gdext_c_vector3_t position);
 
 /**
  * @brief Curve3D.get_point_in
  */
-gdext_c_vec3 gdext_curve3_d_get_point_in(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector3_t gdext_curve3_d_get_point_in(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief Curve3D.set_point_out
  */
-void gdext_curve3_d_set_point_out(gdext_c_object_t instance, int64_t idx, gdext_c_vec3 position);
+void gdext_curve3_d_set_point_out(gdext_c_object_t instance, int64_t idx, gdext_c_vector3_t position);
 
 /**
  * @brief Curve3D.get_point_out
  */
-gdext_c_vec3 gdext_curve3_d_get_point_out(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector3_t gdext_curve3_d_get_point_out(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief Curve3D.remove_point
@@ -14976,12 +14977,12 @@ void gdext_curve3_d_clear_points(gdext_c_object_t instance);
 /**
  * @brief Curve3D.sample
  */
-gdext_c_vec3 gdext_curve3_d_sample(gdext_c_object_t instance, int64_t idx, double t);
+gdext_c_vector3_t gdext_curve3_d_sample(gdext_c_object_t instance, int64_t idx, double t);
 
 /**
  * @brief Curve3D.samplef
  */
-gdext_c_vec3 gdext_curve3_d_samplef(gdext_c_object_t instance, double fofs);
+gdext_c_vector3_t gdext_curve3_d_samplef(gdext_c_object_t instance, double fofs);
 
 /**
  * @brief Curve3D.set_closed
@@ -15021,7 +15022,7 @@ double gdext_curve3_d_get_baked_length(gdext_c_object_t instance);
 /**
  * @brief Curve3D.sample_baked
  */
-gdext_c_vec3 gdext_curve3_d_sample_baked(gdext_c_object_t instance, double offset, GDExtensionBool cubic);
+gdext_c_vector3_t gdext_curve3_d_sample_baked(gdext_c_object_t instance, double offset, GDExtensionBool cubic);
 
 /**
  * @brief Curve3D.sample_baked_with_rotation
@@ -15031,7 +15032,7 @@ gdext_c_object_t gdext_curve3_d_sample_baked_with_rotation(gdext_c_object_t inst
 /**
  * @brief Curve3D.sample_baked_up_vector
  */
-gdext_c_vec3 gdext_curve3_d_sample_baked_up_vector(gdext_c_object_t instance, double offset, GDExtensionBool apply_tilt);
+gdext_c_vector3_t gdext_curve3_d_sample_baked_up_vector(gdext_c_object_t instance, double offset, GDExtensionBool apply_tilt);
 
 /**
  * @brief Curve3D.get_baked_points
@@ -15051,12 +15052,12 @@ gdext_c_object_t gdext_curve3_d_get_baked_up_vectors(gdext_c_object_t instance);
 /**
  * @brief Curve3D.get_closest_point
  */
-gdext_c_vec3 gdext_curve3_d_get_closest_point(gdext_c_object_t instance, gdext_c_vec3 to_point);
+gdext_c_vector3_t gdext_curve3_d_get_closest_point(gdext_c_object_t instance, gdext_c_vector3_t to_point);
 
 /**
  * @brief Curve3D.get_closest_offset
  */
-double gdext_curve3_d_get_closest_offset(gdext_c_object_t instance, gdext_c_vec3 to_point);
+double gdext_curve3_d_get_closest_offset(gdext_c_object_t instance, gdext_c_vector3_t to_point);
 
 /**
  * @brief Curve3D.tessellate
@@ -15367,12 +15368,12 @@ double gdext_damped_spring_joint2_d_get_damping(gdext_c_object_t instance);
 /**
  * @brief Decal.set_size
  */
-void gdext_decal_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_decal_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief Decal.get_size
  */
-gdext_c_vec3 gdext_decal_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_decal_get_size(gdext_c_object_t instance);
 
 /**
  * @brief Decal.set_texture
@@ -15407,12 +15408,12 @@ double gdext_decal_get_albedo_mix(gdext_c_object_t instance);
 /**
  * @brief Decal.set_modulate
  */
-void gdext_decal_set_modulate(gdext_c_object_t instance, gdext_c_color color);
+void gdext_decal_set_modulate(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Decal.get_modulate
  */
-gdext_c_color gdext_decal_get_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_decal_get_modulate(gdext_c_object_t instance);
 
 /**
  * @brief Decal.set_upper_fade
@@ -16080,12 +16081,12 @@ GDExtensionBool gdext_display_server_is_dark_mode(gdext_c_object_t instance);
 /**
  * @brief DisplayServer.get_accent_color
  */
-gdext_c_color gdext_display_server_get_accent_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_display_server_get_accent_color(gdext_c_object_t instance);
 
 /**
  * @brief DisplayServer.get_base_color
  */
-gdext_c_color gdext_display_server_get_base_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_display_server_get_base_color(gdext_c_object_t instance);
 
 /**
  * @brief DisplayServer.set_system_theme_change_callback
@@ -16225,7 +16226,7 @@ double gdext_display_server_screen_get_refresh_rate(gdext_c_object_t instance, i
 /**
  * @brief DisplayServer.screen_get_pixel
  */
-gdext_c_color gdext_display_server_screen_get_pixel(gdext_c_object_t instance, gdext_c_object_t position);
+gdext_c_color_t gdext_display_server_screen_get_pixel(gdext_c_object_t instance, gdext_c_object_t position);
 
 /**
  * @brief DisplayServer.screen_get_image
@@ -16865,17 +16866,17 @@ void gdext_display_server_accessibility_update_set_state_description(gdext_c_obj
 /**
  * @brief DisplayServer.accessibility_update_set_color_value
  */
-void gdext_display_server_accessibility_update_set_color_value(gdext_c_object_t instance, gdext_c_object_t id, gdext_c_color color);
+void gdext_display_server_accessibility_update_set_color_value(gdext_c_object_t instance, gdext_c_object_t id, gdext_c_color_t color);
 
 /**
  * @brief DisplayServer.accessibility_update_set_background_color
  */
-void gdext_display_server_accessibility_update_set_background_color(gdext_c_object_t instance, gdext_c_object_t id, gdext_c_color color);
+void gdext_display_server_accessibility_update_set_background_color(gdext_c_object_t instance, gdext_c_object_t id, gdext_c_color_t color);
 
 /**
  * @brief DisplayServer.accessibility_update_set_foreground_color
  */
-void gdext_display_server_accessibility_update_set_foreground_color(gdext_c_object_t instance, gdext_c_object_t id, gdext_c_color color);
+void gdext_display_server_accessibility_update_set_foreground_color(gdext_c_object_t instance, gdext_c_object_t id, gdext_c_color_t color);
 
 /**
  * @brief DisplayServer.ime_get_selection
@@ -16925,7 +16926,7 @@ int32_t gdext_display_server_cursor_get_shape(gdext_c_object_t instance);
 /**
  * @brief DisplayServer.cursor_set_custom_image
  */
-void gdext_display_server_cursor_set_custom_image(gdext_c_object_t instance, gdext_c_object_t cursor, int32_t shape, gdext_c_vec2 hotspot);
+void gdext_display_server_cursor_set_custom_image(gdext_c_object_t instance, gdext_c_object_t cursor, int32_t shape, gdext_c_vector2_t hotspot);
 
 /**
  * @brief DisplayServer.get_swap_cancel_ok
@@ -18587,7 +18588,7 @@ GDExtensionBool gdext_editor_interface_is_movie_maker_enabled(gdext_c_object_t i
 /**
  * @brief EditorNode3DGizmo.add_lines
  */
-void gdext_editor_node3_d_gizmo_add_lines(gdext_c_object_t instance, gdext_c_object_t lines, gdext_c_object_t material, GDExtensionBool billboard, gdext_c_color modulate);
+void gdext_editor_node3_d_gizmo_add_lines(gdext_c_object_t instance, gdext_c_object_t lines, gdext_c_object_t material, GDExtensionBool billboard, gdext_c_color_t modulate);
 
 /**
  * @brief EditorNode3DGizmo.add_mesh
@@ -18607,7 +18608,7 @@ void gdext_editor_node3_d_gizmo_add_collision_triangles(gdext_c_object_t instanc
 /**
  * @brief EditorNode3DGizmo.add_unscaled_billboard
  */
-void gdext_editor_node3_d_gizmo_add_unscaled_billboard(gdext_c_object_t instance, gdext_c_object_t material, double default_scale, gdext_c_color modulate);
+void gdext_editor_node3_d_gizmo_add_unscaled_billboard(gdext_c_object_t instance, gdext_c_object_t material, double default_scale, gdext_c_color_t modulate);
 
 /**
  * @brief EditorNode3DGizmo.add_handles
@@ -18657,12 +18658,12 @@ gdext_c_object_t gdext_editor_node3_d_gizmo_get_subgizmo_selection(gdext_c_objec
 /**
  * @brief EditorNode3DGizmoPlugin.create_material
  */
-void gdext_editor_node3_d_gizmo_plugin_create_material(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color color, GDExtensionBool billboard, GDExtensionBool on_top, GDExtensionBool use_vertex_color);
+void gdext_editor_node3_d_gizmo_plugin_create_material(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color_t color, GDExtensionBool billboard, GDExtensionBool on_top, GDExtensionBool use_vertex_color);
 
 /**
  * @brief EditorNode3DGizmoPlugin.create_icon_material
  */
-void gdext_editor_node3_d_gizmo_plugin_create_icon_material(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t texture, GDExtensionBool on_top, gdext_c_color color);
+void gdext_editor_node3_d_gizmo_plugin_create_icon_material(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t texture, GDExtensionBool on_top, gdext_c_color_t color);
 
 /**
  * @brief EditorNode3DGizmoPlugin.create_handle_material
@@ -20012,22 +20013,22 @@ double gdext_environment_get_sky_custom_fov(gdext_c_object_t instance);
 /**
  * @brief Environment.set_sky_rotation
  */
-void gdext_environment_set_sky_rotation(gdext_c_object_t instance, gdext_c_vec3 euler_radians);
+void gdext_environment_set_sky_rotation(gdext_c_object_t instance, gdext_c_vector3_t euler_radians);
 
 /**
  * @brief Environment.get_sky_rotation
  */
-gdext_c_vec3 gdext_environment_get_sky_rotation(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_environment_get_sky_rotation(gdext_c_object_t instance);
 
 /**
  * @brief Environment.set_bg_color
  */
-void gdext_environment_set_bg_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_environment_set_bg_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Environment.get_bg_color
  */
-gdext_c_color gdext_environment_get_bg_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_environment_get_bg_color(gdext_c_object_t instance);
 
 /**
  * @brief Environment.set_bg_energy_multiplier
@@ -20072,12 +20073,12 @@ int64_t gdext_environment_get_camera_feed_id(gdext_c_object_t instance);
 /**
  * @brief Environment.set_ambient_light_color
  */
-void gdext_environment_set_ambient_light_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_environment_set_ambient_light_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Environment.get_ambient_light_color
  */
-gdext_c_color gdext_environment_get_ambient_light_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_environment_get_ambient_light_color(gdext_c_object_t instance);
 
 /**
  * @brief Environment.set_ambient_source
@@ -20612,12 +20613,12 @@ int32_t gdext_environment_get_fog_mode(gdext_c_object_t instance);
 /**
  * @brief Environment.set_fog_light_color
  */
-void gdext_environment_set_fog_light_color(gdext_c_object_t instance, gdext_c_color light_color);
+void gdext_environment_set_fog_light_color(gdext_c_object_t instance, gdext_c_color_t light_color);
 
 /**
  * @brief Environment.get_fog_light_color
  */
-gdext_c_color gdext_environment_get_fog_light_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_environment_get_fog_light_color(gdext_c_object_t instance);
 
 /**
  * @brief Environment.set_fog_light_energy
@@ -20732,22 +20733,22 @@ GDExtensionBool gdext_environment_is_volumetric_fog_enabled(gdext_c_object_t ins
 /**
  * @brief Environment.set_volumetric_fog_emission
  */
-void gdext_environment_set_volumetric_fog_emission(gdext_c_object_t instance, gdext_c_color color);
+void gdext_environment_set_volumetric_fog_emission(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Environment.get_volumetric_fog_emission
  */
-gdext_c_color gdext_environment_get_volumetric_fog_emission(gdext_c_object_t instance);
+gdext_c_color_t gdext_environment_get_volumetric_fog_emission(gdext_c_object_t instance);
 
 /**
  * @brief Environment.set_volumetric_fog_albedo
  */
-void gdext_environment_set_volumetric_fog_albedo(gdext_c_object_t instance, gdext_c_color color);
+void gdext_environment_set_volumetric_fog_albedo(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Environment.get_volumetric_fog_albedo
  */
-gdext_c_color gdext_environment_get_volumetric_fog_albedo(gdext_c_object_t instance);
+gdext_c_color_t gdext_environment_get_volumetric_fog_albedo(gdext_c_object_t instance);
 
 /**
  * @brief Environment.set_volumetric_fog_density
@@ -20932,7 +20933,7 @@ gdext_c_object_t gdext_expression_get_error_text(gdext_c_object_t instance);
 /**
  * @brief ExternalTexture.set_size
  */
-void gdext_external_texture_set_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_external_texture_set_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief ExternalTexture.get_external_texture_id
@@ -20997,12 +20998,12 @@ double gdext_fast_noise_lite_get_frequency(gdext_c_object_t instance);
 /**
  * @brief FastNoiseLite.set_offset
  */
-void gdext_fast_noise_lite_set_offset(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_fast_noise_lite_set_offset(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief FastNoiseLite.get_offset
  */
-gdext_c_vec3 gdext_fast_noise_lite_get_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_fast_noise_lite_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief FastNoiseLite.set_fractal_type
@@ -21817,22 +21818,22 @@ double gdext_fog_material_get_density(gdext_c_object_t instance);
 /**
  * @brief FogMaterial.set_albedo
  */
-void gdext_fog_material_set_albedo(gdext_c_object_t instance, gdext_c_color albedo);
+void gdext_fog_material_set_albedo(gdext_c_object_t instance, gdext_c_color_t albedo);
 
 /**
  * @brief FogMaterial.get_albedo
  */
-gdext_c_color gdext_fog_material_get_albedo(gdext_c_object_t instance);
+gdext_c_color_t gdext_fog_material_get_albedo(gdext_c_object_t instance);
 
 /**
  * @brief FogMaterial.set_emission
  */
-void gdext_fog_material_set_emission(gdext_c_object_t instance, gdext_c_color emission);
+void gdext_fog_material_set_emission(gdext_c_object_t instance, gdext_c_color_t emission);
 
 /**
  * @brief FogMaterial.get_emission
  */
-gdext_c_color gdext_fog_material_get_emission(gdext_c_object_t instance);
+gdext_c_color_t gdext_fog_material_get_emission(gdext_c_object_t instance);
 
 /**
  * @brief FogMaterial.set_height_falloff
@@ -21872,12 +21873,12 @@ gdext_c_object_t gdext_fog_material_get_density_texture(gdext_c_object_t instanc
 /**
  * @brief FogVolume.set_size
  */
-void gdext_fog_volume_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_fog_volume_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief FogVolume.get_size
  */
-gdext_c_vec3 gdext_fog_volume_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_fog_volume_get_size(gdext_c_object_t instance);
 
 /**
  * @brief FogVolume.set_shape
@@ -22127,47 +22128,47 @@ void gdext_font_set_cache_capacity(gdext_c_object_t instance, int64_t single_lin
 /**
  * @brief Font.get_string_size
  */
-gdext_c_vec2 gdext_font_get_string_size(gdext_c_object_t instance, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation);
+gdext_c_vector2_t gdext_font_get_string_size(gdext_c_object_t instance, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation);
 
 /**
  * @brief Font.get_multiline_string_size
  */
-gdext_c_vec2 gdext_font_get_multiline_string_size(gdext_c_object_t instance, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation);
+gdext_c_vector2_t gdext_font_get_multiline_string_size(gdext_c_object_t instance, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation);
 
 /**
  * @brief Font.draw_string
  */
-void gdext_font_draw_string(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, gdext_c_color modulate, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
+void gdext_font_draw_string(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vector2_t pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, gdext_c_color_t modulate, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
 
 /**
  * @brief Font.draw_multiline_string
  */
-void gdext_font_draw_multiline_string(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, gdext_c_color modulate, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
+void gdext_font_draw_multiline_string(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vector2_t pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, gdext_c_color_t modulate, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
 
 /**
  * @brief Font.draw_string_outline
  */
-void gdext_font_draw_string_outline(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t size, gdext_c_color modulate, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
+void gdext_font_draw_string_outline(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vector2_t pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t size, gdext_c_color_t modulate, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
 
 /**
  * @brief Font.draw_multiline_string_outline
  */
-void gdext_font_draw_multiline_string_outline(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, int64_t size, gdext_c_color modulate, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
+void gdext_font_draw_multiline_string_outline(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vector2_t pos, gdext_c_object_t text, int32_t alignment, double width, int64_t font_size, int64_t max_lines, int64_t size, gdext_c_color_t modulate, gdext_c_object_t brk_flags, gdext_c_object_t justification_flags, int32_t direction, int32_t orientation, double oversampling);
 
 /**
  * @brief Font.get_char_size
  */
-gdext_c_vec2 gdext_font_get_char_size(gdext_c_object_t instance, int64_t char_value, int64_t font_size);
+gdext_c_vector2_t gdext_font_get_char_size(gdext_c_object_t instance, int64_t char_value, int64_t font_size);
 
 /**
  * @brief Font.draw_char
  */
-double gdext_font_draw_char(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, int64_t char_value, int64_t font_size, gdext_c_color modulate, double oversampling);
+double gdext_font_draw_char(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vector2_t pos, int64_t char_value, int64_t font_size, gdext_c_color_t modulate, double oversampling);
 
 /**
  * @brief Font.draw_char_outline
  */
-double gdext_font_draw_char_outline(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 pos, int64_t char_value, int64_t font_size, int64_t size, gdext_c_color modulate, double oversampling);
+double gdext_font_draw_char_outline(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vector2_t pos, int64_t char_value, int64_t font_size, int64_t size, gdext_c_color_t modulate, double oversampling);
 
 /**
  * @brief Font.has_char
@@ -22597,32 +22598,32 @@ void gdext_font_file_remove_glyph(gdext_c_object_t instance, int64_t cache_index
 /**
  * @brief FontFile.set_glyph_advance
  */
-void gdext_font_file_set_glyph_advance(gdext_c_object_t instance, int64_t cache_index, int64_t size, int64_t glyph, gdext_c_vec2 advance);
+void gdext_font_file_set_glyph_advance(gdext_c_object_t instance, int64_t cache_index, int64_t size, int64_t glyph, gdext_c_vector2_t advance);
 
 /**
  * @brief FontFile.get_glyph_advance
  */
-gdext_c_vec2 gdext_font_file_get_glyph_advance(gdext_c_object_t instance, int64_t cache_index, int64_t size, int64_t glyph);
+gdext_c_vector2_t gdext_font_file_get_glyph_advance(gdext_c_object_t instance, int64_t cache_index, int64_t size, int64_t glyph);
 
 /**
  * @brief FontFile.set_glyph_offset
  */
-void gdext_font_file_set_glyph_offset(gdext_c_object_t instance, int64_t cache_index, gdext_c_object_t size, int64_t glyph, gdext_c_vec2 offset);
+void gdext_font_file_set_glyph_offset(gdext_c_object_t instance, int64_t cache_index, gdext_c_object_t size, int64_t glyph, gdext_c_vector2_t offset);
 
 /**
  * @brief FontFile.get_glyph_offset
  */
-gdext_c_vec2 gdext_font_file_get_glyph_offset(gdext_c_object_t instance, int64_t cache_index, gdext_c_object_t size, int64_t glyph);
+gdext_c_vector2_t gdext_font_file_get_glyph_offset(gdext_c_object_t instance, int64_t cache_index, gdext_c_object_t size, int64_t glyph);
 
 /**
  * @brief FontFile.set_glyph_size
  */
-void gdext_font_file_set_glyph_size(gdext_c_object_t instance, int64_t cache_index, gdext_c_object_t size, int64_t glyph, gdext_c_vec2 gl_size);
+void gdext_font_file_set_glyph_size(gdext_c_object_t instance, int64_t cache_index, gdext_c_object_t size, int64_t glyph, gdext_c_vector2_t gl_size);
 
 /**
  * @brief FontFile.get_glyph_size
  */
-gdext_c_vec2 gdext_font_file_get_glyph_size(gdext_c_object_t instance, int64_t cache_index, gdext_c_object_t size, int64_t glyph);
+gdext_c_vector2_t gdext_font_file_get_glyph_size(gdext_c_object_t instance, int64_t cache_index, gdext_c_object_t size, int64_t glyph);
 
 /**
  * @brief FontFile.set_glyph_uv_rect
@@ -22662,12 +22663,12 @@ void gdext_font_file_remove_kerning(gdext_c_object_t instance, int64_t cache_ind
 /**
  * @brief FontFile.set_kerning
  */
-void gdext_font_file_set_kerning(gdext_c_object_t instance, int64_t cache_index, int64_t size, gdext_c_object_t glyph_pair, gdext_c_vec2 kerning);
+void gdext_font_file_set_kerning(gdext_c_object_t instance, int64_t cache_index, int64_t size, gdext_c_object_t glyph_pair, gdext_c_vector2_t kerning);
 
 /**
  * @brief FontFile.get_kerning
  */
-gdext_c_vec2 gdext_font_file_get_kerning(gdext_c_object_t instance, int64_t cache_index, int64_t size, gdext_c_object_t glyph_pair);
+gdext_c_vector2_t gdext_font_file_get_kerning(gdext_c_object_t instance, int64_t cache_index, int64_t size, gdext_c_object_t glyph_pair);
 
 /**
  * @brief FontFile.render_range
@@ -23377,12 +23378,12 @@ gdext_c_object_t gdext_g_l_t_f_light_to_dictionary(gdext_c_object_t instance);
 /**
  * @brief GLTFLight.get_color
  */
-gdext_c_color gdext_g_l_t_f_light_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_g_l_t_f_light_get_color(gdext_c_object_t instance);
 
 /**
  * @brief GLTFLight.set_color
  */
-void gdext_g_l_t_f_light_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_g_l_t_f_light_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief GLTFLight.get_intensity
@@ -23587,12 +23588,12 @@ void gdext_g_l_t_f_node_set_skeleton(gdext_c_object_t instance, int64_t skeleton
 /**
  * @brief GLTFNode.get_position
  */
-gdext_c_vec3 gdext_g_l_t_f_node_get_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_l_t_f_node_get_position(gdext_c_object_t instance);
 
 /**
  * @brief GLTFNode.set_position
  */
-void gdext_g_l_t_f_node_set_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_g_l_t_f_node_set_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief GLTFNode.get_rotation
@@ -23607,12 +23608,12 @@ void gdext_g_l_t_f_node_set_rotation(gdext_c_object_t instance, gdext_c_object_t
 /**
  * @brief GLTFNode.get_scale
  */
-gdext_c_vec3 gdext_g_l_t_f_node_get_scale(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_l_t_f_node_get_scale(gdext_c_object_t instance);
 
 /**
  * @brief GLTFNode.set_scale
  */
-void gdext_g_l_t_f_node_set_scale(gdext_c_object_t instance, gdext_c_vec3 scale);
+void gdext_g_l_t_f_node_set_scale(gdext_c_object_t instance, gdext_c_vector3_t scale);
 
 /**
  * @brief GLTFNode.get_children
@@ -23809,42 +23810,42 @@ void gdext_g_l_t_f_physics_body_set_mass(gdext_c_object_t instance, double mass)
 /**
  * @brief GLTFPhysicsBody.get_linear_velocity
  */
-gdext_c_vec3 gdext_g_l_t_f_physics_body_get_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_l_t_f_physics_body_get_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief GLTFPhysicsBody.set_linear_velocity
  */
-void gdext_g_l_t_f_physics_body_set_linear_velocity(gdext_c_object_t instance, gdext_c_vec3 linear_velocity);
+void gdext_g_l_t_f_physics_body_set_linear_velocity(gdext_c_object_t instance, gdext_c_vector3_t linear_velocity);
 
 /**
  * @brief GLTFPhysicsBody.get_angular_velocity
  */
-gdext_c_vec3 gdext_g_l_t_f_physics_body_get_angular_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_l_t_f_physics_body_get_angular_velocity(gdext_c_object_t instance);
 
 /**
  * @brief GLTFPhysicsBody.set_angular_velocity
  */
-void gdext_g_l_t_f_physics_body_set_angular_velocity(gdext_c_object_t instance, gdext_c_vec3 angular_velocity);
+void gdext_g_l_t_f_physics_body_set_angular_velocity(gdext_c_object_t instance, gdext_c_vector3_t angular_velocity);
 
 /**
  * @brief GLTFPhysicsBody.get_center_of_mass
  */
-gdext_c_vec3 gdext_g_l_t_f_physics_body_get_center_of_mass(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_l_t_f_physics_body_get_center_of_mass(gdext_c_object_t instance);
 
 /**
  * @brief GLTFPhysicsBody.set_center_of_mass
  */
-void gdext_g_l_t_f_physics_body_set_center_of_mass(gdext_c_object_t instance, gdext_c_vec3 center_of_mass);
+void gdext_g_l_t_f_physics_body_set_center_of_mass(gdext_c_object_t instance, gdext_c_vector3_t center_of_mass);
 
 /**
  * @brief GLTFPhysicsBody.get_inertia_diagonal
  */
-gdext_c_vec3 gdext_g_l_t_f_physics_body_get_inertia_diagonal(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_l_t_f_physics_body_get_inertia_diagonal(gdext_c_object_t instance);
 
 /**
  * @brief GLTFPhysicsBody.set_inertia_diagonal
  */
-void gdext_g_l_t_f_physics_body_set_inertia_diagonal(gdext_c_object_t instance, gdext_c_vec3 inertia_diagonal);
+void gdext_g_l_t_f_physics_body_set_inertia_diagonal(gdext_c_object_t instance, gdext_c_vector3_t inertia_diagonal);
 
 /**
  * @brief GLTFPhysicsBody.get_inertia_orientation
@@ -23917,12 +23918,12 @@ void gdext_g_l_t_f_physics_shape_set_shape_type(gdext_c_object_t instance, gdext
 /**
  * @brief GLTFPhysicsShape.get_size
  */
-gdext_c_vec3 gdext_g_l_t_f_physics_shape_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_l_t_f_physics_shape_get_size(gdext_c_object_t instance);
 
 /**
  * @brief GLTFPhysicsShape.set_size
  */
-void gdext_g_l_t_f_physics_shape_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_g_l_t_f_physics_shape_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief GLTFPhysicsShape.get_radius
@@ -24157,12 +24158,12 @@ void gdext_g_l_t_f_spec_gloss_set_diffuse_img(gdext_c_object_t instance, gdext_c
 /**
  * @brief GLTFSpecGloss.get_diffuse_factor
  */
-gdext_c_color gdext_g_l_t_f_spec_gloss_get_diffuse_factor(gdext_c_object_t instance);
+gdext_c_color_t gdext_g_l_t_f_spec_gloss_get_diffuse_factor(gdext_c_object_t instance);
 
 /**
  * @brief GLTFSpecGloss.set_diffuse_factor
  */
-void gdext_g_l_t_f_spec_gloss_set_diffuse_factor(gdext_c_object_t instance, gdext_c_color diffuse_factor);
+void gdext_g_l_t_f_spec_gloss_set_diffuse_factor(gdext_c_object_t instance, gdext_c_color_t diffuse_factor);
 
 /**
  * @brief GLTFSpecGloss.get_gloss_factor
@@ -24177,12 +24178,12 @@ void gdext_g_l_t_f_spec_gloss_set_gloss_factor(gdext_c_object_t instance, double
 /**
  * @brief GLTFSpecGloss.get_specular_factor
  */
-gdext_c_color gdext_g_l_t_f_spec_gloss_get_specular_factor(gdext_c_object_t instance);
+gdext_c_color_t gdext_g_l_t_f_spec_gloss_get_specular_factor(gdext_c_object_t instance);
 
 /**
  * @brief GLTFSpecGloss.set_specular_factor
  */
-void gdext_g_l_t_f_spec_gloss_set_specular_factor(gdext_c_object_t instance, gdext_c_color specular_factor);
+void gdext_g_l_t_f_spec_gloss_set_specular_factor(gdext_c_object_t instance, gdext_c_color_t specular_factor);
 
 /**
  * @brief GLTFSpecGloss.get_spec_gloss_img
@@ -24827,7 +24828,7 @@ gdext_c_object_t gdext_g_p_u_particles2_d_get_sub_emitter(gdext_c_object_t insta
 /**
  * @brief GPUParticles2D.emit_particle
  */
-void gdext_g_p_u_particles2_d_emit_particle(gdext_c_object_t instance, gdext_c_object_t xform, gdext_c_vec2 velocity, gdext_c_color color, gdext_c_color custom, int64_t flags);
+void gdext_g_p_u_particles2_d_emit_particle(gdext_c_object_t instance, gdext_c_object_t xform, gdext_c_vector2_t velocity, gdext_c_color_t color, gdext_c_color_t custom, int64_t flags);
 
 /**
  * @brief GPUParticles2D.set_trail_enabled
@@ -25152,7 +25153,7 @@ gdext_c_object_t gdext_g_p_u_particles3_d_get_sub_emitter(gdext_c_object_t insta
 /**
  * @brief GPUParticles3D.emit_particle
  */
-void gdext_g_p_u_particles3_d_emit_particle(gdext_c_object_t instance, gdext_c_object_t xform, gdext_c_vec3 velocity, gdext_c_color color, gdext_c_color custom, int64_t flags);
+void gdext_g_p_u_particles3_d_emit_particle(gdext_c_object_t instance, gdext_c_object_t xform, gdext_c_vector3_t velocity, gdext_c_color_t color, gdext_c_color_t custom, int64_t flags);
 
 /**
  * @brief GPUParticles3D.set_trail_enabled
@@ -25257,12 +25258,12 @@ double gdext_g_p_u_particles_attractor3_d_get_directionality(gdext_c_object_t in
 /**
  * @brief GPUParticlesAttractorBox3D.set_size
  */
-void gdext_g_p_u_particles_attractor_box3_d_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_g_p_u_particles_attractor_box3_d_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief GPUParticlesAttractorBox3D.get_size
  */
-gdext_c_vec3 gdext_g_p_u_particles_attractor_box3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_p_u_particles_attractor_box3_d_get_size(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: GPUParticlesAttractorSphere3D
@@ -25287,12 +25288,12 @@ double gdext_g_p_u_particles_attractor_sphere3_d_get_radius(gdext_c_object_t ins
 /**
  * @brief GPUParticlesAttractorVectorField3D.set_size
  */
-void gdext_g_p_u_particles_attractor_vector_field3_d_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_g_p_u_particles_attractor_vector_field3_d_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief GPUParticlesAttractorVectorField3D.get_size
  */
-gdext_c_vec3 gdext_g_p_u_particles_attractor_vector_field3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_p_u_particles_attractor_vector_field3_d_get_size(gdext_c_object_t instance);
 
 /**
  * @brief GPUParticlesAttractorVectorField3D.set_texture
@@ -25327,12 +25328,12 @@ int64_t gdext_g_p_u_particles_collision3_d_get_cull_mask(gdext_c_object_t instan
 /**
  * @brief GPUParticlesCollisionBox3D.set_size
  */
-void gdext_g_p_u_particles_collision_box3_d_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_g_p_u_particles_collision_box3_d_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief GPUParticlesCollisionBox3D.get_size
  */
-gdext_c_vec3 gdext_g_p_u_particles_collision_box3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_p_u_particles_collision_box3_d_get_size(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: GPUParticlesCollisionHeightField3D
@@ -25342,12 +25343,12 @@ gdext_c_vec3 gdext_g_p_u_particles_collision_box3_d_get_size(gdext_c_object_t in
 /**
  * @brief GPUParticlesCollisionHeightField3D.set_size
  */
-void gdext_g_p_u_particles_collision_height_field3_d_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_g_p_u_particles_collision_height_field3_d_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief GPUParticlesCollisionHeightField3D.get_size
  */
-gdext_c_vec3 gdext_g_p_u_particles_collision_height_field3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_p_u_particles_collision_height_field3_d_get_size(gdext_c_object_t instance);
 
 /**
  * @brief GPUParticlesCollisionHeightField3D.set_resolution
@@ -25407,12 +25408,12 @@ GDExtensionBool gdext_g_p_u_particles_collision_height_field3_d_is_follow_camera
 /**
  * @brief GPUParticlesCollisionSDF3D.set_size
  */
-void gdext_g_p_u_particles_collision_s_d_f3_d_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_g_p_u_particles_collision_s_d_f3_d_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief GPUParticlesCollisionSDF3D.get_size
  */
-gdext_c_vec3 gdext_g_p_u_particles_collision_s_d_f3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_g_p_u_particles_collision_s_d_f3_d_get_size(gdext_c_object_t instance);
 
 /**
  * @brief GPUParticlesCollisionSDF3D.set_resolution
@@ -25552,42 +25553,42 @@ GDExtensionBool gdext_generic6_d_o_f_joint3_d_get_flag_z(gdext_c_object_t instan
 /**
  * @brief Geometry2D.is_point_in_circle
  */
-GDExtensionBool gdext_geometry2_d_is_point_in_circle(gdext_c_object_t instance, gdext_c_vec2 point, gdext_c_vec2 circle_position, double circle_radius);
+GDExtensionBool gdext_geometry2_d_is_point_in_circle(gdext_c_object_t instance, gdext_c_vector2_t point, gdext_c_vector2_t circle_position, double circle_radius);
 
 /**
  * @brief Geometry2D.segment_intersects_circle
  */
-double gdext_geometry2_d_segment_intersects_circle(gdext_c_object_t instance, gdext_c_vec2 segment_from, gdext_c_vec2 segment_to, gdext_c_vec2 circle_position, double circle_radius);
+double gdext_geometry2_d_segment_intersects_circle(gdext_c_object_t instance, gdext_c_vector2_t segment_from, gdext_c_vector2_t segment_to, gdext_c_vector2_t circle_position, double circle_radius);
 
 /**
  * @brief Geometry2D.segment_intersects_segment
  */
-gdext_c_object_t gdext_geometry2_d_segment_intersects_segment(gdext_c_object_t instance, gdext_c_vec2 from_a, gdext_c_vec2 to_a, gdext_c_vec2 from_b, gdext_c_vec2 to_b);
+gdext_c_object_t gdext_geometry2_d_segment_intersects_segment(gdext_c_object_t instance, gdext_c_vector2_t from_a, gdext_c_vector2_t to_a, gdext_c_vector2_t from_b, gdext_c_vector2_t to_b);
 
 /**
  * @brief Geometry2D.line_intersects_line
  */
-gdext_c_object_t gdext_geometry2_d_line_intersects_line(gdext_c_object_t instance, gdext_c_vec2 from_a, gdext_c_vec2 dir_a, gdext_c_vec2 from_b, gdext_c_vec2 dir_b);
+gdext_c_object_t gdext_geometry2_d_line_intersects_line(gdext_c_object_t instance, gdext_c_vector2_t from_a, gdext_c_vector2_t dir_a, gdext_c_vector2_t from_b, gdext_c_vector2_t dir_b);
 
 /**
  * @brief Geometry2D.get_closest_points_between_segments
  */
-gdext_c_object_t gdext_geometry2_d_get_closest_points_between_segments(gdext_c_object_t instance, gdext_c_vec2 p1, gdext_c_vec2 q1, gdext_c_vec2 p2, gdext_c_vec2 q2);
+gdext_c_object_t gdext_geometry2_d_get_closest_points_between_segments(gdext_c_object_t instance, gdext_c_vector2_t p1, gdext_c_vector2_t q1, gdext_c_vector2_t p2, gdext_c_vector2_t q2);
 
 /**
  * @brief Geometry2D.get_closest_point_to_segment
  */
-gdext_c_vec2 gdext_geometry2_d_get_closest_point_to_segment(gdext_c_object_t instance, gdext_c_vec2 point, gdext_c_vec2 s1, gdext_c_vec2 s2);
+gdext_c_vector2_t gdext_geometry2_d_get_closest_point_to_segment(gdext_c_object_t instance, gdext_c_vector2_t point, gdext_c_vector2_t s1, gdext_c_vector2_t s2);
 
 /**
  * @brief Geometry2D.get_closest_point_to_segment_uncapped
  */
-gdext_c_vec2 gdext_geometry2_d_get_closest_point_to_segment_uncapped(gdext_c_object_t instance, gdext_c_vec2 point, gdext_c_vec2 s1, gdext_c_vec2 s2);
+gdext_c_vector2_t gdext_geometry2_d_get_closest_point_to_segment_uncapped(gdext_c_object_t instance, gdext_c_vector2_t point, gdext_c_vector2_t s1, gdext_c_vector2_t s2);
 
 /**
  * @brief Geometry2D.point_is_inside_triangle
  */
-GDExtensionBool gdext_geometry2_d_point_is_inside_triangle(gdext_c_object_t instance, gdext_c_vec2 point, gdext_c_vec2 a, gdext_c_vec2 b, gdext_c_vec2 c);
+GDExtensionBool gdext_geometry2_d_point_is_inside_triangle(gdext_c_object_t instance, gdext_c_vector2_t point, gdext_c_vector2_t a, gdext_c_vector2_t b, gdext_c_vector2_t c);
 
 /**
  * @brief Geometry2D.is_polygon_clockwise
@@ -25597,7 +25598,7 @@ GDExtensionBool gdext_geometry2_d_is_polygon_clockwise(gdext_c_object_t instance
 /**
  * @brief Geometry2D.is_point_in_polygon
  */
-GDExtensionBool gdext_geometry2_d_is_point_in_polygon(gdext_c_object_t instance, gdext_c_vec2 point, gdext_c_object_t polygon);
+GDExtensionBool gdext_geometry2_d_is_point_in_polygon(gdext_c_object_t instance, gdext_c_vector2_t point, gdext_c_object_t polygon);
 
 /**
  * @brief Geometry2D.triangulate_polygon
@@ -25682,7 +25683,7 @@ gdext_c_object_t gdext_geometry3_d_compute_convex_mesh_points(gdext_c_object_t i
 /**
  * @brief Geometry3D.build_box_planes
  */
-gdext_c_object_t gdext_geometry3_d_build_box_planes(gdext_c_object_t instance, gdext_c_vec3 extents);
+gdext_c_object_t gdext_geometry3_d_build_box_planes(gdext_c_object_t instance, gdext_c_vector3_t extents);
 
 /**
  * @brief Geometry3D.build_cylinder_planes
@@ -25697,47 +25698,47 @@ gdext_c_object_t gdext_geometry3_d_build_capsule_planes(gdext_c_object_t instanc
 /**
  * @brief Geometry3D.get_closest_points_between_segments
  */
-gdext_c_object_t gdext_geometry3_d_get_closest_points_between_segments(gdext_c_object_t instance, gdext_c_vec3 p1, gdext_c_vec3 p2, gdext_c_vec3 q1, gdext_c_vec3 q2);
+gdext_c_object_t gdext_geometry3_d_get_closest_points_between_segments(gdext_c_object_t instance, gdext_c_vector3_t p1, gdext_c_vector3_t p2, gdext_c_vector3_t q1, gdext_c_vector3_t q2);
 
 /**
  * @brief Geometry3D.get_closest_point_to_segment
  */
-gdext_c_vec3 gdext_geometry3_d_get_closest_point_to_segment(gdext_c_object_t instance, gdext_c_vec3 point, gdext_c_vec3 s1, gdext_c_vec3 s2);
+gdext_c_vector3_t gdext_geometry3_d_get_closest_point_to_segment(gdext_c_object_t instance, gdext_c_vector3_t point, gdext_c_vector3_t s1, gdext_c_vector3_t s2);
 
 /**
  * @brief Geometry3D.get_closest_point_to_segment_uncapped
  */
-gdext_c_vec3 gdext_geometry3_d_get_closest_point_to_segment_uncapped(gdext_c_object_t instance, gdext_c_vec3 point, gdext_c_vec3 s1, gdext_c_vec3 s2);
+gdext_c_vector3_t gdext_geometry3_d_get_closest_point_to_segment_uncapped(gdext_c_object_t instance, gdext_c_vector3_t point, gdext_c_vector3_t s1, gdext_c_vector3_t s2);
 
 /**
  * @brief Geometry3D.get_triangle_barycentric_coords
  */
-gdext_c_vec3 gdext_geometry3_d_get_triangle_barycentric_coords(gdext_c_object_t instance, gdext_c_vec3 point, gdext_c_vec3 a, gdext_c_vec3 b, gdext_c_vec3 c);
+gdext_c_vector3_t gdext_geometry3_d_get_triangle_barycentric_coords(gdext_c_object_t instance, gdext_c_vector3_t point, gdext_c_vector3_t a, gdext_c_vector3_t b, gdext_c_vector3_t c);
 
 /**
  * @brief Geometry3D.ray_intersects_triangle
  */
-gdext_c_object_t gdext_geometry3_d_ray_intersects_triangle(gdext_c_object_t instance, gdext_c_vec3 from, gdext_c_vec3 dir, gdext_c_vec3 a, gdext_c_vec3 b, gdext_c_vec3 c);
+gdext_c_object_t gdext_geometry3_d_ray_intersects_triangle(gdext_c_object_t instance, gdext_c_vector3_t from, gdext_c_vector3_t dir, gdext_c_vector3_t a, gdext_c_vector3_t b, gdext_c_vector3_t c);
 
 /**
  * @brief Geometry3D.segment_intersects_triangle
  */
-gdext_c_object_t gdext_geometry3_d_segment_intersects_triangle(gdext_c_object_t instance, gdext_c_vec3 from, gdext_c_vec3 to, gdext_c_vec3 a, gdext_c_vec3 b, gdext_c_vec3 c);
+gdext_c_object_t gdext_geometry3_d_segment_intersects_triangle(gdext_c_object_t instance, gdext_c_vector3_t from, gdext_c_vector3_t to, gdext_c_vector3_t a, gdext_c_vector3_t b, gdext_c_vector3_t c);
 
 /**
  * @brief Geometry3D.segment_intersects_sphere
  */
-gdext_c_object_t gdext_geometry3_d_segment_intersects_sphere(gdext_c_object_t instance, gdext_c_vec3 from, gdext_c_vec3 to, gdext_c_vec3 sphere_position, double sphere_radius);
+gdext_c_object_t gdext_geometry3_d_segment_intersects_sphere(gdext_c_object_t instance, gdext_c_vector3_t from, gdext_c_vector3_t to, gdext_c_vector3_t sphere_position, double sphere_radius);
 
 /**
  * @brief Geometry3D.segment_intersects_cylinder
  */
-gdext_c_object_t gdext_geometry3_d_segment_intersects_cylinder(gdext_c_object_t instance, gdext_c_vec3 from, gdext_c_vec3 to, double height, double radius);
+gdext_c_object_t gdext_geometry3_d_segment_intersects_cylinder(gdext_c_object_t instance, gdext_c_vector3_t from, gdext_c_vector3_t to, double height, double radius);
 
 /**
  * @brief Geometry3D.segment_intersects_convex
  */
-gdext_c_object_t gdext_geometry3_d_segment_intersects_convex(gdext_c_object_t instance, gdext_c_vec3 from, gdext_c_vec3 to, gdext_c_object_t planes);
+gdext_c_object_t gdext_geometry3_d_segment_intersects_convex(gdext_c_object_t instance, gdext_c_vector3_t from, gdext_c_vector3_t to, gdext_c_object_t planes);
 
 /**
  * @brief Geometry3D.clip_polygon
@@ -25932,7 +25933,7 @@ gdext_c_object_t gdext_geometry_instance3_d_get_custom_aabb(gdext_c_object_t ins
 /**
  * @brief Gradient.add_point
  */
-void gdext_gradient_add_point(gdext_c_object_t instance, double offset, gdext_c_color color);
+void gdext_gradient_add_point(gdext_c_object_t instance, double offset, gdext_c_color_t color);
 
 /**
  * @brief Gradient.remove_point
@@ -25957,17 +25958,17 @@ void gdext_gradient_reverse(gdext_c_object_t instance);
 /**
  * @brief Gradient.set_color
  */
-void gdext_gradient_set_color(gdext_c_object_t instance, int64_t point, gdext_c_color color);
+void gdext_gradient_set_color(gdext_c_object_t instance, int64_t point, gdext_c_color_t color);
 
 /**
  * @brief Gradient.get_color
  */
-gdext_c_color gdext_gradient_get_color(gdext_c_object_t instance, int64_t point);
+gdext_c_color_t gdext_gradient_get_color(gdext_c_object_t instance, int64_t point);
 
 /**
  * @brief Gradient.sample
  */
-gdext_c_color gdext_gradient_sample(gdext_c_object_t instance, double offset);
+gdext_c_color_t gdext_gradient_sample(gdext_c_object_t instance, double offset);
 
 /**
  * @brief Gradient.get_point_count
@@ -26092,22 +26093,22 @@ int32_t gdext_gradient_texture2_d_get_fill(gdext_c_object_t instance);
 /**
  * @brief GradientTexture2D.set_fill_from
  */
-void gdext_gradient_texture2_d_set_fill_from(gdext_c_object_t instance, gdext_c_vec2 fill_from);
+void gdext_gradient_texture2_d_set_fill_from(gdext_c_object_t instance, gdext_c_vector2_t fill_from);
 
 /**
  * @brief GradientTexture2D.get_fill_from
  */
-gdext_c_vec2 gdext_gradient_texture2_d_get_fill_from(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_gradient_texture2_d_get_fill_from(gdext_c_object_t instance);
 
 /**
  * @brief GradientTexture2D.set_fill_to
  */
-void gdext_gradient_texture2_d_set_fill_to(gdext_c_object_t instance, gdext_c_vec2 fill_to);
+void gdext_gradient_texture2_d_set_fill_to(gdext_c_object_t instance, gdext_c_vector2_t fill_to);
 
 /**
  * @brief GradientTexture2D.get_fill_to
  */
-gdext_c_vec2 gdext_gradient_texture2_d_get_fill_to(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_gradient_texture2_d_get_fill_to(gdext_c_object_t instance);
 
 /**
  * @brief GradientTexture2D.set_repeat
@@ -26162,7 +26163,7 @@ int64_t gdext_graph_edit_get_connection_count(gdext_c_object_t instance, gdext_c
 /**
  * @brief GraphEdit.get_closest_connection_at_point
  */
-gdext_c_object_t gdext_graph_edit_get_closest_connection_at_point(gdext_c_object_t instance, gdext_c_vec2 point, double max_distance);
+gdext_c_object_t gdext_graph_edit_get_closest_connection_at_point(gdext_c_object_t instance, gdext_c_vector2_t point, double max_distance);
 
 /**
  * @brief GraphEdit.get_connection_list_from_node
@@ -26187,12 +26188,12 @@ void gdext_graph_edit_force_connection_drag_end(gdext_c_object_t instance);
 /**
  * @brief GraphEdit.get_scroll_offset
  */
-gdext_c_vec2 gdext_graph_edit_get_scroll_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_graph_edit_get_scroll_offset(gdext_c_object_t instance);
 
 /**
  * @brief GraphEdit.set_scroll_offset
  */
-void gdext_graph_edit_set_scroll_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_graph_edit_set_scroll_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief GraphEdit.add_valid_right_disconnect_type
@@ -26232,7 +26233,7 @@ GDExtensionBool gdext_graph_edit_is_valid_connection_type(gdext_c_object_t insta
 /**
  * @brief GraphEdit.get_connection_line
  */
-gdext_c_object_t gdext_graph_edit_get_connection_line(gdext_c_object_t instance, gdext_c_vec2 from_node, gdext_c_vec2 to_node);
+gdext_c_object_t gdext_graph_edit_get_connection_line(gdext_c_object_t instance, gdext_c_vector2_t from_node, gdext_c_vector2_t to_node);
 
 /**
  * @brief GraphEdit.attach_graph_element_to_frame
@@ -26377,12 +26378,12 @@ GDExtensionBool gdext_graph_edit_is_connection_lines_antialiased(gdext_c_object_
 /**
  * @brief GraphEdit.set_minimap_size
  */
-void gdext_graph_edit_set_minimap_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_graph_edit_set_minimap_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief GraphEdit.get_minimap_size
  */
-gdext_c_vec2 gdext_graph_edit_get_minimap_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_graph_edit_get_minimap_size(gdext_c_object_t instance);
 
 /**
  * @brief GraphEdit.set_minimap_opacity
@@ -26547,12 +26548,12 @@ GDExtensionBool gdext_graph_element_is_selected(gdext_c_object_t instance);
 /**
  * @brief GraphElement.set_position_offset
  */
-void gdext_graph_element_set_position_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_graph_element_set_position_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief GraphElement.get_position_offset
  */
-gdext_c_vec2 gdext_graph_element_get_position_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_graph_element_get_position_offset(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: GraphFrame
@@ -26617,12 +26618,12 @@ GDExtensionBool gdext_graph_frame_is_tint_color_enabled(gdext_c_object_t instanc
 /**
  * @brief GraphFrame.set_tint_color
  */
-void gdext_graph_frame_set_tint_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_graph_frame_set_tint_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief GraphFrame.get_tint_color
  */
-gdext_c_color gdext_graph_frame_get_tint_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_graph_frame_get_tint_color(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: GraphNode
@@ -26647,7 +26648,7 @@ gdext_c_object_t gdext_graph_node_get_titlebar_hbox(gdext_c_object_t instance);
 /**
  * @brief GraphNode.set_slot
  */
-void gdext_graph_node_set_slot(gdext_c_object_t instance, int64_t slot_index, GDExtensionBool enable_left_port, int64_t type_left, gdext_c_color color_left, GDExtensionBool enable_right_port, int64_t type_right, gdext_c_color color_right, gdext_c_object_t custom_icon_left, gdext_c_object_t custom_icon_right, GDExtensionBool draw_stylebox);
+void gdext_graph_node_set_slot(gdext_c_object_t instance, int64_t slot_index, GDExtensionBool enable_left_port, int64_t type_left, gdext_c_color_t color_left, GDExtensionBool enable_right_port, int64_t type_right, gdext_c_color_t color_right, gdext_c_object_t custom_icon_left, gdext_c_object_t custom_icon_right, GDExtensionBool draw_stylebox);
 
 /**
  * @brief GraphNode.clear_slot
@@ -26682,12 +26683,12 @@ int64_t gdext_graph_node_get_slot_type_left(gdext_c_object_t instance, int64_t s
 /**
  * @brief GraphNode.set_slot_color_left
  */
-void gdext_graph_node_set_slot_color_left(gdext_c_object_t instance, int64_t slot_index, gdext_c_color color);
+void gdext_graph_node_set_slot_color_left(gdext_c_object_t instance, int64_t slot_index, gdext_c_color_t color);
 
 /**
  * @brief GraphNode.get_slot_color_left
  */
-gdext_c_color gdext_graph_node_get_slot_color_left(gdext_c_object_t instance, int64_t slot_index);
+gdext_c_color_t gdext_graph_node_get_slot_color_left(gdext_c_object_t instance, int64_t slot_index);
 
 /**
  * @brief GraphNode.set_slot_custom_icon_left
@@ -26722,12 +26723,12 @@ int64_t gdext_graph_node_get_slot_type_right(gdext_c_object_t instance, int64_t 
 /**
  * @brief GraphNode.set_slot_color_right
  */
-void gdext_graph_node_set_slot_color_right(gdext_c_object_t instance, int64_t slot_index, gdext_c_color color);
+void gdext_graph_node_set_slot_color_right(gdext_c_object_t instance, int64_t slot_index, gdext_c_color_t color);
 
 /**
  * @brief GraphNode.get_slot_color_right
  */
-gdext_c_color gdext_graph_node_get_slot_color_right(gdext_c_object_t instance, int64_t slot_index);
+gdext_c_color_t gdext_graph_node_get_slot_color_right(gdext_c_object_t instance, int64_t slot_index);
 
 /**
  * @brief GraphNode.set_slot_custom_icon_right
@@ -26777,7 +26778,7 @@ int64_t gdext_graph_node_get_input_port_count(gdext_c_object_t instance);
 /**
  * @brief GraphNode.get_input_port_position
  */
-gdext_c_vec2 gdext_graph_node_get_input_port_position(gdext_c_object_t instance, int64_t port_idx);
+gdext_c_vector2_t gdext_graph_node_get_input_port_position(gdext_c_object_t instance, int64_t port_idx);
 
 /**
  * @brief GraphNode.get_input_port_type
@@ -26787,7 +26788,7 @@ int64_t gdext_graph_node_get_input_port_type(gdext_c_object_t instance, int64_t 
 /**
  * @brief GraphNode.get_input_port_color
  */
-gdext_c_color gdext_graph_node_get_input_port_color(gdext_c_object_t instance, int64_t port_idx);
+gdext_c_color_t gdext_graph_node_get_input_port_color(gdext_c_object_t instance, int64_t port_idx);
 
 /**
  * @brief GraphNode.get_input_port_slot
@@ -26802,7 +26803,7 @@ int64_t gdext_graph_node_get_output_port_count(gdext_c_object_t instance);
 /**
  * @brief GraphNode.get_output_port_position
  */
-gdext_c_vec2 gdext_graph_node_get_output_port_position(gdext_c_object_t instance, int64_t port_idx);
+gdext_c_vector2_t gdext_graph_node_get_output_port_position(gdext_c_object_t instance, int64_t port_idx);
 
 /**
  * @brief GraphNode.get_output_port_type
@@ -26812,7 +26813,7 @@ int64_t gdext_graph_node_get_output_port_type(gdext_c_object_t instance, int64_t
 /**
  * @brief GraphNode.get_output_port_color
  */
-gdext_c_color gdext_graph_node_get_output_port_color(gdext_c_object_t instance, int64_t port_idx);
+gdext_c_color_t gdext_graph_node_get_output_port_color(gdext_c_object_t instance, int64_t port_idx);
 
 /**
  * @brief GraphNode.get_output_port_slot
@@ -26932,12 +26933,12 @@ gdext_c_object_t gdext_grid_map_get_mesh_library(gdext_c_object_t instance);
 /**
  * @brief GridMap.set_cell_size
  */
-void gdext_grid_map_set_cell_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_grid_map_set_cell_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief GridMap.get_cell_size
  */
-gdext_c_vec3 gdext_grid_map_get_cell_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_grid_map_get_cell_size(gdext_c_object_t instance);
 
 /**
  * @brief GridMap.set_cell_scale
@@ -26992,12 +26993,12 @@ int64_t gdext_grid_map_get_orthogonal_index_from_basis(gdext_c_object_t instance
 /**
  * @brief GridMap.local_to_map
  */
-gdext_c_object_t gdext_grid_map_local_to_map(gdext_c_object_t instance, gdext_c_vec3 local_position);
+gdext_c_object_t gdext_grid_map_local_to_map(gdext_c_object_t instance, gdext_c_vector3_t local_position);
 
 /**
  * @brief GridMap.map_to_local
  */
-gdext_c_vec3 gdext_grid_map_map_to_local(gdext_c_object_t instance, gdext_c_object_t map_position);
+gdext_c_vector3_t gdext_grid_map_map_to_local(gdext_c_object_t instance, gdext_c_object_t map_position);
 
 /**
  * @brief GridMap.resource_changed
@@ -27841,12 +27842,12 @@ void gdext_image_blend_rect_mask(gdext_c_object_t instance, gdext_c_object_t src
 /**
  * @brief Image.fill
  */
-void gdext_image_fill(gdext_c_object_t instance, gdext_c_color color);
+void gdext_image_fill(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Image.fill_rect
  */
-void gdext_image_fill_rect(gdext_c_object_t instance, gdext_c_object_t rect, gdext_c_color color);
+void gdext_image_fill_rect(gdext_c_object_t instance, gdext_c_object_t rect, gdext_c_color_t color);
 
 /**
  * @brief Image.get_used_rect
@@ -27866,22 +27867,22 @@ void gdext_image_copy_from(gdext_c_object_t instance, gdext_c_object_t src);
 /**
  * @brief Image.get_pixelv
  */
-gdext_c_color gdext_image_get_pixelv(gdext_c_object_t instance, gdext_c_object_t point);
+gdext_c_color_t gdext_image_get_pixelv(gdext_c_object_t instance, gdext_c_object_t point);
 
 /**
  * @brief Image.get_pixel
  */
-gdext_c_color gdext_image_get_pixel(gdext_c_object_t instance, int64_t x, int64_t y);
+gdext_c_color_t gdext_image_get_pixel(gdext_c_object_t instance, int64_t x, int64_t y);
 
 /**
  * @brief Image.set_pixelv
  */
-void gdext_image_set_pixelv(gdext_c_object_t instance, gdext_c_object_t point, gdext_c_color color);
+void gdext_image_set_pixelv(gdext_c_object_t instance, gdext_c_object_t point, gdext_c_color_t color);
 
 /**
  * @brief Image.set_pixel
  */
-void gdext_image_set_pixel(gdext_c_object_t instance, int64_t x, int64_t y, gdext_c_color color);
+void gdext_image_set_pixel(gdext_c_object_t instance, int64_t x, int64_t y, gdext_c_color_t color);
 
 /**
  * @brief Image.adjust_bcs
@@ -28022,12 +28023,12 @@ void gdext_immediate_mesh_surface_begin(gdext_c_object_t instance, int32_t primi
 /**
  * @brief ImmediateMesh.surface_set_color
  */
-void gdext_immediate_mesh_surface_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_immediate_mesh_surface_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ImmediateMesh.surface_set_normal
  */
-void gdext_immediate_mesh_surface_set_normal(gdext_c_object_t instance, gdext_c_vec3 normal);
+void gdext_immediate_mesh_surface_set_normal(gdext_c_object_t instance, gdext_c_vector3_t normal);
 
 /**
  * @brief ImmediateMesh.surface_set_tangent
@@ -28037,22 +28038,22 @@ void gdext_immediate_mesh_surface_set_tangent(gdext_c_object_t instance, gdext_c
 /**
  * @brief ImmediateMesh.surface_set_uv
  */
-void gdext_immediate_mesh_surface_set_uv(gdext_c_object_t instance, gdext_c_vec2 uv);
+void gdext_immediate_mesh_surface_set_uv(gdext_c_object_t instance, gdext_c_vector2_t uv);
 
 /**
  * @brief ImmediateMesh.surface_set_uv2
  */
-void gdext_immediate_mesh_surface_set_uv2(gdext_c_object_t instance, gdext_c_vec2 uv2);
+void gdext_immediate_mesh_surface_set_uv2(gdext_c_object_t instance, gdext_c_vector2_t uv2);
 
 /**
  * @brief ImmediateMesh.surface_add_vertex
  */
-void gdext_immediate_mesh_surface_add_vertex(gdext_c_object_t instance, gdext_c_vec3 vertex);
+void gdext_immediate_mesh_surface_add_vertex(gdext_c_object_t instance, gdext_c_vector3_t vertex);
 
 /**
  * @brief ImmediateMesh.surface_add_vertex_2d
  */
-void gdext_immediate_mesh_surface_add_vertex_2d(gdext_c_object_t instance, gdext_c_vec2 vertex);
+void gdext_immediate_mesh_surface_add_vertex_2d(gdext_c_object_t instance, gdext_c_vector2_t vertex);
 
 /**
  * @brief ImmediateMesh.surface_end
@@ -28367,7 +28368,7 @@ double gdext_input_get_axis(gdext_c_object_t instance, gdext_c_object_t negative
 /**
  * @brief Input.get_vector
  */
-gdext_c_vec2 gdext_input_get_vector(gdext_c_object_t instance, gdext_c_object_t negative_x, gdext_c_object_t positive_x, gdext_c_object_t negative_y, gdext_c_object_t positive_y, double deadzone);
+gdext_c_vector2_t gdext_input_get_vector(gdext_c_object_t instance, gdext_c_object_t negative_x, gdext_c_object_t positive_x, gdext_c_object_t negative_y, gdext_c_object_t positive_y, double deadzone);
 
 /**
  * @brief Input.add_joy_mapping
@@ -28417,7 +28418,7 @@ gdext_c_object_t gdext_input_get_connected_joypads(gdext_c_object_t instance);
 /**
  * @brief Input.get_joy_vibration_strength
  */
-gdext_c_vec2 gdext_input_get_joy_vibration_strength(gdext_c_object_t instance, int64_t device);
+gdext_c_vector2_t gdext_input_get_joy_vibration_strength(gdext_c_object_t instance, int64_t device);
 
 /**
  * @brief Input.get_joy_vibration_duration
@@ -28442,52 +28443,52 @@ void gdext_input_vibrate_handheld(gdext_c_object_t instance, int64_t duration_ms
 /**
  * @brief Input.get_gravity
  */
-gdext_c_vec3 gdext_input_get_gravity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_input_get_gravity(gdext_c_object_t instance);
 
 /**
  * @brief Input.get_accelerometer
  */
-gdext_c_vec3 gdext_input_get_accelerometer(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_input_get_accelerometer(gdext_c_object_t instance);
 
 /**
  * @brief Input.get_magnetometer
  */
-gdext_c_vec3 gdext_input_get_magnetometer(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_input_get_magnetometer(gdext_c_object_t instance);
 
 /**
  * @brief Input.get_gyroscope
  */
-gdext_c_vec3 gdext_input_get_gyroscope(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_input_get_gyroscope(gdext_c_object_t instance);
 
 /**
  * @brief Input.set_gravity
  */
-void gdext_input_set_gravity(gdext_c_object_t instance, gdext_c_vec3 value);
+void gdext_input_set_gravity(gdext_c_object_t instance, gdext_c_vector3_t value);
 
 /**
  * @brief Input.set_accelerometer
  */
-void gdext_input_set_accelerometer(gdext_c_object_t instance, gdext_c_vec3 value);
+void gdext_input_set_accelerometer(gdext_c_object_t instance, gdext_c_vector3_t value);
 
 /**
  * @brief Input.set_magnetometer
  */
-void gdext_input_set_magnetometer(gdext_c_object_t instance, gdext_c_vec3 value);
+void gdext_input_set_magnetometer(gdext_c_object_t instance, gdext_c_vector3_t value);
 
 /**
  * @brief Input.set_gyroscope
  */
-void gdext_input_set_gyroscope(gdext_c_object_t instance, gdext_c_vec3 value);
+void gdext_input_set_gyroscope(gdext_c_object_t instance, gdext_c_vector3_t value);
 
 /**
  * @brief Input.get_last_mouse_velocity
  */
-gdext_c_vec2 gdext_input_get_last_mouse_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_get_last_mouse_velocity(gdext_c_object_t instance);
 
 /**
  * @brief Input.get_last_mouse_screen_velocity
  */
-gdext_c_vec2 gdext_input_get_last_mouse_screen_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_get_last_mouse_screen_velocity(gdext_c_object_t instance);
 
 /**
  * @brief Input.get_mouse_button_mask
@@ -28507,7 +28508,7 @@ int32_t gdext_input_get_mouse_mode(gdext_c_object_t instance);
 /**
  * @brief Input.warp_mouse
  */
-void gdext_input_warp_mouse(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_input_warp_mouse(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Input.action_press
@@ -28532,7 +28533,7 @@ int32_t gdext_input_get_current_cursor_shape(gdext_c_object_t instance);
 /**
  * @brief Input.set_custom_mouse_cursor
  */
-void gdext_input_set_custom_mouse_cursor(gdext_c_object_t instance, gdext_c_object_t image, int32_t shape, gdext_c_vec2 hotspot);
+void gdext_input_set_custom_mouse_cursor(gdext_c_object_t instance, gdext_c_object_t image, int32_t shape, gdext_c_vector2_t hotspot);
 
 /**
  * @brief Input.parse_input_event
@@ -28652,7 +28653,7 @@ GDExtensionBool gdext_input_event_accumulate(gdext_c_object_t instance, gdext_c_
 /**
  * @brief InputEvent.xformed_by
  */
-gdext_c_object_t gdext_input_event_xformed_by(gdext_c_object_t instance, gdext_c_object_t xform, gdext_c_vec2 local_ofs);
+gdext_c_object_t gdext_input_event_xformed_by(gdext_c_object_t instance, gdext_c_object_t xform, gdext_c_vector2_t local_ofs);
 
 /* ============================================================================
  * Class: InputEventAction
@@ -28717,12 +28718,12 @@ int64_t gdext_input_event_from_window_get_window_id(gdext_c_object_t instance);
 /**
  * @brief InputEventGesture.set_position
  */
-void gdext_input_event_gesture_set_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_input_event_gesture_set_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief InputEventGesture.get_position
  */
-gdext_c_vec2 gdext_input_event_gesture_get_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_gesture_get_position(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: InputEventJoypadButton
@@ -28997,22 +28998,22 @@ gdext_c_object_t gdext_input_event_mouse_get_button_mask(gdext_c_object_t instan
 /**
  * @brief InputEventMouse.set_position
  */
-void gdext_input_event_mouse_set_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_input_event_mouse_set_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief InputEventMouse.get_position
  */
-gdext_c_vec2 gdext_input_event_mouse_get_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_mouse_get_position(gdext_c_object_t instance);
 
 /**
  * @brief InputEventMouse.set_global_position
  */
-void gdext_input_event_mouse_set_global_position(gdext_c_object_t instance, gdext_c_vec2 global_position);
+void gdext_input_event_mouse_set_global_position(gdext_c_object_t instance, gdext_c_vector2_t global_position);
 
 /**
  * @brief InputEventMouse.get_global_position
  */
-gdext_c_vec2 gdext_input_event_mouse_get_global_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_mouse_get_global_position(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: InputEventMouseButton
@@ -29067,12 +29068,12 @@ GDExtensionBool gdext_input_event_mouse_button_is_double_click(gdext_c_object_t 
 /**
  * @brief InputEventMouseMotion.set_tilt
  */
-void gdext_input_event_mouse_motion_set_tilt(gdext_c_object_t instance, gdext_c_vec2 tilt);
+void gdext_input_event_mouse_motion_set_tilt(gdext_c_object_t instance, gdext_c_vector2_t tilt);
 
 /**
  * @brief InputEventMouseMotion.get_tilt
  */
-gdext_c_vec2 gdext_input_event_mouse_motion_get_tilt(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_mouse_motion_get_tilt(gdext_c_object_t instance);
 
 /**
  * @brief InputEventMouseMotion.set_pressure
@@ -29097,42 +29098,42 @@ GDExtensionBool gdext_input_event_mouse_motion_get_pen_inverted(gdext_c_object_t
 /**
  * @brief InputEventMouseMotion.set_relative
  */
-void gdext_input_event_mouse_motion_set_relative(gdext_c_object_t instance, gdext_c_vec2 relative);
+void gdext_input_event_mouse_motion_set_relative(gdext_c_object_t instance, gdext_c_vector2_t relative);
 
 /**
  * @brief InputEventMouseMotion.get_relative
  */
-gdext_c_vec2 gdext_input_event_mouse_motion_get_relative(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_mouse_motion_get_relative(gdext_c_object_t instance);
 
 /**
  * @brief InputEventMouseMotion.set_screen_relative
  */
-void gdext_input_event_mouse_motion_set_screen_relative(gdext_c_object_t instance, gdext_c_vec2 relative);
+void gdext_input_event_mouse_motion_set_screen_relative(gdext_c_object_t instance, gdext_c_vector2_t relative);
 
 /**
  * @brief InputEventMouseMotion.get_screen_relative
  */
-gdext_c_vec2 gdext_input_event_mouse_motion_get_screen_relative(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_mouse_motion_get_screen_relative(gdext_c_object_t instance);
 
 /**
  * @brief InputEventMouseMotion.set_velocity
  */
-void gdext_input_event_mouse_motion_set_velocity(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_input_event_mouse_motion_set_velocity(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief InputEventMouseMotion.get_velocity
  */
-gdext_c_vec2 gdext_input_event_mouse_motion_get_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_mouse_motion_get_velocity(gdext_c_object_t instance);
 
 /**
  * @brief InputEventMouseMotion.set_screen_velocity
  */
-void gdext_input_event_mouse_motion_set_screen_velocity(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_input_event_mouse_motion_set_screen_velocity(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief InputEventMouseMotion.get_screen_velocity
  */
-gdext_c_vec2 gdext_input_event_mouse_motion_get_screen_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_mouse_motion_get_screen_velocity(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: InputEventPanGesture
@@ -29142,12 +29143,12 @@ gdext_c_vec2 gdext_input_event_mouse_motion_get_screen_velocity(gdext_c_object_t
 /**
  * @brief InputEventPanGesture.set_delta
  */
-void gdext_input_event_pan_gesture_set_delta(gdext_c_object_t instance, gdext_c_vec2 delta);
+void gdext_input_event_pan_gesture_set_delta(gdext_c_object_t instance, gdext_c_vector2_t delta);
 
 /**
  * @brief InputEventPanGesture.get_delta
  */
-gdext_c_vec2 gdext_input_event_pan_gesture_get_delta(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_pan_gesture_get_delta(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: InputEventScreenDrag
@@ -29167,12 +29168,12 @@ int64_t gdext_input_event_screen_drag_get_index(gdext_c_object_t instance);
 /**
  * @brief InputEventScreenDrag.set_tilt
  */
-void gdext_input_event_screen_drag_set_tilt(gdext_c_object_t instance, gdext_c_vec2 tilt);
+void gdext_input_event_screen_drag_set_tilt(gdext_c_object_t instance, gdext_c_vector2_t tilt);
 
 /**
  * @brief InputEventScreenDrag.get_tilt
  */
-gdext_c_vec2 gdext_input_event_screen_drag_get_tilt(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_screen_drag_get_tilt(gdext_c_object_t instance);
 
 /**
  * @brief InputEventScreenDrag.set_pressure
@@ -29197,52 +29198,52 @@ GDExtensionBool gdext_input_event_screen_drag_get_pen_inverted(gdext_c_object_t 
 /**
  * @brief InputEventScreenDrag.set_position
  */
-void gdext_input_event_screen_drag_set_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_input_event_screen_drag_set_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief InputEventScreenDrag.get_position
  */
-gdext_c_vec2 gdext_input_event_screen_drag_get_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_screen_drag_get_position(gdext_c_object_t instance);
 
 /**
  * @brief InputEventScreenDrag.set_relative
  */
-void gdext_input_event_screen_drag_set_relative(gdext_c_object_t instance, gdext_c_vec2 relative);
+void gdext_input_event_screen_drag_set_relative(gdext_c_object_t instance, gdext_c_vector2_t relative);
 
 /**
  * @brief InputEventScreenDrag.get_relative
  */
-gdext_c_vec2 gdext_input_event_screen_drag_get_relative(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_screen_drag_get_relative(gdext_c_object_t instance);
 
 /**
  * @brief InputEventScreenDrag.set_screen_relative
  */
-void gdext_input_event_screen_drag_set_screen_relative(gdext_c_object_t instance, gdext_c_vec2 relative);
+void gdext_input_event_screen_drag_set_screen_relative(gdext_c_object_t instance, gdext_c_vector2_t relative);
 
 /**
  * @brief InputEventScreenDrag.get_screen_relative
  */
-gdext_c_vec2 gdext_input_event_screen_drag_get_screen_relative(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_screen_drag_get_screen_relative(gdext_c_object_t instance);
 
 /**
  * @brief InputEventScreenDrag.set_velocity
  */
-void gdext_input_event_screen_drag_set_velocity(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_input_event_screen_drag_set_velocity(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief InputEventScreenDrag.get_velocity
  */
-gdext_c_vec2 gdext_input_event_screen_drag_get_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_screen_drag_get_velocity(gdext_c_object_t instance);
 
 /**
  * @brief InputEventScreenDrag.set_screen_velocity
  */
-void gdext_input_event_screen_drag_set_screen_velocity(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_input_event_screen_drag_set_screen_velocity(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief InputEventScreenDrag.get_screen_velocity
  */
-gdext_c_vec2 gdext_input_event_screen_drag_get_screen_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_screen_drag_get_screen_velocity(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: InputEventScreenTouch
@@ -29262,12 +29263,12 @@ int64_t gdext_input_event_screen_touch_get_index(gdext_c_object_t instance);
 /**
  * @brief InputEventScreenTouch.set_position
  */
-void gdext_input_event_screen_touch_set_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_input_event_screen_touch_set_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief InputEventScreenTouch.get_position
  */
-gdext_c_vec2 gdext_input_event_screen_touch_get_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_input_event_screen_touch_get_position(gdext_c_object_t instance);
 
 /**
  * @brief InputEventScreenTouch.set_pressed
@@ -29552,12 +29553,12 @@ gdext_c_object_t gdext_item_list_get_item_icon_region(gdext_c_object_t instance,
 /**
  * @brief ItemList.set_item_icon_modulate
  */
-void gdext_item_list_set_item_icon_modulate(gdext_c_object_t instance, int64_t idx, gdext_c_color modulate);
+void gdext_item_list_set_item_icon_modulate(gdext_c_object_t instance, int64_t idx, gdext_c_color_t modulate);
 
 /**
  * @brief ItemList.get_item_icon_modulate
  */
-gdext_c_color gdext_item_list_get_item_icon_modulate(gdext_c_object_t instance, int64_t idx);
+gdext_c_color_t gdext_item_list_get_item_icon_modulate(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief ItemList.set_item_selectable
@@ -29592,22 +29593,22 @@ gdext_c_object_t gdext_item_list_get_item_metadata(gdext_c_object_t instance, in
 /**
  * @brief ItemList.set_item_custom_bg_color
  */
-void gdext_item_list_set_item_custom_bg_color(gdext_c_object_t instance, int64_t idx, gdext_c_color custom_bg_color);
+void gdext_item_list_set_item_custom_bg_color(gdext_c_object_t instance, int64_t idx, gdext_c_color_t custom_bg_color);
 
 /**
  * @brief ItemList.get_item_custom_bg_color
  */
-gdext_c_color gdext_item_list_get_item_custom_bg_color(gdext_c_object_t instance, int64_t idx);
+gdext_c_color_t gdext_item_list_get_item_custom_bg_color(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief ItemList.set_item_custom_fg_color
  */
-void gdext_item_list_set_item_custom_fg_color(gdext_c_object_t instance, int64_t idx, gdext_c_color custom_fg_color);
+void gdext_item_list_set_item_custom_fg_color(gdext_c_object_t instance, int64_t idx, gdext_c_color_t custom_fg_color);
 
 /**
  * @brief ItemList.get_item_custom_fg_color
  */
-gdext_c_color gdext_item_list_get_item_custom_fg_color(gdext_c_object_t instance, int64_t idx);
+gdext_c_color_t gdext_item_list_get_item_custom_fg_color(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief ItemList.get_item_rect
@@ -29827,7 +29828,7 @@ GDExtensionBool gdext_item_list_is_anything_selected(gdext_c_object_t instance);
 /**
  * @brief ItemList.get_item_at_position
  */
-int64_t gdext_item_list_get_item_at_position(gdext_c_object_t instance, gdext_c_vec2 position, GDExtensionBool exact);
+int64_t gdext_item_list_get_item_at_position(gdext_c_object_t instance, gdext_c_vector2_t position, GDExtensionBool exact);
 
 /**
  * @brief ItemList.ensure_current_is_visible
@@ -30176,27 +30177,27 @@ gdext_c_object_t gdext_joint3_d_get_rid(gdext_c_object_t instance);
 /**
  * @brief KinematicCollision2D.get_position
  */
-gdext_c_vec2 gdext_kinematic_collision2_d_get_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_kinematic_collision2_d_get_position(gdext_c_object_t instance);
 
 /**
  * @brief KinematicCollision2D.get_normal
  */
-gdext_c_vec2 gdext_kinematic_collision2_d_get_normal(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_kinematic_collision2_d_get_normal(gdext_c_object_t instance);
 
 /**
  * @brief KinematicCollision2D.get_travel
  */
-gdext_c_vec2 gdext_kinematic_collision2_d_get_travel(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_kinematic_collision2_d_get_travel(gdext_c_object_t instance);
 
 /**
  * @brief KinematicCollision2D.get_remainder
  */
-gdext_c_vec2 gdext_kinematic_collision2_d_get_remainder(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_kinematic_collision2_d_get_remainder(gdext_c_object_t instance);
 
 /**
  * @brief KinematicCollision2D.get_angle
  */
-double gdext_kinematic_collision2_d_get_angle(gdext_c_object_t instance, gdext_c_vec2 up_direction);
+double gdext_kinematic_collision2_d_get_angle(gdext_c_object_t instance, gdext_c_vector2_t up_direction);
 
 /**
  * @brief KinematicCollision2D.get_depth
@@ -30236,7 +30237,7 @@ int64_t gdext_kinematic_collision2_d_get_collider_shape_index(gdext_c_object_t i
 /**
  * @brief KinematicCollision2D.get_collider_velocity
  */
-gdext_c_vec2 gdext_kinematic_collision2_d_get_collider_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_kinematic_collision2_d_get_collider_velocity(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: KinematicCollision3D
@@ -30246,12 +30247,12 @@ gdext_c_vec2 gdext_kinematic_collision2_d_get_collider_velocity(gdext_c_object_t
 /**
  * @brief KinematicCollision3D.get_travel
  */
-gdext_c_vec3 gdext_kinematic_collision3_d_get_travel(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_kinematic_collision3_d_get_travel(gdext_c_object_t instance);
 
 /**
  * @brief KinematicCollision3D.get_remainder
  */
-gdext_c_vec3 gdext_kinematic_collision3_d_get_remainder(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_kinematic_collision3_d_get_remainder(gdext_c_object_t instance);
 
 /**
  * @brief KinematicCollision3D.get_depth
@@ -30266,17 +30267,17 @@ int64_t gdext_kinematic_collision3_d_get_collision_count(gdext_c_object_t instan
 /**
  * @brief KinematicCollision3D.get_position
  */
-gdext_c_vec3 gdext_kinematic_collision3_d_get_position(gdext_c_object_t instance, int64_t collision_index);
+gdext_c_vector3_t gdext_kinematic_collision3_d_get_position(gdext_c_object_t instance, int64_t collision_index);
 
 /**
  * @brief KinematicCollision3D.get_normal
  */
-gdext_c_vec3 gdext_kinematic_collision3_d_get_normal(gdext_c_object_t instance, int64_t collision_index);
+gdext_c_vector3_t gdext_kinematic_collision3_d_get_normal(gdext_c_object_t instance, int64_t collision_index);
 
 /**
  * @brief KinematicCollision3D.get_angle
  */
-double gdext_kinematic_collision3_d_get_angle(gdext_c_object_t instance, int64_t collision_index, gdext_c_vec3 up_direction);
+double gdext_kinematic_collision3_d_get_angle(gdext_c_object_t instance, int64_t collision_index, gdext_c_vector3_t up_direction);
 
 /**
  * @brief KinematicCollision3D.get_local_shape
@@ -30311,7 +30312,7 @@ int64_t gdext_kinematic_collision3_d_get_collider_shape_index(gdext_c_object_t i
 /**
  * @brief KinematicCollision3D.get_collider_velocity
  */
-gdext_c_vec3 gdext_kinematic_collision3_d_get_collider_velocity(gdext_c_object_t instance, int64_t collision_index);
+gdext_c_vector3_t gdext_kinematic_collision3_d_get_collider_velocity(gdext_c_object_t instance, int64_t collision_index);
 
 /* ============================================================================
  * Class: Label
@@ -30591,22 +30592,22 @@ int32_t gdext_label3_d_get_vertical_alignment(gdext_c_object_t instance);
 /**
  * @brief Label3D.set_modulate
  */
-void gdext_label3_d_set_modulate(gdext_c_object_t instance, gdext_c_color modulate);
+void gdext_label3_d_set_modulate(gdext_c_object_t instance, gdext_c_color_t modulate);
 
 /**
  * @brief Label3D.get_modulate
  */
-gdext_c_color gdext_label3_d_get_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_label3_d_get_modulate(gdext_c_object_t instance);
 
 /**
  * @brief Label3D.set_outline_modulate
  */
-void gdext_label3_d_set_outline_modulate(gdext_c_object_t instance, gdext_c_color modulate);
+void gdext_label3_d_set_outline_modulate(gdext_c_object_t instance, gdext_c_color_t modulate);
 
 /**
  * @brief Label3D.get_outline_modulate
  */
-gdext_c_color gdext_label3_d_get_outline_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_label3_d_get_outline_modulate(gdext_c_object_t instance);
 
 /**
  * @brief Label3D.set_text
@@ -30781,12 +30782,12 @@ double gdext_label3_d_get_pixel_size(gdext_c_object_t instance);
 /**
  * @brief Label3D.set_offset
  */
-void gdext_label3_d_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_label3_d_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Label3D.get_offset
  */
-gdext_c_vec2 gdext_label3_d_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_label3_d_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief Label3D.set_draw_flag
@@ -30921,12 +30922,12 @@ int64_t gdext_label_settings_get_font_size(gdext_c_object_t instance);
 /**
  * @brief LabelSettings.set_font_color
  */
-void gdext_label_settings_set_font_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_label_settings_set_font_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief LabelSettings.get_font_color
  */
-gdext_c_color gdext_label_settings_get_font_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_label_settings_get_font_color(gdext_c_object_t instance);
 
 /**
  * @brief LabelSettings.set_outline_size
@@ -30941,12 +30942,12 @@ int64_t gdext_label_settings_get_outline_size(gdext_c_object_t instance);
 /**
  * @brief LabelSettings.set_outline_color
  */
-void gdext_label_settings_set_outline_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_label_settings_set_outline_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief LabelSettings.get_outline_color
  */
-gdext_c_color gdext_label_settings_get_outline_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_label_settings_get_outline_color(gdext_c_object_t instance);
 
 /**
  * @brief LabelSettings.set_shadow_size
@@ -30961,22 +30962,22 @@ int64_t gdext_label_settings_get_shadow_size(gdext_c_object_t instance);
 /**
  * @brief LabelSettings.set_shadow_color
  */
-void gdext_label_settings_set_shadow_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_label_settings_set_shadow_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief LabelSettings.get_shadow_color
  */
-gdext_c_color gdext_label_settings_get_shadow_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_label_settings_get_shadow_color(gdext_c_object_t instance);
 
 /**
  * @brief LabelSettings.set_shadow_offset
  */
-void gdext_label_settings_set_shadow_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_label_settings_set_shadow_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief LabelSettings.get_shadow_offset
  */
-gdext_c_vec2 gdext_label_settings_get_shadow_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_label_settings_get_shadow_offset(gdext_c_object_t instance);
 
 /**
  * @brief LabelSettings.get_stacked_outline_count
@@ -31016,12 +31017,12 @@ int64_t gdext_label_settings_get_stacked_outline_size(gdext_c_object_t instance,
 /**
  * @brief LabelSettings.set_stacked_outline_color
  */
-void gdext_label_settings_set_stacked_outline_color(gdext_c_object_t instance, int64_t index, gdext_c_color color);
+void gdext_label_settings_set_stacked_outline_color(gdext_c_object_t instance, int64_t index, gdext_c_color_t color);
 
 /**
  * @brief LabelSettings.get_stacked_outline_color
  */
-gdext_c_color gdext_label_settings_get_stacked_outline_color(gdext_c_object_t instance, int64_t index);
+gdext_c_color_t gdext_label_settings_get_stacked_outline_color(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief LabelSettings.get_stacked_shadow_count
@@ -31051,22 +31052,22 @@ void gdext_label_settings_remove_stacked_shadow(gdext_c_object_t instance, int64
 /**
  * @brief LabelSettings.set_stacked_shadow_offset
  */
-void gdext_label_settings_set_stacked_shadow_offset(gdext_c_object_t instance, int64_t index, gdext_c_vec2 offset);
+void gdext_label_settings_set_stacked_shadow_offset(gdext_c_object_t instance, int64_t index, gdext_c_vector2_t offset);
 
 /**
  * @brief LabelSettings.get_stacked_shadow_offset
  */
-gdext_c_vec2 gdext_label_settings_get_stacked_shadow_offset(gdext_c_object_t instance, int64_t index);
+gdext_c_vector2_t gdext_label_settings_get_stacked_shadow_offset(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief LabelSettings.set_stacked_shadow_color
  */
-void gdext_label_settings_set_stacked_shadow_color(gdext_c_object_t instance, int64_t index, gdext_c_color color);
+void gdext_label_settings_set_stacked_shadow_color(gdext_c_object_t instance, int64_t index, gdext_c_color_t color);
 
 /**
  * @brief LabelSettings.get_stacked_shadow_color
  */
-gdext_c_color gdext_label_settings_get_stacked_shadow_color(gdext_c_object_t instance, int64_t index);
+gdext_c_color_t gdext_label_settings_get_stacked_shadow_color(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief LabelSettings.set_stacked_shadow_outline_size
@@ -31106,12 +31107,12 @@ GDExtensionBool gdext_light2_d_is_editor_only(gdext_c_object_t instance);
 /**
  * @brief Light2D.set_color
  */
-void gdext_light2_d_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_light2_d_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Light2D.get_color
  */
-gdext_c_color gdext_light2_d_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_light2_d_get_color(gdext_c_object_t instance);
 
 /**
  * @brief Light2D.set_energy
@@ -31216,12 +31217,12 @@ int32_t gdext_light2_d_get_shadow_filter(gdext_c_object_t instance);
 /**
  * @brief Light2D.set_shadow_color
  */
-void gdext_light2_d_set_shadow_color(gdext_c_object_t instance, gdext_c_color shadow_color);
+void gdext_light2_d_set_shadow_color(gdext_c_object_t instance, gdext_c_color_t shadow_color);
 
 /**
  * @brief Light2D.get_shadow_color
  */
-gdext_c_color gdext_light2_d_get_shadow_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_light2_d_get_shadow_color(gdext_c_object_t instance);
 
 /**
  * @brief Light2D.set_blend_mode
@@ -31341,12 +31342,12 @@ double gdext_light3_d_get_distance_fade_length(gdext_c_object_t instance);
 /**
  * @brief Light3D.set_color
  */
-void gdext_light3_d_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_light3_d_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Light3D.get_color
  */
-gdext_c_color gdext_light3_d_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_light3_d_get_color(gdext_c_object_t instance);
 
 /**
  * @brief Light3D.set_shadow_reverse_cull_face
@@ -31401,7 +31402,7 @@ double gdext_light3_d_get_temperature(gdext_c_object_t instance);
 /**
  * @brief Light3D.get_correlated_color
  */
-gdext_c_color gdext_light3_d_get_correlated_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_light3_d_get_correlated_color(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: LightOccluder2D
@@ -31526,12 +31527,12 @@ gdext_c_object_t gdext_lightmap_g_i_get_environment_custom_sky(gdext_c_object_t 
 /**
  * @brief LightmapGI.set_environment_custom_color
  */
-void gdext_lightmap_g_i_set_environment_custom_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_lightmap_g_i_set_environment_custom_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief LightmapGI.get_environment_custom_color
  */
-gdext_c_color gdext_lightmap_g_i_get_environment_custom_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_lightmap_g_i_get_environment_custom_color(gdext_c_object_t instance);
 
 /**
  * @brief LightmapGI.set_environment_custom_energy
@@ -31746,12 +31747,12 @@ gdext_c_object_t gdext_line2_d_get_points(gdext_c_object_t instance);
 /**
  * @brief Line2D.set_point_position
  */
-void gdext_line2_d_set_point_position(gdext_c_object_t instance, int64_t index, gdext_c_vec2 position);
+void gdext_line2_d_set_point_position(gdext_c_object_t instance, int64_t index, gdext_c_vector2_t position);
 
 /**
  * @brief Line2D.get_point_position
  */
-gdext_c_vec2 gdext_line2_d_get_point_position(gdext_c_object_t instance, int64_t index);
+gdext_c_vector2_t gdext_line2_d_get_point_position(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief Line2D.get_point_count
@@ -31761,7 +31762,7 @@ int64_t gdext_line2_d_get_point_count(gdext_c_object_t instance);
 /**
  * @brief Line2D.add_point
  */
-void gdext_line2_d_add_point(gdext_c_object_t instance, gdext_c_vec2 position, int64_t index);
+void gdext_line2_d_add_point(gdext_c_object_t instance, gdext_c_vector2_t position, int64_t index);
 
 /**
  * @brief Line2D.remove_point
@@ -31806,12 +31807,12 @@ gdext_c_object_t gdext_line2_d_get_curve(gdext_c_object_t instance);
 /**
  * @brief Line2D.set_default_color
  */
-void gdext_line2_d_set_default_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_line2_d_set_default_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Line2D.get_default_color
  */
-gdext_c_color gdext_line2_d_get_default_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_line2_d_get_default_color(gdext_c_object_t instance);
 
 /**
  * @brief Line2D.set_gradient
@@ -32566,12 +32567,12 @@ gdext_c_object_t gdext_look_at_modifier3_d_get_origin_external_node(gdext_c_obje
 /**
  * @brief LookAtModifier3D.set_origin_offset
  */
-void gdext_look_at_modifier3_d_set_origin_offset(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_look_at_modifier3_d_set_origin_offset(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief LookAtModifier3D.get_origin_offset
  */
-gdext_c_vec3 gdext_look_at_modifier3_d_get_origin_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_look_at_modifier3_d_get_origin_offset(gdext_c_object_t instance);
 
 /**
  * @brief LookAtModifier3D.set_duration
@@ -33276,22 +33277,22 @@ int64_t gdext_mesh_data_tool_get_face_count(gdext_c_object_t instance);
 /**
  * @brief MeshDataTool.set_vertex
  */
-void gdext_mesh_data_tool_set_vertex(gdext_c_object_t instance, int64_t idx, gdext_c_vec3 vertex);
+void gdext_mesh_data_tool_set_vertex(gdext_c_object_t instance, int64_t idx, gdext_c_vector3_t vertex);
 
 /**
  * @brief MeshDataTool.get_vertex
  */
-gdext_c_vec3 gdext_mesh_data_tool_get_vertex(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector3_t gdext_mesh_data_tool_get_vertex(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief MeshDataTool.set_vertex_normal
  */
-void gdext_mesh_data_tool_set_vertex_normal(gdext_c_object_t instance, int64_t idx, gdext_c_vec3 normal);
+void gdext_mesh_data_tool_set_vertex_normal(gdext_c_object_t instance, int64_t idx, gdext_c_vector3_t normal);
 
 /**
  * @brief MeshDataTool.get_vertex_normal
  */
-gdext_c_vec3 gdext_mesh_data_tool_get_vertex_normal(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector3_t gdext_mesh_data_tool_get_vertex_normal(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief MeshDataTool.set_vertex_tangent
@@ -33306,32 +33307,32 @@ gdext_c_object_t gdext_mesh_data_tool_get_vertex_tangent(gdext_c_object_t instan
 /**
  * @brief MeshDataTool.set_vertex_uv
  */
-void gdext_mesh_data_tool_set_vertex_uv(gdext_c_object_t instance, int64_t idx, gdext_c_vec2 uv);
+void gdext_mesh_data_tool_set_vertex_uv(gdext_c_object_t instance, int64_t idx, gdext_c_vector2_t uv);
 
 /**
  * @brief MeshDataTool.get_vertex_uv
  */
-gdext_c_vec2 gdext_mesh_data_tool_get_vertex_uv(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector2_t gdext_mesh_data_tool_get_vertex_uv(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief MeshDataTool.set_vertex_uv2
  */
-void gdext_mesh_data_tool_set_vertex_uv2(gdext_c_object_t instance, int64_t idx, gdext_c_vec2 uv2);
+void gdext_mesh_data_tool_set_vertex_uv2(gdext_c_object_t instance, int64_t idx, gdext_c_vector2_t uv2);
 
 /**
  * @brief MeshDataTool.get_vertex_uv2
  */
-gdext_c_vec2 gdext_mesh_data_tool_get_vertex_uv2(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector2_t gdext_mesh_data_tool_get_vertex_uv2(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief MeshDataTool.set_vertex_color
  */
-void gdext_mesh_data_tool_set_vertex_color(gdext_c_object_t instance, int64_t idx, gdext_c_color color);
+void gdext_mesh_data_tool_set_vertex_color(gdext_c_object_t instance, int64_t idx, gdext_c_color_t color);
 
 /**
  * @brief MeshDataTool.get_vertex_color
  */
-gdext_c_color gdext_mesh_data_tool_get_vertex_color(gdext_c_object_t instance, int64_t idx);
+gdext_c_color_t gdext_mesh_data_tool_get_vertex_color(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief MeshDataTool.set_vertex_bones
@@ -33416,7 +33417,7 @@ gdext_c_object_t gdext_mesh_data_tool_get_face_meta(gdext_c_object_t instance, i
 /**
  * @brief MeshDataTool.get_face_normal
  */
-gdext_c_vec3 gdext_mesh_data_tool_get_face_normal(gdext_c_object_t instance, int64_t idx);
+gdext_c_vector3_t gdext_mesh_data_tool_get_face_normal(gdext_c_object_t instance, int64_t idx);
 
 /**
  * @brief MeshDataTool.set_material
@@ -33706,12 +33707,12 @@ gdext_c_object_t gdext_mesh_texture_get_mesh(gdext_c_object_t instance);
 /**
  * @brief MeshTexture.set_image_size
  */
-void gdext_mesh_texture_set_image_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_mesh_texture_set_image_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief MeshTexture.get_image_size
  */
-gdext_c_vec2 gdext_mesh_texture_get_image_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_mesh_texture_get_image_size(gdext_c_object_t instance);
 
 /**
  * @brief MeshTexture.set_base_texture
@@ -34042,22 +34043,22 @@ gdext_c_object_t gdext_multi_mesh_get_instance_transform_2d(gdext_c_object_t ins
 /**
  * @brief MultiMesh.set_instance_color
  */
-void gdext_multi_mesh_set_instance_color(gdext_c_object_t instance, int64_t instance_arg, gdext_c_color color);
+void gdext_multi_mesh_set_instance_color(gdext_c_object_t instance, int64_t instance_arg, gdext_c_color_t color);
 
 /**
  * @brief MultiMesh.get_instance_color
  */
-gdext_c_color gdext_multi_mesh_get_instance_color(gdext_c_object_t instance, int64_t instance_arg);
+gdext_c_color_t gdext_multi_mesh_get_instance_color(gdext_c_object_t instance, int64_t instance_arg);
 
 /**
  * @brief MultiMesh.set_instance_custom_data
  */
-void gdext_multi_mesh_set_instance_custom_data(gdext_c_object_t instance, int64_t instance_arg, gdext_c_color custom_data);
+void gdext_multi_mesh_set_instance_custom_data(gdext_c_object_t instance, int64_t instance_arg, gdext_c_color_t custom_data);
 
 /**
  * @brief MultiMesh.get_instance_custom_data
  */
-gdext_c_color gdext_multi_mesh_get_instance_custom_data(gdext_c_object_t instance, int64_t instance_arg);
+gdext_c_color_t gdext_multi_mesh_get_instance_custom_data(gdext_c_object_t instance, int64_t instance_arg);
 
 /**
  * @brief MultiMesh.reset_instance_physics_interpolation
@@ -34515,7 +34516,7 @@ void gdext_native_menu_free_menu(gdext_c_object_t instance, gdext_c_object_t rid
 /**
  * @brief NativeMenu.get_size
  */
-gdext_c_vec2 gdext_native_menu_get_size(gdext_c_object_t instance, gdext_c_object_t rid);
+gdext_c_vector2_t gdext_native_menu_get_size(gdext_c_object_t instance, gdext_c_object_t rid);
 
 /**
  * @brief NativeMenu.popup
@@ -34980,12 +34981,12 @@ gdext_c_object_t gdext_navigation_agent2_d_get_navigation_map(gdext_c_object_t i
 /**
  * @brief NavigationAgent2D.set_target_position
  */
-void gdext_navigation_agent2_d_set_target_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_navigation_agent2_d_set_target_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationAgent2D.get_target_position
  */
-gdext_c_vec2 gdext_navigation_agent2_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_agent2_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent2D.set_simplify_path
@@ -35055,22 +35056,22 @@ double gdext_navigation_agent2_d_get_path_length(gdext_c_object_t instance);
 /**
  * @brief NavigationAgent2D.get_next_path_position
  */
-gdext_c_vec2 gdext_navigation_agent2_d_get_next_path_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_agent2_d_get_next_path_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent2D.set_velocity_forced
  */
-void gdext_navigation_agent2_d_set_velocity_forced(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_navigation_agent2_d_set_velocity_forced(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief NavigationAgent2D.set_velocity
  */
-void gdext_navigation_agent2_d_set_velocity(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_navigation_agent2_d_set_velocity(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief NavigationAgent2D.get_velocity
  */
-gdext_c_vec2 gdext_navigation_agent2_d_get_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_agent2_d_get_velocity(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent2D.distance_to_target
@@ -35110,7 +35111,7 @@ GDExtensionBool gdext_navigation_agent2_d_is_navigation_finished(gdext_c_object_
 /**
  * @brief NavigationAgent2D.get_final_position
  */
-gdext_c_vec2 gdext_navigation_agent2_d_get_final_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_agent2_d_get_final_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent2D.set_avoidance_layers
@@ -35185,12 +35186,12 @@ GDExtensionBool gdext_navigation_agent2_d_get_debug_use_custom(gdext_c_object_t 
 /**
  * @brief NavigationAgent2D.set_debug_path_custom_color
  */
-void gdext_navigation_agent2_d_set_debug_path_custom_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_navigation_agent2_d_set_debug_path_custom_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief NavigationAgent2D.get_debug_path_custom_color
  */
-gdext_c_color gdext_navigation_agent2_d_get_debug_path_custom_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_navigation_agent2_d_get_debug_path_custom_color(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent2D.set_debug_path_custom_point_size
@@ -35425,12 +35426,12 @@ gdext_c_object_t gdext_navigation_agent3_d_get_navigation_map(gdext_c_object_t i
 /**
  * @brief NavigationAgent3D.set_target_position
  */
-void gdext_navigation_agent3_d_set_target_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_navigation_agent3_d_set_target_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationAgent3D.get_target_position
  */
-gdext_c_vec3 gdext_navigation_agent3_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_agent3_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent3D.set_simplify_path
@@ -35500,22 +35501,22 @@ double gdext_navigation_agent3_d_get_path_length(gdext_c_object_t instance);
 /**
  * @brief NavigationAgent3D.get_next_path_position
  */
-gdext_c_vec3 gdext_navigation_agent3_d_get_next_path_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_agent3_d_get_next_path_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent3D.set_velocity_forced
  */
-void gdext_navigation_agent3_d_set_velocity_forced(gdext_c_object_t instance, gdext_c_vec3 velocity);
+void gdext_navigation_agent3_d_set_velocity_forced(gdext_c_object_t instance, gdext_c_vector3_t velocity);
 
 /**
  * @brief NavigationAgent3D.set_velocity
  */
-void gdext_navigation_agent3_d_set_velocity(gdext_c_object_t instance, gdext_c_vec3 velocity);
+void gdext_navigation_agent3_d_set_velocity(gdext_c_object_t instance, gdext_c_vector3_t velocity);
 
 /**
  * @brief NavigationAgent3D.get_velocity
  */
-gdext_c_vec3 gdext_navigation_agent3_d_get_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_agent3_d_get_velocity(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent3D.distance_to_target
@@ -35555,7 +35556,7 @@ GDExtensionBool gdext_navigation_agent3_d_is_navigation_finished(gdext_c_object_
 /**
  * @brief NavigationAgent3D.get_final_position
  */
-gdext_c_vec3 gdext_navigation_agent3_d_get_final_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_agent3_d_get_final_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent3D.set_avoidance_layers
@@ -35630,12 +35631,12 @@ GDExtensionBool gdext_navigation_agent3_d_get_debug_use_custom(gdext_c_object_t 
 /**
  * @brief NavigationAgent3D.set_debug_path_custom_color
  */
-void gdext_navigation_agent3_d_set_debug_path_custom_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_navigation_agent3_d_set_debug_path_custom_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief NavigationAgent3D.get_debug_path_custom_color
  */
-gdext_c_color gdext_navigation_agent3_d_get_debug_path_custom_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_navigation_agent3_d_get_debug_path_custom_color(gdext_c_object_t instance);
 
 /**
  * @brief NavigationAgent3D.set_debug_path_custom_point_size
@@ -35710,42 +35711,42 @@ GDExtensionBool gdext_navigation_link2_d_get_navigation_layer_value(gdext_c_obje
 /**
  * @brief NavigationLink2D.set_start_position
  */
-void gdext_navigation_link2_d_set_start_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_navigation_link2_d_set_start_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationLink2D.get_start_position
  */
-gdext_c_vec2 gdext_navigation_link2_d_get_start_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_link2_d_get_start_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationLink2D.set_end_position
  */
-void gdext_navigation_link2_d_set_end_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_navigation_link2_d_set_end_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationLink2D.get_end_position
  */
-gdext_c_vec2 gdext_navigation_link2_d_get_end_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_link2_d_get_end_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationLink2D.set_global_start_position
  */
-void gdext_navigation_link2_d_set_global_start_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_navigation_link2_d_set_global_start_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationLink2D.get_global_start_position
  */
-gdext_c_vec2 gdext_navigation_link2_d_get_global_start_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_link2_d_get_global_start_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationLink2D.set_global_end_position
  */
-void gdext_navigation_link2_d_set_global_end_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_navigation_link2_d_set_global_end_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationLink2D.get_global_end_position
  */
-gdext_c_vec2 gdext_navigation_link2_d_get_global_end_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_link2_d_get_global_end_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationLink2D.set_enter_cost
@@ -35830,42 +35831,42 @@ GDExtensionBool gdext_navigation_link3_d_get_navigation_layer_value(gdext_c_obje
 /**
  * @brief NavigationLink3D.set_start_position
  */
-void gdext_navigation_link3_d_set_start_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_navigation_link3_d_set_start_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationLink3D.get_start_position
  */
-gdext_c_vec3 gdext_navigation_link3_d_get_start_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_link3_d_get_start_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationLink3D.set_end_position
  */
-void gdext_navigation_link3_d_set_end_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_navigation_link3_d_set_end_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationLink3D.get_end_position
  */
-gdext_c_vec3 gdext_navigation_link3_d_get_end_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_link3_d_get_end_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationLink3D.set_global_start_position
  */
-void gdext_navigation_link3_d_set_global_start_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_navigation_link3_d_set_global_start_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationLink3D.get_global_start_position
  */
-gdext_c_vec3 gdext_navigation_link3_d_get_global_start_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_link3_d_get_global_start_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationLink3D.set_global_end_position
  */
-void gdext_navigation_link3_d_set_global_end_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_navigation_link3_d_set_global_end_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationLink3D.get_global_end_position
  */
-gdext_c_vec3 gdext_navigation_link3_d_get_global_end_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_link3_d_get_global_end_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationLink3D.set_enter_cost
@@ -36135,12 +36136,12 @@ gdext_c_object_t gdext_navigation_mesh_get_filter_baking_aabb(gdext_c_object_t i
 /**
  * @brief NavigationMesh.set_filter_baking_aabb_offset
  */
-void gdext_navigation_mesh_set_filter_baking_aabb_offset(gdext_c_object_t instance, gdext_c_vec3 baking_aabb_offset);
+void gdext_navigation_mesh_set_filter_baking_aabb_offset(gdext_c_object_t instance, gdext_c_vector3_t baking_aabb_offset);
 
 /**
  * @brief NavigationMesh.get_filter_baking_aabb_offset
  */
-gdext_c_vec3 gdext_navigation_mesh_get_filter_baking_aabb_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_mesh_get_filter_baking_aabb_offset(gdext_c_object_t instance);
 
 /**
  * @brief NavigationMesh.set_vertices
@@ -36420,12 +36421,12 @@ double gdext_navigation_obstacle2_d_get_radius(gdext_c_object_t instance);
 /**
  * @brief NavigationObstacle2D.set_velocity
  */
-void gdext_navigation_obstacle2_d_set_velocity(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_navigation_obstacle2_d_set_velocity(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief NavigationObstacle2D.get_velocity
  */
-gdext_c_vec2 gdext_navigation_obstacle2_d_get_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_obstacle2_d_get_velocity(gdext_c_object_t instance);
 
 /**
  * @brief NavigationObstacle2D.set_vertices
@@ -36530,12 +36531,12 @@ double gdext_navigation_obstacle3_d_get_height(gdext_c_object_t instance);
 /**
  * @brief NavigationObstacle3D.set_velocity
  */
-void gdext_navigation_obstacle3_d_set_velocity(gdext_c_object_t instance, gdext_c_vec3 velocity);
+void gdext_navigation_obstacle3_d_set_velocity(gdext_c_object_t instance, gdext_c_vector3_t velocity);
 
 /**
  * @brief NavigationObstacle3D.get_velocity
  */
-gdext_c_vec3 gdext_navigation_obstacle3_d_get_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_obstacle3_d_get_velocity(gdext_c_object_t instance);
 
 /**
  * @brief NavigationObstacle3D.set_vertices
@@ -36635,22 +36636,22 @@ gdext_c_object_t gdext_navigation_path_query_parameters2_d_get_map(gdext_c_objec
 /**
  * @brief NavigationPathQueryParameters2D.set_start_position
  */
-void gdext_navigation_path_query_parameters2_d_set_start_position(gdext_c_object_t instance, gdext_c_vec2 start_position);
+void gdext_navigation_path_query_parameters2_d_set_start_position(gdext_c_object_t instance, gdext_c_vector2_t start_position);
 
 /**
  * @brief NavigationPathQueryParameters2D.get_start_position
  */
-gdext_c_vec2 gdext_navigation_path_query_parameters2_d_get_start_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_path_query_parameters2_d_get_start_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationPathQueryParameters2D.set_target_position
  */
-void gdext_navigation_path_query_parameters2_d_set_target_position(gdext_c_object_t instance, gdext_c_vec2 target_position);
+void gdext_navigation_path_query_parameters2_d_set_target_position(gdext_c_object_t instance, gdext_c_vector2_t target_position);
 
 /**
  * @brief NavigationPathQueryParameters2D.get_target_position
  */
-gdext_c_vec2 gdext_navigation_path_query_parameters2_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_path_query_parameters2_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationPathQueryParameters2D.set_navigation_layers
@@ -36790,22 +36791,22 @@ gdext_c_object_t gdext_navigation_path_query_parameters3_d_get_map(gdext_c_objec
 /**
  * @brief NavigationPathQueryParameters3D.set_start_position
  */
-void gdext_navigation_path_query_parameters3_d_set_start_position(gdext_c_object_t instance, gdext_c_vec3 start_position);
+void gdext_navigation_path_query_parameters3_d_set_start_position(gdext_c_object_t instance, gdext_c_vector3_t start_position);
 
 /**
  * @brief NavigationPathQueryParameters3D.get_start_position
  */
-gdext_c_vec3 gdext_navigation_path_query_parameters3_d_get_start_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_path_query_parameters3_d_get_start_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationPathQueryParameters3D.set_target_position
  */
-void gdext_navigation_path_query_parameters3_d_set_target_position(gdext_c_object_t instance, gdext_c_vec3 target_position);
+void gdext_navigation_path_query_parameters3_d_set_target_position(gdext_c_object_t instance, gdext_c_vector3_t target_position);
 
 /**
  * @brief NavigationPathQueryParameters3D.get_target_position
  */
-gdext_c_vec3 gdext_navigation_path_query_parameters3_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_navigation_path_query_parameters3_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief NavigationPathQueryParameters3D.set_navigation_layers
@@ -37210,12 +37211,12 @@ gdext_c_object_t gdext_navigation_polygon_get_baking_rect(gdext_c_object_t insta
 /**
  * @brief NavigationPolygon.set_baking_rect_offset
  */
-void gdext_navigation_polygon_set_baking_rect_offset(gdext_c_object_t instance, gdext_c_vec2 rect_offset);
+void gdext_navigation_polygon_set_baking_rect_offset(gdext_c_object_t instance, gdext_c_vector2_t rect_offset);
 
 /**
  * @brief NavigationPolygon.get_baking_rect_offset
  */
-gdext_c_vec2 gdext_navigation_polygon_get_baking_rect_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_navigation_polygon_get_baking_rect_offset(gdext_c_object_t instance);
 
 /**
  * @brief NavigationPolygon.clear
@@ -37520,17 +37521,17 @@ double gdext_navigation_server2_d_map_get_link_connection_radius(gdext_c_object_
 /**
  * @brief NavigationServer2D.map_get_path
  */
-gdext_c_object_t gdext_navigation_server2_d_map_get_path(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec2 origin, gdext_c_vec2 destination, GDExtensionBool optimize, int64_t navigation_layers);
+gdext_c_object_t gdext_navigation_server2_d_map_get_path(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector2_t origin, gdext_c_vector2_t destination, GDExtensionBool optimize, int64_t navigation_layers);
 
 /**
  * @brief NavigationServer2D.map_get_closest_point
  */
-gdext_c_vec2 gdext_navigation_server2_d_map_get_closest_point(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec2 to_point);
+gdext_c_vector2_t gdext_navigation_server2_d_map_get_closest_point(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector2_t to_point);
 
 /**
  * @brief NavigationServer2D.map_get_closest_point_owner
  */
-gdext_c_object_t gdext_navigation_server2_d_map_get_closest_point_owner(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec2 to_point);
+gdext_c_object_t gdext_navigation_server2_d_map_get_closest_point_owner(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector2_t to_point);
 
 /**
  * @brief NavigationServer2D.map_get_links
@@ -37575,7 +37576,7 @@ GDExtensionBool gdext_navigation_server2_d_map_get_use_async_iterations(gdext_c_
 /**
  * @brief NavigationServer2D.map_get_random_point
  */
-gdext_c_vec2 gdext_navigation_server2_d_map_get_random_point(gdext_c_object_t instance, gdext_c_object_t map, int64_t navigation_layers, GDExtensionBool uniformly);
+gdext_c_vector2_t gdext_navigation_server2_d_map_get_random_point(gdext_c_object_t instance, gdext_c_object_t map, int64_t navigation_layers, GDExtensionBool uniformly);
 
 /**
  * @brief NavigationServer2D.query_path
@@ -37655,7 +37656,7 @@ int64_t gdext_navigation_server2_d_region_get_owner_id(gdext_c_object_t instance
 /**
  * @brief NavigationServer2D.region_owns_point
  */
-GDExtensionBool gdext_navigation_server2_d_region_owns_point(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vec2 point);
+GDExtensionBool gdext_navigation_server2_d_region_owns_point(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vector2_t point);
 
 /**
  * @brief NavigationServer2D.region_set_map
@@ -37700,22 +37701,22 @@ int64_t gdext_navigation_server2_d_region_get_connections_count(gdext_c_object_t
 /**
  * @brief NavigationServer2D.region_get_connection_pathway_start
  */
-gdext_c_vec2 gdext_navigation_server2_d_region_get_connection_pathway_start(gdext_c_object_t instance, gdext_c_object_t region, int64_t connection);
+gdext_c_vector2_t gdext_navigation_server2_d_region_get_connection_pathway_start(gdext_c_object_t instance, gdext_c_object_t region, int64_t connection);
 
 /**
  * @brief NavigationServer2D.region_get_connection_pathway_end
  */
-gdext_c_vec2 gdext_navigation_server2_d_region_get_connection_pathway_end(gdext_c_object_t instance, gdext_c_object_t region, int64_t connection);
+gdext_c_vector2_t gdext_navigation_server2_d_region_get_connection_pathway_end(gdext_c_object_t instance, gdext_c_object_t region, int64_t connection);
 
 /**
  * @brief NavigationServer2D.region_get_closest_point
  */
-gdext_c_vec2 gdext_navigation_server2_d_region_get_closest_point(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vec2 to_point);
+gdext_c_vector2_t gdext_navigation_server2_d_region_get_closest_point(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vector2_t to_point);
 
 /**
  * @brief NavigationServer2D.region_get_random_point
  */
-gdext_c_vec2 gdext_navigation_server2_d_region_get_random_point(gdext_c_object_t instance, gdext_c_object_t region, int64_t navigation_layers, GDExtensionBool uniformly);
+gdext_c_vector2_t gdext_navigation_server2_d_region_get_random_point(gdext_c_object_t instance, gdext_c_object_t region, int64_t navigation_layers, GDExtensionBool uniformly);
 
 /**
  * @brief NavigationServer2D.region_get_bounds
@@ -37775,22 +37776,22 @@ int64_t gdext_navigation_server2_d_link_get_navigation_layers(gdext_c_object_t i
 /**
  * @brief NavigationServer2D.link_set_start_position
  */
-void gdext_navigation_server2_d_link_set_start_position(gdext_c_object_t instance, gdext_c_object_t link, gdext_c_vec2 position);
+void gdext_navigation_server2_d_link_set_start_position(gdext_c_object_t instance, gdext_c_object_t link, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationServer2D.link_get_start_position
  */
-gdext_c_vec2 gdext_navigation_server2_d_link_get_start_position(gdext_c_object_t instance, gdext_c_object_t link);
+gdext_c_vector2_t gdext_navigation_server2_d_link_get_start_position(gdext_c_object_t instance, gdext_c_object_t link);
 
 /**
  * @brief NavigationServer2D.link_set_end_position
  */
-void gdext_navigation_server2_d_link_set_end_position(gdext_c_object_t instance, gdext_c_object_t link, gdext_c_vec2 position);
+void gdext_navigation_server2_d_link_set_end_position(gdext_c_object_t instance, gdext_c_object_t link, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationServer2D.link_get_end_position
  */
-gdext_c_vec2 gdext_navigation_server2_d_link_get_end_position(gdext_c_object_t instance, gdext_c_object_t link);
+gdext_c_vector2_t gdext_navigation_server2_d_link_get_end_position(gdext_c_object_t instance, gdext_c_object_t link);
 
 /**
  * @brief NavigationServer2D.link_set_enter_cost
@@ -37920,27 +37921,27 @@ double gdext_navigation_server2_d_agent_get_max_speed(gdext_c_object_t instance,
 /**
  * @brief NavigationServer2D.agent_set_velocity_forced
  */
-void gdext_navigation_server2_d_agent_set_velocity_forced(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vec2 velocity);
+void gdext_navigation_server2_d_agent_set_velocity_forced(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vector2_t velocity);
 
 /**
  * @brief NavigationServer2D.agent_set_velocity
  */
-void gdext_navigation_server2_d_agent_set_velocity(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vec2 velocity);
+void gdext_navigation_server2_d_agent_set_velocity(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vector2_t velocity);
 
 /**
  * @brief NavigationServer2D.agent_get_velocity
  */
-gdext_c_vec2 gdext_navigation_server2_d_agent_get_velocity(gdext_c_object_t instance, gdext_c_object_t agent);
+gdext_c_vector2_t gdext_navigation_server2_d_agent_get_velocity(gdext_c_object_t instance, gdext_c_object_t agent);
 
 /**
  * @brief NavigationServer2D.agent_set_position
  */
-void gdext_navigation_server2_d_agent_set_position(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vec2 position);
+void gdext_navigation_server2_d_agent_set_position(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationServer2D.agent_get_position
  */
-gdext_c_vec2 gdext_navigation_server2_d_agent_get_position(gdext_c_object_t instance, gdext_c_object_t agent);
+gdext_c_vector2_t gdext_navigation_server2_d_agent_get_position(gdext_c_object_t instance, gdext_c_object_t agent);
 
 /**
  * @brief NavigationServer2D.agent_is_map_changed
@@ -38035,22 +38036,22 @@ double gdext_navigation_server2_d_obstacle_get_radius(gdext_c_object_t instance,
 /**
  * @brief NavigationServer2D.obstacle_set_velocity
  */
-void gdext_navigation_server2_d_obstacle_set_velocity(gdext_c_object_t instance, gdext_c_object_t obstacle, gdext_c_vec2 velocity);
+void gdext_navigation_server2_d_obstacle_set_velocity(gdext_c_object_t instance, gdext_c_object_t obstacle, gdext_c_vector2_t velocity);
 
 /**
  * @brief NavigationServer2D.obstacle_get_velocity
  */
-gdext_c_vec2 gdext_navigation_server2_d_obstacle_get_velocity(gdext_c_object_t instance, gdext_c_object_t obstacle);
+gdext_c_vector2_t gdext_navigation_server2_d_obstacle_get_velocity(gdext_c_object_t instance, gdext_c_object_t obstacle);
 
 /**
  * @brief NavigationServer2D.obstacle_set_position
  */
-void gdext_navigation_server2_d_obstacle_set_position(gdext_c_object_t instance, gdext_c_object_t obstacle, gdext_c_vec2 position);
+void gdext_navigation_server2_d_obstacle_set_position(gdext_c_object_t instance, gdext_c_object_t obstacle, gdext_c_vector2_t position);
 
 /**
  * @brief NavigationServer2D.obstacle_get_position
  */
-gdext_c_vec2 gdext_navigation_server2_d_obstacle_get_position(gdext_c_object_t instance, gdext_c_object_t obstacle);
+gdext_c_vector2_t gdext_navigation_server2_d_obstacle_get_position(gdext_c_object_t instance, gdext_c_object_t obstacle);
 
 /**
  * @brief NavigationServer2D.obstacle_set_vertices
@@ -38160,12 +38161,12 @@ GDExtensionBool gdext_navigation_server3_d_map_is_active(gdext_c_object_t instan
 /**
  * @brief NavigationServer3D.map_set_up
  */
-void gdext_navigation_server3_d_map_set_up(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec3 up);
+void gdext_navigation_server3_d_map_set_up(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector3_t up);
 
 /**
  * @brief NavigationServer3D.map_get_up
  */
-gdext_c_vec3 gdext_navigation_server3_d_map_get_up(gdext_c_object_t instance, gdext_c_object_t map);
+gdext_c_vector3_t gdext_navigation_server3_d_map_get_up(gdext_c_object_t instance, gdext_c_object_t map);
 
 /**
  * @brief NavigationServer3D.map_set_cell_size
@@ -38230,27 +38231,27 @@ double gdext_navigation_server3_d_map_get_link_connection_radius(gdext_c_object_
 /**
  * @brief NavigationServer3D.map_get_path
  */
-gdext_c_object_t gdext_navigation_server3_d_map_get_path(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec3 origin, gdext_c_vec3 destination, GDExtensionBool optimize, int64_t navigation_layers);
+gdext_c_object_t gdext_navigation_server3_d_map_get_path(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector3_t origin, gdext_c_vector3_t destination, GDExtensionBool optimize, int64_t navigation_layers);
 
 /**
  * @brief NavigationServer3D.map_get_closest_point_to_segment
  */
-gdext_c_vec3 gdext_navigation_server3_d_map_get_closest_point_to_segment(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec3 start, gdext_c_vec3 end, GDExtensionBool use_collision);
+gdext_c_vector3_t gdext_navigation_server3_d_map_get_closest_point_to_segment(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector3_t start, gdext_c_vector3_t end, GDExtensionBool use_collision);
 
 /**
  * @brief NavigationServer3D.map_get_closest_point
  */
-gdext_c_vec3 gdext_navigation_server3_d_map_get_closest_point(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec3 to_point);
+gdext_c_vector3_t gdext_navigation_server3_d_map_get_closest_point(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector3_t to_point);
 
 /**
  * @brief NavigationServer3D.map_get_closest_point_normal
  */
-gdext_c_vec3 gdext_navigation_server3_d_map_get_closest_point_normal(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec3 to_point);
+gdext_c_vector3_t gdext_navigation_server3_d_map_get_closest_point_normal(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector3_t to_point);
 
 /**
  * @brief NavigationServer3D.map_get_closest_point_owner
  */
-gdext_c_object_t gdext_navigation_server3_d_map_get_closest_point_owner(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vec3 to_point);
+gdext_c_object_t gdext_navigation_server3_d_map_get_closest_point_owner(gdext_c_object_t instance, gdext_c_object_t map, gdext_c_vector3_t to_point);
 
 /**
  * @brief NavigationServer3D.map_get_links
@@ -38295,7 +38296,7 @@ GDExtensionBool gdext_navigation_server3_d_map_get_use_async_iterations(gdext_c_
 /**
  * @brief NavigationServer3D.map_get_random_point
  */
-gdext_c_vec3 gdext_navigation_server3_d_map_get_random_point(gdext_c_object_t instance, gdext_c_object_t map, int64_t navigation_layers, GDExtensionBool uniformly);
+gdext_c_vector3_t gdext_navigation_server3_d_map_get_random_point(gdext_c_object_t instance, gdext_c_object_t map, int64_t navigation_layers, GDExtensionBool uniformly);
 
 /**
  * @brief NavigationServer3D.query_path
@@ -38375,7 +38376,7 @@ int64_t gdext_navigation_server3_d_region_get_owner_id(gdext_c_object_t instance
 /**
  * @brief NavigationServer3D.region_owns_point
  */
-GDExtensionBool gdext_navigation_server3_d_region_owns_point(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vec3 point);
+GDExtensionBool gdext_navigation_server3_d_region_owns_point(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vector3_t point);
 
 /**
  * @brief NavigationServer3D.region_set_map
@@ -38425,32 +38426,32 @@ int64_t gdext_navigation_server3_d_region_get_connections_count(gdext_c_object_t
 /**
  * @brief NavigationServer3D.region_get_connection_pathway_start
  */
-gdext_c_vec3 gdext_navigation_server3_d_region_get_connection_pathway_start(gdext_c_object_t instance, gdext_c_object_t region, int64_t connection);
+gdext_c_vector3_t gdext_navigation_server3_d_region_get_connection_pathway_start(gdext_c_object_t instance, gdext_c_object_t region, int64_t connection);
 
 /**
  * @brief NavigationServer3D.region_get_connection_pathway_end
  */
-gdext_c_vec3 gdext_navigation_server3_d_region_get_connection_pathway_end(gdext_c_object_t instance, gdext_c_object_t region, int64_t connection);
+gdext_c_vector3_t gdext_navigation_server3_d_region_get_connection_pathway_end(gdext_c_object_t instance, gdext_c_object_t region, int64_t connection);
 
 /**
  * @brief NavigationServer3D.region_get_closest_point_to_segment
  */
-gdext_c_vec3 gdext_navigation_server3_d_region_get_closest_point_to_segment(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vec3 start, gdext_c_vec3 end, GDExtensionBool use_collision);
+gdext_c_vector3_t gdext_navigation_server3_d_region_get_closest_point_to_segment(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vector3_t start, gdext_c_vector3_t end, GDExtensionBool use_collision);
 
 /**
  * @brief NavigationServer3D.region_get_closest_point
  */
-gdext_c_vec3 gdext_navigation_server3_d_region_get_closest_point(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vec3 to_point);
+gdext_c_vector3_t gdext_navigation_server3_d_region_get_closest_point(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vector3_t to_point);
 
 /**
  * @brief NavigationServer3D.region_get_closest_point_normal
  */
-gdext_c_vec3 gdext_navigation_server3_d_region_get_closest_point_normal(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vec3 to_point);
+gdext_c_vector3_t gdext_navigation_server3_d_region_get_closest_point_normal(gdext_c_object_t instance, gdext_c_object_t region, gdext_c_vector3_t to_point);
 
 /**
  * @brief NavigationServer3D.region_get_random_point
  */
-gdext_c_vec3 gdext_navigation_server3_d_region_get_random_point(gdext_c_object_t instance, gdext_c_object_t region, int64_t navigation_layers, GDExtensionBool uniformly);
+gdext_c_vector3_t gdext_navigation_server3_d_region_get_random_point(gdext_c_object_t instance, gdext_c_object_t region, int64_t navigation_layers, GDExtensionBool uniformly);
 
 /**
  * @brief NavigationServer3D.region_get_bounds
@@ -38510,22 +38511,22 @@ int64_t gdext_navigation_server3_d_link_get_navigation_layers(gdext_c_object_t i
 /**
  * @brief NavigationServer3D.link_set_start_position
  */
-void gdext_navigation_server3_d_link_set_start_position(gdext_c_object_t instance, gdext_c_object_t link, gdext_c_vec3 position);
+void gdext_navigation_server3_d_link_set_start_position(gdext_c_object_t instance, gdext_c_object_t link, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationServer3D.link_get_start_position
  */
-gdext_c_vec3 gdext_navigation_server3_d_link_get_start_position(gdext_c_object_t instance, gdext_c_object_t link);
+gdext_c_vector3_t gdext_navigation_server3_d_link_get_start_position(gdext_c_object_t instance, gdext_c_object_t link);
 
 /**
  * @brief NavigationServer3D.link_set_end_position
  */
-void gdext_navigation_server3_d_link_set_end_position(gdext_c_object_t instance, gdext_c_object_t link, gdext_c_vec3 position);
+void gdext_navigation_server3_d_link_set_end_position(gdext_c_object_t instance, gdext_c_object_t link, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationServer3D.link_get_end_position
  */
-gdext_c_vec3 gdext_navigation_server3_d_link_get_end_position(gdext_c_object_t instance, gdext_c_object_t link);
+gdext_c_vector3_t gdext_navigation_server3_d_link_get_end_position(gdext_c_object_t instance, gdext_c_object_t link);
 
 /**
  * @brief NavigationServer3D.link_set_enter_cost
@@ -38675,27 +38676,27 @@ double gdext_navigation_server3_d_agent_get_max_speed(gdext_c_object_t instance,
 /**
  * @brief NavigationServer3D.agent_set_velocity_forced
  */
-void gdext_navigation_server3_d_agent_set_velocity_forced(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vec3 velocity);
+void gdext_navigation_server3_d_agent_set_velocity_forced(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vector3_t velocity);
 
 /**
  * @brief NavigationServer3D.agent_set_velocity
  */
-void gdext_navigation_server3_d_agent_set_velocity(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vec3 velocity);
+void gdext_navigation_server3_d_agent_set_velocity(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vector3_t velocity);
 
 /**
  * @brief NavigationServer3D.agent_get_velocity
  */
-gdext_c_vec3 gdext_navigation_server3_d_agent_get_velocity(gdext_c_object_t instance, gdext_c_object_t agent);
+gdext_c_vector3_t gdext_navigation_server3_d_agent_get_velocity(gdext_c_object_t instance, gdext_c_object_t agent);
 
 /**
  * @brief NavigationServer3D.agent_set_position
  */
-void gdext_navigation_server3_d_agent_set_position(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vec3 position);
+void gdext_navigation_server3_d_agent_set_position(gdext_c_object_t instance, gdext_c_object_t agent, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationServer3D.agent_get_position
  */
-gdext_c_vec3 gdext_navigation_server3_d_agent_get_position(gdext_c_object_t instance, gdext_c_object_t agent);
+gdext_c_vector3_t gdext_navigation_server3_d_agent_get_position(gdext_c_object_t instance, gdext_c_object_t agent);
 
 /**
  * @brief NavigationServer3D.agent_is_map_changed
@@ -38810,22 +38811,22 @@ double gdext_navigation_server3_d_obstacle_get_height(gdext_c_object_t instance,
 /**
  * @brief NavigationServer3D.obstacle_set_velocity
  */
-void gdext_navigation_server3_d_obstacle_set_velocity(gdext_c_object_t instance, gdext_c_object_t obstacle, gdext_c_vec3 velocity);
+void gdext_navigation_server3_d_obstacle_set_velocity(gdext_c_object_t instance, gdext_c_object_t obstacle, gdext_c_vector3_t velocity);
 
 /**
  * @brief NavigationServer3D.obstacle_get_velocity
  */
-gdext_c_vec3 gdext_navigation_server3_d_obstacle_get_velocity(gdext_c_object_t instance, gdext_c_object_t obstacle);
+gdext_c_vector3_t gdext_navigation_server3_d_obstacle_get_velocity(gdext_c_object_t instance, gdext_c_object_t obstacle);
 
 /**
  * @brief NavigationServer3D.obstacle_set_position
  */
-void gdext_navigation_server3_d_obstacle_set_position(gdext_c_object_t instance, gdext_c_object_t obstacle, gdext_c_vec3 position);
+void gdext_navigation_server3_d_obstacle_set_position(gdext_c_object_t instance, gdext_c_object_t obstacle, gdext_c_vector3_t position);
 
 /**
  * @brief NavigationServer3D.obstacle_get_position
  */
-gdext_c_vec3 gdext_navigation_server3_d_obstacle_get_position(gdext_c_object_t instance, gdext_c_object_t obstacle);
+gdext_c_vector3_t gdext_navigation_server3_d_obstacle_get_position(gdext_c_object_t instance, gdext_c_object_t obstacle);
 
 /**
  * @brief NavigationServer3D.obstacle_set_vertices
@@ -39592,7 +39593,7 @@ void gdext_node_notify_thread_safe(gdext_c_object_t instance, int64_t what);
 /**
  * @brief Node2D.set_position
  */
-void gdext_node2_d_set_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_node2_d_set_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Node2D.set_rotation
@@ -39612,12 +39613,12 @@ void gdext_node2_d_set_skew(gdext_c_object_t instance, double radians);
 /**
  * @brief Node2D.set_scale
  */
-void gdext_node2_d_set_scale(gdext_c_object_t instance, gdext_c_vec2 scale);
+void gdext_node2_d_set_scale(gdext_c_object_t instance, gdext_c_vector2_t scale);
 
 /**
  * @brief Node2D.get_position
  */
-gdext_c_vec2 gdext_node2_d_get_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_node2_d_get_position(gdext_c_object_t instance);
 
 /**
  * @brief Node2D.get_rotation
@@ -39637,7 +39638,7 @@ double gdext_node2_d_get_skew(gdext_c_object_t instance);
 /**
  * @brief Node2D.get_scale
  */
-gdext_c_vec2 gdext_node2_d_get_scale(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_node2_d_get_scale(gdext_c_object_t instance);
 
 /**
  * @brief Node2D.rotate
@@ -39657,27 +39658,27 @@ void gdext_node2_d_move_local_y(gdext_c_object_t instance, double delta, GDExten
 /**
  * @brief Node2D.translate
  */
-void gdext_node2_d_translate(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_node2_d_translate(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Node2D.global_translate
  */
-void gdext_node2_d_global_translate(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_node2_d_global_translate(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Node2D.apply_scale
  */
-void gdext_node2_d_apply_scale(gdext_c_object_t instance, gdext_c_vec2 ratio);
+void gdext_node2_d_apply_scale(gdext_c_object_t instance, gdext_c_vector2_t ratio);
 
 /**
  * @brief Node2D.set_global_position
  */
-void gdext_node2_d_set_global_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_node2_d_set_global_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Node2D.get_global_position
  */
-gdext_c_vec2 gdext_node2_d_get_global_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_node2_d_get_global_position(gdext_c_object_t instance);
 
 /**
  * @brief Node2D.set_global_rotation
@@ -39712,12 +39713,12 @@ double gdext_node2_d_get_global_skew(gdext_c_object_t instance);
 /**
  * @brief Node2D.set_global_scale
  */
-void gdext_node2_d_set_global_scale(gdext_c_object_t instance, gdext_c_vec2 scale);
+void gdext_node2_d_set_global_scale(gdext_c_object_t instance, gdext_c_vector2_t scale);
 
 /**
  * @brief Node2D.get_global_scale
  */
-gdext_c_vec2 gdext_node2_d_get_global_scale(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_node2_d_get_global_scale(gdext_c_object_t instance);
 
 /**
  * @brief Node2D.set_transform
@@ -39732,22 +39733,22 @@ void gdext_node2_d_set_global_transform(gdext_c_object_t instance, gdext_c_objec
 /**
  * @brief Node2D.look_at
  */
-void gdext_node2_d_look_at(gdext_c_object_t instance, gdext_c_vec2 point);
+void gdext_node2_d_look_at(gdext_c_object_t instance, gdext_c_vector2_t point);
 
 /**
  * @brief Node2D.get_angle_to
  */
-double gdext_node2_d_get_angle_to(gdext_c_object_t instance, gdext_c_vec2 point);
+double gdext_node2_d_get_angle_to(gdext_c_object_t instance, gdext_c_vector2_t point);
 
 /**
  * @brief Node2D.to_local
  */
-gdext_c_vec2 gdext_node2_d_to_local(gdext_c_object_t instance, gdext_c_vec2 global_point);
+gdext_c_vector2_t gdext_node2_d_to_local(gdext_c_object_t instance, gdext_c_vector2_t global_point);
 
 /**
  * @brief Node2D.to_global
  */
-gdext_c_vec2 gdext_node2_d_to_global(gdext_c_object_t instance, gdext_c_vec2 local_point);
+gdext_c_vector2_t gdext_node2_d_to_global(gdext_c_object_t instance, gdext_c_vector2_t local_point);
 
 /**
  * @brief Node2D.get_relative_transform_to_parent
@@ -39772,32 +39773,32 @@ gdext_c_object_t gdext_node3_d_get_transform(gdext_c_object_t instance);
 /**
  * @brief Node3D.set_position
  */
-void gdext_node3_d_set_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_node3_d_set_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief Node3D.get_position
  */
-gdext_c_vec3 gdext_node3_d_get_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_node3_d_get_position(gdext_c_object_t instance);
 
 /**
  * @brief Node3D.set_rotation
  */
-void gdext_node3_d_set_rotation(gdext_c_object_t instance, gdext_c_vec3 euler_radians);
+void gdext_node3_d_set_rotation(gdext_c_object_t instance, gdext_c_vector3_t euler_radians);
 
 /**
  * @brief Node3D.get_rotation
  */
-gdext_c_vec3 gdext_node3_d_get_rotation(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_node3_d_get_rotation(gdext_c_object_t instance);
 
 /**
  * @brief Node3D.set_rotation_degrees
  */
-void gdext_node3_d_set_rotation_degrees(gdext_c_object_t instance, gdext_c_vec3 euler_degrees);
+void gdext_node3_d_set_rotation_degrees(gdext_c_object_t instance, gdext_c_vector3_t euler_degrees);
 
 /**
  * @brief Node3D.get_rotation_degrees
  */
-gdext_c_vec3 gdext_node3_d_get_rotation_degrees(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_node3_d_get_rotation_degrees(gdext_c_object_t instance);
 
 /**
  * @brief Node3D.set_rotation_order
@@ -39822,12 +39823,12 @@ int32_t gdext_node3_d_get_rotation_edit_mode(gdext_c_object_t instance);
 /**
  * @brief Node3D.set_scale
  */
-void gdext_node3_d_set_scale(gdext_c_object_t instance, gdext_c_vec3 scale);
+void gdext_node3_d_set_scale(gdext_c_object_t instance, gdext_c_vector3_t scale);
 
 /**
  * @brief Node3D.get_scale
  */
-gdext_c_vec3 gdext_node3_d_get_scale(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_node3_d_get_scale(gdext_c_object_t instance);
 
 /**
  * @brief Node3D.set_quaternion
@@ -39867,12 +39868,12 @@ gdext_c_object_t gdext_node3_d_get_global_transform_interpolated(gdext_c_object_
 /**
  * @brief Node3D.set_global_position
  */
-void gdext_node3_d_set_global_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_node3_d_set_global_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief Node3D.get_global_position
  */
-gdext_c_vec3 gdext_node3_d_get_global_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_node3_d_get_global_position(gdext_c_object_t instance);
 
 /**
  * @brief Node3D.set_global_basis
@@ -39887,22 +39888,22 @@ gdext_c_object_t gdext_node3_d_get_global_basis(gdext_c_object_t instance);
 /**
  * @brief Node3D.set_global_rotation
  */
-void gdext_node3_d_set_global_rotation(gdext_c_object_t instance, gdext_c_vec3 euler_radians);
+void gdext_node3_d_set_global_rotation(gdext_c_object_t instance, gdext_c_vector3_t euler_radians);
 
 /**
  * @brief Node3D.get_global_rotation
  */
-gdext_c_vec3 gdext_node3_d_get_global_rotation(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_node3_d_get_global_rotation(gdext_c_object_t instance);
 
 /**
  * @brief Node3D.set_global_rotation_degrees
  */
-void gdext_node3_d_set_global_rotation_degrees(gdext_c_object_t instance, gdext_c_vec3 euler_degrees);
+void gdext_node3_d_set_global_rotation_degrees(gdext_c_object_t instance, gdext_c_vector3_t euler_degrees);
 
 /**
  * @brief Node3D.get_global_rotation_degrees
  */
-gdext_c_vec3 gdext_node3_d_get_global_rotation_degrees(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_node3_d_get_global_rotation_degrees(gdext_c_object_t instance);
 
 /**
  * @brief Node3D.get_parent_node_3d
@@ -40032,37 +40033,37 @@ GDExtensionBool gdext_node3_d_is_transform_notification_enabled(gdext_c_object_t
 /**
  * @brief Node3D.rotate
  */
-void gdext_node3_d_rotate(gdext_c_object_t instance, gdext_c_vec3 axis, double angle);
+void gdext_node3_d_rotate(gdext_c_object_t instance, gdext_c_vector3_t axis, double angle);
 
 /**
  * @brief Node3D.global_rotate
  */
-void gdext_node3_d_global_rotate(gdext_c_object_t instance, gdext_c_vec3 axis, double angle);
+void gdext_node3_d_global_rotate(gdext_c_object_t instance, gdext_c_vector3_t axis, double angle);
 
 /**
  * @brief Node3D.global_scale
  */
-void gdext_node3_d_global_scale(gdext_c_object_t instance, gdext_c_vec3 scale);
+void gdext_node3_d_global_scale(gdext_c_object_t instance, gdext_c_vector3_t scale);
 
 /**
  * @brief Node3D.global_translate
  */
-void gdext_node3_d_global_translate(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_node3_d_global_translate(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief Node3D.rotate_object_local
  */
-void gdext_node3_d_rotate_object_local(gdext_c_object_t instance, gdext_c_vec3 axis, double angle);
+void gdext_node3_d_rotate_object_local(gdext_c_object_t instance, gdext_c_vector3_t axis, double angle);
 
 /**
  * @brief Node3D.scale_object_local
  */
-void gdext_node3_d_scale_object_local(gdext_c_object_t instance, gdext_c_vec3 scale);
+void gdext_node3_d_scale_object_local(gdext_c_object_t instance, gdext_c_vector3_t scale);
 
 /**
  * @brief Node3D.translate_object_local
  */
-void gdext_node3_d_translate_object_local(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_node3_d_translate_object_local(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief Node3D.rotate_x
@@ -40082,7 +40083,7 @@ void gdext_node3_d_rotate_z(gdext_c_object_t instance, double angle);
 /**
  * @brief Node3D.translate
  */
-void gdext_node3_d_translate(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_node3_d_translate(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief Node3D.orthonormalize
@@ -40097,22 +40098,22 @@ void gdext_node3_d_set_identity(gdext_c_object_t instance);
 /**
  * @brief Node3D.look_at
  */
-void gdext_node3_d_look_at(gdext_c_object_t instance, gdext_c_vec3 target, gdext_c_vec3 up, GDExtensionBool use_model_front);
+void gdext_node3_d_look_at(gdext_c_object_t instance, gdext_c_vector3_t target, gdext_c_vector3_t up, GDExtensionBool use_model_front);
 
 /**
  * @brief Node3D.look_at_from_position
  */
-void gdext_node3_d_look_at_from_position(gdext_c_object_t instance, gdext_c_vec3 position, gdext_c_vec3 target, gdext_c_vec3 up, GDExtensionBool use_model_front);
+void gdext_node3_d_look_at_from_position(gdext_c_object_t instance, gdext_c_vector3_t position, gdext_c_vector3_t target, gdext_c_vector3_t up, GDExtensionBool use_model_front);
 
 /**
  * @brief Node3D.to_local
  */
-gdext_c_vec3 gdext_node3_d_to_local(gdext_c_object_t instance, gdext_c_vec3 global_point);
+gdext_c_vector3_t gdext_node3_d_to_local(gdext_c_object_t instance, gdext_c_vector3_t global_point);
 
 /**
  * @brief Node3D.to_global
  */
-gdext_c_vec3 gdext_node3_d_to_global(gdext_c_object_t instance, gdext_c_vec3 local_point);
+gdext_c_vector3_t gdext_node3_d_to_global(gdext_c_object_t instance, gdext_c_vector3_t local_point);
 
 /* ============================================================================
  * Class: Noise
@@ -40132,7 +40133,7 @@ double gdext_noise_get_noise_2d(gdext_c_object_t instance, double x, double y);
 /**
  * @brief Noise.get_noise_2dv
  */
-double gdext_noise_get_noise_2dv(gdext_c_object_t instance, gdext_c_vec2 v);
+double gdext_noise_get_noise_2dv(gdext_c_object_t instance, gdext_c_vector2_t v);
 
 /**
  * @brief Noise.get_noise_3d
@@ -40142,7 +40143,7 @@ double gdext_noise_get_noise_3d(gdext_c_object_t instance, double x, double y, d
 /**
  * @brief Noise.get_noise_3dv
  */
-double gdext_noise_get_noise_3dv(gdext_c_object_t instance, gdext_c_vec3 v);
+double gdext_noise_get_noise_3dv(gdext_c_object_t instance, gdext_c_vector3_t v);
 
 /**
  * @brief Noise.get_image
@@ -41812,17 +41813,17 @@ double gdext_open_x_r_composition_layer_get_max_anisotropy(gdext_c_object_t inst
 /**
  * @brief OpenXRCompositionLayer.set_border_color
  */
-void gdext_open_x_r_composition_layer_set_border_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_open_x_r_composition_layer_set_border_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief OpenXRCompositionLayer.get_border_color
  */
-gdext_c_color gdext_open_x_r_composition_layer_get_border_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_open_x_r_composition_layer_get_border_color(gdext_c_object_t instance);
 
 /**
  * @brief OpenXRCompositionLayer.intersects_ray
  */
-gdext_c_vec2 gdext_open_x_r_composition_layer_intersects_ray(gdext_c_object_t instance, gdext_c_vec3 origin, gdext_c_vec3 direction);
+gdext_c_vector2_t gdext_open_x_r_composition_layer_intersects_ray(gdext_c_object_t instance, gdext_c_vector3_t origin, gdext_c_vector3_t direction);
 
 /* ============================================================================
  * Class: OpenXRCompositionLayerCylinder
@@ -41932,12 +41933,12 @@ int64_t gdext_open_x_r_composition_layer_equirect_get_fallback_segments(gdext_c_
 /**
  * @brief OpenXRCompositionLayerQuad.set_quad_size
  */
-void gdext_open_x_r_composition_layer_quad_set_quad_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_open_x_r_composition_layer_quad_set_quad_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief OpenXRCompositionLayerQuad.get_quad_size
  */
-gdext_c_vec2 gdext_open_x_r_composition_layer_quad_get_quad_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_open_x_r_composition_layer_quad_get_quad_size(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: OpenXRDpadBindingModifier
@@ -42457,7 +42458,7 @@ gdext_c_object_t gdext_open_x_r_interface_get_hand_joint_rotation(gdext_c_object
 /**
  * @brief OpenXRInterface.get_hand_joint_position
  */
-gdext_c_vec3 gdext_open_x_r_interface_get_hand_joint_position(gdext_c_object_t instance, int32_t hand, int32_t joint);
+gdext_c_vector3_t gdext_open_x_r_interface_get_hand_joint_position(gdext_c_object_t instance, int32_t hand, int32_t joint);
 
 /**
  * @brief OpenXRInterface.get_hand_joint_radius
@@ -42467,12 +42468,12 @@ double gdext_open_x_r_interface_get_hand_joint_radius(gdext_c_object_t instance,
 /**
  * @brief OpenXRInterface.get_hand_joint_linear_velocity
  */
-gdext_c_vec3 gdext_open_x_r_interface_get_hand_joint_linear_velocity(gdext_c_object_t instance, int32_t hand, int32_t joint);
+gdext_c_vector3_t gdext_open_x_r_interface_get_hand_joint_linear_velocity(gdext_c_object_t instance, int32_t hand, int32_t joint);
 
 /**
  * @brief OpenXRInterface.get_hand_joint_angular_velocity
  */
-gdext_c_vec3 gdext_open_x_r_interface_get_hand_joint_angular_velocity(gdext_c_object_t instance, int32_t hand, int32_t joint);
+gdext_c_vector3_t gdext_open_x_r_interface_get_hand_joint_angular_velocity(gdext_c_object_t instance, int32_t hand, int32_t joint);
 
 /**
  * @brief OpenXRInterface.is_hand_tracking_supported
@@ -43122,22 +43123,22 @@ double gdext_panorama_sky_material_get_energy_multiplier(gdext_c_object_t instan
 /**
  * @brief Parallax2D.set_scroll_scale
  */
-void gdext_parallax2_d_set_scroll_scale(gdext_c_object_t instance, gdext_c_vec2 scale);
+void gdext_parallax2_d_set_scroll_scale(gdext_c_object_t instance, gdext_c_vector2_t scale);
 
 /**
  * @brief Parallax2D.get_scroll_scale
  */
-gdext_c_vec2 gdext_parallax2_d_get_scroll_scale(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax2_d_get_scroll_scale(gdext_c_object_t instance);
 
 /**
  * @brief Parallax2D.set_repeat_size
  */
-void gdext_parallax2_d_set_repeat_size(gdext_c_object_t instance, gdext_c_vec2 repeat_size);
+void gdext_parallax2_d_set_repeat_size(gdext_c_object_t instance, gdext_c_vector2_t repeat_size);
 
 /**
  * @brief Parallax2D.get_repeat_size
  */
-gdext_c_vec2 gdext_parallax2_d_get_repeat_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax2_d_get_repeat_size(gdext_c_object_t instance);
 
 /**
  * @brief Parallax2D.set_repeat_times
@@ -43152,52 +43153,52 @@ int64_t gdext_parallax2_d_get_repeat_times(gdext_c_object_t instance);
 /**
  * @brief Parallax2D.set_autoscroll
  */
-void gdext_parallax2_d_set_autoscroll(gdext_c_object_t instance, gdext_c_vec2 autoscroll);
+void gdext_parallax2_d_set_autoscroll(gdext_c_object_t instance, gdext_c_vector2_t autoscroll);
 
 /**
  * @brief Parallax2D.get_autoscroll
  */
-gdext_c_vec2 gdext_parallax2_d_get_autoscroll(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax2_d_get_autoscroll(gdext_c_object_t instance);
 
 /**
  * @brief Parallax2D.set_scroll_offset
  */
-void gdext_parallax2_d_set_scroll_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax2_d_set_scroll_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Parallax2D.get_scroll_offset
  */
-gdext_c_vec2 gdext_parallax2_d_get_scroll_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax2_d_get_scroll_offset(gdext_c_object_t instance);
 
 /**
  * @brief Parallax2D.set_screen_offset
  */
-void gdext_parallax2_d_set_screen_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax2_d_set_screen_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Parallax2D.get_screen_offset
  */
-gdext_c_vec2 gdext_parallax2_d_get_screen_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax2_d_get_screen_offset(gdext_c_object_t instance);
 
 /**
  * @brief Parallax2D.set_limit_begin
  */
-void gdext_parallax2_d_set_limit_begin(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax2_d_set_limit_begin(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Parallax2D.get_limit_begin
  */
-gdext_c_vec2 gdext_parallax2_d_get_limit_begin(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax2_d_get_limit_begin(gdext_c_object_t instance);
 
 /**
  * @brief Parallax2D.set_limit_end
  */
-void gdext_parallax2_d_set_limit_end(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax2_d_set_limit_end(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Parallax2D.get_limit_end
  */
-gdext_c_vec2 gdext_parallax2_d_get_limit_end(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax2_d_get_limit_end(gdext_c_object_t instance);
 
 /**
  * @brief Parallax2D.set_follow_viewport
@@ -43227,52 +43228,52 @@ GDExtensionBool gdext_parallax2_d_is_ignore_camera_scroll(gdext_c_object_t insta
 /**
  * @brief ParallaxBackground.set_scroll_offset
  */
-void gdext_parallax_background_set_scroll_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax_background_set_scroll_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief ParallaxBackground.get_scroll_offset
  */
-gdext_c_vec2 gdext_parallax_background_get_scroll_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax_background_get_scroll_offset(gdext_c_object_t instance);
 
 /**
  * @brief ParallaxBackground.set_scroll_base_offset
  */
-void gdext_parallax_background_set_scroll_base_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax_background_set_scroll_base_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief ParallaxBackground.get_scroll_base_offset
  */
-gdext_c_vec2 gdext_parallax_background_get_scroll_base_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax_background_get_scroll_base_offset(gdext_c_object_t instance);
 
 /**
  * @brief ParallaxBackground.set_scroll_base_scale
  */
-void gdext_parallax_background_set_scroll_base_scale(gdext_c_object_t instance, gdext_c_vec2 scale);
+void gdext_parallax_background_set_scroll_base_scale(gdext_c_object_t instance, gdext_c_vector2_t scale);
 
 /**
  * @brief ParallaxBackground.get_scroll_base_scale
  */
-gdext_c_vec2 gdext_parallax_background_get_scroll_base_scale(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax_background_get_scroll_base_scale(gdext_c_object_t instance);
 
 /**
  * @brief ParallaxBackground.set_limit_begin
  */
-void gdext_parallax_background_set_limit_begin(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax_background_set_limit_begin(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief ParallaxBackground.get_limit_begin
  */
-gdext_c_vec2 gdext_parallax_background_get_limit_begin(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax_background_get_limit_begin(gdext_c_object_t instance);
 
 /**
  * @brief ParallaxBackground.set_limit_end
  */
-void gdext_parallax_background_set_limit_end(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax_background_set_limit_end(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief ParallaxBackground.get_limit_end
  */
-gdext_c_vec2 gdext_parallax_background_get_limit_end(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax_background_get_limit_end(gdext_c_object_t instance);
 
 /**
  * @brief ParallaxBackground.set_ignore_camera_zoom
@@ -43292,32 +43293,32 @@ GDExtensionBool gdext_parallax_background_is_ignore_camera_zoom(gdext_c_object_t
 /**
  * @brief ParallaxLayer.set_motion_scale
  */
-void gdext_parallax_layer_set_motion_scale(gdext_c_object_t instance, gdext_c_vec2 scale);
+void gdext_parallax_layer_set_motion_scale(gdext_c_object_t instance, gdext_c_vector2_t scale);
 
 /**
  * @brief ParallaxLayer.get_motion_scale
  */
-gdext_c_vec2 gdext_parallax_layer_get_motion_scale(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax_layer_get_motion_scale(gdext_c_object_t instance);
 
 /**
  * @brief ParallaxLayer.set_motion_offset
  */
-void gdext_parallax_layer_set_motion_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_parallax_layer_set_motion_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief ParallaxLayer.get_motion_offset
  */
-gdext_c_vec2 gdext_parallax_layer_get_motion_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax_layer_get_motion_offset(gdext_c_object_t instance);
 
 /**
  * @brief ParallaxLayer.set_mirroring
  */
-void gdext_parallax_layer_set_mirroring(gdext_c_object_t instance, gdext_c_vec2 mirror);
+void gdext_parallax_layer_set_mirroring(gdext_c_object_t instance, gdext_c_vector2_t mirror);
 
 /**
  * @brief ParallaxLayer.get_mirroring
  */
-gdext_c_vec2 gdext_parallax_layer_get_mirroring(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_parallax_layer_get_mirroring(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: ParticleProcessMaterial
@@ -43327,12 +43328,12 @@ gdext_c_vec2 gdext_parallax_layer_get_mirroring(gdext_c_object_t instance);
 /**
  * @brief ParticleProcessMaterial.set_direction
  */
-void gdext_particle_process_material_set_direction(gdext_c_object_t instance, gdext_c_vec3 degrees);
+void gdext_particle_process_material_set_direction(gdext_c_object_t instance, gdext_c_vector3_t degrees);
 
 /**
  * @brief ParticleProcessMaterial.get_direction
  */
-gdext_c_vec3 gdext_particle_process_material_get_direction(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_particle_process_material_get_direction(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.set_inherit_velocity_ratio
@@ -43367,12 +43368,12 @@ double gdext_particle_process_material_get_flatness(gdext_c_object_t instance);
 /**
  * @brief ParticleProcessMaterial.set_param
  */
-void gdext_particle_process_material_set_param(gdext_c_object_t instance, int32_t param, gdext_c_vec2 value);
+void gdext_particle_process_material_set_param(gdext_c_object_t instance, int32_t param, gdext_c_vector2_t value);
 
 /**
  * @brief ParticleProcessMaterial.get_param
  */
-gdext_c_vec2 gdext_particle_process_material_get_param(gdext_c_object_t instance, int32_t param);
+gdext_c_vector2_t gdext_particle_process_material_get_param(gdext_c_object_t instance, int32_t param);
 
 /**
  * @brief ParticleProcessMaterial.set_param_min
@@ -43407,12 +43408,12 @@ gdext_c_object_t gdext_particle_process_material_get_param_texture(gdext_c_objec
 /**
  * @brief ParticleProcessMaterial.set_color
  */
-void gdext_particle_process_material_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_particle_process_material_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ParticleProcessMaterial.get_color
  */
-gdext_c_color gdext_particle_process_material_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_particle_process_material_get_color(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.set_color_ramp
@@ -43477,12 +43478,12 @@ GDExtensionBool gdext_particle_process_material_get_particle_flag(gdext_c_object
 /**
  * @brief ParticleProcessMaterial.set_velocity_pivot
  */
-void gdext_particle_process_material_set_velocity_pivot(gdext_c_object_t instance, gdext_c_vec3 pivot);
+void gdext_particle_process_material_set_velocity_pivot(gdext_c_object_t instance, gdext_c_vector3_t pivot);
 
 /**
  * @brief ParticleProcessMaterial.get_velocity_pivot
  */
-gdext_c_vec3 gdext_particle_process_material_get_velocity_pivot(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_particle_process_material_get_velocity_pivot(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.set_emission_shape
@@ -43507,12 +43508,12 @@ double gdext_particle_process_material_get_emission_sphere_radius(gdext_c_object
 /**
  * @brief ParticleProcessMaterial.set_emission_box_extents
  */
-void gdext_particle_process_material_set_emission_box_extents(gdext_c_object_t instance, gdext_c_vec3 extents);
+void gdext_particle_process_material_set_emission_box_extents(gdext_c_object_t instance, gdext_c_vector3_t extents);
 
 /**
  * @brief ParticleProcessMaterial.get_emission_box_extents
  */
-gdext_c_vec3 gdext_particle_process_material_get_emission_box_extents(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_particle_process_material_get_emission_box_extents(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.set_emission_point_texture
@@ -43557,12 +43558,12 @@ int64_t gdext_particle_process_material_get_emission_point_count(gdext_c_object_
 /**
  * @brief ParticleProcessMaterial.set_emission_ring_axis
  */
-void gdext_particle_process_material_set_emission_ring_axis(gdext_c_object_t instance, gdext_c_vec3 axis);
+void gdext_particle_process_material_set_emission_ring_axis(gdext_c_object_t instance, gdext_c_vector3_t axis);
 
 /**
  * @brief ParticleProcessMaterial.get_emission_ring_axis
  */
-gdext_c_vec3 gdext_particle_process_material_get_emission_ring_axis(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_particle_process_material_get_emission_ring_axis(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.set_emission_ring_height
@@ -43607,22 +43608,22 @@ double gdext_particle_process_material_get_emission_ring_cone_angle(gdext_c_obje
 /**
  * @brief ParticleProcessMaterial.set_emission_shape_offset
  */
-void gdext_particle_process_material_set_emission_shape_offset(gdext_c_object_t instance, gdext_c_vec3 emission_shape_offset);
+void gdext_particle_process_material_set_emission_shape_offset(gdext_c_object_t instance, gdext_c_vector3_t emission_shape_offset);
 
 /**
  * @brief ParticleProcessMaterial.get_emission_shape_offset
  */
-gdext_c_vec3 gdext_particle_process_material_get_emission_shape_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_particle_process_material_get_emission_shape_offset(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.set_emission_shape_scale
  */
-void gdext_particle_process_material_set_emission_shape_scale(gdext_c_object_t instance, gdext_c_vec3 emission_shape_scale);
+void gdext_particle_process_material_set_emission_shape_scale(gdext_c_object_t instance, gdext_c_vector3_t emission_shape_scale);
 
 /**
  * @brief ParticleProcessMaterial.get_emission_shape_scale
  */
-gdext_c_vec3 gdext_particle_process_material_get_emission_shape_scale(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_particle_process_material_get_emission_shape_scale(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.get_turbulence_enabled
@@ -43667,22 +43668,22 @@ void gdext_particle_process_material_set_turbulence_noise_speed_random(gdext_c_o
 /**
  * @brief ParticleProcessMaterial.get_turbulence_noise_speed
  */
-gdext_c_vec3 gdext_particle_process_material_get_turbulence_noise_speed(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_particle_process_material_get_turbulence_noise_speed(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.set_turbulence_noise_speed
  */
-void gdext_particle_process_material_set_turbulence_noise_speed(gdext_c_object_t instance, gdext_c_vec3 turbulence_noise_speed);
+void gdext_particle_process_material_set_turbulence_noise_speed(gdext_c_object_t instance, gdext_c_vector3_t turbulence_noise_speed);
 
 /**
  * @brief ParticleProcessMaterial.get_gravity
  */
-gdext_c_vec3 gdext_particle_process_material_get_gravity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_particle_process_material_get_gravity(gdext_c_object_t instance);
 
 /**
  * @brief ParticleProcessMaterial.set_gravity
  */
-void gdext_particle_process_material_set_gravity(gdext_c_object_t instance, gdext_c_vec3 accel_vec);
+void gdext_particle_process_material_set_gravity(gdext_c_object_t instance, gdext_c_vector3_t accel_vec);
 
 /**
  * @brief ParticleProcessMaterial.set_lifetime_randomness
@@ -43837,12 +43838,12 @@ gdext_c_object_t gdext_path3_d_get_curve(gdext_c_object_t instance);
 /**
  * @brief Path3D.set_debug_custom_color
  */
-void gdext_path3_d_set_debug_custom_color(gdext_c_object_t instance, gdext_c_color debug_custom_color);
+void gdext_path3_d_set_debug_custom_color(gdext_c_object_t instance, gdext_c_color_t debug_custom_color);
 
 /**
  * @brief Path3D.get_debug_custom_color
  */
-gdext_c_color gdext_path3_d_get_debug_custom_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_path3_d_get_debug_custom_color(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: PathFollow2D
@@ -44133,12 +44134,12 @@ GDExtensionBool gdext_physical_bone2_d_get_follow_bone_when_simulating(gdext_c_o
 /**
  * @brief PhysicalBone3D.apply_central_impulse
  */
-void gdext_physical_bone3_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse);
+void gdext_physical_bone3_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse);
 
 /**
  * @brief PhysicalBone3D.apply_impulse
  */
-void gdext_physical_bone3_d_apply_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse, gdext_c_vec3 position);
+void gdext_physical_bone3_d_apply_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse, gdext_c_vector3_t position);
 
 /**
  * @brief PhysicalBone3D.set_joint_type
@@ -44163,12 +44164,12 @@ gdext_c_object_t gdext_physical_bone3_d_get_joint_offset(gdext_c_object_t instan
 /**
  * @brief PhysicalBone3D.set_joint_rotation
  */
-void gdext_physical_bone3_d_set_joint_rotation(gdext_c_object_t instance, gdext_c_vec3 euler);
+void gdext_physical_bone3_d_set_joint_rotation(gdext_c_object_t instance, gdext_c_vector3_t euler);
 
 /**
  * @brief PhysicalBone3D.get_joint_rotation
  */
-gdext_c_vec3 gdext_physical_bone3_d_get_joint_rotation(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physical_bone3_d_get_joint_rotation(gdext_c_object_t instance);
 
 /**
  * @brief PhysicalBone3D.set_body_offset
@@ -44278,22 +44279,22 @@ double gdext_physical_bone3_d_get_angular_damp(gdext_c_object_t instance);
 /**
  * @brief PhysicalBone3D.set_linear_velocity
  */
-void gdext_physical_bone3_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vec3 linear_velocity);
+void gdext_physical_bone3_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vector3_t linear_velocity);
 
 /**
  * @brief PhysicalBone3D.get_linear_velocity
  */
-gdext_c_vec3 gdext_physical_bone3_d_get_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physical_bone3_d_get_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicalBone3D.set_angular_velocity
  */
-void gdext_physical_bone3_d_set_angular_velocity(gdext_c_object_t instance, gdext_c_vec3 angular_velocity);
+void gdext_physical_bone3_d_set_angular_velocity(gdext_c_object_t instance, gdext_c_vector3_t angular_velocity);
 
 /**
  * @brief PhysicalBone3D.get_angular_velocity
  */
-gdext_c_vec3 gdext_physical_bone3_d_get_angular_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physical_bone3_d_get_angular_velocity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicalBone3D.set_use_custom_integrator
@@ -44363,12 +44364,12 @@ double gdext_physical_sky_material_get_rayleigh_coefficient(gdext_c_object_t ins
 /**
  * @brief PhysicalSkyMaterial.set_rayleigh_color
  */
-void gdext_physical_sky_material_set_rayleigh_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_physical_sky_material_set_rayleigh_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief PhysicalSkyMaterial.get_rayleigh_color
  */
-gdext_c_color gdext_physical_sky_material_get_rayleigh_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_physical_sky_material_get_rayleigh_color(gdext_c_object_t instance);
 
 /**
  * @brief PhysicalSkyMaterial.set_mie_coefficient
@@ -44393,12 +44394,12 @@ double gdext_physical_sky_material_get_mie_eccentricity(gdext_c_object_t instanc
 /**
  * @brief PhysicalSkyMaterial.set_mie_color
  */
-void gdext_physical_sky_material_set_mie_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_physical_sky_material_set_mie_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief PhysicalSkyMaterial.get_mie_color
  */
-gdext_c_color gdext_physical_sky_material_get_mie_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_physical_sky_material_get_mie_color(gdext_c_object_t instance);
 
 /**
  * @brief PhysicalSkyMaterial.set_turbidity
@@ -44423,12 +44424,12 @@ double gdext_physical_sky_material_get_sun_disk_scale(gdext_c_object_t instance)
 /**
  * @brief PhysicalSkyMaterial.set_ground_color
  */
-void gdext_physical_sky_material_set_ground_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_physical_sky_material_set_ground_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief PhysicalSkyMaterial.get_ground_color
  */
-gdext_c_color gdext_physical_sky_material_get_ground_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_physical_sky_material_get_ground_color(gdext_c_object_t instance);
 
 /**
  * @brief PhysicalSkyMaterial.set_energy_multiplier
@@ -44468,17 +44469,17 @@ gdext_c_object_t gdext_physical_sky_material_get_night_sky(gdext_c_object_t inst
 /**
  * @brief PhysicsBody2D.move_and_collide
  */
-gdext_c_object_t gdext_physics_body2_d_move_and_collide(gdext_c_object_t instance, gdext_c_vec2 motion, GDExtensionBool test_only, double safe_margin, GDExtensionBool recovery_as_collision);
+gdext_c_object_t gdext_physics_body2_d_move_and_collide(gdext_c_object_t instance, gdext_c_vector2_t motion, GDExtensionBool test_only, double safe_margin, GDExtensionBool recovery_as_collision);
 
 /**
  * @brief PhysicsBody2D.test_move
  */
-GDExtensionBool gdext_physics_body2_d_test_move(gdext_c_object_t instance, gdext_c_object_t from, gdext_c_vec2 motion, gdext_c_object_t collision, double safe_margin, GDExtensionBool recovery_as_collision);
+GDExtensionBool gdext_physics_body2_d_test_move(gdext_c_object_t instance, gdext_c_object_t from, gdext_c_vector2_t motion, gdext_c_object_t collision, double safe_margin, GDExtensionBool recovery_as_collision);
 
 /**
  * @brief PhysicsBody2D.get_gravity
  */
-gdext_c_vec2 gdext_physics_body2_d_get_gravity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_body2_d_get_gravity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsBody2D.get_collision_exceptions
@@ -44503,17 +44504,17 @@ void gdext_physics_body2_d_remove_collision_exception_with(gdext_c_object_t inst
 /**
  * @brief PhysicsBody3D.move_and_collide
  */
-gdext_c_object_t gdext_physics_body3_d_move_and_collide(gdext_c_object_t instance, gdext_c_vec3 motion, GDExtensionBool test_only, double safe_margin, GDExtensionBool recovery_as_collision, int64_t max_collisions);
+gdext_c_object_t gdext_physics_body3_d_move_and_collide(gdext_c_object_t instance, gdext_c_vector3_t motion, GDExtensionBool test_only, double safe_margin, GDExtensionBool recovery_as_collision, int64_t max_collisions);
 
 /**
  * @brief PhysicsBody3D.test_move
  */
-GDExtensionBool gdext_physics_body3_d_test_move(gdext_c_object_t instance, gdext_c_object_t from, gdext_c_vec3 motion, gdext_c_object_t collision, double safe_margin, GDExtensionBool recovery_as_collision, int64_t max_collisions);
+GDExtensionBool gdext_physics_body3_d_test_move(gdext_c_object_t instance, gdext_c_object_t from, gdext_c_vector3_t motion, gdext_c_object_t collision, double safe_margin, GDExtensionBool recovery_as_collision, int64_t max_collisions);
 
 /**
  * @brief PhysicsBody3D.get_gravity
  */
-gdext_c_vec3 gdext_physics_body3_d_get_gravity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_body3_d_get_gravity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsBody3D.set_axis_lock
@@ -44548,7 +44549,7 @@ void gdext_physics_body3_d_remove_collision_exception_with(gdext_c_object_t inst
 /**
  * @brief PhysicsDirectBodyState2D.get_total_gravity
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_total_gravity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_total_gravity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_total_linear_damp
@@ -44563,12 +44564,12 @@ double gdext_physics_direct_body_state2_d_get_total_angular_damp(gdext_c_object_
 /**
  * @brief PhysicsDirectBodyState2D.get_center_of_mass
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_center_of_mass(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_center_of_mass(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_center_of_mass_local
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_center_of_mass_local(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_center_of_mass_local(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_inverse_mass
@@ -44583,12 +44584,12 @@ double gdext_physics_direct_body_state2_d_get_inverse_inertia(gdext_c_object_t i
 /**
  * @brief PhysicsDirectBodyState2D.set_linear_velocity
  */
-void gdext_physics_direct_body_state2_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vec2 velocity);
+void gdext_physics_direct_body_state2_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vector2_t velocity);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_linear_velocity
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState2D.set_angular_velocity
@@ -44613,12 +44614,12 @@ gdext_c_object_t gdext_physics_direct_body_state2_d_get_transform(gdext_c_object
 /**
  * @brief PhysicsDirectBodyState2D.get_velocity_at_local_position
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_velocity_at_local_position(gdext_c_object_t instance, gdext_c_vec2 local_position);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_velocity_at_local_position(gdext_c_object_t instance, gdext_c_vector2_t local_position);
 
 /**
  * @brief PhysicsDirectBodyState2D.apply_central_impulse
  */
-void gdext_physics_direct_body_state2_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vec2 impulse);
+void gdext_physics_direct_body_state2_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vector2_t impulse);
 
 /**
  * @brief PhysicsDirectBodyState2D.apply_torque_impulse
@@ -44628,17 +44629,17 @@ void gdext_physics_direct_body_state2_d_apply_torque_impulse(gdext_c_object_t in
 /**
  * @brief PhysicsDirectBodyState2D.apply_impulse
  */
-void gdext_physics_direct_body_state2_d_apply_impulse(gdext_c_object_t instance, gdext_c_vec2 impulse, gdext_c_vec2 position);
+void gdext_physics_direct_body_state2_d_apply_impulse(gdext_c_object_t instance, gdext_c_vector2_t impulse, gdext_c_vector2_t position);
 
 /**
  * @brief PhysicsDirectBodyState2D.apply_central_force
  */
-void gdext_physics_direct_body_state2_d_apply_central_force(gdext_c_object_t instance, gdext_c_vec2 force);
+void gdext_physics_direct_body_state2_d_apply_central_force(gdext_c_object_t instance, gdext_c_vector2_t force);
 
 /**
  * @brief PhysicsDirectBodyState2D.apply_force
  */
-void gdext_physics_direct_body_state2_d_apply_force(gdext_c_object_t instance, gdext_c_vec2 force, gdext_c_vec2 position);
+void gdext_physics_direct_body_state2_d_apply_force(gdext_c_object_t instance, gdext_c_vector2_t force, gdext_c_vector2_t position);
 
 /**
  * @brief PhysicsDirectBodyState2D.apply_torque
@@ -44648,12 +44649,12 @@ void gdext_physics_direct_body_state2_d_apply_torque(gdext_c_object_t instance, 
 /**
  * @brief PhysicsDirectBodyState2D.add_constant_central_force
  */
-void gdext_physics_direct_body_state2_d_add_constant_central_force(gdext_c_object_t instance, gdext_c_vec2 force);
+void gdext_physics_direct_body_state2_d_add_constant_central_force(gdext_c_object_t instance, gdext_c_vector2_t force);
 
 /**
  * @brief PhysicsDirectBodyState2D.add_constant_force
  */
-void gdext_physics_direct_body_state2_d_add_constant_force(gdext_c_object_t instance, gdext_c_vec2 force, gdext_c_vec2 position);
+void gdext_physics_direct_body_state2_d_add_constant_force(gdext_c_object_t instance, gdext_c_vector2_t force, gdext_c_vector2_t position);
 
 /**
  * @brief PhysicsDirectBodyState2D.add_constant_torque
@@ -44663,12 +44664,12 @@ void gdext_physics_direct_body_state2_d_add_constant_torque(gdext_c_object_t ins
 /**
  * @brief PhysicsDirectBodyState2D.set_constant_force
  */
-void gdext_physics_direct_body_state2_d_set_constant_force(gdext_c_object_t instance, gdext_c_vec2 force);
+void gdext_physics_direct_body_state2_d_set_constant_force(gdext_c_object_t instance, gdext_c_vector2_t force);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_constant_force
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_constant_force(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_constant_force(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState2D.set_constant_torque
@@ -44718,12 +44719,12 @@ int64_t gdext_physics_direct_body_state2_d_get_contact_count(gdext_c_object_t in
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_local_position
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_contact_local_position(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_contact_local_position(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_local_normal
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_contact_local_normal(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_contact_local_normal(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_local_shape
@@ -44733,7 +44734,7 @@ int64_t gdext_physics_direct_body_state2_d_get_contact_local_shape(gdext_c_objec
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_local_velocity_at_position
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_contact_local_velocity_at_position(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_contact_local_velocity_at_position(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_collider
@@ -44743,7 +44744,7 @@ gdext_c_object_t gdext_physics_direct_body_state2_d_get_contact_collider(gdext_c
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_collider_position
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_contact_collider_position(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_contact_collider_position(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_collider_id
@@ -44763,12 +44764,12 @@ int64_t gdext_physics_direct_body_state2_d_get_contact_collider_shape(gdext_c_ob
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_collider_velocity_at_position
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_contact_collider_velocity_at_position(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_contact_collider_velocity_at_position(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_contact_impulse
  */
-gdext_c_vec2 gdext_physics_direct_body_state2_d_get_contact_impulse(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector2_t gdext_physics_direct_body_state2_d_get_contact_impulse(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState2D.get_step
@@ -44793,7 +44794,7 @@ gdext_c_object_t gdext_physics_direct_body_state2_d_get_space_state(gdext_c_obje
 /**
  * @brief PhysicsDirectBodyState3D.get_total_gravity
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_total_gravity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_total_gravity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_total_linear_damp
@@ -44808,12 +44809,12 @@ double gdext_physics_direct_body_state3_d_get_total_angular_damp(gdext_c_object_
 /**
  * @brief PhysicsDirectBodyState3D.get_center_of_mass
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_center_of_mass(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_center_of_mass(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_center_of_mass_local
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_center_of_mass_local(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_center_of_mass_local(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_principal_inertia_axes
@@ -44828,7 +44829,7 @@ double gdext_physics_direct_body_state3_d_get_inverse_mass(gdext_c_object_t inst
 /**
  * @brief PhysicsDirectBodyState3D.get_inverse_inertia
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_inverse_inertia(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_inverse_inertia(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_inverse_inertia_tensor
@@ -44838,22 +44839,22 @@ gdext_c_object_t gdext_physics_direct_body_state3_d_get_inverse_inertia_tensor(g
 /**
  * @brief PhysicsDirectBodyState3D.set_linear_velocity
  */
-void gdext_physics_direct_body_state3_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vec3 velocity);
+void gdext_physics_direct_body_state3_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vector3_t velocity);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_linear_velocity
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState3D.set_angular_velocity
  */
-void gdext_physics_direct_body_state3_d_set_angular_velocity(gdext_c_object_t instance, gdext_c_vec3 velocity);
+void gdext_physics_direct_body_state3_d_set_angular_velocity(gdext_c_object_t instance, gdext_c_vector3_t velocity);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_angular_velocity
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_angular_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_angular_velocity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState3D.set_transform
@@ -44868,72 +44869,72 @@ gdext_c_object_t gdext_physics_direct_body_state3_d_get_transform(gdext_c_object
 /**
  * @brief PhysicsDirectBodyState3D.get_velocity_at_local_position
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_velocity_at_local_position(gdext_c_object_t instance, gdext_c_vec3 local_position);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_velocity_at_local_position(gdext_c_object_t instance, gdext_c_vector3_t local_position);
 
 /**
  * @brief PhysicsDirectBodyState3D.apply_central_impulse
  */
-void gdext_physics_direct_body_state3_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse);
+void gdext_physics_direct_body_state3_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse);
 
 /**
  * @brief PhysicsDirectBodyState3D.apply_impulse
  */
-void gdext_physics_direct_body_state3_d_apply_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse, gdext_c_vec3 position);
+void gdext_physics_direct_body_state3_d_apply_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse, gdext_c_vector3_t position);
 
 /**
  * @brief PhysicsDirectBodyState3D.apply_torque_impulse
  */
-void gdext_physics_direct_body_state3_d_apply_torque_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse);
+void gdext_physics_direct_body_state3_d_apply_torque_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse);
 
 /**
  * @brief PhysicsDirectBodyState3D.apply_central_force
  */
-void gdext_physics_direct_body_state3_d_apply_central_force(gdext_c_object_t instance, gdext_c_vec3 force);
+void gdext_physics_direct_body_state3_d_apply_central_force(gdext_c_object_t instance, gdext_c_vector3_t force);
 
 /**
  * @brief PhysicsDirectBodyState3D.apply_force
  */
-void gdext_physics_direct_body_state3_d_apply_force(gdext_c_object_t instance, gdext_c_vec3 force, gdext_c_vec3 position);
+void gdext_physics_direct_body_state3_d_apply_force(gdext_c_object_t instance, gdext_c_vector3_t force, gdext_c_vector3_t position);
 
 /**
  * @brief PhysicsDirectBodyState3D.apply_torque
  */
-void gdext_physics_direct_body_state3_d_apply_torque(gdext_c_object_t instance, gdext_c_vec3 torque);
+void gdext_physics_direct_body_state3_d_apply_torque(gdext_c_object_t instance, gdext_c_vector3_t torque);
 
 /**
  * @brief PhysicsDirectBodyState3D.add_constant_central_force
  */
-void gdext_physics_direct_body_state3_d_add_constant_central_force(gdext_c_object_t instance, gdext_c_vec3 force);
+void gdext_physics_direct_body_state3_d_add_constant_central_force(gdext_c_object_t instance, gdext_c_vector3_t force);
 
 /**
  * @brief PhysicsDirectBodyState3D.add_constant_force
  */
-void gdext_physics_direct_body_state3_d_add_constant_force(gdext_c_object_t instance, gdext_c_vec3 force, gdext_c_vec3 position);
+void gdext_physics_direct_body_state3_d_add_constant_force(gdext_c_object_t instance, gdext_c_vector3_t force, gdext_c_vector3_t position);
 
 /**
  * @brief PhysicsDirectBodyState3D.add_constant_torque
  */
-void gdext_physics_direct_body_state3_d_add_constant_torque(gdext_c_object_t instance, gdext_c_vec3 torque);
+void gdext_physics_direct_body_state3_d_add_constant_torque(gdext_c_object_t instance, gdext_c_vector3_t torque);
 
 /**
  * @brief PhysicsDirectBodyState3D.set_constant_force
  */
-void gdext_physics_direct_body_state3_d_set_constant_force(gdext_c_object_t instance, gdext_c_vec3 force);
+void gdext_physics_direct_body_state3_d_set_constant_force(gdext_c_object_t instance, gdext_c_vector3_t force);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_constant_force
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_constant_force(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_constant_force(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState3D.set_constant_torque
  */
-void gdext_physics_direct_body_state3_d_set_constant_torque(gdext_c_object_t instance, gdext_c_vec3 torque);
+void gdext_physics_direct_body_state3_d_set_constant_torque(gdext_c_object_t instance, gdext_c_vector3_t torque);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_constant_torque
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_constant_torque(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_constant_torque(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsDirectBodyState3D.set_sleep_state
@@ -44973,17 +44974,17 @@ int64_t gdext_physics_direct_body_state3_d_get_contact_count(gdext_c_object_t in
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_local_position
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_contact_local_position(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_contact_local_position(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_local_normal
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_contact_local_normal(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_contact_local_normal(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_impulse
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_contact_impulse(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_contact_impulse(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_local_shape
@@ -44993,7 +44994,7 @@ int64_t gdext_physics_direct_body_state3_d_get_contact_local_shape(gdext_c_objec
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_local_velocity_at_position
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_contact_local_velocity_at_position(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_contact_local_velocity_at_position(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_collider
@@ -45003,7 +45004,7 @@ gdext_c_object_t gdext_physics_direct_body_state3_d_get_contact_collider(gdext_c
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_collider_position
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_contact_collider_position(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_contact_collider_position(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_collider_id
@@ -45023,7 +45024,7 @@ int64_t gdext_physics_direct_body_state3_d_get_contact_collider_shape(gdext_c_ob
 /**
  * @brief PhysicsDirectBodyState3D.get_contact_collider_velocity_at_position
  */
-gdext_c_vec3 gdext_physics_direct_body_state3_d_get_contact_collider_velocity_at_position(gdext_c_object_t instance, int64_t contact_idx);
+gdext_c_vector3_t gdext_physics_direct_body_state3_d_get_contact_collider_velocity_at_position(gdext_c_object_t instance, int64_t contact_idx);
 
 /**
  * @brief PhysicsDirectBodyState3D.get_step
@@ -45183,12 +45184,12 @@ GDExtensionBool gdext_physics_material_is_absorbent(gdext_c_object_t instance);
 /**
  * @brief PhysicsPointQueryParameters2D.set_position
  */
-void gdext_physics_point_query_parameters2_d_set_position(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_physics_point_query_parameters2_d_set_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief PhysicsPointQueryParameters2D.get_position
  */
-gdext_c_vec2 gdext_physics_point_query_parameters2_d_get_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_point_query_parameters2_d_get_position(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsPointQueryParameters2D.set_canvas_instance_id
@@ -45248,12 +45249,12 @@ GDExtensionBool gdext_physics_point_query_parameters2_d_is_collide_with_areas_en
 /**
  * @brief PhysicsPointQueryParameters3D.set_position
  */
-void gdext_physics_point_query_parameters3_d_set_position(gdext_c_object_t instance, gdext_c_vec3 position);
+void gdext_physics_point_query_parameters3_d_set_position(gdext_c_object_t instance, gdext_c_vector3_t position);
 
 /**
  * @brief PhysicsPointQueryParameters3D.get_position
  */
-gdext_c_vec3 gdext_physics_point_query_parameters3_d_get_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_point_query_parameters3_d_get_position(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsPointQueryParameters3D.set_collision_mask
@@ -45304,27 +45305,27 @@ GDExtensionBool gdext_physics_point_query_parameters3_d_is_collide_with_areas_en
  * @brief PhysicsRayQueryParameters2D.create
  * @note Static method
  */
-gdext_c_object_t gdext_physics_ray_query_parameters2_d_create(gdext_c_vec2 from, gdext_c_vec2 to, int64_t collision_mask, gdext_c_object_t exclude);
+gdext_c_object_t gdext_physics_ray_query_parameters2_d_create(gdext_c_vector2_t from, gdext_c_vector2_t to, int64_t collision_mask, gdext_c_object_t exclude);
 
 /**
  * @brief PhysicsRayQueryParameters2D.set_from
  */
-void gdext_physics_ray_query_parameters2_d_set_from(gdext_c_object_t instance, gdext_c_vec2 from);
+void gdext_physics_ray_query_parameters2_d_set_from(gdext_c_object_t instance, gdext_c_vector2_t from);
 
 /**
  * @brief PhysicsRayQueryParameters2D.get_from
  */
-gdext_c_vec2 gdext_physics_ray_query_parameters2_d_get_from(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_ray_query_parameters2_d_get_from(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsRayQueryParameters2D.set_to
  */
-void gdext_physics_ray_query_parameters2_d_set_to(gdext_c_object_t instance, gdext_c_vec2 to);
+void gdext_physics_ray_query_parameters2_d_set_to(gdext_c_object_t instance, gdext_c_vector2_t to);
 
 /**
  * @brief PhysicsRayQueryParameters2D.get_to
  */
-gdext_c_vec2 gdext_physics_ray_query_parameters2_d_get_to(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_ray_query_parameters2_d_get_to(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsRayQueryParameters2D.set_collision_mask
@@ -45385,27 +45386,27 @@ GDExtensionBool gdext_physics_ray_query_parameters2_d_is_hit_from_inside_enabled
  * @brief PhysicsRayQueryParameters3D.create
  * @note Static method
  */
-gdext_c_object_t gdext_physics_ray_query_parameters3_d_create(gdext_c_vec3 from, gdext_c_vec3 to, int64_t collision_mask, gdext_c_object_t exclude);
+gdext_c_object_t gdext_physics_ray_query_parameters3_d_create(gdext_c_vector3_t from, gdext_c_vector3_t to, int64_t collision_mask, gdext_c_object_t exclude);
 
 /**
  * @brief PhysicsRayQueryParameters3D.set_from
  */
-void gdext_physics_ray_query_parameters3_d_set_from(gdext_c_object_t instance, gdext_c_vec3 from);
+void gdext_physics_ray_query_parameters3_d_set_from(gdext_c_object_t instance, gdext_c_vector3_t from);
 
 /**
  * @brief PhysicsRayQueryParameters3D.get_from
  */
-gdext_c_vec3 gdext_physics_ray_query_parameters3_d_get_from(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_ray_query_parameters3_d_get_from(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsRayQueryParameters3D.set_to
  */
-void gdext_physics_ray_query_parameters3_d_set_to(gdext_c_object_t instance, gdext_c_vec3 to);
+void gdext_physics_ray_query_parameters3_d_set_to(gdext_c_object_t instance, gdext_c_vector3_t to);
 
 /**
  * @brief PhysicsRayQueryParameters3D.get_to
  */
-gdext_c_vec3 gdext_physics_ray_query_parameters3_d_get_to(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_ray_query_parameters3_d_get_to(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsRayQueryParameters3D.set_collision_mask
@@ -45855,7 +45856,7 @@ gdext_c_object_t gdext_physics_server2_d_body_get_state(gdext_c_object_t instanc
 /**
  * @brief PhysicsServer2D.body_apply_central_impulse
  */
-void gdext_physics_server2_d_body_apply_central_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec2 impulse);
+void gdext_physics_server2_d_body_apply_central_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector2_t impulse);
 
 /**
  * @brief PhysicsServer2D.body_apply_torque_impulse
@@ -45865,17 +45866,17 @@ void gdext_physics_server2_d_body_apply_torque_impulse(gdext_c_object_t instance
 /**
  * @brief PhysicsServer2D.body_apply_impulse
  */
-void gdext_physics_server2_d_body_apply_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec2 impulse, gdext_c_vec2 position);
+void gdext_physics_server2_d_body_apply_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector2_t impulse, gdext_c_vector2_t position);
 
 /**
  * @brief PhysicsServer2D.body_apply_central_force
  */
-void gdext_physics_server2_d_body_apply_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec2 force);
+void gdext_physics_server2_d_body_apply_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector2_t force);
 
 /**
  * @brief PhysicsServer2D.body_apply_force
  */
-void gdext_physics_server2_d_body_apply_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec2 force, gdext_c_vec2 position);
+void gdext_physics_server2_d_body_apply_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector2_t force, gdext_c_vector2_t position);
 
 /**
  * @brief PhysicsServer2D.body_apply_torque
@@ -45885,12 +45886,12 @@ void gdext_physics_server2_d_body_apply_torque(gdext_c_object_t instance, gdext_
 /**
  * @brief PhysicsServer2D.body_add_constant_central_force
  */
-void gdext_physics_server2_d_body_add_constant_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec2 force);
+void gdext_physics_server2_d_body_add_constant_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector2_t force);
 
 /**
  * @brief PhysicsServer2D.body_add_constant_force
  */
-void gdext_physics_server2_d_body_add_constant_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec2 force, gdext_c_vec2 position);
+void gdext_physics_server2_d_body_add_constant_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector2_t force, gdext_c_vector2_t position);
 
 /**
  * @brief PhysicsServer2D.body_add_constant_torque
@@ -45900,12 +45901,12 @@ void gdext_physics_server2_d_body_add_constant_torque(gdext_c_object_t instance,
 /**
  * @brief PhysicsServer2D.body_set_constant_force
  */
-void gdext_physics_server2_d_body_set_constant_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec2 force);
+void gdext_physics_server2_d_body_set_constant_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector2_t force);
 
 /**
  * @brief PhysicsServer2D.body_get_constant_force
  */
-gdext_c_vec2 gdext_physics_server2_d_body_get_constant_force(gdext_c_object_t instance, gdext_c_object_t body);
+gdext_c_vector2_t gdext_physics_server2_d_body_get_constant_force(gdext_c_object_t instance, gdext_c_object_t body);
 
 /**
  * @brief PhysicsServer2D.body_set_constant_torque
@@ -45920,7 +45921,7 @@ double gdext_physics_server2_d_body_get_constant_torque(gdext_c_object_t instanc
 /**
  * @brief PhysicsServer2D.body_set_axis_velocity
  */
-void gdext_physics_server2_d_body_set_axis_velocity(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec2 axis_velocity);
+void gdext_physics_server2_d_body_set_axis_velocity(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector2_t axis_velocity);
 
 /**
  * @brief PhysicsServer2D.body_add_collision_exception
@@ -46005,17 +46006,17 @@ GDExtensionBool gdext_physics_server2_d_joint_is_disabled_collisions_between_bod
 /**
  * @brief PhysicsServer2D.joint_make_pin
  */
-void gdext_physics_server2_d_joint_make_pin(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vec2 anchor, gdext_c_object_t body_a, gdext_c_object_t body_b);
+void gdext_physics_server2_d_joint_make_pin(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vector2_t anchor, gdext_c_object_t body_a, gdext_c_object_t body_b);
 
 /**
  * @brief PhysicsServer2D.joint_make_groove
  */
-void gdext_physics_server2_d_joint_make_groove(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vec2 groove1_a, gdext_c_vec2 groove2_a, gdext_c_vec2 anchor_b, gdext_c_object_t body_a, gdext_c_object_t body_b);
+void gdext_physics_server2_d_joint_make_groove(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vector2_t groove1_a, gdext_c_vector2_t groove2_a, gdext_c_vector2_t anchor_b, gdext_c_object_t body_a, gdext_c_object_t body_b);
 
 /**
  * @brief PhysicsServer2D.joint_make_damped_spring
  */
-void gdext_physics_server2_d_joint_make_damped_spring(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vec2 anchor_a, gdext_c_vec2 anchor_b, gdext_c_object_t body_a, gdext_c_object_t body_b);
+void gdext_physics_server2_d_joint_make_damped_spring(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vector2_t anchor_a, gdext_c_vector2_t anchor_b, gdext_c_object_t body_a, gdext_c_object_t body_b);
 
 /**
  * @brief PhysicsServer2D.pin_joint_set_flag
@@ -46485,72 +46486,72 @@ gdext_c_object_t gdext_physics_server3_d_body_get_state(gdext_c_object_t instanc
 /**
  * @brief PhysicsServer3D.body_apply_central_impulse
  */
-void gdext_physics_server3_d_body_apply_central_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 impulse);
+void gdext_physics_server3_d_body_apply_central_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t impulse);
 
 /**
  * @brief PhysicsServer3D.body_apply_impulse
  */
-void gdext_physics_server3_d_body_apply_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 impulse, gdext_c_vec3 position);
+void gdext_physics_server3_d_body_apply_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t impulse, gdext_c_vector3_t position);
 
 /**
  * @brief PhysicsServer3D.body_apply_torque_impulse
  */
-void gdext_physics_server3_d_body_apply_torque_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 impulse);
+void gdext_physics_server3_d_body_apply_torque_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t impulse);
 
 /**
  * @brief PhysicsServer3D.body_apply_central_force
  */
-void gdext_physics_server3_d_body_apply_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 force);
+void gdext_physics_server3_d_body_apply_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t force);
 
 /**
  * @brief PhysicsServer3D.body_apply_force
  */
-void gdext_physics_server3_d_body_apply_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 force, gdext_c_vec3 position);
+void gdext_physics_server3_d_body_apply_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t force, gdext_c_vector3_t position);
 
 /**
  * @brief PhysicsServer3D.body_apply_torque
  */
-void gdext_physics_server3_d_body_apply_torque(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 torque);
+void gdext_physics_server3_d_body_apply_torque(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t torque);
 
 /**
  * @brief PhysicsServer3D.body_add_constant_central_force
  */
-void gdext_physics_server3_d_body_add_constant_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 force);
+void gdext_physics_server3_d_body_add_constant_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t force);
 
 /**
  * @brief PhysicsServer3D.body_add_constant_force
  */
-void gdext_physics_server3_d_body_add_constant_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 force, gdext_c_vec3 position);
+void gdext_physics_server3_d_body_add_constant_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t force, gdext_c_vector3_t position);
 
 /**
  * @brief PhysicsServer3D.body_add_constant_torque
  */
-void gdext_physics_server3_d_body_add_constant_torque(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 torque);
+void gdext_physics_server3_d_body_add_constant_torque(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t torque);
 
 /**
  * @brief PhysicsServer3D.body_set_constant_force
  */
-void gdext_physics_server3_d_body_set_constant_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 force);
+void gdext_physics_server3_d_body_set_constant_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t force);
 
 /**
  * @brief PhysicsServer3D.body_get_constant_force
  */
-gdext_c_vec3 gdext_physics_server3_d_body_get_constant_force(gdext_c_object_t instance, gdext_c_object_t body);
+gdext_c_vector3_t gdext_physics_server3_d_body_get_constant_force(gdext_c_object_t instance, gdext_c_object_t body);
 
 /**
  * @brief PhysicsServer3D.body_set_constant_torque
  */
-void gdext_physics_server3_d_body_set_constant_torque(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 torque);
+void gdext_physics_server3_d_body_set_constant_torque(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t torque);
 
 /**
  * @brief PhysicsServer3D.body_get_constant_torque
  */
-gdext_c_vec3 gdext_physics_server3_d_body_get_constant_torque(gdext_c_object_t instance, gdext_c_object_t body);
+gdext_c_vector3_t gdext_physics_server3_d_body_get_constant_torque(gdext_c_object_t instance, gdext_c_object_t body);
 
 /**
  * @brief PhysicsServer3D.body_set_axis_velocity
  */
-void gdext_physics_server3_d_body_set_axis_velocity(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 axis_velocity);
+void gdext_physics_server3_d_body_set_axis_velocity(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t axis_velocity);
 
 /**
  * @brief PhysicsServer3D.body_set_axis_lock
@@ -46770,12 +46771,12 @@ double gdext_physics_server3_d_soft_body_get_drag_coefficient(gdext_c_object_t i
 /**
  * @brief PhysicsServer3D.soft_body_move_point
  */
-void gdext_physics_server3_d_soft_body_move_point(gdext_c_object_t instance, gdext_c_object_t body, int64_t point_index, gdext_c_vec3 global_position);
+void gdext_physics_server3_d_soft_body_move_point(gdext_c_object_t instance, gdext_c_object_t body, int64_t point_index, gdext_c_vector3_t global_position);
 
 /**
  * @brief PhysicsServer3D.soft_body_get_point_global_position
  */
-gdext_c_vec3 gdext_physics_server3_d_soft_body_get_point_global_position(gdext_c_object_t instance, gdext_c_object_t body, int64_t point_index);
+gdext_c_vector3_t gdext_physics_server3_d_soft_body_get_point_global_position(gdext_c_object_t instance, gdext_c_object_t body, int64_t point_index);
 
 /**
  * @brief PhysicsServer3D.soft_body_remove_all_pinned_points
@@ -46795,22 +46796,22 @@ GDExtensionBool gdext_physics_server3_d_soft_body_is_point_pinned(gdext_c_object
 /**
  * @brief PhysicsServer3D.soft_body_apply_point_impulse
  */
-void gdext_physics_server3_d_soft_body_apply_point_impulse(gdext_c_object_t instance, gdext_c_object_t body, int64_t point_index, gdext_c_vec3 impulse);
+void gdext_physics_server3_d_soft_body_apply_point_impulse(gdext_c_object_t instance, gdext_c_object_t body, int64_t point_index, gdext_c_vector3_t impulse);
 
 /**
  * @brief PhysicsServer3D.soft_body_apply_point_force
  */
-void gdext_physics_server3_d_soft_body_apply_point_force(gdext_c_object_t instance, gdext_c_object_t body, int64_t point_index, gdext_c_vec3 force);
+void gdext_physics_server3_d_soft_body_apply_point_force(gdext_c_object_t instance, gdext_c_object_t body, int64_t point_index, gdext_c_vector3_t force);
 
 /**
  * @brief PhysicsServer3D.soft_body_apply_central_impulse
  */
-void gdext_physics_server3_d_soft_body_apply_central_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 impulse);
+void gdext_physics_server3_d_soft_body_apply_central_impulse(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t impulse);
 
 /**
  * @brief PhysicsServer3D.soft_body_apply_central_force
  */
-void gdext_physics_server3_d_soft_body_apply_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vec3 force);
+void gdext_physics_server3_d_soft_body_apply_central_force(gdext_c_object_t instance, gdext_c_object_t body, gdext_c_vector3_t force);
 
 /**
  * @brief PhysicsServer3D.joint_create
@@ -46825,7 +46826,7 @@ void gdext_physics_server3_d_joint_clear(gdext_c_object_t instance, gdext_c_obje
 /**
  * @brief PhysicsServer3D.joint_make_pin
  */
-void gdext_physics_server3_d_joint_make_pin(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_object_t body_A, gdext_c_vec3 local_A, gdext_c_object_t body_B, gdext_c_vec3 local_B);
+void gdext_physics_server3_d_joint_make_pin(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_object_t body_A, gdext_c_vector3_t local_A, gdext_c_object_t body_B, gdext_c_vector3_t local_B);
 
 /**
  * @brief PhysicsServer3D.pin_joint_set_param
@@ -46840,22 +46841,22 @@ double gdext_physics_server3_d_pin_joint_get_param(gdext_c_object_t instance, gd
 /**
  * @brief PhysicsServer3D.pin_joint_set_local_a
  */
-void gdext_physics_server3_d_pin_joint_set_local_a(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vec3 local_A);
+void gdext_physics_server3_d_pin_joint_set_local_a(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vector3_t local_A);
 
 /**
  * @brief PhysicsServer3D.pin_joint_get_local_a
  */
-gdext_c_vec3 gdext_physics_server3_d_pin_joint_get_local_a(gdext_c_object_t instance, gdext_c_object_t joint);
+gdext_c_vector3_t gdext_physics_server3_d_pin_joint_get_local_a(gdext_c_object_t instance, gdext_c_object_t joint);
 
 /**
  * @brief PhysicsServer3D.pin_joint_set_local_b
  */
-void gdext_physics_server3_d_pin_joint_set_local_b(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vec3 local_B);
+void gdext_physics_server3_d_pin_joint_set_local_b(gdext_c_object_t instance, gdext_c_object_t joint, gdext_c_vector3_t local_B);
 
 /**
  * @brief PhysicsServer3D.pin_joint_get_local_b
  */
-gdext_c_vec3 gdext_physics_server3_d_pin_joint_get_local_b(gdext_c_object_t instance, gdext_c_object_t joint);
+gdext_c_vector3_t gdext_physics_server3_d_pin_joint_get_local_b(gdext_c_object_t instance, gdext_c_object_t joint);
 
 /**
  * @brief PhysicsServer3D.joint_make_hinge
@@ -47015,12 +47016,12 @@ void gdext_physics_server3_d_manager_set_default_server(gdext_c_object_t instanc
 /**
  * @brief PhysicsServer3DRenderingServerHandler.set_vertex
  */
-void gdext_physics_server3_d_rendering_server_handler_set_vertex(gdext_c_object_t instance, int64_t vertex_id, gdext_c_vec3 vertex);
+void gdext_physics_server3_d_rendering_server_handler_set_vertex(gdext_c_object_t instance, int64_t vertex_id, gdext_c_vector3_t vertex);
 
 /**
  * @brief PhysicsServer3DRenderingServerHandler.set_normal
  */
-void gdext_physics_server3_d_rendering_server_handler_set_normal(gdext_c_object_t instance, int64_t vertex_id, gdext_c_vec3 normal);
+void gdext_physics_server3_d_rendering_server_handler_set_normal(gdext_c_object_t instance, int64_t vertex_id, gdext_c_vector3_t normal);
 
 /**
  * @brief PhysicsServer3DRenderingServerHandler.set_aabb
@@ -47065,12 +47066,12 @@ gdext_c_object_t gdext_physics_shape_query_parameters2_d_get_transform(gdext_c_o
 /**
  * @brief PhysicsShapeQueryParameters2D.set_motion
  */
-void gdext_physics_shape_query_parameters2_d_set_motion(gdext_c_object_t instance, gdext_c_vec2 motion);
+void gdext_physics_shape_query_parameters2_d_set_motion(gdext_c_object_t instance, gdext_c_vector2_t motion);
 
 /**
  * @brief PhysicsShapeQueryParameters2D.get_motion
  */
-gdext_c_vec2 gdext_physics_shape_query_parameters2_d_get_motion(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_shape_query_parameters2_d_get_motion(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsShapeQueryParameters2D.set_margin
@@ -47160,12 +47161,12 @@ gdext_c_object_t gdext_physics_shape_query_parameters3_d_get_transform(gdext_c_o
 /**
  * @brief PhysicsShapeQueryParameters3D.set_motion
  */
-void gdext_physics_shape_query_parameters3_d_set_motion(gdext_c_object_t instance, gdext_c_vec3 motion);
+void gdext_physics_shape_query_parameters3_d_set_motion(gdext_c_object_t instance, gdext_c_vector3_t motion);
 
 /**
  * @brief PhysicsShapeQueryParameters3D.get_motion
  */
-gdext_c_vec3 gdext_physics_shape_query_parameters3_d_get_motion(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_shape_query_parameters3_d_get_motion(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsShapeQueryParameters3D.set_margin
@@ -47235,12 +47236,12 @@ void gdext_physics_test_motion_parameters2_d_set_from(gdext_c_object_t instance,
 /**
  * @brief PhysicsTestMotionParameters2D.get_motion
  */
-gdext_c_vec2 gdext_physics_test_motion_parameters2_d_get_motion(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_test_motion_parameters2_d_get_motion(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionParameters2D.set_motion
  */
-void gdext_physics_test_motion_parameters2_d_set_motion(gdext_c_object_t instance, gdext_c_vec2 motion);
+void gdext_physics_test_motion_parameters2_d_set_motion(gdext_c_object_t instance, gdext_c_vector2_t motion);
 
 /**
  * @brief PhysicsTestMotionParameters2D.get_margin
@@ -47310,12 +47311,12 @@ void gdext_physics_test_motion_parameters3_d_set_from(gdext_c_object_t instance,
 /**
  * @brief PhysicsTestMotionParameters3D.get_motion
  */
-gdext_c_vec3 gdext_physics_test_motion_parameters3_d_get_motion(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_test_motion_parameters3_d_get_motion(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionParameters3D.set_motion
  */
-void gdext_physics_test_motion_parameters3_d_set_motion(gdext_c_object_t instance, gdext_c_vec3 motion);
+void gdext_physics_test_motion_parameters3_d_set_motion(gdext_c_object_t instance, gdext_c_vector3_t motion);
 
 /**
  * @brief PhysicsTestMotionParameters3D.get_margin
@@ -47385,27 +47386,27 @@ void gdext_physics_test_motion_parameters3_d_set_recovery_as_collision_enabled(g
 /**
  * @brief PhysicsTestMotionResult2D.get_travel
  */
-gdext_c_vec2 gdext_physics_test_motion_result2_d_get_travel(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_test_motion_result2_d_get_travel(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionResult2D.get_remainder
  */
-gdext_c_vec2 gdext_physics_test_motion_result2_d_get_remainder(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_test_motion_result2_d_get_remainder(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionResult2D.get_collision_point
  */
-gdext_c_vec2 gdext_physics_test_motion_result2_d_get_collision_point(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_test_motion_result2_d_get_collision_point(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionResult2D.get_collision_normal
  */
-gdext_c_vec2 gdext_physics_test_motion_result2_d_get_collision_normal(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_test_motion_result2_d_get_collision_normal(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionResult2D.get_collider_velocity
  */
-gdext_c_vec2 gdext_physics_test_motion_result2_d_get_collider_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_physics_test_motion_result2_d_get_collider_velocity(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionResult2D.get_collider_id
@@ -47455,12 +47456,12 @@ double gdext_physics_test_motion_result2_d_get_collision_unsafe_fraction(gdext_c
 /**
  * @brief PhysicsTestMotionResult3D.get_travel
  */
-gdext_c_vec3 gdext_physics_test_motion_result3_d_get_travel(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_test_motion_result3_d_get_travel(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionResult3D.get_remainder
  */
-gdext_c_vec3 gdext_physics_test_motion_result3_d_get_remainder(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_physics_test_motion_result3_d_get_remainder(gdext_c_object_t instance);
 
 /**
  * @brief PhysicsTestMotionResult3D.get_collision_safe_fraction
@@ -47480,17 +47481,17 @@ int64_t gdext_physics_test_motion_result3_d_get_collision_count(gdext_c_object_t
 /**
  * @brief PhysicsTestMotionResult3D.get_collision_point
  */
-gdext_c_vec3 gdext_physics_test_motion_result3_d_get_collision_point(gdext_c_object_t instance, int64_t collision_index);
+gdext_c_vector3_t gdext_physics_test_motion_result3_d_get_collision_point(gdext_c_object_t instance, int64_t collision_index);
 
 /**
  * @brief PhysicsTestMotionResult3D.get_collision_normal
  */
-gdext_c_vec3 gdext_physics_test_motion_result3_d_get_collision_normal(gdext_c_object_t instance, int64_t collision_index);
+gdext_c_vector3_t gdext_physics_test_motion_result3_d_get_collision_normal(gdext_c_object_t instance, int64_t collision_index);
 
 /**
  * @brief PhysicsTestMotionResult3D.get_collider_velocity
  */
-gdext_c_vec3 gdext_physics_test_motion_result3_d_get_collider_velocity(gdext_c_object_t instance, int64_t collision_index);
+gdext_c_vector3_t gdext_physics_test_motion_result3_d_get_collider_velocity(gdext_c_object_t instance, int64_t collision_index);
 
 /**
  * @brief PhysicsTestMotionResult3D.get_collider_id
@@ -47620,7 +47621,7 @@ void gdext_placeholder_mesh_set_aabb(gdext_c_object_t instance, gdext_c_object_t
 /**
  * @brief PlaceholderTexture2D.set_size
  */
-void gdext_placeholder_texture2_d_set_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_placeholder_texture2_d_set_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /* ============================================================================
  * Class: PlaceholderTexture3D
@@ -47665,12 +47666,12 @@ void gdext_placeholder_texture_layered_set_layers(gdext_c_object_t instance, int
 /**
  * @brief PlaneMesh.set_size
  */
-void gdext_plane_mesh_set_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_plane_mesh_set_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief PlaneMesh.get_size
  */
-gdext_c_vec2 gdext_plane_mesh_get_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_plane_mesh_get_size(gdext_c_object_t instance);
 
 /**
  * @brief PlaneMesh.set_subdivide_width
@@ -47695,12 +47696,12 @@ int64_t gdext_plane_mesh_get_subdivide_depth(gdext_c_object_t instance);
 /**
  * @brief PlaneMesh.set_center_offset
  */
-void gdext_plane_mesh_set_center_offset(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_plane_mesh_set_center_offset(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief PlaneMesh.get_center_offset
  */
-gdext_c_vec3 gdext_plane_mesh_get_center_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_plane_mesh_get_center_offset(gdext_c_object_t instance);
 
 /**
  * @brief PlaneMesh.set_orientation
@@ -47730,12 +47731,12 @@ gdext_c_object_t gdext_point_light2_d_get_texture(gdext_c_object_t instance);
 /**
  * @brief PointLight2D.set_texture_offset
  */
-void gdext_point_light2_d_set_texture_offset(gdext_c_object_t instance, gdext_c_vec2 texture_offset);
+void gdext_point_light2_d_set_texture_offset(gdext_c_object_t instance, gdext_c_vector2_t texture_offset);
 
 /**
  * @brief PointLight2D.get_texture_offset
  */
-gdext_c_vec2 gdext_point_light2_d_get_texture_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_point_light2_d_get_texture_offset(gdext_c_object_t instance);
 
 /**
  * @brief PointLight2D.set_texture_scale
@@ -47775,12 +47776,12 @@ gdext_c_object_t gdext_polygon2_d_get_uv(gdext_c_object_t instance);
 /**
  * @brief Polygon2D.set_color
  */
-void gdext_polygon2_d_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_polygon2_d_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief Polygon2D.get_color
  */
-gdext_c_color gdext_polygon2_d_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_polygon2_d_get_color(gdext_c_object_t instance);
 
 /**
  * @brief Polygon2D.set_polygons
@@ -47815,12 +47816,12 @@ gdext_c_object_t gdext_polygon2_d_get_texture(gdext_c_object_t instance);
 /**
  * @brief Polygon2D.set_texture_offset
  */
-void gdext_polygon2_d_set_texture_offset(gdext_c_object_t instance, gdext_c_vec2 texture_offset);
+void gdext_polygon2_d_set_texture_offset(gdext_c_object_t instance, gdext_c_vector2_t texture_offset);
 
 /**
  * @brief Polygon2D.get_texture_offset
  */
-gdext_c_vec2 gdext_polygon2_d_get_texture_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_polygon2_d_get_texture_offset(gdext_c_object_t instance);
 
 /**
  * @brief Polygon2D.set_texture_rotation
@@ -47835,12 +47836,12 @@ double gdext_polygon2_d_get_texture_rotation(gdext_c_object_t instance);
 /**
  * @brief Polygon2D.set_texture_scale
  */
-void gdext_polygon2_d_set_texture_scale(gdext_c_object_t instance, gdext_c_vec2 texture_scale);
+void gdext_polygon2_d_set_texture_scale(gdext_c_object_t instance, gdext_c_vector2_t texture_scale);
 
 /**
  * @brief Polygon2D.get_texture_scale
  */
-gdext_c_vec2 gdext_polygon2_d_get_texture_scale(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_polygon2_d_get_texture_scale(gdext_c_object_t instance);
 
 /**
  * @brief Polygon2D.set_invert_enabled
@@ -47875,12 +47876,12 @@ double gdext_polygon2_d_get_invert_border(gdext_c_object_t instance);
 /**
  * @brief Polygon2D.set_offset
  */
-void gdext_polygon2_d_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_polygon2_d_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Polygon2D.get_offset
  */
-gdext_c_vec2 gdext_polygon2_d_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_polygon2_d_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief Polygon2D.add_bone
@@ -47970,22 +47971,22 @@ void gdext_polygon_path_finder_setup(gdext_c_object_t instance, gdext_c_object_t
 /**
  * @brief PolygonPathFinder.find_path
  */
-gdext_c_object_t gdext_polygon_path_finder_find_path(gdext_c_object_t instance, gdext_c_vec2 from, gdext_c_vec2 to);
+gdext_c_object_t gdext_polygon_path_finder_find_path(gdext_c_object_t instance, gdext_c_vector2_t from, gdext_c_vector2_t to);
 
 /**
  * @brief PolygonPathFinder.get_intersections
  */
-gdext_c_object_t gdext_polygon_path_finder_get_intersections(gdext_c_object_t instance, gdext_c_vec2 from, gdext_c_vec2 to);
+gdext_c_object_t gdext_polygon_path_finder_get_intersections(gdext_c_object_t instance, gdext_c_vector2_t from, gdext_c_vector2_t to);
 
 /**
  * @brief PolygonPathFinder.get_closest_point
  */
-gdext_c_vec2 gdext_polygon_path_finder_get_closest_point(gdext_c_object_t instance, gdext_c_vec2 point);
+gdext_c_vector2_t gdext_polygon_path_finder_get_closest_point(gdext_c_object_t instance, gdext_c_vector2_t point);
 
 /**
  * @brief PolygonPathFinder.is_point_inside
  */
-GDExtensionBool gdext_polygon_path_finder_is_point_inside(gdext_c_object_t instance, gdext_c_vec2 point);
+GDExtensionBool gdext_polygon_path_finder_is_point_inside(gdext_c_object_t instance, gdext_c_vector2_t point);
 
 /**
  * @brief PolygonPathFinder.set_point_penalty
@@ -48135,7 +48136,7 @@ void gdext_popup_menu_set_item_icon_max_width(gdext_c_object_t instance, int64_t
 /**
  * @brief PopupMenu.set_item_icon_modulate
  */
-void gdext_popup_menu_set_item_icon_modulate(gdext_c_object_t instance, int64_t index, gdext_c_color modulate);
+void gdext_popup_menu_set_item_icon_modulate(gdext_c_object_t instance, int64_t index, gdext_c_color_t modulate);
 
 /**
  * @brief PopupMenu.set_item_checked
@@ -48260,7 +48261,7 @@ int64_t gdext_popup_menu_get_item_icon_max_width(gdext_c_object_t instance, int6
 /**
  * @brief PopupMenu.get_item_icon_modulate
  */
-gdext_c_color gdext_popup_menu_get_item_icon_modulate(gdext_c_object_t instance, int64_t index);
+gdext_c_color_t gdext_popup_menu_get_item_icon_modulate(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief PopupMenu.is_item_checked
@@ -48475,12 +48476,12 @@ int32_t gdext_portable_compressed_texture2_d_get_compression_mode(gdext_c_object
 /**
  * @brief PortableCompressedTexture2D.set_size_override
  */
-void gdext_portable_compressed_texture2_d_set_size_override(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_portable_compressed_texture2_d_set_size_override(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief PortableCompressedTexture2D.get_size_override
  */
-gdext_c_vec2 gdext_portable_compressed_texture2_d_get_size_override(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_portable_compressed_texture2_d_get_size_override(gdext_c_object_t instance);
 
 /**
  * @brief PortableCompressedTexture2D.set_keep_compressed_buffer
@@ -48592,12 +48593,12 @@ double gdext_prism_mesh_get_left_to_right(gdext_c_object_t instance);
 /**
  * @brief PrismMesh.set_size
  */
-void gdext_prism_mesh_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_prism_mesh_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief PrismMesh.get_size
  */
-gdext_c_vec3 gdext_prism_mesh_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_prism_mesh_get_size(gdext_c_object_t instance);
 
 /**
  * @brief PrismMesh.set_subdivide_width
@@ -48637,22 +48638,22 @@ int64_t gdext_prism_mesh_get_subdivide_depth(gdext_c_object_t instance);
 /**
  * @brief ProceduralSkyMaterial.set_sky_top_color
  */
-void gdext_procedural_sky_material_set_sky_top_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_procedural_sky_material_set_sky_top_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ProceduralSkyMaterial.get_sky_top_color
  */
-gdext_c_color gdext_procedural_sky_material_get_sky_top_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_procedural_sky_material_get_sky_top_color(gdext_c_object_t instance);
 
 /**
  * @brief ProceduralSkyMaterial.set_sky_horizon_color
  */
-void gdext_procedural_sky_material_set_sky_horizon_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_procedural_sky_material_set_sky_horizon_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ProceduralSkyMaterial.get_sky_horizon_color
  */
-gdext_c_color gdext_procedural_sky_material_get_sky_horizon_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_procedural_sky_material_get_sky_horizon_color(gdext_c_object_t instance);
 
 /**
  * @brief ProceduralSkyMaterial.set_sky_curve
@@ -48687,32 +48688,32 @@ gdext_c_object_t gdext_procedural_sky_material_get_sky_cover(gdext_c_object_t in
 /**
  * @brief ProceduralSkyMaterial.set_sky_cover_modulate
  */
-void gdext_procedural_sky_material_set_sky_cover_modulate(gdext_c_object_t instance, gdext_c_color color);
+void gdext_procedural_sky_material_set_sky_cover_modulate(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ProceduralSkyMaterial.get_sky_cover_modulate
  */
-gdext_c_color gdext_procedural_sky_material_get_sky_cover_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_procedural_sky_material_get_sky_cover_modulate(gdext_c_object_t instance);
 
 /**
  * @brief ProceduralSkyMaterial.set_ground_bottom_color
  */
-void gdext_procedural_sky_material_set_ground_bottom_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_procedural_sky_material_set_ground_bottom_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ProceduralSkyMaterial.get_ground_bottom_color
  */
-gdext_c_color gdext_procedural_sky_material_get_ground_bottom_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_procedural_sky_material_get_ground_bottom_color(gdext_c_object_t instance);
 
 /**
  * @brief ProceduralSkyMaterial.set_ground_horizon_color
  */
-void gdext_procedural_sky_material_set_ground_horizon_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_procedural_sky_material_set_ground_horizon_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ProceduralSkyMaterial.get_ground_horizon_color
  */
-gdext_c_color gdext_procedural_sky_material_get_ground_horizon_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_procedural_sky_material_get_ground_horizon_color(gdext_c_object_t instance);
 
 /**
  * @brief ProceduralSkyMaterial.set_ground_curve
@@ -48967,12 +48968,12 @@ gdext_c_object_t gdext_property_tweener_set_delay(gdext_c_object_t instance, dou
 /**
  * @brief QuadOccluder3D.set_size
  */
-void gdext_quad_occluder3_d_set_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_quad_occluder3_d_set_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief QuadOccluder3D.get_size
  */
-gdext_c_vec2 gdext_quad_occluder3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_quad_occluder3_d_get_size(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: RDAttachmentFormat
@@ -49092,12 +49093,12 @@ int32_t gdext_r_d_pipeline_color_blend_state_get_logic_op(gdext_c_object_t insta
 /**
  * @brief RDPipelineColorBlendState.set_blend_constant
  */
-void gdext_r_d_pipeline_color_blend_state_set_blend_constant(gdext_c_object_t instance, gdext_c_color p_member);
+void gdext_r_d_pipeline_color_blend_state_set_blend_constant(gdext_c_object_t instance, gdext_c_color_t p_member);
 
 /**
  * @brief RDPipelineColorBlendState.get_blend_constant
  */
-gdext_c_color gdext_r_d_pipeline_color_blend_state_get_blend_constant(gdext_c_object_t instance);
+gdext_c_color_t gdext_r_d_pipeline_color_blend_state_get_blend_constant(gdext_c_object_t instance);
 
 /**
  * @brief RDPipelineColorBlendState.set_attachments
@@ -50357,12 +50358,12 @@ GDExtensionBool gdext_ray_cast2_d_is_enabled(gdext_c_object_t instance);
 /**
  * @brief RayCast2D.set_target_position
  */
-void gdext_ray_cast2_d_set_target_position(gdext_c_object_t instance, gdext_c_vec2 local_point);
+void gdext_ray_cast2_d_set_target_position(gdext_c_object_t instance, gdext_c_vector2_t local_point);
 
 /**
  * @brief RayCast2D.get_target_position
  */
-gdext_c_vec2 gdext_ray_cast2_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_ray_cast2_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief RayCast2D.is_colliding
@@ -50392,12 +50393,12 @@ int64_t gdext_ray_cast2_d_get_collider_shape(gdext_c_object_t instance);
 /**
  * @brief RayCast2D.get_collision_point
  */
-gdext_c_vec2 gdext_ray_cast2_d_get_collision_point(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_ray_cast2_d_get_collision_point(gdext_c_object_t instance);
 
 /**
  * @brief RayCast2D.get_collision_normal
  */
-gdext_c_vec2 gdext_ray_cast2_d_get_collision_normal(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_ray_cast2_d_get_collision_normal(gdext_c_object_t instance);
 
 /**
  * @brief RayCast2D.add_exception_rid
@@ -50502,12 +50503,12 @@ GDExtensionBool gdext_ray_cast3_d_is_enabled(gdext_c_object_t instance);
 /**
  * @brief RayCast3D.set_target_position
  */
-void gdext_ray_cast3_d_set_target_position(gdext_c_object_t instance, gdext_c_vec3 local_point);
+void gdext_ray_cast3_d_set_target_position(gdext_c_object_t instance, gdext_c_vector3_t local_point);
 
 /**
  * @brief RayCast3D.get_target_position
  */
-gdext_c_vec3 gdext_ray_cast3_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_ray_cast3_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief RayCast3D.is_colliding
@@ -50537,12 +50538,12 @@ int64_t gdext_ray_cast3_d_get_collider_shape(gdext_c_object_t instance);
 /**
  * @brief RayCast3D.get_collision_point
  */
-gdext_c_vec3 gdext_ray_cast3_d_get_collision_point(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_ray_cast3_d_get_collision_point(gdext_c_object_t instance);
 
 /**
  * @brief RayCast3D.get_collision_normal
  */
-gdext_c_vec3 gdext_ray_cast3_d_get_collision_normal(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_ray_cast3_d_get_collision_normal(gdext_c_object_t instance);
 
 /**
  * @brief RayCast3D.get_collision_face_index
@@ -50647,12 +50648,12 @@ GDExtensionBool gdext_ray_cast3_d_is_hit_back_faces_enabled(gdext_c_object_t ins
 /**
  * @brief RayCast3D.set_debug_shape_custom_color
  */
-void gdext_ray_cast3_d_set_debug_shape_custom_color(gdext_c_object_t instance, gdext_c_color debug_shape_custom_color);
+void gdext_ray_cast3_d_set_debug_shape_custom_color(gdext_c_object_t instance, gdext_c_color_t debug_shape_custom_color);
 
 /**
  * @brief RayCast3D.get_debug_shape_custom_color
  */
-gdext_c_color gdext_ray_cast3_d_get_debug_shape_custom_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_ray_cast3_d_get_debug_shape_custom_color(gdext_c_object_t instance);
 
 /**
  * @brief RayCast3D.set_debug_shape_thickness
@@ -50672,12 +50673,12 @@ int64_t gdext_ray_cast3_d_get_debug_shape_thickness(gdext_c_object_t instance);
 /**
  * @brief RectangleShape2D.set_size
  */
-void gdext_rectangle_shape2_d_set_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_rectangle_shape2_d_set_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief RectangleShape2D.get_size
  */
-gdext_c_vec2 gdext_rectangle_shape2_d_get_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_rectangle_shape2_d_get_size(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: RefCounted
@@ -50712,12 +50713,12 @@ int64_t gdext_ref_counted_get_reference_count(gdext_c_object_t instance);
 /**
  * @brief ReferenceRect.get_border_color
  */
-gdext_c_color gdext_reference_rect_get_border_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_reference_rect_get_border_color(gdext_c_object_t instance);
 
 /**
  * @brief ReferenceRect.set_border_color
  */
-void gdext_reference_rect_set_border_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_reference_rect_set_border_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief ReferenceRect.get_border_width
@@ -50777,12 +50778,12 @@ int32_t gdext_reflection_probe_get_ambient_mode(gdext_c_object_t instance);
 /**
  * @brief ReflectionProbe.set_ambient_color
  */
-void gdext_reflection_probe_set_ambient_color(gdext_c_object_t instance, gdext_c_color ambient);
+void gdext_reflection_probe_set_ambient_color(gdext_c_object_t instance, gdext_c_color_t ambient);
 
 /**
  * @brief ReflectionProbe.get_ambient_color
  */
-gdext_c_color gdext_reflection_probe_get_ambient_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_reflection_probe_get_ambient_color(gdext_c_object_t instance);
 
 /**
  * @brief ReflectionProbe.set_ambient_color_energy
@@ -50817,22 +50818,22 @@ double gdext_reflection_probe_get_mesh_lod_threshold(gdext_c_object_t instance);
 /**
  * @brief ReflectionProbe.set_size
  */
-void gdext_reflection_probe_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_reflection_probe_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief ReflectionProbe.get_size
  */
-gdext_c_vec3 gdext_reflection_probe_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_reflection_probe_get_size(gdext_c_object_t instance);
 
 /**
  * @brief ReflectionProbe.set_origin_offset
  */
-void gdext_reflection_probe_set_origin_offset(gdext_c_object_t instance, gdext_c_vec3 origin_offset);
+void gdext_reflection_probe_set_origin_offset(gdext_c_object_t instance, gdext_c_vector3_t origin_offset);
 
 /**
  * @brief ReflectionProbe.get_origin_offset
  */
-gdext_c_vec3 gdext_reflection_probe_get_origin_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_reflection_probe_get_origin_offset(gdext_c_object_t instance);
 
 /**
  * @brief ReflectionProbe.set_as_interior
@@ -51413,7 +51414,7 @@ int64_t gdext_render_scene_data_get_view_count(gdext_c_object_t instance);
 /**
  * @brief RenderSceneData.get_view_eye_offset
  */
-gdext_c_vec3 gdext_render_scene_data_get_view_eye_offset(gdext_c_object_t instance, int64_t view);
+gdext_c_vector3_t gdext_render_scene_data_get_view_eye_offset(gdext_c_object_t instance, int64_t view);
 
 /**
  * @brief RenderSceneData.get_view_projection
@@ -51493,12 +51494,12 @@ GDExtensionBool gdext_rendering_device_texture_is_discardable(gdext_c_object_t i
 /**
  * @brief RenderingDevice.texture_copy
  */
-int32_t gdext_rendering_device_texture_copy(gdext_c_object_t instance, gdext_c_object_t from_texture, gdext_c_object_t to_texture, gdext_c_vec3 from_pos, gdext_c_vec3 to_pos, gdext_c_vec3 size, int64_t src_mipmap, int64_t dst_mipmap, int64_t src_layer, int64_t dst_layer);
+int32_t gdext_rendering_device_texture_copy(gdext_c_object_t instance, gdext_c_object_t from_texture, gdext_c_object_t to_texture, gdext_c_vector3_t from_pos, gdext_c_vector3_t to_pos, gdext_c_vector3_t size, int64_t src_mipmap, int64_t dst_mipmap, int64_t src_layer, int64_t dst_layer);
 
 /**
  * @brief RenderingDevice.texture_clear
  */
-int32_t gdext_rendering_device_texture_clear(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_color color, int64_t base_mipmap, int64_t mipmap_count, int64_t base_layer, int64_t layer_count);
+int32_t gdext_rendering_device_texture_clear(gdext_c_object_t instance, gdext_c_object_t texture, gdext_c_color_t color, int64_t base_mipmap, int64_t mipmap_count, int64_t base_layer, int64_t layer_count);
 
 /**
  * @brief RenderingDevice.texture_resolve_multisample
@@ -51718,7 +51719,7 @@ int64_t gdext_rendering_device_screen_get_framebuffer_format(gdext_c_object_t in
 /**
  * @brief RenderingDevice.draw_list_begin_for_screen
  */
-int64_t gdext_rendering_device_draw_list_begin_for_screen(gdext_c_object_t instance, int64_t screen, gdext_c_color clear_color);
+int64_t gdext_rendering_device_draw_list_begin_for_screen(gdext_c_object_t instance, int64_t screen, gdext_c_color_t clear_color);
 
 /**
  * @brief RenderingDevice.draw_list_begin
@@ -51733,7 +51734,7 @@ gdext_c_object_t gdext_rendering_device_draw_list_begin_split(gdext_c_object_t i
 /**
  * @brief RenderingDevice.draw_list_set_blend_constants
  */
-void gdext_rendering_device_draw_list_set_blend_constants(gdext_c_object_t instance, int64_t draw_list, gdext_c_color color);
+void gdext_rendering_device_draw_list_set_blend_constants(gdext_c_object_t instance, int64_t draw_list, gdext_c_color_t color);
 
 /**
  * @brief RenderingDevice.draw_list_bind_render_pipeline
@@ -51918,12 +51919,12 @@ void gdext_rendering_device_set_resource_name(gdext_c_object_t instance, gdext_c
 /**
  * @brief RenderingDevice.draw_command_begin_label
  */
-void gdext_rendering_device_draw_command_begin_label(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color color);
+void gdext_rendering_device_draw_command_begin_label(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color_t color);
 
 /**
  * @brief RenderingDevice.draw_command_insert_label
  */
-void gdext_rendering_device_draw_command_insert_label(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color color);
+void gdext_rendering_device_draw_command_insert_label(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color_t color);
 
 /**
  * @brief RenderingDevice.draw_command_end_label
@@ -52378,12 +52379,12 @@ void gdext_rendering_server_multimesh_instance_set_transform_2d(gdext_c_object_t
 /**
  * @brief RenderingServer.multimesh_instance_set_color
  */
-void gdext_rendering_server_multimesh_instance_set_color(gdext_c_object_t instance, gdext_c_object_t multimesh, int64_t index, gdext_c_color color);
+void gdext_rendering_server_multimesh_instance_set_color(gdext_c_object_t instance, gdext_c_object_t multimesh, int64_t index, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.multimesh_instance_set_custom_data
  */
-void gdext_rendering_server_multimesh_instance_set_custom_data(gdext_c_object_t instance, gdext_c_object_t multimesh, int64_t index, gdext_c_color custom_data);
+void gdext_rendering_server_multimesh_instance_set_custom_data(gdext_c_object_t instance, gdext_c_object_t multimesh, int64_t index, gdext_c_color_t custom_data);
 
 /**
  * @brief RenderingServer.multimesh_get_mesh
@@ -52418,12 +52419,12 @@ gdext_c_object_t gdext_rendering_server_multimesh_instance_get_transform_2d(gdex
 /**
  * @brief RenderingServer.multimesh_instance_get_color
  */
-gdext_c_color gdext_rendering_server_multimesh_instance_get_color(gdext_c_object_t instance, gdext_c_object_t multimesh, int64_t index);
+gdext_c_color_t gdext_rendering_server_multimesh_instance_get_color(gdext_c_object_t instance, gdext_c_object_t multimesh, int64_t index);
 
 /**
  * @brief RenderingServer.multimesh_instance_get_custom_data
  */
-gdext_c_color gdext_rendering_server_multimesh_instance_get_custom_data(gdext_c_object_t instance, gdext_c_object_t multimesh, int64_t index);
+gdext_c_color_t gdext_rendering_server_multimesh_instance_get_custom_data(gdext_c_object_t instance, gdext_c_object_t multimesh, int64_t index);
 
 /**
  * @brief RenderingServer.multimesh_set_visible_instances
@@ -52533,7 +52534,7 @@ gdext_c_object_t gdext_rendering_server_spot_light_create(gdext_c_object_t insta
 /**
  * @brief RenderingServer.light_set_color
  */
-void gdext_rendering_server_light_set_color(gdext_c_object_t instance, gdext_c_object_t light, gdext_c_color color);
+void gdext_rendering_server_light_set_color(gdext_c_object_t instance, gdext_c_object_t light, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.light_set_param
@@ -52658,7 +52659,7 @@ void gdext_rendering_server_reflection_probe_set_ambient_mode(gdext_c_object_t i
 /**
  * @brief RenderingServer.reflection_probe_set_ambient_color
  */
-void gdext_rendering_server_reflection_probe_set_ambient_color(gdext_c_object_t instance, gdext_c_object_t probe, gdext_c_color color);
+void gdext_rendering_server_reflection_probe_set_ambient_color(gdext_c_object_t instance, gdext_c_object_t probe, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.reflection_probe_set_ambient_energy
@@ -52673,12 +52674,12 @@ void gdext_rendering_server_reflection_probe_set_max_distance(gdext_c_object_t i
 /**
  * @brief RenderingServer.reflection_probe_set_size
  */
-void gdext_rendering_server_reflection_probe_set_size(gdext_c_object_t instance, gdext_c_object_t probe, gdext_c_vec3 size);
+void gdext_rendering_server_reflection_probe_set_size(gdext_c_object_t instance, gdext_c_object_t probe, gdext_c_vector3_t size);
 
 /**
  * @brief RenderingServer.reflection_probe_set_origin_offset
  */
-void gdext_rendering_server_reflection_probe_set_origin_offset(gdext_c_object_t instance, gdext_c_object_t probe, gdext_c_vec3 offset);
+void gdext_rendering_server_reflection_probe_set_origin_offset(gdext_c_object_t instance, gdext_c_object_t probe, gdext_c_vector3_t offset);
 
 /**
  * @brief RenderingServer.reflection_probe_set_as_interior
@@ -52723,7 +52724,7 @@ gdext_c_object_t gdext_rendering_server_decal_create(gdext_c_object_t instance);
 /**
  * @brief RenderingServer.decal_set_size
  */
-void gdext_rendering_server_decal_set_size(gdext_c_object_t instance, gdext_c_object_t decal, gdext_c_vec3 size);
+void gdext_rendering_server_decal_set_size(gdext_c_object_t instance, gdext_c_object_t decal, gdext_c_vector3_t size);
 
 /**
  * @brief RenderingServer.decal_set_texture
@@ -52743,7 +52744,7 @@ void gdext_rendering_server_decal_set_albedo_mix(gdext_c_object_t instance, gdex
 /**
  * @brief RenderingServer.decal_set_modulate
  */
-void gdext_rendering_server_decal_set_modulate(gdext_c_object_t instance, gdext_c_object_t decal, gdext_c_color color);
+void gdext_rendering_server_decal_set_modulate(gdext_c_object_t instance, gdext_c_object_t decal, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.decal_set_cull_mask
@@ -52983,7 +52984,7 @@ void gdext_rendering_server_particles_set_interp_to_end(gdext_c_object_t instanc
 /**
  * @brief RenderingServer.particles_set_emitter_velocity
  */
-void gdext_rendering_server_particles_set_emitter_velocity(gdext_c_object_t instance, gdext_c_object_t particles, gdext_c_vec3 velocity);
+void gdext_rendering_server_particles_set_emitter_velocity(gdext_c_object_t instance, gdext_c_object_t particles, gdext_c_vector3_t velocity);
 
 /**
  * @brief RenderingServer.particles_set_custom_aabb
@@ -53063,7 +53064,7 @@ void gdext_rendering_server_particles_set_subemitter(gdext_c_object_t instance, 
 /**
  * @brief RenderingServer.particles_emit
  */
-void gdext_rendering_server_particles_emit(gdext_c_object_t instance, gdext_c_object_t particles, gdext_c_object_t transform, gdext_c_vec3 velocity, gdext_c_color color, gdext_c_color custom, int64_t emit_flags);
+void gdext_rendering_server_particles_emit(gdext_c_object_t instance, gdext_c_object_t particles, gdext_c_object_t transform, gdext_c_vector3_t velocity, gdext_c_color_t color, gdext_c_color_t custom, int64_t emit_flags);
 
 /**
  * @brief RenderingServer.particles_set_draw_order
@@ -53113,7 +53114,7 @@ void gdext_rendering_server_particles_collision_set_sphere_radius(gdext_c_object
 /**
  * @brief RenderingServer.particles_collision_set_box_extents
  */
-void gdext_rendering_server_particles_collision_set_box_extents(gdext_c_object_t instance, gdext_c_object_t particles_collision, gdext_c_vec3 extents);
+void gdext_rendering_server_particles_collision_set_box_extents(gdext_c_object_t instance, gdext_c_object_t particles_collision, gdext_c_vector3_t extents);
 
 /**
  * @brief RenderingServer.particles_collision_set_attractor_strength
@@ -53163,7 +53164,7 @@ void gdext_rendering_server_fog_volume_set_shape(gdext_c_object_t instance, gdex
 /**
  * @brief RenderingServer.fog_volume_set_size
  */
-void gdext_rendering_server_fog_volume_set_size(gdext_c_object_t instance, gdext_c_object_t fog_volume, gdext_c_vec3 size);
+void gdext_rendering_server_fog_volume_set_size(gdext_c_object_t instance, gdext_c_object_t fog_volume, gdext_c_vector3_t size);
 
 /**
  * @brief RenderingServer.fog_volume_set_material
@@ -53213,7 +53214,7 @@ void gdext_rendering_server_camera_set_orthogonal(gdext_c_object_t instance, gde
 /**
  * @brief RenderingServer.camera_set_frustum
  */
-void gdext_rendering_server_camera_set_frustum(gdext_c_object_t instance, gdext_c_object_t camera, double size, gdext_c_vec2 offset, double z_near, double z_far);
+void gdext_rendering_server_camera_set_frustum(gdext_c_object_t instance, gdext_c_object_t camera, double size, gdext_c_vector2_t offset, double z_near, double z_far);
 
 /**
  * @brief RenderingServer.camera_set_transform
@@ -53598,7 +53599,7 @@ void gdext_rendering_server_environment_set_sky_orientation(gdext_c_object_t ins
 /**
  * @brief RenderingServer.environment_set_bg_color
  */
-void gdext_rendering_server_environment_set_bg_color(gdext_c_object_t instance, gdext_c_object_t env, gdext_c_color color);
+void gdext_rendering_server_environment_set_bg_color(gdext_c_object_t instance, gdext_c_object_t env, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.environment_set_bg_energy
@@ -53613,7 +53614,7 @@ void gdext_rendering_server_environment_set_canvas_max_layer(gdext_c_object_t in
 /**
  * @brief RenderingServer.environment_set_ambient_light
  */
-void gdext_rendering_server_environment_set_ambient_light(gdext_c_object_t instance, gdext_c_object_t env, gdext_c_color color, int32_t ambient, double energy, double sky_contribution, int32_t reflection_source);
+void gdext_rendering_server_environment_set_ambient_light(gdext_c_object_t instance, gdext_c_object_t env, gdext_c_color_t color, int32_t ambient, double energy, double sky_contribution, int32_t reflection_source);
 
 /**
  * @brief RenderingServer.environment_set_glow
@@ -53643,7 +53644,7 @@ void gdext_rendering_server_environment_set_ssao(gdext_c_object_t instance, gdex
 /**
  * @brief RenderingServer.environment_set_fog
  */
-void gdext_rendering_server_environment_set_fog(gdext_c_object_t instance, gdext_c_object_t env, GDExtensionBool enable, gdext_c_color light_color, double light_energy, double sun_scatter, double density, double height, double height_density, double aerial_perspective, double sky_affect, int32_t fog_mode);
+void gdext_rendering_server_environment_set_fog(gdext_c_object_t instance, gdext_c_object_t env, GDExtensionBool enable, gdext_c_color_t light_color, double light_energy, double sun_scatter, double density, double height, double height_density, double aerial_perspective, double sky_affect, int32_t fog_mode);
 
 /**
  * @brief RenderingServer.environment_set_fog_depth
@@ -53658,7 +53659,7 @@ void gdext_rendering_server_environment_set_sdfgi(gdext_c_object_t instance, gde
 /**
  * @brief RenderingServer.environment_set_volumetric_fog
  */
-void gdext_rendering_server_environment_set_volumetric_fog(gdext_c_object_t instance, gdext_c_object_t env, GDExtensionBool enable, double density, gdext_c_color albedo, gdext_c_color emission, double emission_energy, double anisotropy, double length, double p_detail_spread, double gi_inject, GDExtensionBool temporal_reprojection, double temporal_reprojection_amount, double ambient_inject, double sky_affect);
+void gdext_rendering_server_environment_set_volumetric_fog(gdext_c_object_t instance, gdext_c_object_t env, GDExtensionBool enable, double density, gdext_c_color_t albedo, gdext_c_color_t emission, double emission_energy, double anisotropy, double length, double p_detail_spread, double gi_inject, GDExtensionBool temporal_reprojection, double temporal_reprojection_amount, double ambient_inject, double sky_affect);
 
 /**
  * @brief RenderingServer.environment_glow_set_use_bicubic_upscale
@@ -53933,7 +53934,7 @@ gdext_c_object_t gdext_rendering_server_instances_cull_aabb(gdext_c_object_t ins
 /**
  * @brief RenderingServer.instances_cull_ray
  */
-gdext_c_object_t gdext_rendering_server_instances_cull_ray(gdext_c_object_t instance, gdext_c_vec3 from, gdext_c_vec3 to, gdext_c_object_t scenario);
+gdext_c_object_t gdext_rendering_server_instances_cull_ray(gdext_c_object_t instance, gdext_c_vector3_t from, gdext_c_vector3_t to, gdext_c_object_t scenario);
 
 /**
  * @brief RenderingServer.instances_cull_convex
@@ -53953,17 +53954,17 @@ gdext_c_object_t gdext_rendering_server_canvas_create(gdext_c_object_t instance)
 /**
  * @brief RenderingServer.canvas_set_item_mirroring
  */
-void gdext_rendering_server_canvas_set_item_mirroring(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_object_t item, gdext_c_vec2 mirroring);
+void gdext_rendering_server_canvas_set_item_mirroring(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_object_t item, gdext_c_vector2_t mirroring);
 
 /**
  * @brief RenderingServer.canvas_set_item_repeat
  */
-void gdext_rendering_server_canvas_set_item_repeat(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_vec2 repeat_size, int64_t repeat_times);
+void gdext_rendering_server_canvas_set_item_repeat(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_vector2_t repeat_size, int64_t repeat_times);
 
 /**
  * @brief RenderingServer.canvas_set_modulate
  */
-void gdext_rendering_server_canvas_set_modulate(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_color color);
+void gdext_rendering_server_canvas_set_modulate(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.canvas_set_disable_scale
@@ -53983,7 +53984,7 @@ void gdext_rendering_server_canvas_texture_set_channel(gdext_c_object_t instance
 /**
  * @brief RenderingServer.canvas_texture_set_shading_parameters
  */
-void gdext_rendering_server_canvas_texture_set_shading_parameters(gdext_c_object_t instance, gdext_c_object_t canvas_texture, gdext_c_color base_color, double shininess);
+void gdext_rendering_server_canvas_texture_set_shading_parameters(gdext_c_object_t instance, gdext_c_object_t canvas_texture, gdext_c_color_t base_color, double shininess);
 
 /**
  * @brief RenderingServer.canvas_texture_set_texture_filter
@@ -54053,12 +54054,12 @@ void gdext_rendering_server_canvas_item_set_custom_rect(gdext_c_object_t instanc
 /**
  * @brief RenderingServer.canvas_item_set_modulate
  */
-void gdext_rendering_server_canvas_item_set_modulate(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_color color);
+void gdext_rendering_server_canvas_item_set_modulate(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.canvas_item_set_self_modulate
  */
-void gdext_rendering_server_canvas_item_set_self_modulate(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_color color);
+void gdext_rendering_server_canvas_item_set_self_modulate(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.canvas_item_set_draw_behind_parent
@@ -54083,7 +54084,7 @@ void gdext_rendering_server_canvas_item_transform_physics_interpolation(gdext_c_
 /**
  * @brief RenderingServer.canvas_item_add_line
  */
-void gdext_rendering_server_canvas_item_add_line(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_vec2 from, gdext_c_vec2 to, gdext_c_color color, double width, GDExtensionBool antialiased);
+void gdext_rendering_server_canvas_item_add_line(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_vector2_t from, gdext_c_vector2_t to, gdext_c_color_t color, double width, GDExtensionBool antialiased);
 
 /**
  * @brief RenderingServer.canvas_item_add_polyline
@@ -54098,37 +54099,37 @@ void gdext_rendering_server_canvas_item_add_multiline(gdext_c_object_t instance,
 /**
  * @brief RenderingServer.canvas_item_add_rect
  */
-void gdext_rendering_server_canvas_item_add_rect(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_color color, GDExtensionBool antialiased);
+void gdext_rendering_server_canvas_item_add_rect(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_color_t color, GDExtensionBool antialiased);
 
 /**
  * @brief RenderingServer.canvas_item_add_circle
  */
-void gdext_rendering_server_canvas_item_add_circle(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_vec2 pos, double radius, gdext_c_color color, GDExtensionBool antialiased);
+void gdext_rendering_server_canvas_item_add_circle(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_vector2_t pos, double radius, gdext_c_color_t color, GDExtensionBool antialiased);
 
 /**
  * @brief RenderingServer.canvas_item_add_texture_rect
  */
-void gdext_rendering_server_canvas_item_add_texture_rect(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t texture, GDExtensionBool tile, gdext_c_color modulate, GDExtensionBool transpose);
+void gdext_rendering_server_canvas_item_add_texture_rect(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t texture, GDExtensionBool tile, gdext_c_color_t modulate, GDExtensionBool transpose);
 
 /**
  * @brief RenderingServer.canvas_item_add_msdf_texture_rect_region
  */
-void gdext_rendering_server_canvas_item_add_msdf_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t texture, gdext_c_object_t src_rect, gdext_c_color modulate, int64_t outline_size, double px_range, double scale);
+void gdext_rendering_server_canvas_item_add_msdf_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t texture, gdext_c_object_t src_rect, gdext_c_color_t modulate, int64_t outline_size, double px_range, double scale);
 
 /**
  * @brief RenderingServer.canvas_item_add_lcd_texture_rect_region
  */
-void gdext_rendering_server_canvas_item_add_lcd_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t texture, gdext_c_object_t src_rect, gdext_c_color modulate);
+void gdext_rendering_server_canvas_item_add_lcd_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t texture, gdext_c_object_t src_rect, gdext_c_color_t modulate);
 
 /**
  * @brief RenderingServer.canvas_item_add_texture_rect_region
  */
-void gdext_rendering_server_canvas_item_add_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t texture, gdext_c_object_t src_rect, gdext_c_color modulate, GDExtensionBool transpose, GDExtensionBool clip_uv);
+void gdext_rendering_server_canvas_item_add_texture_rect_region(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t texture, gdext_c_object_t src_rect, gdext_c_color_t modulate, GDExtensionBool transpose, GDExtensionBool clip_uv);
 
 /**
  * @brief RenderingServer.canvas_item_add_nine_patch
  */
-void gdext_rendering_server_canvas_item_add_nine_patch(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t source, gdext_c_object_t texture, gdext_c_vec2 topleft, gdext_c_vec2 bottomright, int32_t x_axis_mode, int32_t y_axis_mode, GDExtensionBool draw_center, gdext_c_color modulate);
+void gdext_rendering_server_canvas_item_add_nine_patch(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t rect, gdext_c_object_t source, gdext_c_object_t texture, gdext_c_vector2_t topleft, gdext_c_vector2_t bottomright, int32_t x_axis_mode, int32_t y_axis_mode, GDExtensionBool draw_center, gdext_c_color_t modulate);
 
 /**
  * @brief RenderingServer.canvas_item_add_primitive
@@ -54148,7 +54149,7 @@ void gdext_rendering_server_canvas_item_add_triangle_array(gdext_c_object_t inst
 /**
  * @brief RenderingServer.canvas_item_add_mesh
  */
-void gdext_rendering_server_canvas_item_add_mesh(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t mesh, gdext_c_object_t transform, gdext_c_color modulate, gdext_c_object_t texture);
+void gdext_rendering_server_canvas_item_add_mesh(gdext_c_object_t instance, gdext_c_object_t item, gdext_c_object_t mesh, gdext_c_object_t transform, gdext_c_color_t modulate, gdext_c_object_t texture);
 
 /**
  * @brief RenderingServer.canvas_item_add_multimesh
@@ -54288,12 +54289,12 @@ void gdext_rendering_server_canvas_light_set_texture(gdext_c_object_t instance, 
 /**
  * @brief RenderingServer.canvas_light_set_texture_offset
  */
-void gdext_rendering_server_canvas_light_set_texture_offset(gdext_c_object_t instance, gdext_c_object_t light, gdext_c_vec2 offset);
+void gdext_rendering_server_canvas_light_set_texture_offset(gdext_c_object_t instance, gdext_c_object_t light, gdext_c_vector2_t offset);
 
 /**
  * @brief RenderingServer.canvas_light_set_color
  */
-void gdext_rendering_server_canvas_light_set_color(gdext_c_object_t instance, gdext_c_object_t light, gdext_c_color color);
+void gdext_rendering_server_canvas_light_set_color(gdext_c_object_t instance, gdext_c_object_t light, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.canvas_light_set_height
@@ -54343,7 +54344,7 @@ void gdext_rendering_server_canvas_light_set_shadow_filter(gdext_c_object_t inst
 /**
  * @brief RenderingServer.canvas_light_set_shadow_color
  */
-void gdext_rendering_server_canvas_light_set_shadow_color(gdext_c_object_t instance, gdext_c_object_t light, gdext_c_color color);
+void gdext_rendering_server_canvas_light_set_shadow_color(gdext_c_object_t instance, gdext_c_object_t light, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.canvas_light_set_shadow_smooth
@@ -54548,17 +54549,17 @@ gdext_c_object_t gdext_rendering_server_get_white_texture(gdext_c_object_t insta
 /**
  * @brief RenderingServer.set_boot_image
  */
-void gdext_rendering_server_set_boot_image(gdext_c_object_t instance, gdext_c_object_t image, gdext_c_color color, GDExtensionBool scale, GDExtensionBool use_filter);
+void gdext_rendering_server_set_boot_image(gdext_c_object_t instance, gdext_c_object_t image, gdext_c_color_t color, GDExtensionBool scale, GDExtensionBool use_filter);
 
 /**
  * @brief RenderingServer.get_default_clear_color
  */
-gdext_c_color gdext_rendering_server_get_default_clear_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_rendering_server_get_default_clear_color(gdext_c_object_t instance);
 
 /**
  * @brief RenderingServer.set_default_clear_color
  */
-void gdext_rendering_server_set_default_clear_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_rendering_server_set_default_clear_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief RenderingServer.has_os_feature
@@ -55114,17 +55115,17 @@ void gdext_rich_text_label_set_text(gdext_c_object_t instance, gdext_c_object_t 
 /**
  * @brief RichTextLabel.add_hr
  */
-void gdext_rich_text_label_add_hr(gdext_c_object_t instance, int64_t width, int64_t height, gdext_c_color color, int32_t alignment, GDExtensionBool width_in_percent, GDExtensionBool height_in_percent);
+void gdext_rich_text_label_add_hr(gdext_c_object_t instance, int64_t width, int64_t height, gdext_c_color_t color, int32_t alignment, GDExtensionBool width_in_percent, GDExtensionBool height_in_percent);
 
 /**
  * @brief RichTextLabel.add_image
  */
-void gdext_rich_text_label_add_image(gdext_c_object_t instance, gdext_c_object_t image, int64_t width, int64_t height, gdext_c_color color, int32_t inline_align, gdext_c_object_t region, gdext_c_object_t key, GDExtensionBool pad, gdext_c_object_t tooltip, GDExtensionBool width_in_percent, GDExtensionBool height_in_percent, gdext_c_object_t alt_text);
+void gdext_rich_text_label_add_image(gdext_c_object_t instance, gdext_c_object_t image, int64_t width, int64_t height, gdext_c_color_t color, int32_t inline_align, gdext_c_object_t region, gdext_c_object_t key, GDExtensionBool pad, gdext_c_object_t tooltip, GDExtensionBool width_in_percent, GDExtensionBool height_in_percent, gdext_c_object_t alt_text);
 
 /**
  * @brief RichTextLabel.update_image
  */
-void gdext_rich_text_label_update_image(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_object_t mask, gdext_c_object_t image, int64_t width, int64_t height, gdext_c_color color, int32_t inline_align, gdext_c_object_t region, GDExtensionBool pad, gdext_c_object_t tooltip, GDExtensionBool width_in_percent, GDExtensionBool height_in_percent);
+void gdext_rich_text_label_update_image(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_object_t mask, gdext_c_object_t image, int64_t width, int64_t height, gdext_c_color_t color, int32_t inline_align, gdext_c_object_t region, GDExtensionBool pad, gdext_c_object_t tooltip, GDExtensionBool width_in_percent, GDExtensionBool height_in_percent);
 
 /**
  * @brief RichTextLabel.newline
@@ -55179,7 +55180,7 @@ void gdext_rich_text_label_push_mono(gdext_c_object_t instance);
 /**
  * @brief RichTextLabel.push_color
  */
-void gdext_rich_text_label_push_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_rich_text_label_push_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief RichTextLabel.push_outline_size
@@ -55189,7 +55190,7 @@ void gdext_rich_text_label_push_outline_size(gdext_c_object_t instance, int64_t 
 /**
  * @brief RichTextLabel.push_outline_color
  */
-void gdext_rich_text_label_push_outline_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_rich_text_label_push_outline_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief RichTextLabel.push_paragraph
@@ -55224,12 +55225,12 @@ void gdext_rich_text_label_push_language(gdext_c_object_t instance, gdext_c_obje
 /**
  * @brief RichTextLabel.push_underline
  */
-void gdext_rich_text_label_push_underline(gdext_c_object_t instance, gdext_c_color color);
+void gdext_rich_text_label_push_underline(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief RichTextLabel.push_strikethrough
  */
-void gdext_rich_text_label_push_strikethrough(gdext_c_object_t instance, gdext_c_color color);
+void gdext_rich_text_label_push_strikethrough(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief RichTextLabel.push_table
@@ -55239,7 +55240,7 @@ void gdext_rich_text_label_push_table(gdext_c_object_t instance, int64_t columns
 /**
  * @brief RichTextLabel.push_dropcap
  */
-void gdext_rich_text_label_push_dropcap(gdext_c_object_t instance, gdext_c_object_t string, gdext_c_object_t font, int64_t size, gdext_c_object_t dropcap_margins, gdext_c_color color, int64_t outline_size, gdext_c_color outline_color);
+void gdext_rich_text_label_push_dropcap(gdext_c_object_t instance, gdext_c_object_t string, gdext_c_object_t font, int64_t size, gdext_c_object_t dropcap_margins, gdext_c_color_t color, int64_t outline_size, gdext_c_color_t outline_color);
 
 /**
  * @brief RichTextLabel.set_table_column_expand
@@ -55254,17 +55255,17 @@ void gdext_rich_text_label_set_table_column_name(gdext_c_object_t instance, int6
 /**
  * @brief RichTextLabel.set_cell_row_background_color
  */
-void gdext_rich_text_label_set_cell_row_background_color(gdext_c_object_t instance, gdext_c_color odd_row_bg, gdext_c_color even_row_bg);
+void gdext_rich_text_label_set_cell_row_background_color(gdext_c_object_t instance, gdext_c_color_t odd_row_bg, gdext_c_color_t even_row_bg);
 
 /**
  * @brief RichTextLabel.set_cell_border_color
  */
-void gdext_rich_text_label_set_cell_border_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_rich_text_label_set_cell_border_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief RichTextLabel.set_cell_size_override
  */
-void gdext_rich_text_label_set_cell_size_override(gdext_c_object_t instance, gdext_c_vec2 min_size, gdext_c_vec2 max_size);
+void gdext_rich_text_label_set_cell_size_override(gdext_c_object_t instance, gdext_c_vector2_t min_size, gdext_c_vector2_t max_size);
 
 /**
  * @brief RichTextLabel.set_cell_padding
@@ -55279,12 +55280,12 @@ void gdext_rich_text_label_push_cell(gdext_c_object_t instance);
 /**
  * @brief RichTextLabel.push_fgcolor
  */
-void gdext_rich_text_label_push_fgcolor(gdext_c_object_t instance, gdext_c_color fgcolor);
+void gdext_rich_text_label_push_fgcolor(gdext_c_object_t instance, gdext_c_color_t fgcolor);
 
 /**
  * @brief RichTextLabel.push_bgcolor
  */
-void gdext_rich_text_label_push_bgcolor(gdext_c_object_t instance, gdext_c_color bgcolor);
+void gdext_rich_text_label_push_bgcolor(gdext_c_object_t instance, gdext_c_color_t bgcolor);
 
 /**
  * @brief RichTextLabel.push_customfx
@@ -55824,12 +55825,12 @@ int32_t gdext_rigid_body2_d_get_center_of_mass_mode(gdext_c_object_t instance);
 /**
  * @brief RigidBody2D.set_center_of_mass
  */
-void gdext_rigid_body2_d_set_center_of_mass(gdext_c_object_t instance, gdext_c_vec2 center_of_mass);
+void gdext_rigid_body2_d_set_center_of_mass(gdext_c_object_t instance, gdext_c_vector2_t center_of_mass);
 
 /**
  * @brief RigidBody2D.get_center_of_mass
  */
-gdext_c_vec2 gdext_rigid_body2_d_get_center_of_mass(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_rigid_body2_d_get_center_of_mass(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody2D.set_physics_material_override
@@ -55894,12 +55895,12 @@ double gdext_rigid_body2_d_get_angular_damp(gdext_c_object_t instance);
 /**
  * @brief RigidBody2D.set_linear_velocity
  */
-void gdext_rigid_body2_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vec2 linear_velocity);
+void gdext_rigid_body2_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vector2_t linear_velocity);
 
 /**
  * @brief RigidBody2D.get_linear_velocity
  */
-gdext_c_vec2 gdext_rigid_body2_d_get_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_rigid_body2_d_get_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody2D.set_angular_velocity
@@ -55959,17 +55960,17 @@ int32_t gdext_rigid_body2_d_get_continuous_collision_detection_mode(gdext_c_obje
 /**
  * @brief RigidBody2D.set_axis_velocity
  */
-void gdext_rigid_body2_d_set_axis_velocity(gdext_c_object_t instance, gdext_c_vec2 axis_velocity);
+void gdext_rigid_body2_d_set_axis_velocity(gdext_c_object_t instance, gdext_c_vector2_t axis_velocity);
 
 /**
  * @brief RigidBody2D.apply_central_impulse
  */
-void gdext_rigid_body2_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vec2 impulse);
+void gdext_rigid_body2_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vector2_t impulse);
 
 /**
  * @brief RigidBody2D.apply_impulse
  */
-void gdext_rigid_body2_d_apply_impulse(gdext_c_object_t instance, gdext_c_vec2 impulse, gdext_c_vec2 position);
+void gdext_rigid_body2_d_apply_impulse(gdext_c_object_t instance, gdext_c_vector2_t impulse, gdext_c_vector2_t position);
 
 /**
  * @brief RigidBody2D.apply_torque_impulse
@@ -55979,12 +55980,12 @@ void gdext_rigid_body2_d_apply_torque_impulse(gdext_c_object_t instance, double 
 /**
  * @brief RigidBody2D.apply_central_force
  */
-void gdext_rigid_body2_d_apply_central_force(gdext_c_object_t instance, gdext_c_vec2 force);
+void gdext_rigid_body2_d_apply_central_force(gdext_c_object_t instance, gdext_c_vector2_t force);
 
 /**
  * @brief RigidBody2D.apply_force
  */
-void gdext_rigid_body2_d_apply_force(gdext_c_object_t instance, gdext_c_vec2 force, gdext_c_vec2 position);
+void gdext_rigid_body2_d_apply_force(gdext_c_object_t instance, gdext_c_vector2_t force, gdext_c_vector2_t position);
 
 /**
  * @brief RigidBody2D.apply_torque
@@ -55994,12 +55995,12 @@ void gdext_rigid_body2_d_apply_torque(gdext_c_object_t instance, double torque);
 /**
  * @brief RigidBody2D.add_constant_central_force
  */
-void gdext_rigid_body2_d_add_constant_central_force(gdext_c_object_t instance, gdext_c_vec2 force);
+void gdext_rigid_body2_d_add_constant_central_force(gdext_c_object_t instance, gdext_c_vector2_t force);
 
 /**
  * @brief RigidBody2D.add_constant_force
  */
-void gdext_rigid_body2_d_add_constant_force(gdext_c_object_t instance, gdext_c_vec2 force, gdext_c_vec2 position);
+void gdext_rigid_body2_d_add_constant_force(gdext_c_object_t instance, gdext_c_vector2_t force, gdext_c_vector2_t position);
 
 /**
  * @brief RigidBody2D.add_constant_torque
@@ -56009,12 +56010,12 @@ void gdext_rigid_body2_d_add_constant_torque(gdext_c_object_t instance, double t
 /**
  * @brief RigidBody2D.set_constant_force
  */
-void gdext_rigid_body2_d_set_constant_force(gdext_c_object_t instance, gdext_c_vec2 force);
+void gdext_rigid_body2_d_set_constant_force(gdext_c_object_t instance, gdext_c_vector2_t force);
 
 /**
  * @brief RigidBody2D.get_constant_force
  */
-gdext_c_vec2 gdext_rigid_body2_d_get_constant_force(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_rigid_body2_d_get_constant_force(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody2D.set_constant_torque
@@ -56099,12 +56100,12 @@ double gdext_rigid_body3_d_get_mass(gdext_c_object_t instance);
 /**
  * @brief RigidBody3D.set_inertia
  */
-void gdext_rigid_body3_d_set_inertia(gdext_c_object_t instance, gdext_c_vec3 inertia);
+void gdext_rigid_body3_d_set_inertia(gdext_c_object_t instance, gdext_c_vector3_t inertia);
 
 /**
  * @brief RigidBody3D.get_inertia
  */
-gdext_c_vec3 gdext_rigid_body3_d_get_inertia(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_rigid_body3_d_get_inertia(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody3D.set_center_of_mass_mode
@@ -56119,12 +56120,12 @@ int32_t gdext_rigid_body3_d_get_center_of_mass_mode(gdext_c_object_t instance);
 /**
  * @brief RigidBody3D.set_center_of_mass
  */
-void gdext_rigid_body3_d_set_center_of_mass(gdext_c_object_t instance, gdext_c_vec3 center_of_mass);
+void gdext_rigid_body3_d_set_center_of_mass(gdext_c_object_t instance, gdext_c_vector3_t center_of_mass);
 
 /**
  * @brief RigidBody3D.get_center_of_mass
  */
-gdext_c_vec3 gdext_rigid_body3_d_get_center_of_mass(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_rigid_body3_d_get_center_of_mass(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody3D.set_physics_material_override
@@ -56139,22 +56140,22 @@ gdext_c_object_t gdext_rigid_body3_d_get_physics_material_override(gdext_c_objec
 /**
  * @brief RigidBody3D.set_linear_velocity
  */
-void gdext_rigid_body3_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vec3 linear_velocity);
+void gdext_rigid_body3_d_set_linear_velocity(gdext_c_object_t instance, gdext_c_vector3_t linear_velocity);
 
 /**
  * @brief RigidBody3D.get_linear_velocity
  */
-gdext_c_vec3 gdext_rigid_body3_d_get_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_rigid_body3_d_get_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody3D.set_angular_velocity
  */
-void gdext_rigid_body3_d_set_angular_velocity(gdext_c_object_t instance, gdext_c_vec3 angular_velocity);
+void gdext_rigid_body3_d_set_angular_velocity(gdext_c_object_t instance, gdext_c_vector3_t angular_velocity);
 
 /**
  * @brief RigidBody3D.get_angular_velocity
  */
-gdext_c_vec3 gdext_rigid_body3_d_get_angular_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_rigid_body3_d_get_angular_velocity(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody3D.get_inverse_inertia_tensor
@@ -56259,72 +56260,72 @@ GDExtensionBool gdext_rigid_body3_d_is_using_continuous_collision_detection(gdex
 /**
  * @brief RigidBody3D.set_axis_velocity
  */
-void gdext_rigid_body3_d_set_axis_velocity(gdext_c_object_t instance, gdext_c_vec3 axis_velocity);
+void gdext_rigid_body3_d_set_axis_velocity(gdext_c_object_t instance, gdext_c_vector3_t axis_velocity);
 
 /**
  * @brief RigidBody3D.apply_central_impulse
  */
-void gdext_rigid_body3_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse);
+void gdext_rigid_body3_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse);
 
 /**
  * @brief RigidBody3D.apply_impulse
  */
-void gdext_rigid_body3_d_apply_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse, gdext_c_vec3 position);
+void gdext_rigid_body3_d_apply_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse, gdext_c_vector3_t position);
 
 /**
  * @brief RigidBody3D.apply_torque_impulse
  */
-void gdext_rigid_body3_d_apply_torque_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse);
+void gdext_rigid_body3_d_apply_torque_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse);
 
 /**
  * @brief RigidBody3D.apply_central_force
  */
-void gdext_rigid_body3_d_apply_central_force(gdext_c_object_t instance, gdext_c_vec3 force);
+void gdext_rigid_body3_d_apply_central_force(gdext_c_object_t instance, gdext_c_vector3_t force);
 
 /**
  * @brief RigidBody3D.apply_force
  */
-void gdext_rigid_body3_d_apply_force(gdext_c_object_t instance, gdext_c_vec3 force, gdext_c_vec3 position);
+void gdext_rigid_body3_d_apply_force(gdext_c_object_t instance, gdext_c_vector3_t force, gdext_c_vector3_t position);
 
 /**
  * @brief RigidBody3D.apply_torque
  */
-void gdext_rigid_body3_d_apply_torque(gdext_c_object_t instance, gdext_c_vec3 torque);
+void gdext_rigid_body3_d_apply_torque(gdext_c_object_t instance, gdext_c_vector3_t torque);
 
 /**
  * @brief RigidBody3D.add_constant_central_force
  */
-void gdext_rigid_body3_d_add_constant_central_force(gdext_c_object_t instance, gdext_c_vec3 force);
+void gdext_rigid_body3_d_add_constant_central_force(gdext_c_object_t instance, gdext_c_vector3_t force);
 
 /**
  * @brief RigidBody3D.add_constant_force
  */
-void gdext_rigid_body3_d_add_constant_force(gdext_c_object_t instance, gdext_c_vec3 force, gdext_c_vec3 position);
+void gdext_rigid_body3_d_add_constant_force(gdext_c_object_t instance, gdext_c_vector3_t force, gdext_c_vector3_t position);
 
 /**
  * @brief RigidBody3D.add_constant_torque
  */
-void gdext_rigid_body3_d_add_constant_torque(gdext_c_object_t instance, gdext_c_vec3 torque);
+void gdext_rigid_body3_d_add_constant_torque(gdext_c_object_t instance, gdext_c_vector3_t torque);
 
 /**
  * @brief RigidBody3D.set_constant_force
  */
-void gdext_rigid_body3_d_set_constant_force(gdext_c_object_t instance, gdext_c_vec3 force);
+void gdext_rigid_body3_d_set_constant_force(gdext_c_object_t instance, gdext_c_vector3_t force);
 
 /**
  * @brief RigidBody3D.get_constant_force
  */
-gdext_c_vec3 gdext_rigid_body3_d_get_constant_force(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_rigid_body3_d_get_constant_force(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody3D.set_constant_torque
  */
-void gdext_rigid_body3_d_set_constant_torque(gdext_c_object_t instance, gdext_c_vec3 torque);
+void gdext_rigid_body3_d_set_constant_torque(gdext_c_object_t instance, gdext_c_vector3_t torque);
 
 /**
  * @brief RigidBody3D.get_constant_torque
  */
-gdext_c_vec3 gdext_rigid_body3_d_get_constant_torque(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_rigid_body3_d_get_constant_torque(gdext_c_object_t instance);
 
 /**
  * @brief RigidBody3D.set_sleeping
@@ -56399,12 +56400,12 @@ gdext_c_object_t gdext_root_motion_view_get_animation_path(gdext_c_object_t inst
 /**
  * @brief RootMotionView.set_color
  */
-void gdext_root_motion_view_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_root_motion_view_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief RootMotionView.get_color
  */
-gdext_c_color gdext_root_motion_view_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_root_motion_view_get_color(gdext_c_object_t instance);
 
 /**
  * @brief RootMotionView.set_cell_size
@@ -57394,22 +57395,22 @@ GDExtensionBool gdext_scroll_container_get_draw_focus_border(gdext_c_object_t in
 /**
  * @brief SegmentShape2D.set_a
  */
-void gdext_segment_shape2_d_set_a(gdext_c_object_t instance, gdext_c_vec2 a);
+void gdext_segment_shape2_d_set_a(gdext_c_object_t instance, gdext_c_vector2_t a);
 
 /**
  * @brief SegmentShape2D.get_a
  */
-gdext_c_vec2 gdext_segment_shape2_d_get_a(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_segment_shape2_d_get_a(gdext_c_object_t instance);
 
 /**
  * @brief SegmentShape2D.set_b
  */
-void gdext_segment_shape2_d_set_b(gdext_c_object_t instance, gdext_c_vec2 b);
+void gdext_segment_shape2_d_set_b(gdext_c_object_t instance, gdext_c_vector2_t b);
 
 /**
  * @brief SegmentShape2D.get_b
  */
-gdext_c_vec2 gdext_segment_shape2_d_get_b(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_segment_shape2_d_get_b(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: Semaphore
@@ -57607,7 +57608,7 @@ GDExtensionBool gdext_shape2_d_collide(gdext_c_object_t instance, gdext_c_object
 /**
  * @brief Shape2D.collide_with_motion
  */
-GDExtensionBool gdext_shape2_d_collide_with_motion(gdext_c_object_t instance, gdext_c_object_t local_xform, gdext_c_vec2 local_motion, gdext_c_object_t with_shape, gdext_c_object_t shape_xform, gdext_c_vec2 shape_motion);
+GDExtensionBool gdext_shape2_d_collide_with_motion(gdext_c_object_t instance, gdext_c_object_t local_xform, gdext_c_vector2_t local_motion, gdext_c_object_t with_shape, gdext_c_object_t shape_xform, gdext_c_vector2_t shape_motion);
 
 /**
  * @brief Shape2D.collide_and_get_contacts
@@ -57617,12 +57618,12 @@ gdext_c_object_t gdext_shape2_d_collide_and_get_contacts(gdext_c_object_t instan
 /**
  * @brief Shape2D.collide_with_motion_and_get_contacts
  */
-gdext_c_object_t gdext_shape2_d_collide_with_motion_and_get_contacts(gdext_c_object_t instance, gdext_c_object_t local_xform, gdext_c_vec2 local_motion, gdext_c_object_t with_shape, gdext_c_object_t shape_xform, gdext_c_vec2 shape_motion);
+gdext_c_object_t gdext_shape2_d_collide_with_motion_and_get_contacts(gdext_c_object_t instance, gdext_c_object_t local_xform, gdext_c_vector2_t local_motion, gdext_c_object_t with_shape, gdext_c_object_t shape_xform, gdext_c_vector2_t shape_motion);
 
 /**
  * @brief Shape2D.draw
  */
-void gdext_shape2_d_draw(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_color color);
+void gdext_shape2_d_draw(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_color_t color);
 
 /**
  * @brief Shape2D.get_rect
@@ -57687,12 +57688,12 @@ gdext_c_object_t gdext_shape_cast2_d_get_shape(gdext_c_object_t instance);
 /**
  * @brief ShapeCast2D.set_target_position
  */
-void gdext_shape_cast2_d_set_target_position(gdext_c_object_t instance, gdext_c_vec2 local_point);
+void gdext_shape_cast2_d_set_target_position(gdext_c_object_t instance, gdext_c_vector2_t local_point);
 
 /**
  * @brief ShapeCast2D.get_target_position
  */
-gdext_c_vec2 gdext_shape_cast2_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_shape_cast2_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief ShapeCast2D.set_margin
@@ -57747,12 +57748,12 @@ int64_t gdext_shape_cast2_d_get_collider_shape(gdext_c_object_t instance, int64_
 /**
  * @brief ShapeCast2D.get_collision_point
  */
-gdext_c_vec2 gdext_shape_cast2_d_get_collision_point(gdext_c_object_t instance, int64_t index);
+gdext_c_vector2_t gdext_shape_cast2_d_get_collision_point(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief ShapeCast2D.get_collision_normal
  */
-gdext_c_vec2 gdext_shape_cast2_d_get_collision_normal(gdext_c_object_t instance, int64_t index);
+gdext_c_vector2_t gdext_shape_cast2_d_get_collision_normal(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief ShapeCast2D.get_closest_collision_safe_fraction
@@ -57877,12 +57878,12 @@ gdext_c_object_t gdext_shape_cast3_d_get_shape(gdext_c_object_t instance);
 /**
  * @brief ShapeCast3D.set_target_position
  */
-void gdext_shape_cast3_d_set_target_position(gdext_c_object_t instance, gdext_c_vec3 local_point);
+void gdext_shape_cast3_d_set_target_position(gdext_c_object_t instance, gdext_c_vector3_t local_point);
 
 /**
  * @brief ShapeCast3D.get_target_position
  */
-gdext_c_vec3 gdext_shape_cast3_d_get_target_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_shape_cast3_d_get_target_position(gdext_c_object_t instance);
 
 /**
  * @brief ShapeCast3D.set_margin
@@ -57937,12 +57938,12 @@ int64_t gdext_shape_cast3_d_get_collider_shape(gdext_c_object_t instance, int64_
 /**
  * @brief ShapeCast3D.get_collision_point
  */
-gdext_c_vec3 gdext_shape_cast3_d_get_collision_point(gdext_c_object_t instance, int64_t index);
+gdext_c_vector3_t gdext_shape_cast3_d_get_collision_point(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief ShapeCast3D.get_collision_normal
  */
-gdext_c_vec3 gdext_shape_cast3_d_get_collision_normal(gdext_c_object_t instance, int64_t index);
+gdext_c_vector3_t gdext_shape_cast3_d_get_collision_normal(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief ShapeCast3D.get_closest_collision_safe_fraction
@@ -58037,12 +58038,12 @@ gdext_c_object_t gdext_shape_cast3_d_get_collision_result(gdext_c_object_t insta
 /**
  * @brief ShapeCast3D.set_debug_shape_custom_color
  */
-void gdext_shape_cast3_d_set_debug_shape_custom_color(gdext_c_object_t instance, gdext_c_color debug_shape_custom_color);
+void gdext_shape_cast3_d_set_debug_shape_custom_color(gdext_c_object_t instance, gdext_c_color_t debug_shape_custom_color);
 
 /**
  * @brief ShapeCast3D.get_debug_shape_custom_color
  */
-gdext_c_color gdext_shape_cast3_d_get_debug_shape_custom_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_shape_cast3_d_get_debug_shape_custom_color(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: Shortcut
@@ -58252,7 +58253,7 @@ void gdext_skeleton3_d_set_bone_pose(gdext_c_object_t instance, int64_t bone_idx
 /**
  * @brief Skeleton3D.set_bone_pose_position
  */
-void gdext_skeleton3_d_set_bone_pose_position(gdext_c_object_t instance, int64_t bone_idx, gdext_c_vec3 position);
+void gdext_skeleton3_d_set_bone_pose_position(gdext_c_object_t instance, int64_t bone_idx, gdext_c_vector3_t position);
 
 /**
  * @brief Skeleton3D.set_bone_pose_rotation
@@ -58262,12 +58263,12 @@ void gdext_skeleton3_d_set_bone_pose_rotation(gdext_c_object_t instance, int64_t
 /**
  * @brief Skeleton3D.set_bone_pose_scale
  */
-void gdext_skeleton3_d_set_bone_pose_scale(gdext_c_object_t instance, int64_t bone_idx, gdext_c_vec3 scale);
+void gdext_skeleton3_d_set_bone_pose_scale(gdext_c_object_t instance, int64_t bone_idx, gdext_c_vector3_t scale);
 
 /**
  * @brief Skeleton3D.get_bone_pose_position
  */
-gdext_c_vec3 gdext_skeleton3_d_get_bone_pose_position(gdext_c_object_t instance, int64_t bone_idx);
+gdext_c_vector3_t gdext_skeleton3_d_get_bone_pose_position(gdext_c_object_t instance, int64_t bone_idx);
 
 /**
  * @brief Skeleton3D.get_bone_pose_rotation
@@ -58277,7 +58278,7 @@ gdext_c_object_t gdext_skeleton3_d_get_bone_pose_rotation(gdext_c_object_t insta
 /**
  * @brief Skeleton3D.get_bone_pose_scale
  */
-gdext_c_vec3 gdext_skeleton3_d_get_bone_pose_scale(gdext_c_object_t instance, int64_t bone_idx);
+gdext_c_vector3_t gdext_skeleton3_d_get_bone_pose_scale(gdext_c_object_t instance, int64_t bone_idx);
 
 /**
  * @brief Skeleton3D.reset_bone_pose
@@ -58472,12 +58473,12 @@ GDExtensionBool gdext_skeleton_i_k3_d_is_using_magnet(gdext_c_object_t instance)
 /**
  * @brief SkeletonIK3D.set_magnet_position
  */
-void gdext_skeleton_i_k3_d_set_magnet_position(gdext_c_object_t instance, gdext_c_vec3 local_position);
+void gdext_skeleton_i_k3_d_set_magnet_position(gdext_c_object_t instance, gdext_c_vector3_t local_position);
 
 /**
  * @brief SkeletonIK3D.get_magnet_position
  */
-gdext_c_vec3 gdext_skeleton_i_k3_d_get_magnet_position(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_skeleton_i_k3_d_get_magnet_position(gdext_c_object_t instance);
 
 /**
  * @brief SkeletonIK3D.get_parent_skeleton
@@ -58737,12 +58738,12 @@ int64_t gdext_skeleton_modification2_d_f_a_b_r_i_k_get_fabrik_joint_bone_index(g
 /**
  * @brief SkeletonModification2DFABRIK.set_fabrik_joint_magnet_position
  */
-void gdext_skeleton_modification2_d_f_a_b_r_i_k_set_fabrik_joint_magnet_position(gdext_c_object_t instance, int64_t joint_idx, gdext_c_vec2 magnet_position);
+void gdext_skeleton_modification2_d_f_a_b_r_i_k_set_fabrik_joint_magnet_position(gdext_c_object_t instance, int64_t joint_idx, gdext_c_vector2_t magnet_position);
 
 /**
  * @brief SkeletonModification2DFABRIK.get_fabrik_joint_magnet_position
  */
-gdext_c_vec2 gdext_skeleton_modification2_d_f_a_b_r_i_k_get_fabrik_joint_magnet_position(gdext_c_object_t instance, int64_t joint_idx);
+gdext_c_vector2_t gdext_skeleton_modification2_d_f_a_b_r_i_k_get_fabrik_joint_magnet_position(gdext_c_object_t instance, int64_t joint_idx);
 
 /**
  * @brief SkeletonModification2DFABRIK.set_fabrik_joint_use_target_rotation
@@ -58822,12 +58823,12 @@ GDExtensionBool gdext_skeleton_modification2_d_jiggle_get_use_gravity(gdext_c_ob
 /**
  * @brief SkeletonModification2DJiggle.set_gravity
  */
-void gdext_skeleton_modification2_d_jiggle_set_gravity(gdext_c_object_t instance, gdext_c_vec2 gravity);
+void gdext_skeleton_modification2_d_jiggle_set_gravity(gdext_c_object_t instance, gdext_c_vector2_t gravity);
 
 /**
  * @brief SkeletonModification2DJiggle.get_gravity
  */
-gdext_c_vec2 gdext_skeleton_modification2_d_jiggle_get_gravity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_skeleton_modification2_d_jiggle_get_gravity(gdext_c_object_t instance);
 
 /**
  * @brief SkeletonModification2DJiggle.set_use_colliders
@@ -58922,12 +58923,12 @@ GDExtensionBool gdext_skeleton_modification2_d_jiggle_get_jiggle_joint_use_gravi
 /**
  * @brief SkeletonModification2DJiggle.set_jiggle_joint_gravity
  */
-void gdext_skeleton_modification2_d_jiggle_set_jiggle_joint_gravity(gdext_c_object_t instance, int64_t joint_idx, gdext_c_vec2 gravity);
+void gdext_skeleton_modification2_d_jiggle_set_jiggle_joint_gravity(gdext_c_object_t instance, int64_t joint_idx, gdext_c_vector2_t gravity);
 
 /**
  * @brief SkeletonModification2DJiggle.get_jiggle_joint_gravity
  */
-gdext_c_vec2 gdext_skeleton_modification2_d_jiggle_get_jiggle_joint_gravity(gdext_c_object_t instance, int64_t joint_idx);
+gdext_c_vector2_t gdext_skeleton_modification2_d_jiggle_get_jiggle_joint_gravity(gdext_c_object_t instance, int64_t joint_idx);
 
 /* ============================================================================
  * Class: SkeletonModification2DLookAt
@@ -59387,12 +59388,12 @@ void gdext_skeleton_profile_set_reference_pose(gdext_c_object_t instance, int64_
 /**
  * @brief SkeletonProfile.get_handle_offset
  */
-gdext_c_vec2 gdext_skeleton_profile_get_handle_offset(gdext_c_object_t instance, int64_t bone_idx);
+gdext_c_vector2_t gdext_skeleton_profile_get_handle_offset(gdext_c_object_t instance, int64_t bone_idx);
 
 /**
  * @brief SkeletonProfile.set_handle_offset
  */
-void gdext_skeleton_profile_set_handle_offset(gdext_c_object_t instance, int64_t bone_idx, gdext_c_vec2 handle_offset);
+void gdext_skeleton_profile_set_handle_offset(gdext_c_object_t instance, int64_t bone_idx, gdext_c_vector2_t handle_offset);
 
 /**
  * @brief SkeletonProfile.get_group
@@ -59752,27 +59753,27 @@ double gdext_soft_body3_d_get_drag_coefficient(gdext_c_object_t instance);
 /**
  * @brief SoftBody3D.get_point_transform
  */
-gdext_c_vec3 gdext_soft_body3_d_get_point_transform(gdext_c_object_t instance, int64_t point_index);
+gdext_c_vector3_t gdext_soft_body3_d_get_point_transform(gdext_c_object_t instance, int64_t point_index);
 
 /**
  * @brief SoftBody3D.apply_impulse
  */
-void gdext_soft_body3_d_apply_impulse(gdext_c_object_t instance, int64_t point_index, gdext_c_vec3 impulse);
+void gdext_soft_body3_d_apply_impulse(gdext_c_object_t instance, int64_t point_index, gdext_c_vector3_t impulse);
 
 /**
  * @brief SoftBody3D.apply_force
  */
-void gdext_soft_body3_d_apply_force(gdext_c_object_t instance, int64_t point_index, gdext_c_vec3 force);
+void gdext_soft_body3_d_apply_force(gdext_c_object_t instance, int64_t point_index, gdext_c_vector3_t force);
 
 /**
  * @brief SoftBody3D.apply_central_impulse
  */
-void gdext_soft_body3_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vec3 impulse);
+void gdext_soft_body3_d_apply_central_impulse(gdext_c_object_t instance, gdext_c_vector3_t impulse);
 
 /**
  * @brief SoftBody3D.apply_central_force
  */
-void gdext_soft_body3_d_apply_central_force(gdext_c_object_t instance, gdext_c_vec3 force);
+void gdext_soft_body3_d_apply_central_force(gdext_c_object_t instance, gdext_c_vector3_t force);
 
 /**
  * @brief SoftBody3D.set_point_pinned
@@ -60177,12 +60178,12 @@ int64_t gdext_spring_bone_collision3_d_get_bone(gdext_c_object_t instance);
 /**
  * @brief SpringBoneCollision3D.set_position_offset
  */
-void gdext_spring_bone_collision3_d_set_position_offset(gdext_c_object_t instance, gdext_c_vec3 offset);
+void gdext_spring_bone_collision3_d_set_position_offset(gdext_c_object_t instance, gdext_c_vector3_t offset);
 
 /**
  * @brief SpringBoneCollision3D.get_position_offset
  */
-gdext_c_vec3 gdext_spring_bone_collision3_d_get_position_offset(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_spring_bone_collision3_d_get_position_offset(gdext_c_object_t instance);
 
 /**
  * @brief SpringBoneCollision3D.set_rotation_offset
@@ -60402,12 +60403,12 @@ int32_t gdext_spring_bone_simulator3_d_get_rotation_axis(gdext_c_object_t instan
 /**
  * @brief SpringBoneSimulator3D.set_rotation_axis_vector
  */
-void gdext_spring_bone_simulator3_d_set_rotation_axis_vector(gdext_c_object_t instance, int64_t index, gdext_c_vec3 vector);
+void gdext_spring_bone_simulator3_d_set_rotation_axis_vector(gdext_c_object_t instance, int64_t index, gdext_c_vector3_t vector);
 
 /**
  * @brief SpringBoneSimulator3D.get_rotation_axis_vector
  */
-gdext_c_vec3 gdext_spring_bone_simulator3_d_get_rotation_axis_vector(gdext_c_object_t instance, int64_t index);
+gdext_c_vector3_t gdext_spring_bone_simulator3_d_get_rotation_axis_vector(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief SpringBoneSimulator3D.set_radius_damping_curve
@@ -60482,12 +60483,12 @@ gdext_c_object_t gdext_spring_bone_simulator3_d_get_gravity_damping_curve(gdext_
 /**
  * @brief SpringBoneSimulator3D.set_gravity_direction
  */
-void gdext_spring_bone_simulator3_d_set_gravity_direction(gdext_c_object_t instance, int64_t index, gdext_c_vec3 gravity_direction);
+void gdext_spring_bone_simulator3_d_set_gravity_direction(gdext_c_object_t instance, int64_t index, gdext_c_vector3_t gravity_direction);
 
 /**
  * @brief SpringBoneSimulator3D.get_gravity_direction
  */
-gdext_c_vec3 gdext_spring_bone_simulator3_d_get_gravity_direction(gdext_c_object_t instance, int64_t index);
+gdext_c_vector3_t gdext_spring_bone_simulator3_d_get_gravity_direction(gdext_c_object_t instance, int64_t index);
 
 /**
  * @brief SpringBoneSimulator3D.set_setting_count
@@ -60537,12 +60538,12 @@ int32_t gdext_spring_bone_simulator3_d_get_joint_rotation_axis(gdext_c_object_t 
 /**
  * @brief SpringBoneSimulator3D.set_joint_rotation_axis_vector
  */
-void gdext_spring_bone_simulator3_d_set_joint_rotation_axis_vector(gdext_c_object_t instance, int64_t index, int64_t joint, gdext_c_vec3 vector);
+void gdext_spring_bone_simulator3_d_set_joint_rotation_axis_vector(gdext_c_object_t instance, int64_t index, int64_t joint, gdext_c_vector3_t vector);
 
 /**
  * @brief SpringBoneSimulator3D.get_joint_rotation_axis_vector
  */
-gdext_c_vec3 gdext_spring_bone_simulator3_d_get_joint_rotation_axis_vector(gdext_c_object_t instance, int64_t index, int64_t joint);
+gdext_c_vector3_t gdext_spring_bone_simulator3_d_get_joint_rotation_axis_vector(gdext_c_object_t instance, int64_t index, int64_t joint);
 
 /**
  * @brief SpringBoneSimulator3D.set_joint_radius
@@ -60587,12 +60588,12 @@ double gdext_spring_bone_simulator3_d_get_joint_gravity(gdext_c_object_t instanc
 /**
  * @brief SpringBoneSimulator3D.set_joint_gravity_direction
  */
-void gdext_spring_bone_simulator3_d_set_joint_gravity_direction(gdext_c_object_t instance, int64_t index, int64_t joint, gdext_c_vec3 gravity_direction);
+void gdext_spring_bone_simulator3_d_set_joint_gravity_direction(gdext_c_object_t instance, int64_t index, int64_t joint, gdext_c_vector3_t gravity_direction);
 
 /**
  * @brief SpringBoneSimulator3D.get_joint_gravity_direction
  */
-gdext_c_vec3 gdext_spring_bone_simulator3_d_get_joint_gravity_direction(gdext_c_object_t instance, int64_t index, int64_t joint);
+gdext_c_vector3_t gdext_spring_bone_simulator3_d_get_joint_gravity_direction(gdext_c_object_t instance, int64_t index, int64_t joint);
 
 /**
  * @brief SpringBoneSimulator3D.get_joint_count
@@ -60662,12 +60663,12 @@ void gdext_spring_bone_simulator3_d_clear_collisions(gdext_c_object_t instance, 
 /**
  * @brief SpringBoneSimulator3D.set_external_force
  */
-void gdext_spring_bone_simulator3_d_set_external_force(gdext_c_object_t instance, gdext_c_vec3 force);
+void gdext_spring_bone_simulator3_d_set_external_force(gdext_c_object_t instance, gdext_c_vector3_t force);
 
 /**
  * @brief SpringBoneSimulator3D.get_external_force
  */
-gdext_c_vec3 gdext_spring_bone_simulator3_d_get_external_force(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_spring_bone_simulator3_d_get_external_force(gdext_c_object_t instance);
 
 /**
  * @brief SpringBoneSimulator3D.reset
@@ -60702,12 +60703,12 @@ GDExtensionBool gdext_sprite2_d_is_centered(gdext_c_object_t instance);
 /**
  * @brief Sprite2D.set_offset
  */
-void gdext_sprite2_d_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_sprite2_d_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief Sprite2D.get_offset
  */
-gdext_c_vec2 gdext_sprite2_d_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_sprite2_d_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief Sprite2D.set_flip_h
@@ -60742,7 +60743,7 @@ GDExtensionBool gdext_sprite2_d_is_region_enabled(gdext_c_object_t instance);
 /**
  * @brief Sprite2D.is_pixel_opaque
  */
-GDExtensionBool gdext_sprite2_d_is_pixel_opaque(gdext_c_object_t instance, gdext_c_vec2 pos);
+GDExtensionBool gdext_sprite2_d_is_pixel_opaque(gdext_c_object_t instance, gdext_c_vector2_t pos);
 
 /**
  * @brief Sprite2D.set_region_rect
@@ -60902,12 +60903,12 @@ GDExtensionBool gdext_sprite_base3_d_is_centered(gdext_c_object_t instance);
 /**
  * @brief SpriteBase3D.set_offset
  */
-void gdext_sprite_base3_d_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_sprite_base3_d_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief SpriteBase3D.get_offset
  */
-gdext_c_vec2 gdext_sprite_base3_d_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_sprite_base3_d_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief SpriteBase3D.set_flip_h
@@ -60932,12 +60933,12 @@ GDExtensionBool gdext_sprite_base3_d_is_flipped_v(gdext_c_object_t instance);
 /**
  * @brief SpriteBase3D.set_modulate
  */
-void gdext_sprite_base3_d_set_modulate(gdext_c_object_t instance, gdext_c_color modulate);
+void gdext_sprite_base3_d_set_modulate(gdext_c_object_t instance, gdext_c_color_t modulate);
 
 /**
  * @brief SpriteBase3D.get_modulate
  */
-gdext_c_color gdext_sprite_base3_d_get_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_sprite_base3_d_get_modulate(gdext_c_object_t instance);
 
 /**
  * @brief SpriteBase3D.set_render_priority
@@ -61162,7 +61163,7 @@ void gdext_sprite_frames_clear_all(gdext_c_object_t instance);
 /**
  * @brief StaticBody2D.set_constant_linear_velocity
  */
-void gdext_static_body2_d_set_constant_linear_velocity(gdext_c_object_t instance, gdext_c_vec2 vel);
+void gdext_static_body2_d_set_constant_linear_velocity(gdext_c_object_t instance, gdext_c_vector2_t vel);
 
 /**
  * @brief StaticBody2D.set_constant_angular_velocity
@@ -61172,7 +61173,7 @@ void gdext_static_body2_d_set_constant_angular_velocity(gdext_c_object_t instanc
 /**
  * @brief StaticBody2D.get_constant_linear_velocity
  */
-gdext_c_vec2 gdext_static_body2_d_get_constant_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_static_body2_d_get_constant_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief StaticBody2D.get_constant_angular_velocity
@@ -61197,22 +61198,22 @@ gdext_c_object_t gdext_static_body2_d_get_physics_material_override(gdext_c_obje
 /**
  * @brief StaticBody3D.set_constant_linear_velocity
  */
-void gdext_static_body3_d_set_constant_linear_velocity(gdext_c_object_t instance, gdext_c_vec3 vel);
+void gdext_static_body3_d_set_constant_linear_velocity(gdext_c_object_t instance, gdext_c_vector3_t vel);
 
 /**
  * @brief StaticBody3D.set_constant_angular_velocity
  */
-void gdext_static_body3_d_set_constant_angular_velocity(gdext_c_object_t instance, gdext_c_vec3 vel);
+void gdext_static_body3_d_set_constant_angular_velocity(gdext_c_object_t instance, gdext_c_vector3_t vel);
 
 /**
  * @brief StaticBody3D.get_constant_linear_velocity
  */
-gdext_c_vec3 gdext_static_body3_d_get_constant_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_static_body3_d_get_constant_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief StaticBody3D.get_constant_angular_velocity
  */
-gdext_c_vec3 gdext_static_body3_d_get_constant_angular_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_static_body3_d_get_constant_angular_velocity(gdext_c_object_t instance);
 
 /**
  * @brief StaticBody3D.set_physics_material_override
@@ -61617,7 +61618,7 @@ void gdext_stream_peer_t_l_s_disconnect_from_stream(gdext_c_object_t instance);
 /**
  * @brief StyleBox.get_minimum_size
  */
-gdext_c_vec2 gdext_style_box_get_minimum_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_style_box_get_minimum_size(gdext_c_object_t instance);
 
 /**
  * @brief StyleBox.set_content_margin
@@ -61642,7 +61643,7 @@ double gdext_style_box_get_margin(gdext_c_object_t instance, int32_t margin);
 /**
  * @brief StyleBox.get_offset
  */
-gdext_c_vec2 gdext_style_box_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_style_box_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief StyleBox.draw
@@ -61657,7 +61658,7 @@ gdext_c_object_t gdext_style_box_get_current_item_drawn(gdext_c_object_t instanc
 /**
  * @brief StyleBox.test_mask
  */
-GDExtensionBool gdext_style_box_test_mask(gdext_c_object_t instance, gdext_c_vec2 point, gdext_c_object_t rect);
+GDExtensionBool gdext_style_box_test_mask(gdext_c_object_t instance, gdext_c_vector2_t point, gdext_c_object_t rect);
 
 /* ============================================================================
  * Class: StyleBoxFlat
@@ -61667,22 +61668,22 @@ GDExtensionBool gdext_style_box_test_mask(gdext_c_object_t instance, gdext_c_vec
 /**
  * @brief StyleBoxFlat.set_bg_color
  */
-void gdext_style_box_flat_set_bg_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_style_box_flat_set_bg_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief StyleBoxFlat.get_bg_color
  */
-gdext_c_color gdext_style_box_flat_get_bg_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_style_box_flat_get_bg_color(gdext_c_object_t instance);
 
 /**
  * @brief StyleBoxFlat.set_border_color
  */
-void gdext_style_box_flat_set_border_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_style_box_flat_set_border_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief StyleBoxFlat.get_border_color
  */
-gdext_c_color gdext_style_box_flat_get_border_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_style_box_flat_get_border_color(gdext_c_object_t instance);
 
 /**
  * @brief StyleBoxFlat.set_border_width_all
@@ -61757,22 +61758,22 @@ GDExtensionBool gdext_style_box_flat_is_draw_center_enabled(gdext_c_object_t ins
 /**
  * @brief StyleBoxFlat.set_skew
  */
-void gdext_style_box_flat_set_skew(gdext_c_object_t instance, gdext_c_vec2 skew);
+void gdext_style_box_flat_set_skew(gdext_c_object_t instance, gdext_c_vector2_t skew);
 
 /**
  * @brief StyleBoxFlat.get_skew
  */
-gdext_c_vec2 gdext_style_box_flat_get_skew(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_style_box_flat_get_skew(gdext_c_object_t instance);
 
 /**
  * @brief StyleBoxFlat.set_shadow_color
  */
-void gdext_style_box_flat_set_shadow_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_style_box_flat_set_shadow_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief StyleBoxFlat.get_shadow_color
  */
-gdext_c_color gdext_style_box_flat_get_shadow_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_style_box_flat_get_shadow_color(gdext_c_object_t instance);
 
 /**
  * @brief StyleBoxFlat.set_shadow_size
@@ -61787,12 +61788,12 @@ int64_t gdext_style_box_flat_get_shadow_size(gdext_c_object_t instance);
 /**
  * @brief StyleBoxFlat.set_shadow_offset
  */
-void gdext_style_box_flat_set_shadow_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_style_box_flat_set_shadow_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief StyleBoxFlat.get_shadow_offset
  */
-gdext_c_vec2 gdext_style_box_flat_get_shadow_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_style_box_flat_get_shadow_offset(gdext_c_object_t instance);
 
 /**
  * @brief StyleBoxFlat.set_anti_aliased
@@ -61832,12 +61833,12 @@ int64_t gdext_style_box_flat_get_corner_detail(gdext_c_object_t instance);
 /**
  * @brief StyleBoxLine.set_color
  */
-void gdext_style_box_line_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_style_box_line_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief StyleBoxLine.get_color
  */
-gdext_c_color gdext_style_box_line_get_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_style_box_line_get_color(gdext_c_object_t instance);
 
 /**
  * @brief StyleBoxLine.set_thickness
@@ -61947,12 +61948,12 @@ GDExtensionBool gdext_style_box_texture_is_draw_center_enabled(gdext_c_object_t 
 /**
  * @brief StyleBoxTexture.set_modulate
  */
-void gdext_style_box_texture_set_modulate(gdext_c_object_t instance, gdext_c_color color);
+void gdext_style_box_texture_set_modulate(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief StyleBoxTexture.get_modulate
  */
-gdext_c_color gdext_style_box_texture_get_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_style_box_texture_get_modulate(gdext_c_object_t instance);
 
 /**
  * @brief StyleBoxTexture.set_h_axis_stretch_mode
@@ -62107,17 +62108,17 @@ void gdext_surface_tool_begin(gdext_c_object_t instance, int32_t primitive);
 /**
  * @brief SurfaceTool.add_vertex
  */
-void gdext_surface_tool_add_vertex(gdext_c_object_t instance, gdext_c_vec3 vertex);
+void gdext_surface_tool_add_vertex(gdext_c_object_t instance, gdext_c_vector3_t vertex);
 
 /**
  * @brief SurfaceTool.set_color
  */
-void gdext_surface_tool_set_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_surface_tool_set_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief SurfaceTool.set_normal
  */
-void gdext_surface_tool_set_normal(gdext_c_object_t instance, gdext_c_vec3 normal);
+void gdext_surface_tool_set_normal(gdext_c_object_t instance, gdext_c_vector3_t normal);
 
 /**
  * @brief SurfaceTool.set_tangent
@@ -62127,12 +62128,12 @@ void gdext_surface_tool_set_tangent(gdext_c_object_t instance, gdext_c_object_t 
 /**
  * @brief SurfaceTool.set_uv
  */
-void gdext_surface_tool_set_uv(gdext_c_object_t instance, gdext_c_vec2 uv);
+void gdext_surface_tool_set_uv(gdext_c_object_t instance, gdext_c_vector2_t uv);
 
 /**
  * @brief SurfaceTool.set_uv2
  */
-void gdext_surface_tool_set_uv2(gdext_c_object_t instance, gdext_c_vec2 uv2);
+void gdext_surface_tool_set_uv2(gdext_c_object_t instance, gdext_c_vector2_t uv2);
 
 /**
  * @brief SurfaceTool.set_bones
@@ -62147,7 +62148,7 @@ void gdext_surface_tool_set_weights(gdext_c_object_t instance, gdext_c_object_t 
 /**
  * @brief SurfaceTool.set_custom
  */
-void gdext_surface_tool_set_custom(gdext_c_object_t instance, int64_t channel_index, gdext_c_color custom_color);
+void gdext_surface_tool_set_custom(gdext_c_object_t instance, int64_t channel_index, gdext_c_color_t custom_color);
 
 /**
  * @brief SurfaceTool.set_smooth_group
@@ -62675,7 +62676,7 @@ void gdext_tab_bar_add_tab(gdext_c_object_t instance, gdext_c_object_t title, gd
 /**
  * @brief TabBar.get_tab_idx_at_point
  */
-int64_t gdext_tab_bar_get_tab_idx_at_point(gdext_c_object_t instance, gdext_c_vec2 point);
+int64_t gdext_tab_bar_get_tab_idx_at_point(gdext_c_object_t instance, gdext_c_vector2_t point);
 
 /**
  * @brief TabBar.set_tab_alignment
@@ -63000,7 +63001,7 @@ gdext_c_object_t gdext_tab_container_get_tab_button_icon(gdext_c_object_t instan
 /**
  * @brief TabContainer.get_tab_idx_at_point
  */
-int64_t gdext_tab_container_get_tab_idx_at_point(gdext_c_object_t instance, gdext_c_vec2 point);
+int64_t gdext_tab_container_get_tab_idx_at_point(gdext_c_object_t instance, gdext_c_vector2_t point);
 
 /**
  * @brief TabContainer.get_tab_idx_from_control
@@ -63475,12 +63476,12 @@ void gdext_text_edit_set_tooltip_request_func(gdext_c_object_t instance, gdext_c
 /**
  * @brief TextEdit.get_local_mouse_pos
  */
-gdext_c_vec2 gdext_text_edit_get_local_mouse_pos(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_text_edit_get_local_mouse_pos(gdext_c_object_t instance);
 
 /**
  * @brief TextEdit.get_word_at_pos
  */
-gdext_c_object_t gdext_text_edit_get_word_at_pos(gdext_c_object_t instance, gdext_c_vec2 position);
+gdext_c_object_t gdext_text_edit_get_word_at_pos(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief TextEdit.get_line_column_at_pos
@@ -63650,7 +63651,7 @@ GDExtensionBool gdext_text_edit_is_caret_visible(gdext_c_object_t instance, int6
 /**
  * @brief TextEdit.get_caret_draw_pos
  */
-gdext_c_vec2 gdext_text_edit_get_caret_draw_pos(gdext_c_object_t instance, int64_t caret_index);
+gdext_c_vector2_t gdext_text_edit_get_caret_draw_pos(gdext_c_object_t instance, int64_t caret_index);
 
 /**
  * @brief TextEdit.set_caret_line
@@ -64190,12 +64191,12 @@ gdext_c_object_t gdext_text_edit_get_line_gutter_icon(gdext_c_object_t instance,
 /**
  * @brief TextEdit.set_line_gutter_item_color
  */
-void gdext_text_edit_set_line_gutter_item_color(gdext_c_object_t instance, int64_t line, int64_t gutter, gdext_c_color color);
+void gdext_text_edit_set_line_gutter_item_color(gdext_c_object_t instance, int64_t line, int64_t gutter, gdext_c_color_t color);
 
 /**
  * @brief TextEdit.get_line_gutter_item_color
  */
-gdext_c_color gdext_text_edit_get_line_gutter_item_color(gdext_c_object_t instance, int64_t line, int64_t gutter);
+gdext_c_color_t gdext_text_edit_get_line_gutter_item_color(gdext_c_object_t instance, int64_t line, int64_t gutter);
 
 /**
  * @brief TextEdit.set_line_gutter_clickable
@@ -64210,12 +64211,12 @@ GDExtensionBool gdext_text_edit_is_line_gutter_clickable(gdext_c_object_t instan
 /**
  * @brief TextEdit.set_line_background_color
  */
-void gdext_text_edit_set_line_background_color(gdext_c_object_t instance, int64_t line, gdext_c_color color);
+void gdext_text_edit_set_line_background_color(gdext_c_object_t instance, int64_t line, gdext_c_color_t color);
 
 /**
  * @brief TextEdit.get_line_background_color
  */
-gdext_c_color gdext_text_edit_get_line_background_color(gdext_c_object_t instance, int64_t line);
+gdext_c_color_t gdext_text_edit_get_line_background_color(gdext_c_object_t instance, int64_t line);
 
 /**
  * @brief TextEdit.set_syntax_highlighter
@@ -64380,12 +64381,12 @@ GDExtensionBool gdext_text_line_add_string(gdext_c_object_t instance, gdext_c_ob
 /**
  * @brief TextLine.add_object
  */
-GDExtensionBool gdext_text_line_add_object(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_vec2 size, int32_t inline_align, int64_t length, double baseline);
+GDExtensionBool gdext_text_line_add_object(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_vector2_t size, int32_t inline_align, int64_t length, double baseline);
 
 /**
  * @brief TextLine.resize_object
  */
-GDExtensionBool gdext_text_line_resize_object(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_vec2 size, int32_t inline_align, double baseline);
+GDExtensionBool gdext_text_line_resize_object(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_vector2_t size, int32_t inline_align, double baseline);
 
 /**
  * @brief TextLine.set_width
@@ -64455,7 +64456,7 @@ gdext_c_object_t gdext_text_line_get_object_rect(gdext_c_object_t instance, gdex
 /**
  * @brief TextLine.get_size
  */
-gdext_c_vec2 gdext_text_line_get_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_text_line_get_size(gdext_c_object_t instance);
 
 /**
  * @brief TextLine.get_rid
@@ -64490,12 +64491,12 @@ double gdext_text_line_get_line_underline_thickness(gdext_c_object_t instance);
 /**
  * @brief TextLine.draw
  */
-void gdext_text_line_draw(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vec2 pos, gdext_c_color color, double oversampling);
+void gdext_text_line_draw(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vector2_t pos, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextLine.draw_outline
  */
-void gdext_text_line_draw_outline(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vec2 pos, int64_t outline_size, gdext_c_color color, double oversampling);
+void gdext_text_line_draw_outline(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vector2_t pos, int64_t outline_size, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextLine.hit_test
@@ -64620,12 +64621,12 @@ double gdext_text_mesh_get_pixel_size(gdext_c_object_t instance);
 /**
  * @brief TextMesh.set_offset
  */
-void gdext_text_mesh_set_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_text_mesh_set_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief TextMesh.get_offset
  */
-gdext_c_vec2 gdext_text_mesh_get_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_text_mesh_get_offset(gdext_c_object_t instance);
 
 /**
  * @brief TextMesh.set_curve_step
@@ -64775,12 +64776,12 @@ GDExtensionBool gdext_text_paragraph_add_string(gdext_c_object_t instance, gdext
 /**
  * @brief TextParagraph.add_object
  */
-GDExtensionBool gdext_text_paragraph_add_object(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_vec2 size, int32_t inline_align, int64_t length, double baseline);
+GDExtensionBool gdext_text_paragraph_add_object(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_vector2_t size, int32_t inline_align, int64_t length, double baseline);
 
 /**
  * @brief TextParagraph.resize_object
  */
-GDExtensionBool gdext_text_paragraph_resize_object(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_vec2 size, int32_t inline_align, double baseline);
+GDExtensionBool gdext_text_paragraph_resize_object(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_vector2_t size, int32_t inline_align, double baseline);
 
 /**
  * @brief TextParagraph.set_alignment
@@ -64850,12 +64851,12 @@ double gdext_text_paragraph_get_width(gdext_c_object_t instance);
 /**
  * @brief TextParagraph.get_non_wrapped_size
  */
-gdext_c_vec2 gdext_text_paragraph_get_non_wrapped_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_text_paragraph_get_non_wrapped_size(gdext_c_object_t instance);
 
 /**
  * @brief TextParagraph.get_size
  */
-gdext_c_vec2 gdext_text_paragraph_get_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_text_paragraph_get_size(gdext_c_object_t instance);
 
 /**
  * @brief TextParagraph.get_rid
@@ -64915,7 +64916,7 @@ gdext_c_object_t gdext_text_paragraph_get_line_object_rect(gdext_c_object_t inst
 /**
  * @brief TextParagraph.get_line_size
  */
-gdext_c_vec2 gdext_text_paragraph_get_line_size(gdext_c_object_t instance, int64_t line);
+gdext_c_vector2_t gdext_text_paragraph_get_line_size(gdext_c_object_t instance, int64_t line);
 
 /**
  * @brief TextParagraph.get_line_range
@@ -64950,7 +64951,7 @@ double gdext_text_paragraph_get_line_underline_thickness(gdext_c_object_t instan
 /**
  * @brief TextParagraph.get_dropcap_size
  */
-gdext_c_vec2 gdext_text_paragraph_get_dropcap_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_text_paragraph_get_dropcap_size(gdext_c_object_t instance);
 
 /**
  * @brief TextParagraph.get_dropcap_lines
@@ -64960,37 +64961,37 @@ int64_t gdext_text_paragraph_get_dropcap_lines(gdext_c_object_t instance);
 /**
  * @brief TextParagraph.draw
  */
-void gdext_text_paragraph_draw(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vec2 pos, gdext_c_color color, gdext_c_color dc_color, double oversampling);
+void gdext_text_paragraph_draw(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vector2_t pos, gdext_c_color_t color, gdext_c_color_t dc_color, double oversampling);
 
 /**
  * @brief TextParagraph.draw_outline
  */
-void gdext_text_paragraph_draw_outline(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vec2 pos, int64_t outline_size, gdext_c_color color, gdext_c_color dc_color, double oversampling);
+void gdext_text_paragraph_draw_outline(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vector2_t pos, int64_t outline_size, gdext_c_color_t color, gdext_c_color_t dc_color, double oversampling);
 
 /**
  * @brief TextParagraph.draw_line
  */
-void gdext_text_paragraph_draw_line(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vec2 pos, int64_t line, gdext_c_color color, double oversampling);
+void gdext_text_paragraph_draw_line(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vector2_t pos, int64_t line, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextParagraph.draw_line_outline
  */
-void gdext_text_paragraph_draw_line_outline(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vec2 pos, int64_t line, int64_t outline_size, gdext_c_color color, double oversampling);
+void gdext_text_paragraph_draw_line_outline(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vector2_t pos, int64_t line, int64_t outline_size, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextParagraph.draw_dropcap
  */
-void gdext_text_paragraph_draw_dropcap(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vec2 pos, gdext_c_color color, double oversampling);
+void gdext_text_paragraph_draw_dropcap(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vector2_t pos, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextParagraph.draw_dropcap_outline
  */
-void gdext_text_paragraph_draw_dropcap_outline(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vec2 pos, int64_t outline_size, gdext_c_color color, double oversampling);
+void gdext_text_paragraph_draw_dropcap_outline(gdext_c_object_t instance, gdext_c_object_t canvas, gdext_c_vector2_t pos, int64_t outline_size, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextParagraph.hit_test
  */
-int64_t gdext_text_paragraph_hit_test(gdext_c_object_t instance, gdext_c_vec2 coords);
+int64_t gdext_text_paragraph_hit_test(gdext_c_object_t instance, gdext_c_vector2_t coords);
 
 /* ============================================================================
  * Class: TextServer
@@ -65475,32 +65476,32 @@ void gdext_text_server_font_remove_glyph(gdext_c_object_t instance, gdext_c_obje
 /**
  * @brief TextServer.font_get_glyph_advance
  */
-gdext_c_vec2 gdext_text_server_font_get_glyph_advance(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, int64_t glyph);
+gdext_c_vector2_t gdext_text_server_font_get_glyph_advance(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, int64_t glyph);
 
 /**
  * @brief TextServer.font_set_glyph_advance
  */
-void gdext_text_server_font_set_glyph_advance(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, int64_t glyph, gdext_c_vec2 advance);
+void gdext_text_server_font_set_glyph_advance(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, int64_t glyph, gdext_c_vector2_t advance);
 
 /**
  * @brief TextServer.font_get_glyph_offset
  */
-gdext_c_vec2 gdext_text_server_font_get_glyph_offset(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph);
+gdext_c_vector2_t gdext_text_server_font_get_glyph_offset(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph);
 
 /**
  * @brief TextServer.font_set_glyph_offset
  */
-void gdext_text_server_font_set_glyph_offset(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph, gdext_c_vec2 offset);
+void gdext_text_server_font_set_glyph_offset(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph, gdext_c_vector2_t offset);
 
 /**
  * @brief TextServer.font_get_glyph_size
  */
-gdext_c_vec2 gdext_text_server_font_get_glyph_size(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph);
+gdext_c_vector2_t gdext_text_server_font_get_glyph_size(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph);
 
 /**
  * @brief TextServer.font_set_glyph_size
  */
-void gdext_text_server_font_set_glyph_size(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph, gdext_c_vec2 gl_size);
+void gdext_text_server_font_set_glyph_size(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph, gdext_c_vector2_t gl_size);
 
 /**
  * @brief TextServer.font_get_glyph_uv_rect
@@ -65530,7 +65531,7 @@ gdext_c_object_t gdext_text_server_font_get_glyph_texture_rid(gdext_c_object_t i
 /**
  * @brief TextServer.font_get_glyph_texture_size
  */
-gdext_c_vec2 gdext_text_server_font_get_glyph_texture_size(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph);
+gdext_c_vector2_t gdext_text_server_font_get_glyph_texture_size(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t size, int64_t glyph);
 
 /**
  * @brief TextServer.font_get_glyph_contours
@@ -65555,12 +65556,12 @@ void gdext_text_server_font_remove_kerning(gdext_c_object_t instance, gdext_c_ob
 /**
  * @brief TextServer.font_set_kerning
  */
-void gdext_text_server_font_set_kerning(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, gdext_c_object_t glyph_pair, gdext_c_vec2 kerning);
+void gdext_text_server_font_set_kerning(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, gdext_c_object_t glyph_pair, gdext_c_vector2_t kerning);
 
 /**
  * @brief TextServer.font_get_kerning
  */
-gdext_c_vec2 gdext_text_server_font_get_kerning(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, gdext_c_object_t glyph_pair);
+gdext_c_vector2_t gdext_text_server_font_get_kerning(gdext_c_object_t instance, gdext_c_object_t font_rid, int64_t size, gdext_c_object_t glyph_pair);
 
 /**
  * @brief TextServer.font_get_glyph_index
@@ -65600,12 +65601,12 @@ void gdext_text_server_font_render_glyph(gdext_c_object_t instance, gdext_c_obje
 /**
  * @brief TextServer.font_draw_glyph
  */
-void gdext_text_server_font_draw_glyph(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t canvas, int64_t size, gdext_c_vec2 pos, int64_t index, gdext_c_color color, double oversampling);
+void gdext_text_server_font_draw_glyph(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t canvas, int64_t size, gdext_c_vector2_t pos, int64_t index, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextServer.font_draw_glyph_outline
  */
-void gdext_text_server_font_draw_glyph_outline(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t canvas, int64_t size, int64_t outline_size, gdext_c_vec2 pos, int64_t index, gdext_c_color color, double oversampling);
+void gdext_text_server_font_draw_glyph_outline(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t canvas, int64_t size, int64_t outline_size, gdext_c_vector2_t pos, int64_t index, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextServer.font_is_language_supported
@@ -65690,12 +65691,12 @@ void gdext_text_server_font_set_global_oversampling(gdext_c_object_t instance, d
 /**
  * @brief TextServer.get_hex_code_box_size
  */
-gdext_c_vec2 gdext_text_server_get_hex_code_box_size(gdext_c_object_t instance, int64_t size, int64_t index);
+gdext_c_vector2_t gdext_text_server_get_hex_code_box_size(gdext_c_object_t instance, int64_t size, int64_t index);
 
 /**
  * @brief TextServer.draw_hex_code_box
  */
-void gdext_text_server_draw_hex_code_box(gdext_c_object_t instance, gdext_c_object_t canvas, int64_t size, gdext_c_vec2 pos, int64_t index, gdext_c_color color);
+void gdext_text_server_draw_hex_code_box(gdext_c_object_t instance, gdext_c_object_t canvas, int64_t size, gdext_c_vector2_t pos, int64_t index, gdext_c_color_t color);
 
 /**
  * @brief TextServer.create_shaped_text
@@ -65795,12 +65796,12 @@ GDExtensionBool gdext_text_server_shaped_text_add_string(gdext_c_object_t instan
 /**
  * @brief TextServer.shaped_text_add_object
  */
-GDExtensionBool gdext_text_server_shaped_text_add_object(gdext_c_object_t instance, gdext_c_object_t shaped, gdext_c_object_t key, gdext_c_vec2 size, int32_t inline_align, int64_t length, double baseline);
+GDExtensionBool gdext_text_server_shaped_text_add_object(gdext_c_object_t instance, gdext_c_object_t shaped, gdext_c_object_t key, gdext_c_vector2_t size, int32_t inline_align, int64_t length, double baseline);
 
 /**
  * @brief TextServer.shaped_text_resize_object
  */
-GDExtensionBool gdext_text_server_shaped_text_resize_object(gdext_c_object_t instance, gdext_c_object_t shaped, gdext_c_object_t key, gdext_c_vec2 size, int32_t inline_align, double baseline);
+GDExtensionBool gdext_text_server_shaped_text_resize_object(gdext_c_object_t instance, gdext_c_object_t shaped, gdext_c_object_t key, gdext_c_vector2_t size, int32_t inline_align, double baseline);
 
 /**
  * @brief TextServer.shaped_get_text
@@ -65995,7 +65996,7 @@ int64_t gdext_text_server_shaped_text_get_object_glyph(gdext_c_object_t instance
 /**
  * @brief TextServer.shaped_text_get_size
  */
-gdext_c_vec2 gdext_text_server_shaped_text_get_size(gdext_c_object_t instance, gdext_c_object_t shaped);
+gdext_c_vector2_t gdext_text_server_shaped_text_get_size(gdext_c_object_t instance, gdext_c_object_t shaped);
 
 /**
  * @brief TextServer.shaped_text_get_ascent
@@ -66045,7 +66046,7 @@ int64_t gdext_text_server_shaped_text_hit_test_position(gdext_c_object_t instanc
 /**
  * @brief TextServer.shaped_text_get_grapheme_bounds
  */
-gdext_c_vec2 gdext_text_server_shaped_text_get_grapheme_bounds(gdext_c_object_t instance, gdext_c_object_t shaped, int64_t pos);
+gdext_c_vector2_t gdext_text_server_shaped_text_get_grapheme_bounds(gdext_c_object_t instance, gdext_c_object_t shaped, int64_t pos);
 
 /**
  * @brief TextServer.shaped_text_next_grapheme_pos
@@ -66080,12 +66081,12 @@ int64_t gdext_text_server_shaped_text_closest_character_pos(gdext_c_object_t ins
 /**
  * @brief TextServer.shaped_text_draw
  */
-void gdext_text_server_shaped_text_draw(gdext_c_object_t instance, gdext_c_object_t shaped, gdext_c_object_t canvas, gdext_c_vec2 pos, double clip_l, double clip_r, gdext_c_color color, double oversampling);
+void gdext_text_server_shaped_text_draw(gdext_c_object_t instance, gdext_c_object_t shaped, gdext_c_object_t canvas, gdext_c_vector2_t pos, double clip_l, double clip_r, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextServer.shaped_text_draw_outline
  */
-void gdext_text_server_shaped_text_draw_outline(gdext_c_object_t instance, gdext_c_object_t shaped, gdext_c_object_t canvas, gdext_c_vec2 pos, double clip_l, double clip_r, int64_t outline_size, gdext_c_color color, double oversampling);
+void gdext_text_server_shaped_text_draw_outline(gdext_c_object_t instance, gdext_c_object_t shaped, gdext_c_object_t canvas, gdext_c_vector2_t pos, double clip_l, double clip_r, int64_t outline_size, gdext_c_color_t color, double oversampling);
 
 /**
  * @brief TextServer.shaped_text_get_dominant_direction_in_range
@@ -66225,7 +66226,7 @@ int64_t gdext_texture2_d_get_height(gdext_c_object_t instance);
 /**
  * @brief Texture2D.get_size
  */
-gdext_c_vec2 gdext_texture2_d_get_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_texture2_d_get_size(gdext_c_object_t instance);
 
 /**
  * @brief Texture2D.has_alpha
@@ -66235,17 +66236,17 @@ GDExtensionBool gdext_texture2_d_has_alpha(gdext_c_object_t instance);
 /**
  * @brief Texture2D.draw
  */
-void gdext_texture2_d_draw(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vec2 position, gdext_c_color modulate, GDExtensionBool transpose);
+void gdext_texture2_d_draw(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_vector2_t position, gdext_c_color_t modulate, GDExtensionBool transpose);
 
 /**
  * @brief Texture2D.draw_rect
  */
-void gdext_texture2_d_draw_rect(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_object_t rect, GDExtensionBool tile, gdext_c_color modulate, GDExtensionBool transpose);
+void gdext_texture2_d_draw_rect(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_object_t rect, GDExtensionBool tile, gdext_c_color_t modulate, GDExtensionBool transpose);
 
 /**
  * @brief Texture2D.draw_rect_region
  */
-void gdext_texture2_d_draw_rect_region(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_object_t rect, gdext_c_object_t src_rect, gdext_c_color modulate, GDExtensionBool transpose, GDExtensionBool clip_uv);
+void gdext_texture2_d_draw_rect_region(gdext_c_object_t instance, gdext_c_object_t canvas_item, gdext_c_object_t rect, gdext_c_object_t src_rect, gdext_c_color_t modulate, GDExtensionBool transpose, GDExtensionBool clip_uv);
 
 /**
  * @brief Texture2D.get_image
@@ -66545,42 +66546,42 @@ int64_t gdext_texture_progress_bar_get_fill_mode(gdext_c_object_t instance);
 /**
  * @brief TextureProgressBar.set_tint_under
  */
-void gdext_texture_progress_bar_set_tint_under(gdext_c_object_t instance, gdext_c_color tint);
+void gdext_texture_progress_bar_set_tint_under(gdext_c_object_t instance, gdext_c_color_t tint);
 
 /**
  * @brief TextureProgressBar.get_tint_under
  */
-gdext_c_color gdext_texture_progress_bar_get_tint_under(gdext_c_object_t instance);
+gdext_c_color_t gdext_texture_progress_bar_get_tint_under(gdext_c_object_t instance);
 
 /**
  * @brief TextureProgressBar.set_tint_progress
  */
-void gdext_texture_progress_bar_set_tint_progress(gdext_c_object_t instance, gdext_c_color tint);
+void gdext_texture_progress_bar_set_tint_progress(gdext_c_object_t instance, gdext_c_color_t tint);
 
 /**
  * @brief TextureProgressBar.get_tint_progress
  */
-gdext_c_color gdext_texture_progress_bar_get_tint_progress(gdext_c_object_t instance);
+gdext_c_color_t gdext_texture_progress_bar_get_tint_progress(gdext_c_object_t instance);
 
 /**
  * @brief TextureProgressBar.set_tint_over
  */
-void gdext_texture_progress_bar_set_tint_over(gdext_c_object_t instance, gdext_c_color tint);
+void gdext_texture_progress_bar_set_tint_over(gdext_c_object_t instance, gdext_c_color_t tint);
 
 /**
  * @brief TextureProgressBar.get_tint_over
  */
-gdext_c_color gdext_texture_progress_bar_get_tint_over(gdext_c_object_t instance);
+gdext_c_color_t gdext_texture_progress_bar_get_tint_over(gdext_c_object_t instance);
 
 /**
  * @brief TextureProgressBar.set_texture_progress_offset
  */
-void gdext_texture_progress_bar_set_texture_progress_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_texture_progress_bar_set_texture_progress_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief TextureProgressBar.get_texture_progress_offset
  */
-gdext_c_vec2 gdext_texture_progress_bar_get_texture_progress_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_texture_progress_bar_get_texture_progress_offset(gdext_c_object_t instance);
 
 /**
  * @brief TextureProgressBar.set_radial_initial_angle
@@ -66595,12 +66596,12 @@ double gdext_texture_progress_bar_get_radial_initial_angle(gdext_c_object_t inst
 /**
  * @brief TextureProgressBar.set_radial_center_offset
  */
-void gdext_texture_progress_bar_set_radial_center_offset(gdext_c_object_t instance, gdext_c_vec2 mode);
+void gdext_texture_progress_bar_set_radial_center_offset(gdext_c_object_t instance, gdext_c_vector2_t mode);
 
 /**
  * @brief TextureProgressBar.get_radial_center_offset
  */
-gdext_c_vec2 gdext_texture_progress_bar_get_radial_center_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_texture_progress_bar_get_radial_center_offset(gdext_c_object_t instance);
 
 /**
  * @brief TextureProgressBar.set_fill_degrees
@@ -66835,12 +66836,12 @@ gdext_c_object_t gdext_theme_get_font_size_type_list(gdext_c_object_t instance);
 /**
  * @brief Theme.set_color
  */
-void gdext_theme_set_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t theme_type, gdext_c_color color);
+void gdext_theme_set_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t theme_type, gdext_c_color_t color);
 
 /**
  * @brief Theme.get_color
  */
-gdext_c_color gdext_theme_get_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t theme_type);
+gdext_c_color_t gdext_theme_get_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t theme_type);
 
 /**
  * @brief Theme.has_color
@@ -67196,12 +67197,12 @@ gdext_c_object_t gdext_tile_data_get_texture_origin(gdext_c_object_t instance);
 /**
  * @brief TileData.set_modulate
  */
-void gdext_tile_data_set_modulate(gdext_c_object_t instance, gdext_c_color modulate);
+void gdext_tile_data_set_modulate(gdext_c_object_t instance, gdext_c_color_t modulate);
 
 /**
  * @brief TileData.get_modulate
  */
-gdext_c_color gdext_tile_data_get_modulate(gdext_c_object_t instance);
+gdext_c_color_t gdext_tile_data_get_modulate(gdext_c_object_t instance);
 
 /**
  * @brief TileData.set_z_index
@@ -67266,12 +67267,12 @@ gdext_c_object_t gdext_tile_data_get_occluder(gdext_c_object_t instance, int64_t
 /**
  * @brief TileData.set_constant_linear_velocity
  */
-void gdext_tile_data_set_constant_linear_velocity(gdext_c_object_t instance, int64_t layer_id, gdext_c_vec2 velocity);
+void gdext_tile_data_set_constant_linear_velocity(gdext_c_object_t instance, int64_t layer_id, gdext_c_vector2_t velocity);
 
 /**
  * @brief TileData.get_constant_linear_velocity
  */
-gdext_c_vec2 gdext_tile_data_get_constant_linear_velocity(gdext_c_object_t instance, int64_t layer_id);
+gdext_c_vector2_t gdext_tile_data_get_constant_linear_velocity(gdext_c_object_t instance, int64_t layer_id);
 
 /**
  * @brief TileData.set_constant_angular_velocity
@@ -67496,12 +67497,12 @@ GDExtensionBool gdext_tile_map_is_layer_enabled(gdext_c_object_t instance, int64
 /**
  * @brief TileMap.set_layer_modulate
  */
-void gdext_tile_map_set_layer_modulate(gdext_c_object_t instance, int64_t layer, gdext_c_color modulate);
+void gdext_tile_map_set_layer_modulate(gdext_c_object_t instance, int64_t layer, gdext_c_color_t modulate);
 
 /**
  * @brief TileMap.get_layer_modulate
  */
-gdext_c_color gdext_tile_map_get_layer_modulate(gdext_c_object_t instance, int64_t layer);
+gdext_c_color_t gdext_tile_map_get_layer_modulate(gdext_c_object_t instance, int64_t layer);
 
 /**
  * @brief TileMap.set_layer_y_sort_enabled
@@ -67711,12 +67712,12 @@ gdext_c_object_t gdext_tile_map_get_used_rect(gdext_c_object_t instance);
 /**
  * @brief TileMap.map_to_local
  */
-gdext_c_vec2 gdext_tile_map_map_to_local(gdext_c_object_t instance, gdext_c_object_t map_position);
+gdext_c_vector2_t gdext_tile_map_map_to_local(gdext_c_object_t instance, gdext_c_object_t map_position);
 
 /**
  * @brief TileMap.local_to_map
  */
-gdext_c_object_t gdext_tile_map_local_to_map(gdext_c_object_t instance, gdext_c_vec2 local_position);
+gdext_c_object_t gdext_tile_map_local_to_map(gdext_c_object_t instance, gdext_c_vector2_t local_position);
 
 /**
  * @brief TileMap.get_neighbor_cell
@@ -67856,12 +67857,12 @@ gdext_c_object_t gdext_tile_map_layer_get_neighbor_cell(gdext_c_object_t instanc
 /**
  * @brief TileMapLayer.map_to_local
  */
-gdext_c_vec2 gdext_tile_map_layer_map_to_local(gdext_c_object_t instance, gdext_c_object_t map_position);
+gdext_c_vector2_t gdext_tile_map_layer_map_to_local(gdext_c_object_t instance, gdext_c_object_t map_position);
 
 /**
  * @brief TileMapLayer.local_to_map
  */
-gdext_c_object_t gdext_tile_map_layer_local_to_map(gdext_c_object_t instance, gdext_c_vec2 local_position);
+gdext_c_object_t gdext_tile_map_layer_local_to_map(gdext_c_object_t instance, gdext_c_vector2_t local_position);
 
 /**
  * @brief TileMapLayer.set_tile_map_data_from_array
@@ -68316,12 +68317,12 @@ gdext_c_object_t gdext_tile_set_get_terrain_name(gdext_c_object_t instance, int6
 /**
  * @brief TileSet.set_terrain_color
  */
-void gdext_tile_set_set_terrain_color(gdext_c_object_t instance, int64_t terrain_set, int64_t terrain_index, gdext_c_color color);
+void gdext_tile_set_set_terrain_color(gdext_c_object_t instance, int64_t terrain_set, int64_t terrain_index, gdext_c_color_t color);
 
 /**
  * @brief TileSet.get_terrain_color
  */
-gdext_c_color gdext_tile_set_get_terrain_color(gdext_c_object_t instance, int64_t terrain_set, int64_t terrain_index);
+gdext_c_color_t gdext_tile_set_get_terrain_color(gdext_c_object_t instance, int64_t terrain_set, int64_t terrain_index);
 
 /**
  * @brief TileSet.get_navigation_layers_count
@@ -69641,22 +69642,22 @@ gdext_c_object_t gdext_tree_get_item_area_rect(gdext_c_object_t instance, gdext_
 /**
  * @brief Tree.get_item_at_position
  */
-gdext_c_object_t gdext_tree_get_item_at_position(gdext_c_object_t instance, gdext_c_vec2 position);
+gdext_c_object_t gdext_tree_get_item_at_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Tree.get_column_at_position
  */
-int64_t gdext_tree_get_column_at_position(gdext_c_object_t instance, gdext_c_vec2 position);
+int64_t gdext_tree_get_column_at_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Tree.get_drop_section_at_position
  */
-int64_t gdext_tree_get_drop_section_at_position(gdext_c_object_t instance, gdext_c_vec2 position);
+int64_t gdext_tree_get_drop_section_at_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Tree.get_button_id_at_position
  */
-int64_t gdext_tree_get_button_id_at_position(gdext_c_object_t instance, gdext_c_vec2 position);
+int64_t gdext_tree_get_button_id_at_position(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Tree.ensure_cursor_is_visible
@@ -69716,7 +69717,7 @@ gdext_c_object_t gdext_tree_get_column_title_language(gdext_c_object_t instance,
 /**
  * @brief Tree.get_scroll
  */
-gdext_c_vec2 gdext_tree_get_scroll(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_tree_get_scroll(gdext_c_object_t instance);
 
 /**
  * @brief Tree.scroll_to_item
@@ -70006,12 +70007,12 @@ int64_t gdext_tree_item_get_icon_max_width(gdext_c_object_t instance, int64_t co
 /**
  * @brief TreeItem.set_icon_modulate
  */
-void gdext_tree_item_set_icon_modulate(gdext_c_object_t instance, int64_t column, gdext_c_color modulate);
+void gdext_tree_item_set_icon_modulate(gdext_c_object_t instance, int64_t column, gdext_c_color_t modulate);
 
 /**
  * @brief TreeItem.get_icon_modulate
  */
-gdext_c_color gdext_tree_item_get_icon_modulate(gdext_c_object_t instance, int64_t column);
+gdext_c_color_t gdext_tree_item_get_icon_modulate(gdext_c_object_t instance, int64_t column);
 
 /**
  * @brief TreeItem.set_range
@@ -70146,12 +70147,12 @@ GDExtensionBool gdext_tree_item_is_editable(gdext_c_object_t instance, int64_t c
 /**
  * @brief TreeItem.set_custom_color
  */
-void gdext_tree_item_set_custom_color(gdext_c_object_t instance, int64_t column, gdext_c_color color);
+void gdext_tree_item_set_custom_color(gdext_c_object_t instance, int64_t column, gdext_c_color_t color);
 
 /**
  * @brief TreeItem.get_custom_color
  */
-gdext_c_color gdext_tree_item_get_custom_color(gdext_c_object_t instance, int64_t column);
+gdext_c_color_t gdext_tree_item_get_custom_color(gdext_c_object_t instance, int64_t column);
 
 /**
  * @brief TreeItem.clear_custom_color
@@ -70181,7 +70182,7 @@ int64_t gdext_tree_item_get_custom_font_size(gdext_c_object_t instance, int64_t 
 /**
  * @brief TreeItem.set_custom_bg_color
  */
-void gdext_tree_item_set_custom_bg_color(gdext_c_object_t instance, int64_t column, gdext_c_color color, GDExtensionBool just_outline);
+void gdext_tree_item_set_custom_bg_color(gdext_c_object_t instance, int64_t column, gdext_c_color_t color, GDExtensionBool just_outline);
 
 /**
  * @brief TreeItem.clear_custom_bg_color
@@ -70191,7 +70192,7 @@ void gdext_tree_item_clear_custom_bg_color(gdext_c_object_t instance, int64_t co
 /**
  * @brief TreeItem.get_custom_bg_color
  */
-gdext_c_color gdext_tree_item_get_custom_bg_color(gdext_c_object_t instance, int64_t column);
+gdext_c_color_t gdext_tree_item_get_custom_bg_color(gdext_c_object_t instance, int64_t column);
 
 /**
  * @brief TreeItem.set_custom_as_button
@@ -70236,7 +70237,7 @@ int64_t gdext_tree_item_get_button_by_id(gdext_c_object_t instance, int64_t colu
 /**
  * @brief TreeItem.get_button_color
  */
-gdext_c_color gdext_tree_item_get_button_color(gdext_c_object_t instance, int64_t column, int64_t id);
+gdext_c_color_t gdext_tree_item_get_button_color(gdext_c_object_t instance, int64_t column, int64_t id);
 
 /**
  * @brief TreeItem.get_button
@@ -70271,7 +70272,7 @@ void gdext_tree_item_set_button_disabled(gdext_c_object_t instance, int64_t colu
 /**
  * @brief TreeItem.set_button_color
  */
-void gdext_tree_item_set_button_color(gdext_c_object_t instance, int64_t column, int64_t button_index, gdext_c_color color);
+void gdext_tree_item_set_button_color(gdext_c_object_t instance, int64_t column, int64_t button_index, gdext_c_color_t color);
 
 /**
  * @brief TreeItem.is_button_disabled
@@ -70431,12 +70432,12 @@ gdext_c_object_t gdext_triangle_mesh_get_faces(gdext_c_object_t instance);
 /**
  * @brief TriangleMesh.intersect_segment
  */
-gdext_c_object_t gdext_triangle_mesh_intersect_segment(gdext_c_object_t instance, gdext_c_vec3 begin, gdext_c_vec3 end);
+gdext_c_object_t gdext_triangle_mesh_intersect_segment(gdext_c_object_t instance, gdext_c_vector3_t begin, gdext_c_vector3_t end);
 
 /**
  * @brief TriangleMesh.intersect_ray
  */
-gdext_c_object_t gdext_triangle_mesh_intersect_ray(gdext_c_object_t instance, gdext_c_vec3 begin, gdext_c_vec3 dir);
+gdext_c_object_t gdext_triangle_mesh_intersect_ray(gdext_c_object_t instance, gdext_c_vector3_t begin, gdext_c_vector3_t dir);
 
 /* ============================================================================
  * Class: TubeTrailMesh
@@ -71168,12 +71169,12 @@ gdext_c_object_t gdext_vehicle_wheel3_d_get_contact_body(gdext_c_object_t instan
 /**
  * @brief VehicleWheel3D.get_contact_point
  */
-gdext_c_vec3 gdext_vehicle_wheel3_d_get_contact_point(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_vehicle_wheel3_d_get_contact_point(gdext_c_object_t instance);
 
 /**
  * @brief VehicleWheel3D.get_contact_normal
  */
-gdext_c_vec3 gdext_vehicle_wheel3_d_get_contact_normal(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_vehicle_wheel3_d_get_contact_normal(gdext_c_object_t instance);
 
 /**
  * @brief VehicleWheel3D.set_roll_influence
@@ -71653,12 +71654,12 @@ void gdext_viewport_notify_mouse_exited(gdext_c_object_t instance);
 /**
  * @brief Viewport.get_mouse_position
  */
-gdext_c_vec2 gdext_viewport_get_mouse_position(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_viewport_get_mouse_position(gdext_c_object_t instance);
 
 /**
  * @brief Viewport.warp_mouse
  */
-void gdext_viewport_warp_mouse(gdext_c_object_t instance, gdext_c_vec2 position);
+void gdext_viewport_warp_mouse(gdext_c_object_t instance, gdext_c_vector2_t position);
 
 /**
  * @brief Viewport.update_mouse_cursor_state
@@ -72238,7 +72239,7 @@ void gdext_visual_shader_set_mode(gdext_c_object_t instance, int32_t mode);
 /**
  * @brief VisualShader.add_node
  */
-void gdext_visual_shader_add_node(gdext_c_object_t instance, int32_t type, gdext_c_object_t node, gdext_c_vec2 position, int64_t id);
+void gdext_visual_shader_add_node(gdext_c_object_t instance, int32_t type, gdext_c_object_t node, gdext_c_vector2_t position, int64_t id);
 
 /**
  * @brief VisualShader.get_node
@@ -72248,12 +72249,12 @@ gdext_c_object_t gdext_visual_shader_get_node(gdext_c_object_t instance, int32_t
 /**
  * @brief VisualShader.set_node_position
  */
-void gdext_visual_shader_set_node_position(gdext_c_object_t instance, int32_t type, int64_t id, gdext_c_vec2 position);
+void gdext_visual_shader_set_node_position(gdext_c_object_t instance, int32_t type, int64_t id, gdext_c_vector2_t position);
 
 /**
  * @brief VisualShader.get_node_position
  */
-gdext_c_vec2 gdext_visual_shader_get_node_position(gdext_c_object_t instance, int32_t type, int64_t id);
+gdext_c_vector2_t gdext_visual_shader_get_node_position(gdext_c_object_t instance, int32_t type, int64_t id);
 
 /**
  * @brief VisualShader.get_node_list
@@ -72333,12 +72334,12 @@ GDExtensionBool gdext_visual_shader_has_varying(gdext_c_object_t instance, gdext
 /**
  * @brief VisualShader.set_graph_offset
  */
-void gdext_visual_shader_set_graph_offset(gdext_c_object_t instance, gdext_c_vec2 offset);
+void gdext_visual_shader_set_graph_offset(gdext_c_object_t instance, gdext_c_vector2_t offset);
 
 /**
  * @brief VisualShader.get_graph_offset
  */
-gdext_c_vec2 gdext_visual_shader_get_graph_offset(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_visual_shader_get_graph_offset(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: VisualShaderNode
@@ -72488,12 +72489,12 @@ int32_t gdext_visual_shader_node_clamp_get_op_type(gdext_c_object_t instance);
 /**
  * @brief VisualShaderNodeColorConstant.set_constant
  */
-void gdext_visual_shader_node_color_constant_set_constant(gdext_c_object_t instance, gdext_c_color constant);
+void gdext_visual_shader_node_color_constant_set_constant(gdext_c_object_t instance, gdext_c_color_t constant);
 
 /**
  * @brief VisualShaderNodeColorConstant.get_constant
  */
-gdext_c_color gdext_visual_shader_node_color_constant_get_constant(gdext_c_object_t instance);
+gdext_c_color_t gdext_visual_shader_node_color_constant_get_constant(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: VisualShaderNodeColorFunc
@@ -72543,12 +72544,12 @@ GDExtensionBool gdext_visual_shader_node_color_parameter_is_default_value_enable
 /**
  * @brief VisualShaderNodeColorParameter.set_default_value
  */
-void gdext_visual_shader_node_color_parameter_set_default_value(gdext_c_object_t instance, gdext_c_color value);
+void gdext_visual_shader_node_color_parameter_set_default_value(gdext_c_object_t instance, gdext_c_color_t value);
 
 /**
  * @brief VisualShaderNodeColorParameter.get_default_value
  */
-gdext_c_color gdext_visual_shader_node_color_parameter_get_default_value(gdext_c_object_t instance);
+gdext_c_color_t gdext_visual_shader_node_color_parameter_get_default_value(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: VisualShaderNodeComment
@@ -72863,12 +72864,12 @@ GDExtensionBool gdext_visual_shader_node_frame_is_tint_color_enabled(gdext_c_obj
 /**
  * @brief VisualShaderNodeFrame.set_tint_color
  */
-void gdext_visual_shader_node_frame_set_tint_color(gdext_c_object_t instance, gdext_c_color color);
+void gdext_visual_shader_node_frame_set_tint_color(gdext_c_object_t instance, gdext_c_color_t color);
 
 /**
  * @brief VisualShaderNodeFrame.get_tint_color
  */
-gdext_c_color gdext_visual_shader_node_frame_get_tint_color(gdext_c_object_t instance);
+gdext_c_color_t gdext_visual_shader_node_frame_get_tint_color(gdext_c_object_t instance);
 
 /**
  * @brief VisualShaderNodeFrame.set_autoshrink_enabled
@@ -73378,12 +73379,12 @@ int32_t gdext_visual_shader_node_reroute_get_port_type(gdext_c_object_t instance
 /**
  * @brief VisualShaderNodeResizableBase.set_size
  */
-void gdext_visual_shader_node_resizable_base_set_size(gdext_c_object_t instance, gdext_c_vec2 size);
+void gdext_visual_shader_node_resizable_base_set_size(gdext_c_object_t instance, gdext_c_vector2_t size);
 
 /**
  * @brief VisualShaderNodeResizableBase.get_size
  */
-gdext_c_vec2 gdext_visual_shader_node_resizable_base_get_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_visual_shader_node_resizable_base_get_size(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: VisualShaderNodeSample3D
@@ -73768,12 +73769,12 @@ int32_t gdext_visual_shader_node_varying_get_varying_type(gdext_c_object_t insta
 /**
  * @brief VisualShaderNodeVec2Constant.set_constant
  */
-void gdext_visual_shader_node_vec2_constant_set_constant(gdext_c_object_t instance, gdext_c_vec2 constant);
+void gdext_visual_shader_node_vec2_constant_set_constant(gdext_c_object_t instance, gdext_c_vector2_t constant);
 
 /**
  * @brief VisualShaderNodeVec2Constant.get_constant
  */
-gdext_c_vec2 gdext_visual_shader_node_vec2_constant_get_constant(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_visual_shader_node_vec2_constant_get_constant(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: VisualShaderNodeVec2Parameter
@@ -73793,12 +73794,12 @@ GDExtensionBool gdext_visual_shader_node_vec2_parameter_is_default_value_enabled
 /**
  * @brief VisualShaderNodeVec2Parameter.set_default_value
  */
-void gdext_visual_shader_node_vec2_parameter_set_default_value(gdext_c_object_t instance, gdext_c_vec2 value);
+void gdext_visual_shader_node_vec2_parameter_set_default_value(gdext_c_object_t instance, gdext_c_vector2_t value);
 
 /**
  * @brief VisualShaderNodeVec2Parameter.get_default_value
  */
-gdext_c_vec2 gdext_visual_shader_node_vec2_parameter_get_default_value(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_visual_shader_node_vec2_parameter_get_default_value(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: VisualShaderNodeVec3Constant
@@ -73808,12 +73809,12 @@ gdext_c_vec2 gdext_visual_shader_node_vec2_parameter_get_default_value(gdext_c_o
 /**
  * @brief VisualShaderNodeVec3Constant.set_constant
  */
-void gdext_visual_shader_node_vec3_constant_set_constant(gdext_c_object_t instance, gdext_c_vec3 constant);
+void gdext_visual_shader_node_vec3_constant_set_constant(gdext_c_object_t instance, gdext_c_vector3_t constant);
 
 /**
  * @brief VisualShaderNodeVec3Constant.get_constant
  */
-gdext_c_vec3 gdext_visual_shader_node_vec3_constant_get_constant(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_visual_shader_node_vec3_constant_get_constant(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: VisualShaderNodeVec3Parameter
@@ -73833,12 +73834,12 @@ GDExtensionBool gdext_visual_shader_node_vec3_parameter_is_default_value_enabled
 /**
  * @brief VisualShaderNodeVec3Parameter.set_default_value
  */
-void gdext_visual_shader_node_vec3_parameter_set_default_value(gdext_c_object_t instance, gdext_c_vec3 value);
+void gdext_visual_shader_node_vec3_parameter_set_default_value(gdext_c_object_t instance, gdext_c_vector3_t value);
 
 /**
  * @brief VisualShaderNodeVec3Parameter.get_default_value
  */
-gdext_c_vec3 gdext_visual_shader_node_vec3_parameter_get_default_value(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_visual_shader_node_vec3_parameter_get_default_value(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: VisualShaderNodeVec4Constant
@@ -73953,12 +73954,12 @@ int32_t gdext_voxel_g_i_get_subdiv(gdext_c_object_t instance);
 /**
  * @brief VoxelGI.set_size
  */
-void gdext_voxel_g_i_set_size(gdext_c_object_t instance, gdext_c_vec3 size);
+void gdext_voxel_g_i_set_size(gdext_c_object_t instance, gdext_c_vector3_t size);
 
 /**
  * @brief VoxelGI.get_size
  */
-gdext_c_vec3 gdext_voxel_g_i_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_voxel_g_i_get_size(gdext_c_object_t instance);
 
 /**
  * @brief VoxelGI.set_camera_attributes
@@ -73988,7 +73989,7 @@ void gdext_voxel_g_i_debug_bake(gdext_c_object_t instance);
 /**
  * @brief VoxelGIData.allocate
  */
-void gdext_voxel_g_i_data_allocate(gdext_c_object_t instance, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_vec3 octree_size, gdext_c_object_t octree_cells, gdext_c_object_t data_cells, gdext_c_object_t distance_field, gdext_c_object_t level_counts);
+void gdext_voxel_g_i_data_allocate(gdext_c_object_t instance, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_vector3_t octree_size, gdext_c_object_t octree_cells, gdext_c_object_t data_cells, gdext_c_object_t distance_field, gdext_c_object_t level_counts);
 
 /**
  * @brief VoxelGIData.get_bounds
@@ -73998,7 +73999,7 @@ gdext_c_object_t gdext_voxel_g_i_data_get_bounds(gdext_c_object_t instance);
 /**
  * @brief VoxelGIData.get_octree_size
  */
-gdext_c_vec3 gdext_voxel_g_i_data_get_octree_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_voxel_g_i_data_get_octree_size(gdext_c_object_t instance);
 
 /**
  * @brief VoxelGIData.get_to_cell_xform
@@ -74844,7 +74845,7 @@ GDExtensionBool gdext_window_is_embedded(gdext_c_object_t instance);
 /**
  * @brief Window.get_contents_minimum_size
  */
-gdext_c_vec2 gdext_window_get_contents_minimum_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_window_get_contents_minimum_size(gdext_c_object_t instance);
 
 /**
  * @brief Window.set_force_native
@@ -74994,7 +74995,7 @@ void gdext_window_add_theme_font_size_override(gdext_c_object_t instance, gdext_
 /**
  * @brief Window.add_theme_color_override
  */
-void gdext_window_add_theme_color_override(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color color);
+void gdext_window_add_theme_color_override(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_color_t color);
 
 /**
  * @brief Window.add_theme_constant_override
@@ -75054,7 +75055,7 @@ int64_t gdext_window_get_theme_font_size(gdext_c_object_t instance, gdext_c_obje
 /**
  * @brief Window.get_theme_color
  */
-gdext_c_color gdext_window_get_theme_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t theme_type);
+gdext_c_color_t gdext_window_get_theme_color(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t theme_type);
 
 /**
  * @brief Window.get_theme_constant
@@ -75390,12 +75391,12 @@ gdext_c_object_t gdext_world3_d_get_direct_space_state(gdext_c_object_t instance
 /**
  * @brief WorldBoundaryShape2D.set_normal
  */
-void gdext_world_boundary_shape2_d_set_normal(gdext_c_object_t instance, gdext_c_vec2 normal);
+void gdext_world_boundary_shape2_d_set_normal(gdext_c_object_t instance, gdext_c_vector2_t normal);
 
 /**
  * @brief WorldBoundaryShape2D.get_normal
  */
-gdext_c_vec2 gdext_world_boundary_shape2_d_get_normal(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_world_boundary_shape2_d_get_normal(gdext_c_object_t instance);
 
 /**
  * @brief WorldBoundaryShape2D.set_distance
@@ -75580,7 +75581,7 @@ int32_t gdext_x_m_l_parser_open_buffer(gdext_c_object_t instance, gdext_c_object
 /**
  * @brief XRAnchor3D.get_size
  */
-gdext_c_vec3 gdext_x_r_anchor3_d_get_size(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_x_r_anchor3_d_get_size(gdext_c_object_t instance);
 
 /**
  * @brief XRAnchor3D.get_plane
@@ -75690,7 +75691,7 @@ double gdext_x_r_controller3_d_get_float(gdext_c_object_t instance, gdext_c_obje
 /**
  * @brief XRController3D.get_vector2
  */
-gdext_c_vec2 gdext_x_r_controller3_d_get_vector2(gdext_c_object_t instance, gdext_c_object_t name);
+gdext_c_vector2_t gdext_x_r_controller3_d_get_vector2(gdext_c_object_t instance, gdext_c_object_t name);
 
 /**
  * @brief XRController3D.get_tracker_hand
@@ -75830,22 +75831,22 @@ double gdext_x_r_hand_tracker_get_hand_joint_radius(gdext_c_object_t instance, i
 /**
  * @brief XRHandTracker.set_hand_joint_linear_velocity
  */
-void gdext_x_r_hand_tracker_set_hand_joint_linear_velocity(gdext_c_object_t instance, int32_t joint, gdext_c_vec3 linear_velocity);
+void gdext_x_r_hand_tracker_set_hand_joint_linear_velocity(gdext_c_object_t instance, int32_t joint, gdext_c_vector3_t linear_velocity);
 
 /**
  * @brief XRHandTracker.get_hand_joint_linear_velocity
  */
-gdext_c_vec3 gdext_x_r_hand_tracker_get_hand_joint_linear_velocity(gdext_c_object_t instance, int32_t joint);
+gdext_c_vector3_t gdext_x_r_hand_tracker_get_hand_joint_linear_velocity(gdext_c_object_t instance, int32_t joint);
 
 /**
  * @brief XRHandTracker.set_hand_joint_angular_velocity
  */
-void gdext_x_r_hand_tracker_set_hand_joint_angular_velocity(gdext_c_object_t instance, int32_t joint, gdext_c_vec3 angular_velocity);
+void gdext_x_r_hand_tracker_set_hand_joint_angular_velocity(gdext_c_object_t instance, int32_t joint, gdext_c_vector3_t angular_velocity);
 
 /**
  * @brief XRHandTracker.get_hand_joint_angular_velocity
  */
-gdext_c_vec3 gdext_x_r_hand_tracker_get_hand_joint_angular_velocity(gdext_c_object_t instance, int32_t joint);
+gdext_c_vector3_t gdext_x_r_hand_tracker_get_hand_joint_angular_velocity(gdext_c_object_t instance, int32_t joint);
 
 /* ============================================================================
  * Class: XRInterface
@@ -75900,7 +75901,7 @@ int32_t gdext_x_r_interface_get_tracking_status(gdext_c_object_t instance);
 /**
  * @brief XRInterface.get_render_target_size
  */
-gdext_c_vec2 gdext_x_r_interface_get_render_target_size(gdext_c_object_t instance);
+gdext_c_vector2_t gdext_x_r_interface_get_render_target_size(gdext_c_object_t instance);
 
 /**
  * @brief XRInterface.get_view_count
@@ -76015,7 +76016,7 @@ gdext_c_object_t gdext_x_r_interface_extension_get_velocity_texture(gdext_c_obje
 /**
  * @brief XRInterfaceExtension.add_blit
  */
-void gdext_x_r_interface_extension_add_blit(gdext_c_object_t instance, gdext_c_object_t render_target, gdext_c_object_t src_rect, gdext_c_object_t dst_rect, GDExtensionBool use_layer, int64_t layer, GDExtensionBool apply_lens_distortion, gdext_c_vec2 eye_center, double k1, double k2, double upscale, double aspect_ratio);
+void gdext_x_r_interface_extension_add_blit(gdext_c_object_t instance, gdext_c_object_t render_target, gdext_c_object_t src_rect, gdext_c_object_t dst_rect, GDExtensionBool use_layer, int64_t layer, GDExtensionBool apply_lens_distortion, gdext_c_vector2_t eye_center, double k1, double k2, double upscale, double aspect_ratio);
 
 /**
  * @brief XRInterfaceExtension.get_render_target_texture
@@ -76145,22 +76146,22 @@ gdext_c_object_t gdext_x_r_pose_get_adjusted_transform(gdext_c_object_t instance
 /**
  * @brief XRPose.set_linear_velocity
  */
-void gdext_x_r_pose_set_linear_velocity(gdext_c_object_t instance, gdext_c_vec3 velocity);
+void gdext_x_r_pose_set_linear_velocity(gdext_c_object_t instance, gdext_c_vector3_t velocity);
 
 /**
  * @brief XRPose.get_linear_velocity
  */
-gdext_c_vec3 gdext_x_r_pose_get_linear_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_x_r_pose_get_linear_velocity(gdext_c_object_t instance);
 
 /**
  * @brief XRPose.set_angular_velocity
  */
-void gdext_x_r_pose_set_angular_velocity(gdext_c_object_t instance, gdext_c_vec3 velocity);
+void gdext_x_r_pose_set_angular_velocity(gdext_c_object_t instance, gdext_c_vector3_t velocity);
 
 /**
  * @brief XRPose.get_angular_velocity
  */
-gdext_c_vec3 gdext_x_r_pose_get_angular_velocity(gdext_c_object_t instance);
+gdext_c_vector3_t gdext_x_r_pose_get_angular_velocity(gdext_c_object_t instance);
 
 /**
  * @brief XRPose.set_tracking_confidence
@@ -76215,7 +76216,7 @@ void gdext_x_r_positional_tracker_invalidate_pose(gdext_c_object_t instance, gde
 /**
  * @brief XRPositionalTracker.set_pose
  */
-void gdext_x_r_positional_tracker_set_pose(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t transform, gdext_c_vec3 linear_velocity, gdext_c_vec3 angular_velocity, int32_t tracking_confidence);
+void gdext_x_r_positional_tracker_set_pose(gdext_c_object_t instance, gdext_c_object_t name, gdext_c_object_t transform, gdext_c_vector3_t linear_velocity, gdext_c_vector3_t angular_velocity, int32_t tracking_confidence);
 
 /**
  * @brief XRPositionalTracker.get_input
@@ -76415,7 +76416,7 @@ void gdext_x_r_v_r_s_set_vrs_render_region(gdext_c_object_t instance, gdext_c_ob
 /**
  * @brief XRVRS.make_vrs_texture
  */
-gdext_c_object_t gdext_x_r_v_r_s_make_vrs_texture(gdext_c_object_t instance, gdext_c_vec2 target_size, gdext_c_object_t eye_foci);
+gdext_c_object_t gdext_x_r_v_r_s_make_vrs_texture(gdext_c_object_t instance, gdext_c_vector2_t target_size, gdext_c_object_t eye_foci);
 
 /* ============================================================================
  * Class: ZIPPacker

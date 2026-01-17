@@ -303,6 +303,7 @@ func generateHeader(api *ExtensionAPI, classes []ClassDef, outputPath string) er
 
 #include "gdext_c.h"
 #include "gdextension_interface.h"
+#include "gdext_c_builtin.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -609,11 +610,11 @@ func mapGodotTypeToCType(godotType string) string {
 	case "String":
 		return "gdext_c_object_t" // String is an object
 	case "Vector2":
-		return "gdext_c_vec2"
+		return "gdext_c_vector2_t" // Match typedef in gdext_c_builtin.h
 	case "Vector3":
-		return "gdext_c_vec3"
+		return "gdext_c_vector3_t" // Match typedef in gdext_c_builtin.h
 	case "Color":
-		return "gdext_c_color"
+		return "gdext_c_color_t" // Match typedef in gdext_c_builtin.h
 	case "void":
 		return "void"
 	default:

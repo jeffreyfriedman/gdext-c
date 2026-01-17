@@ -2,7 +2,7 @@
 # Simple Makefile for quick builds
 
 CC := cc
-CFLAGS := -fPIC -std=c11 -O2 -Wall -Wextra -Iinclude
+CFLAGS := -fPIC -std=c11 -O2 -Wall -Wextra -Iinclude -Isrc -Igenerated
 LDFLAGS := -dynamiclib
 # TDD #133: Set install_name to @rpath so the library can be found at runtime
 ifeq ($(shell uname),Darwin)
