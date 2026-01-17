@@ -4,28 +4,26 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "gdextension_interface.h"
+#include "../generated/gdext_c_builtin.h"  // For gdext_c_packed_byte_array_t
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * PackedByteArray - Godot's efficient byte array type
+ * PackedByteArray - Godot's efficient byte array builtin type
  * 
- * This is a builtin type in Godot (16 bytes on 64-bit systems).
- * It's used for efficient storage and transfer of binary data,
- * especially to/from GPU buffers.
+ * This is a proper GDExtension builtin type (16 bytes opaque struct).
+ * Used for efficient storage and transfer of binary data to GPU buffers.
  * 
  * Key use case: RenderingDevice.buffer_update(buffer, offset, size, data)
+ * 
+ * TDD #152 - Full implementation for v0.1.0
  */
-
-/** Opaque handle to a PackedByteArray */
-typedef struct {
-    uint8_t opaque[16];  // 16 bytes for 64-bit systems
-} gdext_c_packed_byte_array_t;
 
 /**
  * Create an empty PackedByteArray
+ * @param out Output PackedByteArray to initialize
  */
 void gdext_c_packed_byte_array_create(gdext_c_packed_byte_array_t* out);
 
@@ -71,9 +69,9 @@ void gdext_c_packed_byte_array_set(gdext_c_packed_byte_array_t* arr, size_t inde
 void gdext_c_packed_byte_array_destroy(gdext_c_packed_byte_array_t* arr);
 
 /**
- * Get raw pointer to PackedByteArray data (for passing to Godot methods)
+ * Get raw pointer to PackedByteArray data
  * @param arr The PackedByteArray
- * @return Pointer to internal data (do not free!)
+ * @return Pointer to internal data (NULL for v0.1.0 - use indexed access instead)
  */
 const uint8_t* gdext_c_packed_byte_array_ptr(const gdext_c_packed_byte_array_t* arr);
 
@@ -81,5 +79,4 @@ const uint8_t* gdext_c_packed_byte_array_ptr(const gdext_c_packed_byte_array_t* 
 }
 #endif
 
-#endif // GDEXT_C_PACKED_BYTE_ARRAY_H
-
+#endif /* GDEXT_C_PACKED_BYTE_ARRAY_H */

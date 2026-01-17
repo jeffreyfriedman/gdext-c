@@ -43,6 +43,12 @@ typedef struct {
     gdext_c_vector2_t size;
 } gdext_c_rect2_t;
 
+/* PackedByteArray - TDD #152 for SVO renderer buffer_update */
+/* This is an opaque 16-byte builtin type (on 64-bit systems) */
+typedef struct {
+    uint8_t opaque[16];
+} gdext_c_packed_byte_array_t;
+
 /* TODO: More builtin types (Transform2D, Transform3D, Quaternion, etc.) */
 
 #ifdef __cplusplus

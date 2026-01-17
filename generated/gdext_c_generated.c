@@ -43,7 +43,7 @@ bool gdext_c_check_version_compatible(int major, int minor) {
  * Class: AESContext
  * ============================================================================ */
 
-int32_t gdext_a_e_s_context_start(gdext_c_object_t instance, int32_t mode, gdext_c_object_t key, gdext_c_object_t iv) {
+int32_t gdext_a_e_s_context_start(gdext_c_object_t instance, int32_t mode, gdext_c_packed_byte_array_t key, gdext_c_packed_byte_array_t iv) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -74,7 +74,7 @@ int32_t gdext_a_e_s_context_start(gdext_c_object_t instance, int32_t mode, gdext
     return ret;
 }
 
-gdext_c_object_t gdext_a_e_s_context_update(gdext_c_object_t instance, gdext_c_object_t src) {
+gdext_c_packed_byte_array_t gdext_a_e_s_context_update(gdext_c_object_t instance, gdext_c_packed_byte_array_t src) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -85,7 +85,7 @@ gdext_c_object_t gdext_a_e_s_context_update(gdext_c_object_t instance, gdext_c_o
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 527836100);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for AESContext.update\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -94,7 +94,7 @@ gdext_c_object_t gdext_a_e_s_context_update(gdext_c_object_t instance, gdext_c_o
     args[0] = (GDExtensionConstTypePtr)&src;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -103,7 +103,7 @@ gdext_c_object_t gdext_a_e_s_context_update(gdext_c_object_t instance, gdext_c_o
     return ret;
 }
 
-gdext_c_object_t gdext_a_e_s_context_get_iv_state(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_a_e_s_context_get_iv_state(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -114,12 +114,12 @@ gdext_c_object_t gdext_a_e_s_context_get_iv_state(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2115431945);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for AESContext.get_iv_state\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -16416,7 +16416,7 @@ void gdext_array_mesh_surface_remove(gdext_c_object_t instance, int64_t surf_idx
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_array_mesh_surface_update_vertex_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_object_t data) {
+void gdext_array_mesh_surface_update_vertex_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -16441,7 +16441,7 @@ void gdext_array_mesh_surface_update_vertex_region(gdext_c_object_t instance, in
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_array_mesh_surface_update_attribute_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_object_t data) {
+void gdext_array_mesh_surface_update_attribute_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -16466,7 +16466,7 @@ void gdext_array_mesh_surface_update_attribute_region(gdext_c_object_t instance,
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_array_mesh_surface_update_skin_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_object_t data) {
+void gdext_array_mesh_surface_update_skin_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -23882,7 +23882,7 @@ GDExtensionBool gdext_audio_stream_interactive_is_transition_holding_previous(gd
  * Class: AudioStreamMP3
  * ============================================================================ */
 
-gdext_c_object_t gdext_audio_stream_m_p3_load_from_buffer(gdext_c_object_t stream_data) {
+gdext_c_object_t gdext_audio_stream_m_p3_load_from_buffer(gdext_c_packed_byte_array_t stream_data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -23940,7 +23940,7 @@ gdext_c_object_t gdext_audio_stream_m_p3_load_from_file(gdext_c_object_t path) {
     return ret;
 }
 
-void gdext_audio_stream_m_p3_set_data(gdext_c_object_t instance, gdext_c_object_t data) {
+void gdext_audio_stream_m_p3_set_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -23963,7 +23963,7 @@ void gdext_audio_stream_m_p3_set_data(gdext_c_object_t instance, gdext_c_object_
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-gdext_c_object_t gdext_audio_stream_m_p3_get_data(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_audio_stream_m_p3_get_data(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -23974,12 +23974,12 @@ gdext_c_object_t gdext_audio_stream_m_p3_get_data(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for AudioStreamMP3.get_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -24232,7 +24232,7 @@ int64_t gdext_audio_stream_m_p3_get_bar_beats(gdext_c_object_t instance) {
  * Class: AudioStreamOggVorbis
  * ============================================================================ */
 
-gdext_c_object_t gdext_audio_stream_ogg_vorbis_load_from_buffer(gdext_c_object_t stream_data) {
+gdext_c_object_t gdext_audio_stream_ogg_vorbis_load_from_buffer(gdext_c_packed_byte_array_t stream_data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -28634,7 +28634,7 @@ double gdext_audio_stream_synchronized_get_sync_stream_volume(gdext_c_object_t i
  * Class: AudioStreamWAV
  * ============================================================================ */
 
-gdext_c_object_t gdext_audio_stream_w_a_v_load_from_buffer(gdext_c_object_t stream_data, gdext_c_object_t options) {
+gdext_c_object_t gdext_audio_stream_w_a_v_load_from_buffer(gdext_c_packed_byte_array_t stream_data, gdext_c_object_t options) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -28694,7 +28694,7 @@ gdext_c_object_t gdext_audio_stream_w_a_v_load_from_file(gdext_c_object_t path, 
     return ret;
 }
 
-void gdext_audio_stream_w_a_v_set_data(gdext_c_object_t instance, gdext_c_object_t data) {
+void gdext_audio_stream_w_a_v_set_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -28717,7 +28717,7 @@ void gdext_audio_stream_w_a_v_set_data(gdext_c_object_t instance, gdext_c_object
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-gdext_c_object_t gdext_audio_stream_w_a_v_get_data(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_audio_stream_w_a_v_get_data(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -28728,12 +28728,12 @@ gdext_c_object_t gdext_audio_stream_w_a_v_get_data(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for AudioStreamWAV.get_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -63051,7 +63051,7 @@ gdext_c_object_t gdext_config_file_encode_to_text(gdext_c_object_t instance) {
     return ret;
 }
 
-int32_t gdext_config_file_load_encrypted(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_object_t key) {
+int32_t gdext_config_file_load_encrypted(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_packed_byte_array_t key) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -63111,7 +63111,7 @@ int32_t gdext_config_file_load_encrypted_pass(gdext_c_object_t instance, gdext_c
     return ret;
 }
 
-int32_t gdext_config_file_save_encrypted(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_object_t key) {
+int32_t gdext_config_file_save_encrypted(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_packed_byte_array_t key) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -68478,7 +68478,7 @@ GDExtensionBool gdext_copy_transform_modifier3_d_is_additive(gdext_c_object_t in
  * Class: Crypto
  * ============================================================================ */
 
-gdext_c_object_t gdext_crypto_generate_random_bytes(gdext_c_object_t instance, int64_t size) {
+gdext_c_packed_byte_array_t gdext_crypto_generate_random_bytes(gdext_c_object_t instance, int64_t size) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -68489,7 +68489,7 @@ gdext_c_object_t gdext_crypto_generate_random_bytes(gdext_c_object_t instance, i
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 47165747);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Crypto.generate_random_bytes\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -68498,7 +68498,7 @@ gdext_c_object_t gdext_crypto_generate_random_bytes(gdext_c_object_t instance, i
     args[0] = (GDExtensionConstTypePtr)&size;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -68568,7 +68568,7 @@ gdext_c_object_t gdext_crypto_generate_self_signed_certificate(gdext_c_object_t 
     return ret;
 }
 
-gdext_c_object_t gdext_crypto_sign(gdext_c_object_t instance, int32_t hash_type, gdext_c_object_t hash, gdext_c_object_t key) {
+gdext_c_packed_byte_array_t gdext_crypto_sign(gdext_c_object_t instance, int32_t hash_type, gdext_c_packed_byte_array_t hash, gdext_c_object_t key) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -68579,7 +68579,7 @@ gdext_c_object_t gdext_crypto_sign(gdext_c_object_t instance, int32_t hash_type,
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 1673662703);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Crypto.sign\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -68590,7 +68590,7 @@ gdext_c_object_t gdext_crypto_sign(gdext_c_object_t instance, int32_t hash_type,
     args[2] = (GDExtensionConstTypePtr)&key;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -68599,7 +68599,7 @@ gdext_c_object_t gdext_crypto_sign(gdext_c_object_t instance, int32_t hash_type,
     return ret;
 }
 
-GDExtensionBool gdext_crypto_verify(gdext_c_object_t instance, int32_t hash_type, gdext_c_object_t hash, gdext_c_object_t signature, gdext_c_object_t key) {
+GDExtensionBool gdext_crypto_verify(gdext_c_object_t instance, int32_t hash_type, gdext_c_packed_byte_array_t hash, gdext_c_packed_byte_array_t signature, gdext_c_object_t key) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -68631,7 +68631,7 @@ GDExtensionBool gdext_crypto_verify(gdext_c_object_t instance, int32_t hash_type
     return ret;
 }
 
-gdext_c_object_t gdext_crypto_encrypt(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_object_t plaintext) {
+gdext_c_packed_byte_array_t gdext_crypto_encrypt(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_packed_byte_array_t plaintext) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -68642,7 +68642,7 @@ gdext_c_object_t gdext_crypto_encrypt(gdext_c_object_t instance, gdext_c_object_
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2361793670);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Crypto.encrypt\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -68652,7 +68652,7 @@ gdext_c_object_t gdext_crypto_encrypt(gdext_c_object_t instance, gdext_c_object_
     args[1] = (GDExtensionConstTypePtr)&plaintext;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -68661,7 +68661,7 @@ gdext_c_object_t gdext_crypto_encrypt(gdext_c_object_t instance, gdext_c_object_
     return ret;
 }
 
-gdext_c_object_t gdext_crypto_decrypt(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_object_t ciphertext) {
+gdext_c_packed_byte_array_t gdext_crypto_decrypt(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_packed_byte_array_t ciphertext) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -68672,7 +68672,7 @@ gdext_c_object_t gdext_crypto_decrypt(gdext_c_object_t instance, gdext_c_object_
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2361793670);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Crypto.decrypt\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -68682,7 +68682,7 @@ gdext_c_object_t gdext_crypto_decrypt(gdext_c_object_t instance, gdext_c_object_
     args[1] = (GDExtensionConstTypePtr)&ciphertext;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -68691,7 +68691,7 @@ gdext_c_object_t gdext_crypto_decrypt(gdext_c_object_t instance, gdext_c_object_
     return ret;
 }
 
-gdext_c_object_t gdext_crypto_hmac_digest(gdext_c_object_t instance, int32_t hash_type, gdext_c_object_t key, gdext_c_object_t msg) {
+gdext_c_packed_byte_array_t gdext_crypto_hmac_digest(gdext_c_object_t instance, int32_t hash_type, gdext_c_packed_byte_array_t key, gdext_c_packed_byte_array_t msg) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -68702,7 +68702,7 @@ gdext_c_object_t gdext_crypto_hmac_digest(gdext_c_object_t instance, int32_t has
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2368951203);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Crypto.hmac_digest\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -68713,7 +68713,7 @@ gdext_c_object_t gdext_crypto_hmac_digest(gdext_c_object_t instance, int32_t has
     args[2] = (GDExtensionConstTypePtr)&msg;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -68722,7 +68722,7 @@ gdext_c_object_t gdext_crypto_hmac_digest(gdext_c_object_t instance, int32_t has
     return ret;
 }
 
-GDExtensionBool gdext_crypto_constant_time_compare(gdext_c_object_t instance, gdext_c_object_t trusted, gdext_c_object_t received) {
+GDExtensionBool gdext_crypto_constant_time_compare(gdext_c_object_t instance, gdext_c_packed_byte_array_t trusted, gdext_c_packed_byte_array_t received) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -81579,7 +81579,7 @@ void gdext_e_net_connection_channel_limit(gdext_c_object_t instance, int64_t lim
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_e_net_connection_broadcast(gdext_c_object_t instance, int64_t channel, gdext_c_object_t packet, int64_t flags) {
+void gdext_e_net_connection_broadcast(gdext_c_object_t instance, int64_t channel, gdext_c_packed_byte_array_t packet, int64_t flags) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -81813,7 +81813,7 @@ gdext_c_object_t gdext_e_net_connection_get_peers(gdext_c_object_t instance) {
     return ret;
 }
 
-void gdext_e_net_connection_socket_send(gdext_c_object_t instance, gdext_c_object_t destination_address, int64_t destination_port, gdext_c_object_t packet) {
+void gdext_e_net_connection_socket_send(gdext_c_object_t instance, gdext_c_object_t destination_address, int64_t destination_port, gdext_c_packed_byte_array_t packet) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -82179,7 +82179,7 @@ void gdext_e_net_packet_peer_reset(gdext_c_object_t instance) {
     iface->object_method_bind_ptrcall(method_bind, instance, NULL, NULL);
 }
 
-int32_t gdext_e_net_packet_peer_send(gdext_c_object_t instance, int64_t channel, gdext_c_object_t packet, int64_t flags) {
+int32_t gdext_e_net_packet_peer_send(gdext_c_object_t instance, int64_t channel, gdext_c_packed_byte_array_t packet, int64_t flags) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -83777,7 +83777,7 @@ void gdext_editor_export_plugin_add_shared_object(gdext_c_object_t instance, gde
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_editor_export_plugin_add_file(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_object_t file, GDExtensionBool remap) {
+void gdext_editor_export_plugin_add_file(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_packed_byte_array_t file, GDExtensionBool remap) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -100581,7 +100581,7 @@ gdext_c_object_t gdext_file_access_open(gdext_c_object_t path, int32_t flags) {
     return ret;
 }
 
-gdext_c_object_t gdext_file_access_open_encrypted(gdext_c_object_t path, int32_t mode_flags, gdext_c_object_t key, gdext_c_object_t iv) {
+gdext_c_object_t gdext_file_access_open_encrypted(gdext_c_object_t path, int32_t mode_flags, gdext_c_packed_byte_array_t key, gdext_c_packed_byte_array_t iv) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -100732,7 +100732,7 @@ gdext_c_object_t gdext_file_access_create_temp(int64_t mode_flags, gdext_c_objec
     return ret;
 }
 
-gdext_c_object_t gdext_file_access_get_file_as_bytes(gdext_c_object_t path) {
+gdext_c_packed_byte_array_t gdext_file_access_get_file_as_bytes(gdext_c_object_t path) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -100743,7 +100743,7 @@ gdext_c_object_t gdext_file_access_get_file_as_bytes(gdext_c_object_t path) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 659035735);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for FileAccess.get_file_as_bytes\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -100752,7 +100752,7 @@ gdext_c_object_t gdext_file_access_get_file_as_bytes(gdext_c_object_t path) {
     args[0] = (GDExtensionConstTypePtr)&path;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -101234,7 +101234,7 @@ double gdext_file_access_get_real(gdext_c_object_t instance) {
     return ret;
 }
 
-gdext_c_object_t gdext_file_access_get_buffer(gdext_c_object_t instance, int64_t length) {
+gdext_c_packed_byte_array_t gdext_file_access_get_buffer(gdext_c_object_t instance, int64_t length) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -101245,7 +101245,7 @@ gdext_c_object_t gdext_file_access_get_buffer(gdext_c_object_t instance, int64_t
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 4131300905);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for FileAccess.get_buffer\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -101254,7 +101254,7 @@ gdext_c_object_t gdext_file_access_get_buffer(gdext_c_object_t instance, int64_t
     args[0] = (GDExtensionConstTypePtr)&length;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -101738,7 +101738,7 @@ GDExtensionBool gdext_file_access_store_real(gdext_c_object_t instance, double v
     return ret;
 }
 
-GDExtensionBool gdext_file_access_store_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+GDExtensionBool gdext_file_access_store_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -105644,7 +105644,7 @@ int32_t gdext_font_file_load_dynamic_font(gdext_c_object_t instance, gdext_c_obj
     return ret;
 }
 
-void gdext_font_file_set_data(gdext_c_object_t instance, gdext_c_object_t data) {
+void gdext_font_file_set_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -105667,7 +105667,7 @@ void gdext_font_file_set_data(gdext_c_object_t instance, gdext_c_object_t data) 
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-gdext_c_object_t gdext_font_file_get_data(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_font_file_get_data(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -105678,12 +105678,12 @@ gdext_c_object_t gdext_font_file_get_data(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for FontFile.get_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -109832,7 +109832,7 @@ void gdext_g_l_t_f_animation_set_additional_data(gdext_c_object_t instance, gdex
  * Class: GLTFBufferView
  * ============================================================================ */
 
-gdext_c_object_t gdext_g_l_t_f_buffer_view_load_buffer_view_data(gdext_c_object_t instance, gdext_c_object_t state) {
+gdext_c_packed_byte_array_t gdext_g_l_t_f_buffer_view_load_buffer_view_data(gdext_c_object_t instance, gdext_c_object_t state) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -109843,7 +109843,7 @@ gdext_c_object_t gdext_g_l_t_f_buffer_view_load_buffer_view_data(gdext_c_object_
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 3945446907);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for GLTFBufferView.load_buffer_view_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -109852,7 +109852,7 @@ gdext_c_object_t gdext_g_l_t_f_buffer_view_load_buffer_view_data(gdext_c_object_
     args[0] = (GDExtensionConstTypePtr)&state;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -110825,7 +110825,7 @@ int32_t gdext_g_l_t_f_document_append_from_file(gdext_c_object_t instance, gdext
     return ret;
 }
 
-int32_t gdext_g_l_t_f_document_append_from_buffer(gdext_c_object_t instance, gdext_c_object_t bytes, gdext_c_object_t base_path, gdext_c_object_t state, int64_t flags) {
+int32_t gdext_g_l_t_f_document_append_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t bytes, gdext_c_object_t base_path, gdext_c_object_t state, int64_t flags) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -110920,7 +110920,7 @@ gdext_c_object_t gdext_g_l_t_f_document_generate_scene(gdext_c_object_t instance
     return ret;
 }
 
-gdext_c_object_t gdext_g_l_t_f_document_generate_buffer(gdext_c_object_t instance, gdext_c_object_t state) {
+gdext_c_packed_byte_array_t gdext_g_l_t_f_document_generate_buffer(gdext_c_object_t instance, gdext_c_object_t state) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -110931,7 +110931,7 @@ gdext_c_object_t gdext_g_l_t_f_document_generate_buffer(gdext_c_object_t instanc
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 741783455);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for GLTFDocument.generate_buffer\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -110940,7 +110940,7 @@ gdext_c_object_t gdext_g_l_t_f_document_generate_buffer(gdext_c_object_t instanc
     args[0] = (GDExtensionConstTypePtr)&state;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -115072,7 +115072,7 @@ void gdext_g_l_t_f_state_add_used_extension(gdext_c_object_t instance, gdext_c_o
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-int64_t gdext_g_l_t_f_state_append_data_to_buffers(gdext_c_object_t instance, gdext_c_object_t data, GDExtensionBool deduplication) {
+int64_t gdext_g_l_t_f_state_append_data_to_buffers(gdext_c_object_t instance, gdext_c_packed_byte_array_t data, GDExtensionBool deduplication) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -115325,7 +115325,7 @@ void gdext_g_l_t_f_state_set_copyright(gdext_c_object_t instance, gdext_c_object
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-gdext_c_object_t gdext_g_l_t_f_state_get_glb_data(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_g_l_t_f_state_get_glb_data(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -115336,12 +115336,12 @@ gdext_c_object_t gdext_g_l_t_f_state_get_glb_data(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2115431945);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for GLTFState.get_glb_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -115350,7 +115350,7 @@ gdext_c_object_t gdext_g_l_t_f_state_get_glb_data(gdext_c_object_t instance) {
     return ret;
 }
 
-void gdext_g_l_t_f_state_set_glb_data(gdext_c_object_t instance, gdext_c_object_t glb_data) {
+void gdext_g_l_t_f_state_set_glb_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t glb_data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -129172,7 +129172,7 @@ double gdext_groove_joint2_d_get_initial_offset(gdext_c_object_t instance) {
  * Class: HMACContext
  * ============================================================================ */
 
-int32_t gdext_h_m_a_c_context_start(gdext_c_object_t instance, int32_t hash_type, gdext_c_object_t key) {
+int32_t gdext_h_m_a_c_context_start(gdext_c_object_t instance, int32_t hash_type, gdext_c_packed_byte_array_t key) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -129202,7 +129202,7 @@ int32_t gdext_h_m_a_c_context_start(gdext_c_object_t instance, int32_t hash_type
     return ret;
 }
 
-int32_t gdext_h_m_a_c_context_update(gdext_c_object_t instance, gdext_c_object_t data) {
+int32_t gdext_h_m_a_c_context_update(gdext_c_object_t instance, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -129231,7 +129231,7 @@ int32_t gdext_h_m_a_c_context_update(gdext_c_object_t instance, gdext_c_object_t
     return ret;
 }
 
-gdext_c_object_t gdext_h_m_a_c_context_finish(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_h_m_a_c_context_finish(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -129242,12 +129242,12 @@ gdext_c_object_t gdext_h_m_a_c_context_finish(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2115431945);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for HMACContext.finish\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -129339,7 +129339,7 @@ gdext_c_object_t gdext_h_t_t_p_client_get_connection(gdext_c_object_t instance) 
     return ret;
 }
 
-int32_t gdext_h_t_t_p_client_request_raw(gdext_c_object_t instance, int32_t method, gdext_c_object_t url, gdext_c_object_t headers, gdext_c_object_t body) {
+int32_t gdext_h_t_t_p_client_request_raw(gdext_c_object_t instance, int32_t method, gdext_c_object_t url, gdext_c_object_t headers, gdext_c_packed_byte_array_t body) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -129572,7 +129572,7 @@ int64_t gdext_h_t_t_p_client_get_response_body_length(gdext_c_object_t instance)
     return ret;
 }
 
-gdext_c_object_t gdext_h_t_t_p_client_read_response_body_chunk(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_h_t_t_p_client_read_response_body_chunk(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -129583,12 +129583,12 @@ gdext_c_object_t gdext_h_t_t_p_client_read_response_body_chunk(gdext_c_object_t 
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2115431945);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for HTTPClient.read_response_body_chunk\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -129856,7 +129856,7 @@ int32_t gdext_h_t_t_p_request_request(gdext_c_object_t instance, gdext_c_object_
     return ret;
 }
 
-int32_t gdext_h_t_t_p_request_request_raw(gdext_c_object_t instance, gdext_c_object_t url, gdext_c_object_t custom_headers, int32_t method, gdext_c_object_t request_data_raw) {
+int32_t gdext_h_t_t_p_request_request_raw(gdext_c_object_t instance, gdext_c_object_t url, gdext_c_object_t custom_headers, int32_t method, gdext_c_packed_byte_array_t request_data_raw) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -130422,7 +130422,7 @@ int32_t gdext_hashing_context_start(gdext_c_object_t instance, int32_t type) {
     return ret;
 }
 
-int32_t gdext_hashing_context_update(gdext_c_object_t instance, gdext_c_object_t chunk) {
+int32_t gdext_hashing_context_update(gdext_c_object_t instance, gdext_c_packed_byte_array_t chunk) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -130451,7 +130451,7 @@ int32_t gdext_hashing_context_update(gdext_c_object_t instance, gdext_c_object_t
     return ret;
 }
 
-gdext_c_object_t gdext_hashing_context_finish(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_hashing_context_finish(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -130462,12 +130462,12 @@ gdext_c_object_t gdext_hashing_context_finish(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2115431945);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for HashingContext.finish\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -131215,7 +131215,7 @@ int32_t gdext_image_get_format(gdext_c_object_t instance) {
     return ret;
 }
 
-gdext_c_object_t gdext_image_get_data(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_image_get_data(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -131226,12 +131226,12 @@ gdext_c_object_t gdext_image_get_data(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Image.get_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -131584,7 +131584,7 @@ gdext_c_object_t gdext_image_create_empty(int64_t width, int64_t height, GDExten
     return ret;
 }
 
-gdext_c_object_t gdext_image_create_from_data(int64_t width, int64_t height, GDExtensionBool use_mipmaps, int32_t format, gdext_c_object_t data) {
+gdext_c_object_t gdext_image_create_from_data(int64_t width, int64_t height, GDExtensionBool use_mipmaps, int32_t format, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -131617,7 +131617,7 @@ gdext_c_object_t gdext_image_create_from_data(int64_t width, int64_t height, GDE
     return ret;
 }
 
-void gdext_image_set_data(gdext_c_object_t instance, int64_t width, int64_t height, GDExtensionBool use_mipmaps, int32_t format, gdext_c_object_t data) {
+void gdext_image_set_data(gdext_c_object_t instance, int64_t width, int64_t height, GDExtensionBool use_mipmaps, int32_t format, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -131756,7 +131756,7 @@ int32_t gdext_image_save_png(gdext_c_object_t instance, gdext_c_object_t path) {
     return ret;
 }
 
-gdext_c_object_t gdext_image_save_png_to_buffer(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_image_save_png_to_buffer(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -131767,12 +131767,12 @@ gdext_c_object_t gdext_image_save_png_to_buffer(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Image.save_png_to_buffer\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -131811,7 +131811,7 @@ int32_t gdext_image_save_jpg(gdext_c_object_t instance, gdext_c_object_t path, d
     return ret;
 }
 
-gdext_c_object_t gdext_image_save_jpg_to_buffer(gdext_c_object_t instance, double quality) {
+gdext_c_packed_byte_array_t gdext_image_save_jpg_to_buffer(gdext_c_object_t instance, double quality) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -131822,7 +131822,7 @@ gdext_c_object_t gdext_image_save_jpg_to_buffer(gdext_c_object_t instance, doubl
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 592235273);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Image.save_jpg_to_buffer\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -131831,7 +131831,7 @@ gdext_c_object_t gdext_image_save_jpg_to_buffer(gdext_c_object_t instance, doubl
     args[0] = (GDExtensionConstTypePtr)&quality;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -131870,7 +131870,7 @@ int32_t gdext_image_save_exr(gdext_c_object_t instance, gdext_c_object_t path, G
     return ret;
 }
 
-gdext_c_object_t gdext_image_save_exr_to_buffer(gdext_c_object_t instance, GDExtensionBool grayscale) {
+gdext_c_packed_byte_array_t gdext_image_save_exr_to_buffer(gdext_c_object_t instance, GDExtensionBool grayscale) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -131881,7 +131881,7 @@ gdext_c_object_t gdext_image_save_exr_to_buffer(gdext_c_object_t instance, GDExt
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 3178917920);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Image.save_exr_to_buffer\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -131890,7 +131890,7 @@ gdext_c_object_t gdext_image_save_exr_to_buffer(gdext_c_object_t instance, GDExt
     args[0] = (GDExtensionConstTypePtr)&grayscale;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -131928,7 +131928,7 @@ int32_t gdext_image_save_dds(gdext_c_object_t instance, gdext_c_object_t path) {
     return ret;
 }
 
-gdext_c_object_t gdext_image_save_dds_to_buffer(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_image_save_dds_to_buffer(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -131939,12 +131939,12 @@ gdext_c_object_t gdext_image_save_dds_to_buffer(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Image.save_dds_to_buffer\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -131984,7 +131984,7 @@ int32_t gdext_image_save_webp(gdext_c_object_t instance, gdext_c_object_t path, 
     return ret;
 }
 
-gdext_c_object_t gdext_image_save_webp_to_buffer(gdext_c_object_t instance, GDExtensionBool lossy, double quality) {
+gdext_c_packed_byte_array_t gdext_image_save_webp_to_buffer(gdext_c_object_t instance, GDExtensionBool lossy, double quality) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -131995,7 +131995,7 @@ gdext_c_object_t gdext_image_save_webp_to_buffer(gdext_c_object_t instance, GDEx
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 1214628238);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Image.save_webp_to_buffer\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -132005,7 +132005,7 @@ gdext_c_object_t gdext_image_save_webp_to_buffer(gdext_c_object_t instance, GDEx
     args[1] = (GDExtensionConstTypePtr)&quality;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -132779,7 +132779,7 @@ void gdext_image_adjust_bcs(gdext_c_object_t instance, double brightness, double
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-int32_t gdext_image_load_png_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_image_load_png_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -132808,7 +132808,7 @@ int32_t gdext_image_load_png_from_buffer(gdext_c_object_t instance, gdext_c_obje
     return ret;
 }
 
-int32_t gdext_image_load_jpg_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_image_load_jpg_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -132837,7 +132837,7 @@ int32_t gdext_image_load_jpg_from_buffer(gdext_c_object_t instance, gdext_c_obje
     return ret;
 }
 
-int32_t gdext_image_load_webp_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_image_load_webp_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -132866,7 +132866,7 @@ int32_t gdext_image_load_webp_from_buffer(gdext_c_object_t instance, gdext_c_obj
     return ret;
 }
 
-int32_t gdext_image_load_tga_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_image_load_tga_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -132895,7 +132895,7 @@ int32_t gdext_image_load_tga_from_buffer(gdext_c_object_t instance, gdext_c_obje
     return ret;
 }
 
-int32_t gdext_image_load_bmp_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_image_load_bmp_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -132924,7 +132924,7 @@ int32_t gdext_image_load_bmp_from_buffer(gdext_c_object_t instance, gdext_c_obje
     return ret;
 }
 
-int32_t gdext_image_load_ktx_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_image_load_ktx_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -132953,7 +132953,7 @@ int32_t gdext_image_load_ktx_from_buffer(gdext_c_object_t instance, gdext_c_obje
     return ret;
 }
 
-int32_t gdext_image_load_dds_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_image_load_dds_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -132982,7 +132982,7 @@ int32_t gdext_image_load_dds_from_buffer(gdext_c_object_t instance, gdext_c_obje
     return ret;
 }
 
-int32_t gdext_image_load_svg_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer, double scale) {
+int32_t gdext_image_load_svg_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer, double scale) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -142889,7 +142889,7 @@ GDExtensionBool gdext_java_script_bridge_is_js_buffer(gdext_c_object_t instance,
     return ret;
 }
 
-gdext_c_object_t gdext_java_script_bridge_js_buffer_to_packed_byte_array(gdext_c_object_t instance, gdext_c_object_t javascript_buffer) {
+gdext_c_packed_byte_array_t gdext_java_script_bridge_js_buffer_to_packed_byte_array(gdext_c_object_t instance, gdext_c_object_t javascript_buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -142900,7 +142900,7 @@ gdext_c_object_t gdext_java_script_bridge_js_buffer_to_packed_byte_array(gdext_c
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 64409880);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for JavaScriptBridge.js_buffer_to_packed_byte_array\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -142909,7 +142909,7 @@ gdext_c_object_t gdext_java_script_bridge_js_buffer_to_packed_byte_array(gdext_c
     args[0] = (GDExtensionConstTypePtr)&javascript_buffer;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -142947,7 +142947,7 @@ gdext_c_object_t gdext_java_script_bridge_create_object(gdext_c_object_t instanc
     return ret;
 }
 
-void gdext_java_script_bridge_download_buffer(gdext_c_object_t instance, gdext_c_object_t buffer, gdext_c_object_t name, gdext_c_object_t mime) {
+void gdext_java_script_bridge_download_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer, gdext_c_object_t name, gdext_c_object_t mime) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -155906,7 +155906,7 @@ gdext_c_object_t gdext_marshalls_base64_to_variant(gdext_c_object_t instance, gd
     return ret;
 }
 
-gdext_c_object_t gdext_marshalls_raw_to_base64(gdext_c_object_t instance, gdext_c_object_t array) {
+gdext_c_object_t gdext_marshalls_raw_to_base64(gdext_c_object_t instance, gdext_c_packed_byte_array_t array) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -155935,7 +155935,7 @@ gdext_c_object_t gdext_marshalls_raw_to_base64(gdext_c_object_t instance, gdext_
     return ret;
 }
 
-gdext_c_object_t gdext_marshalls_base64_to_raw(gdext_c_object_t instance, gdext_c_object_t base64_str) {
+gdext_c_packed_byte_array_t gdext_marshalls_base64_to_raw(gdext_c_object_t instance, gdext_c_object_t base64_str) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -155946,7 +155946,7 @@ gdext_c_object_t gdext_marshalls_base64_to_raw(gdext_c_object_t instance, gdext_
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 659035735);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for Marshalls.base64_to_raw\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -155955,7 +155955,7 @@ gdext_c_object_t gdext_marshalls_base64_to_raw(gdext_c_object_t instance, gdext_
     args[0] = (GDExtensionConstTypePtr)&base64_str;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -192731,7 +192731,7 @@ double gdext_noise_texture3_d_get_seamless_blend_skirt(gdext_c_object_t instance
  * Class: OS
  * ============================================================================ */
 
-gdext_c_object_t gdext_o_s_get_entropy(gdext_c_object_t instance, int64_t size) {
+gdext_c_packed_byte_array_t gdext_o_s_get_entropy(gdext_c_object_t instance, int64_t size) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -192742,7 +192742,7 @@ gdext_c_object_t gdext_o_s_get_entropy(gdext_c_object_t instance, int64_t size) 
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 47165747);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for OS.get_entropy\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -192751,7 +192751,7 @@ gdext_c_object_t gdext_o_s_get_entropy(gdext_c_object_t instance, int64_t size) 
     args[0] = (GDExtensionConstTypePtr)&size;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -193235,7 +193235,7 @@ gdext_c_object_t gdext_o_s_read_string_from_stdin(gdext_c_object_t instance, int
     return ret;
 }
 
-gdext_c_object_t gdext_o_s_read_buffer_from_stdin(gdext_c_object_t instance, int64_t buffer_size) {
+gdext_c_packed_byte_array_t gdext_o_s_read_buffer_from_stdin(gdext_c_object_t instance, int64_t buffer_size) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -193246,7 +193246,7 @@ gdext_c_object_t gdext_o_s_read_buffer_from_stdin(gdext_c_object_t instance, int
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 3249455752);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for OS.read_buffer_from_stdin\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -193255,7 +193255,7 @@ gdext_c_object_t gdext_o_s_read_buffer_from_stdin(gdext_c_object_t instance, int
     args[0] = (GDExtensionConstTypePtr)&buffer_size;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -204853,7 +204853,7 @@ int32_t gdext_packet_peer_put_var(gdext_c_object_t instance, gdext_c_object_t va
     return ret;
 }
 
-gdext_c_object_t gdext_packet_peer_get_packet(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_packet_peer_get_packet(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -204864,12 +204864,12 @@ gdext_c_object_t gdext_packet_peer_get_packet(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2115431945);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for PacketPeer.get_packet\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -204878,7 +204878,7 @@ gdext_c_object_t gdext_packet_peer_get_packet(gdext_c_object_t instance) {
     return ret;
 }
 
-int32_t gdext_packet_peer_put_packet(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_packet_peer_put_packet(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -237885,7 +237885,7 @@ gdext_c_object_t gdext_r_d_shader_file_get_base_error(gdext_c_object_t instance)
  * Class: RDShaderSPIRV
  * ============================================================================ */
 
-void gdext_r_d_shader_s_p_i_r_v_set_stage_bytecode(gdext_c_object_t instance, int32_t stage, gdext_c_object_t bytecode) {
+void gdext_r_d_shader_s_p_i_r_v_set_stage_bytecode(gdext_c_object_t instance, int32_t stage, gdext_c_packed_byte_array_t bytecode) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -237909,7 +237909,7 @@ void gdext_r_d_shader_s_p_i_r_v_set_stage_bytecode(gdext_c_object_t instance, in
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-gdext_c_object_t gdext_r_d_shader_s_p_i_r_v_get_stage_bytecode(gdext_c_object_t instance, int32_t stage) {
+gdext_c_packed_byte_array_t gdext_r_d_shader_s_p_i_r_v_get_stage_bytecode(gdext_c_object_t instance, int32_t stage) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -237920,7 +237920,7 @@ gdext_c_object_t gdext_r_d_shader_s_p_i_r_v_get_stage_bytecode(gdext_c_object_t 
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 3816765404);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for RDShaderSPIRV.get_stage_bytecode\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -237929,7 +237929,7 @@ gdext_c_object_t gdext_r_d_shader_s_p_i_r_v_get_stage_bytecode(gdext_c_object_t 
     args[0] = (GDExtensionConstTypePtr)&stage;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -245390,7 +245390,7 @@ gdext_c_object_t gdext_rendering_device_texture_create_from_extension(gdext_c_ob
     return ret;
 }
 
-int32_t gdext_rendering_device_texture_update(gdext_c_object_t instance, gdext_c_object_t texture, int64_t layer, gdext_c_object_t data) {
+int32_t gdext_rendering_device_texture_update(gdext_c_object_t instance, gdext_c_object_t texture, int64_t layer, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -245421,7 +245421,7 @@ int32_t gdext_rendering_device_texture_update(gdext_c_object_t instance, gdext_c
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_texture_get_data(gdext_c_object_t instance, gdext_c_object_t texture, int64_t layer) {
+gdext_c_packed_byte_array_t gdext_rendering_device_texture_get_data(gdext_c_object_t instance, gdext_c_object_t texture, int64_t layer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -245432,7 +245432,7 @@ gdext_c_object_t gdext_rendering_device_texture_get_data(gdext_c_object_t instan
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 1859412099);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for RenderingDevice.texture_get_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -245442,7 +245442,7 @@ gdext_c_object_t gdext_rendering_device_texture_get_data(gdext_c_object_t instan
     args[1] = (GDExtensionConstTypePtr)&layer;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -246113,7 +246113,7 @@ GDExtensionBool gdext_rendering_device_sampler_is_format_supported_for_filter(gd
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_vertex_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_object_t data, gdext_c_object_t creation_bits) {
+gdext_c_object_t gdext_rendering_device_vertex_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_packed_byte_array_t data, gdext_c_object_t creation_bits) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246205,7 +246205,7 @@ gdext_c_object_t gdext_rendering_device_vertex_array_create(gdext_c_object_t ins
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_index_buffer_create(gdext_c_object_t instance, int64_t size_indices, int32_t format, gdext_c_object_t data, GDExtensionBool use_restart_indices, gdext_c_object_t creation_bits) {
+gdext_c_object_t gdext_rendering_device_index_buffer_create(gdext_c_object_t instance, int64_t size_indices, int32_t format, gdext_c_packed_byte_array_t data, GDExtensionBool use_restart_indices, gdext_c_object_t creation_bits) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246299,7 +246299,7 @@ gdext_c_object_t gdext_rendering_device_shader_compile_spirv_from_source(gdext_c
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_shader_compile_binary_from_spirv(gdext_c_object_t instance, gdext_c_object_t spirv_data, gdext_c_object_t name) {
+gdext_c_packed_byte_array_t gdext_rendering_device_shader_compile_binary_from_spirv(gdext_c_object_t instance, gdext_c_object_t spirv_data, gdext_c_object_t name) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246310,7 +246310,7 @@ gdext_c_object_t gdext_rendering_device_shader_compile_binary_from_spirv(gdext_c
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 134910450);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for RenderingDevice.shader_compile_binary_from_spirv\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -246320,7 +246320,7 @@ gdext_c_object_t gdext_rendering_device_shader_compile_binary_from_spirv(gdext_c
     args[1] = (GDExtensionConstTypePtr)&name;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -246359,7 +246359,7 @@ gdext_c_object_t gdext_rendering_device_shader_create_from_spirv(gdext_c_object_
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_shader_create_from_bytecode(gdext_c_object_t instance, gdext_c_object_t binary_data, gdext_c_object_t placeholder_rid) {
+gdext_c_object_t gdext_rendering_device_shader_create_from_bytecode(gdext_c_object_t instance, gdext_c_packed_byte_array_t binary_data, gdext_c_object_t placeholder_rid) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246443,7 +246443,7 @@ int64_t gdext_rendering_device_shader_get_vertex_input_attribute_mask(gdext_c_ob
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_uniform_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_object_t data, gdext_c_object_t creation_bits) {
+gdext_c_object_t gdext_rendering_device_uniform_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_packed_byte_array_t data, gdext_c_object_t creation_bits) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246474,7 +246474,7 @@ gdext_c_object_t gdext_rendering_device_uniform_buffer_create(gdext_c_object_t i
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_storage_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_object_t data, gdext_c_object_t usage, gdext_c_object_t creation_bits) {
+gdext_c_object_t gdext_rendering_device_storage_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_packed_byte_array_t data, gdext_c_object_t usage, gdext_c_object_t creation_bits) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246506,7 +246506,7 @@ gdext_c_object_t gdext_rendering_device_storage_buffer_create(gdext_c_object_t i
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_texture_buffer_create(gdext_c_object_t instance, int64_t size_bytes, int32_t format, gdext_c_object_t data) {
+gdext_c_object_t gdext_rendering_device_texture_buffer_create(gdext_c_object_t instance, int64_t size_bytes, int32_t format, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246630,7 +246630,7 @@ int32_t gdext_rendering_device_buffer_copy(gdext_c_object_t instance, gdext_c_ob
     return ret;
 }
 
-int32_t gdext_rendering_device_buffer_update(gdext_c_object_t instance, gdext_c_object_t buffer, int64_t offset, int64_t size_bytes, gdext_c_object_t data) {
+int32_t gdext_rendering_device_buffer_update(gdext_c_object_t instance, gdext_c_object_t buffer, int64_t offset, int64_t size_bytes, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246693,7 +246693,7 @@ int32_t gdext_rendering_device_buffer_clear(gdext_c_object_t instance, gdext_c_o
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_device_buffer_get_data(gdext_c_object_t instance, gdext_c_object_t buffer, int64_t offset_bytes, int64_t size_bytes) {
+gdext_c_packed_byte_array_t gdext_rendering_device_buffer_get_data(gdext_c_object_t instance, gdext_c_object_t buffer, int64_t offset_bytes, int64_t size_bytes) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -246704,7 +246704,7 @@ gdext_c_object_t gdext_rendering_device_buffer_get_data(gdext_c_object_t instanc
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 3101830688);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for RenderingDevice.buffer_get_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -246715,7 +246715,7 @@ gdext_c_object_t gdext_rendering_device_buffer_get_data(gdext_c_object_t instanc
     args[2] = (GDExtensionConstTypePtr)&size_bytes;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -247224,7 +247224,7 @@ void gdext_rendering_device_draw_list_bind_index_array(gdext_c_object_t instance
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_rendering_device_draw_list_set_push_constant(gdext_c_object_t instance, int64_t draw_list, gdext_c_object_t buffer, int64_t size_bytes) {
+void gdext_rendering_device_draw_list_set_push_constant(gdext_c_object_t instance, int64_t draw_list, gdext_c_packed_byte_array_t buffer, int64_t size_bytes) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -247472,7 +247472,7 @@ void gdext_rendering_device_compute_list_bind_compute_pipeline(gdext_c_object_t 
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_rendering_device_compute_list_set_push_constant(gdext_c_object_t instance, int64_t compute_list, gdext_c_object_t buffer, int64_t size_bytes) {
+void gdext_rendering_device_compute_list_set_push_constant(gdext_c_object_t instance, int64_t compute_list, gdext_c_packed_byte_array_t buffer, int64_t size_bytes) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -250194,7 +250194,7 @@ void gdext_rendering_server_mesh_clear(gdext_c_object_t instance, gdext_c_object
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_rendering_server_mesh_surface_update_vertex_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_object_t data) {
+void gdext_rendering_server_mesh_surface_update_vertex_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -250220,7 +250220,7 @@ void gdext_rendering_server_mesh_surface_update_vertex_region(gdext_c_object_t i
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_rendering_server_mesh_surface_update_attribute_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_object_t data) {
+void gdext_rendering_server_mesh_surface_update_attribute_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -250246,7 +250246,7 @@ void gdext_rendering_server_mesh_surface_update_attribute_region(gdext_c_object_
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_rendering_server_mesh_surface_update_skin_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_object_t data) {
+void gdext_rendering_server_mesh_surface_update_skin_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -250272,7 +250272,7 @@ void gdext_rendering_server_mesh_surface_update_skin_region(gdext_c_object_t ins
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_rendering_server_mesh_surface_update_index_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_object_t data) {
+void gdext_rendering_server_mesh_surface_update_index_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -252513,7 +252513,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_create(gdext_c_object_t instanc
     return ret;
 }
 
-void gdext_rendering_server_voxel_gi_allocate_data(gdext_c_object_t instance, gdext_c_object_t voxel_gi, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_object_t octree_size, gdext_c_object_t octree_cells, gdext_c_object_t data_cells, gdext_c_object_t distance_field, gdext_c_object_t level_counts) {
+void gdext_rendering_server_voxel_gi_allocate_data(gdext_c_object_t instance, gdext_c_object_t voxel_gi, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_object_t octree_size, gdext_c_packed_byte_array_t octree_cells, gdext_c_packed_byte_array_t data_cells, gdext_c_packed_byte_array_t distance_field, gdext_c_object_t level_counts) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -252572,7 +252572,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_octree_size(gdext_c_object_
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_server_voxel_gi_get_octree_cells(gdext_c_object_t instance, gdext_c_object_t voxel_gi) {
+gdext_c_packed_byte_array_t gdext_rendering_server_voxel_gi_get_octree_cells(gdext_c_object_t instance, gdext_c_object_t voxel_gi) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -252583,7 +252583,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_octree_cells(gdext_c_object
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 3348040486);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for RenderingServer.voxel_gi_get_octree_cells\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -252592,7 +252592,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_octree_cells(gdext_c_object
     args[0] = (GDExtensionConstTypePtr)&voxel_gi;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -252601,7 +252601,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_octree_cells(gdext_c_object
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_server_voxel_gi_get_data_cells(gdext_c_object_t instance, gdext_c_object_t voxel_gi) {
+gdext_c_packed_byte_array_t gdext_rendering_server_voxel_gi_get_data_cells(gdext_c_object_t instance, gdext_c_object_t voxel_gi) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -252612,7 +252612,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_data_cells(gdext_c_object_t
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 3348040486);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for RenderingServer.voxel_gi_get_data_cells\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -252621,7 +252621,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_data_cells(gdext_c_object_t
     args[0] = (GDExtensionConstTypePtr)&voxel_gi;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -252630,7 +252630,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_data_cells(gdext_c_object_t
     return ret;
 }
 
-gdext_c_object_t gdext_rendering_server_voxel_gi_get_distance_field(gdext_c_object_t instance, gdext_c_object_t voxel_gi) {
+gdext_c_packed_byte_array_t gdext_rendering_server_voxel_gi_get_distance_field(gdext_c_object_t instance, gdext_c_object_t voxel_gi) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -252641,7 +252641,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_distance_field(gdext_c_obje
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 3348040486);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for RenderingServer.voxel_gi_get_distance_field\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -252650,7 +252650,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_distance_field(gdext_c_obje
     args[0] = (GDExtensionConstTypePtr)&voxel_gi;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -262293,7 +262293,7 @@ gdext_c_object_t gdext_resource_duplicate_deep(gdext_c_object_t instance, int32_
  * Class: ResourceImporterOggVorbis
  * ============================================================================ */
 
-gdext_c_object_t gdext_resource_importer_ogg_vorbis_load_from_buffer(gdext_c_object_t stream_data) {
+gdext_c_object_t gdext_resource_importer_ogg_vorbis_load_from_buffer(gdext_c_packed_byte_array_t stream_data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -270491,7 +270491,7 @@ gdext_c_object_t gdext_scene_multiplayer_get_authenticating_peers(gdext_c_object
     return ret;
 }
 
-int32_t gdext_scene_multiplayer_send_auth(gdext_c_object_t instance, int64_t id, gdext_c_object_t data) {
+int32_t gdext_scene_multiplayer_send_auth(gdext_c_object_t instance, int64_t id, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -270790,7 +270790,7 @@ GDExtensionBool gdext_scene_multiplayer_is_server_relay_enabled(gdext_c_object_t
     return ret;
 }
 
-int32_t gdext_scene_multiplayer_send_bytes(gdext_c_object_t instance, gdext_c_object_t bytes, int64_t id, int32_t mode, int64_t channel) {
+int32_t gdext_scene_multiplayer_send_bytes(gdext_c_object_t instance, gdext_c_packed_byte_array_t bytes, int64_t id, int32_t mode, int64_t channel) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -293249,7 +293249,7 @@ gdext_c_object_t gdext_status_indicator_get_rect(gdext_c_object_t instance) {
  * Class: StreamPeer
  * ============================================================================ */
 
-int32_t gdext_stream_peer_put_data(gdext_c_object_t instance, gdext_c_object_t data) {
+int32_t gdext_stream_peer_put_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -293278,7 +293278,7 @@ int32_t gdext_stream_peer_put_data(gdext_c_object_t instance, gdext_c_object_t d
     return ret;
 }
 
-gdext_c_object_t gdext_stream_peer_put_partial_data(gdext_c_object_t instance, gdext_c_object_t data) {
+gdext_c_object_t gdext_stream_peer_put_partial_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -294223,7 +294223,7 @@ void gdext_stream_peer_buffer_resize(gdext_c_object_t instance, int64_t size) {
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-void gdext_stream_peer_buffer_set_data_array(gdext_c_object_t instance, gdext_c_object_t data) {
+void gdext_stream_peer_buffer_set_data_array(gdext_c_object_t instance, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -294246,7 +294246,7 @@ void gdext_stream_peer_buffer_set_data_array(gdext_c_object_t instance, gdext_c_
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-gdext_c_object_t gdext_stream_peer_buffer_get_data_array(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_stream_peer_buffer_get_data_array(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -294257,12 +294257,12 @@ gdext_c_object_t gdext_stream_peer_buffer_get_data_array(gdext_c_object_t instan
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for StreamPeerBuffer.get_data_array\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -311438,7 +311438,7 @@ GDExtensionBool gdext_text_server_save_support_data(gdext_c_object_t instance, g
     return ret;
 }
 
-gdext_c_object_t gdext_text_server_get_support_data(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_text_server_get_support_data(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -311449,12 +311449,12 @@ gdext_c_object_t gdext_text_server_get_support_data(gdext_c_object_t instance) {
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for TextServer.get_support_data\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -311656,7 +311656,7 @@ gdext_c_object_t gdext_text_server_create_font_linked_variation(gdext_c_object_t
     return ret;
 }
 
-void gdext_text_server_font_set_data(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t data) {
+void gdext_text_server_font_set_data(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -326118,7 +326118,7 @@ gdext_c_object_t gdext_tile_map_layer_local_to_map(gdext_c_object_t instance, gd
     return ret;
 }
 
-void gdext_tile_map_layer_set_tile_map_data_from_array(gdext_c_object_t instance, gdext_c_object_t tile_map_layer_data) {
+void gdext_tile_map_layer_set_tile_map_data_from_array(gdext_c_object_t instance, gdext_c_packed_byte_array_t tile_map_layer_data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -326141,7 +326141,7 @@ void gdext_tile_map_layer_set_tile_map_data_from_array(gdext_c_object_t instance
     iface->object_method_bind_ptrcall(method_bind, instance, args, NULL);
 }
 
-gdext_c_object_t gdext_tile_map_layer_get_tile_map_data_as_array(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_tile_map_layer_get_tile_map_data_as_array(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -326152,12 +326152,12 @@ gdext_c_object_t gdext_tile_map_layer_get_tile_map_data_as_array(gdext_c_object_
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for TileMapLayer.get_tile_map_data_as_array\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -354441,7 +354441,7 @@ void gdext_voxel_g_i_debug_bake(gdext_c_object_t instance) {
  * Class: VoxelGIData
  * ============================================================================ */
 
-void gdext_voxel_g_i_data_allocate(gdext_c_object_t instance, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_vector3_t octree_size, gdext_c_object_t octree_cells, gdext_c_object_t data_cells, gdext_c_object_t distance_field, gdext_c_object_t level_counts) {
+void gdext_voxel_g_i_data_allocate(gdext_c_object_t instance, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_vector3_t octree_size, gdext_c_packed_byte_array_t octree_cells, gdext_c_packed_byte_array_t data_cells, gdext_c_packed_byte_array_t distance_field, gdext_c_object_t level_counts) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -354545,7 +354545,7 @@ gdext_c_object_t gdext_voxel_g_i_data_get_to_cell_xform(gdext_c_object_t instanc
     return ret;
 }
 
-gdext_c_object_t gdext_voxel_g_i_data_get_octree_cells(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_voxel_g_i_data_get_octree_cells(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -354556,12 +354556,12 @@ gdext_c_object_t gdext_voxel_g_i_data_get_octree_cells(gdext_c_object_t instance
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for VoxelGIData.get_octree_cells\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -354570,7 +354570,7 @@ gdext_c_object_t gdext_voxel_g_i_data_get_octree_cells(gdext_c_object_t instance
     return ret;
 }
 
-gdext_c_object_t gdext_voxel_g_i_data_get_data_cells(gdext_c_object_t instance) {
+gdext_c_packed_byte_array_t gdext_voxel_g_i_data_get_data_cells(gdext_c_object_t instance) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -354581,12 +354581,12 @@ gdext_c_object_t gdext_voxel_g_i_data_get_data_cells(gdext_c_object_t instance) 
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 2362200018);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for VoxelGIData.get_data_cells\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method
@@ -356385,7 +356385,7 @@ int32_t gdext_web_socket_peer_accept_stream(gdext_c_object_t instance, gdext_c_o
     return ret;
 }
 
-int32_t gdext_web_socket_peer_send(gdext_c_object_t instance, gdext_c_object_t message, int32_t write_mode) {
+int32_t gdext_web_socket_peer_send(gdext_c_object_t instance, gdext_c_packed_byte_array_t message, int32_t write_mode) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -362008,7 +362008,7 @@ int32_t gdext_x_m_l_parser_open(gdext_c_object_t instance, gdext_c_object_t file
     return ret;
 }
 
-int32_t gdext_x_m_l_parser_open_buffer(gdext_c_object_t instance, gdext_c_object_t buffer) {
+int32_t gdext_x_m_l_parser_open_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -366028,7 +366028,7 @@ int32_t gdext_z_i_p_packer_start_file(gdext_c_object_t instance, gdext_c_object_
     return ret;
 }
 
-int32_t gdext_z_i_p_packer_write_file(gdext_c_object_t instance, gdext_c_object_t data) {
+int32_t gdext_z_i_p_packer_write_file(gdext_c_object_t instance, gdext_c_packed_byte_array_t data) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -366190,7 +366190,7 @@ gdext_c_object_t gdext_z_i_p_reader_get_files(gdext_c_object_t instance) {
     return ret;
 }
 
-gdext_c_object_t gdext_z_i_p_reader_read_file(gdext_c_object_t instance, gdext_c_object_t path, GDExtensionBool case_sensitive) {
+gdext_c_packed_byte_array_t gdext_z_i_p_reader_read_file(gdext_c_object_t instance, gdext_c_object_t path, GDExtensionBool case_sensitive) {
     // Get method bind
     static GDExtensionMethodBindPtr method_bind = NULL;
     if (method_bind == NULL) {
@@ -366201,7 +366201,7 @@ gdext_c_object_t gdext_z_i_p_reader_read_file(gdext_c_object_t instance, gdext_c
         method_bind = iface->classdb_get_method_bind(class_sn, method_sn, 740857591);
         if (method_bind == NULL) {
             fprintf(stderr, "[gdext-c] ERROR: Failed to get method bind for ZIPReader.read_file\n");
-            return (gdext_c_object_t){0};
+            return (gdext_c_packed_byte_array_t){0};
         }
     }
 
@@ -366211,7 +366211,7 @@ gdext_c_object_t gdext_z_i_p_reader_read_file(gdext_c_object_t instance, gdext_c
     args[1] = (GDExtensionConstTypePtr)&case_sensitive;
 
     // Prepare return value
-    gdext_c_object_t ret;
+    gdext_c_packed_byte_array_t ret;
     GDExtensionTypePtr ret_ptr = (GDExtensionTypePtr)&ret;
 
     // Call method

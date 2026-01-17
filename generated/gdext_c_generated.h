@@ -49,17 +49,17 @@ bool gdext_c_check_version_compatible(int major, int minor);
 /**
  * @brief AESContext.start
  */
-int32_t gdext_a_e_s_context_start(gdext_c_object_t instance, int32_t mode, gdext_c_object_t key, gdext_c_object_t iv);
+int32_t gdext_a_e_s_context_start(gdext_c_object_t instance, int32_t mode, gdext_c_packed_byte_array_t key, gdext_c_packed_byte_array_t iv);
 
 /**
  * @brief AESContext.update
  */
-gdext_c_object_t gdext_a_e_s_context_update(gdext_c_object_t instance, gdext_c_object_t src);
+gdext_c_packed_byte_array_t gdext_a_e_s_context_update(gdext_c_object_t instance, gdext_c_packed_byte_array_t src);
 
 /**
  * @brief AESContext.get_iv_state
  */
-gdext_c_object_t gdext_a_e_s_context_get_iv_state(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_a_e_s_context_get_iv_state(gdext_c_object_t instance);
 
 /**
  * @brief AESContext.finish
@@ -3436,17 +3436,17 @@ void gdext_array_mesh_surface_remove(gdext_c_object_t instance, int64_t surf_idx
 /**
  * @brief ArrayMesh.surface_update_vertex_region
  */
-void gdext_array_mesh_surface_update_vertex_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_object_t data);
+void gdext_array_mesh_surface_update_vertex_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief ArrayMesh.surface_update_attribute_region
  */
-void gdext_array_mesh_surface_update_attribute_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_object_t data);
+void gdext_array_mesh_surface_update_attribute_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief ArrayMesh.surface_update_skin_region
  */
-void gdext_array_mesh_surface_update_skin_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_object_t data);
+void gdext_array_mesh_surface_update_skin_region(gdext_c_object_t instance, int64_t surf_idx, int64_t offset, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief ArrayMesh.surface_get_array_len
@@ -5062,7 +5062,7 @@ GDExtensionBool gdext_audio_stream_interactive_is_transition_holding_previous(gd
  * @brief AudioStreamMP3.load_from_buffer
  * @note Static method
  */
-gdext_c_object_t gdext_audio_stream_m_p3_load_from_buffer(gdext_c_object_t stream_data);
+gdext_c_object_t gdext_audio_stream_m_p3_load_from_buffer(gdext_c_packed_byte_array_t stream_data);
 
 /**
  * @brief AudioStreamMP3.load_from_file
@@ -5073,12 +5073,12 @@ gdext_c_object_t gdext_audio_stream_m_p3_load_from_file(gdext_c_object_t path);
 /**
  * @brief AudioStreamMP3.set_data
  */
-void gdext_audio_stream_m_p3_set_data(gdext_c_object_t instance, gdext_c_object_t data);
+void gdext_audio_stream_m_p3_set_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief AudioStreamMP3.get_data
  */
-gdext_c_object_t gdext_audio_stream_m_p3_get_data(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_audio_stream_m_p3_get_data(gdext_c_object_t instance);
 
 /**
  * @brief AudioStreamMP3.set_loop
@@ -5139,7 +5139,7 @@ int64_t gdext_audio_stream_m_p3_get_bar_beats(gdext_c_object_t instance);
  * @brief AudioStreamOggVorbis.load_from_buffer
  * @note Static method
  */
-gdext_c_object_t gdext_audio_stream_ogg_vorbis_load_from_buffer(gdext_c_object_t stream_data);
+gdext_c_object_t gdext_audio_stream_ogg_vorbis_load_from_buffer(gdext_c_packed_byte_array_t stream_data);
 
 /**
  * @brief AudioStreamOggVorbis.load_from_file
@@ -6101,7 +6101,7 @@ double gdext_audio_stream_synchronized_get_sync_stream_volume(gdext_c_object_t i
  * @brief AudioStreamWAV.load_from_buffer
  * @note Static method
  */
-gdext_c_object_t gdext_audio_stream_w_a_v_load_from_buffer(gdext_c_object_t stream_data, gdext_c_object_t options);
+gdext_c_object_t gdext_audio_stream_w_a_v_load_from_buffer(gdext_c_packed_byte_array_t stream_data, gdext_c_object_t options);
 
 /**
  * @brief AudioStreamWAV.load_from_file
@@ -6112,12 +6112,12 @@ gdext_c_object_t gdext_audio_stream_w_a_v_load_from_file(gdext_c_object_t path, 
 /**
  * @brief AudioStreamWAV.set_data
  */
-void gdext_audio_stream_w_a_v_set_data(gdext_c_object_t instance, gdext_c_object_t data);
+void gdext_audio_stream_w_a_v_set_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief AudioStreamWAV.get_data
  */
-gdext_c_object_t gdext_audio_stream_w_a_v_get_data(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_audio_stream_w_a_v_get_data(gdext_c_object_t instance);
 
 /**
  * @brief AudioStreamWAV.set_format
@@ -13412,7 +13412,7 @@ gdext_c_object_t gdext_config_file_encode_to_text(gdext_c_object_t instance);
 /**
  * @brief ConfigFile.load_encrypted
  */
-int32_t gdext_config_file_load_encrypted(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_object_t key);
+int32_t gdext_config_file_load_encrypted(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_packed_byte_array_t key);
 
 /**
  * @brief ConfigFile.load_encrypted_pass
@@ -13422,7 +13422,7 @@ int32_t gdext_config_file_load_encrypted_pass(gdext_c_object_t instance, gdext_c
 /**
  * @brief ConfigFile.save_encrypted
  */
-int32_t gdext_config_file_save_encrypted(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_object_t key);
+int32_t gdext_config_file_save_encrypted(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_packed_byte_array_t key);
 
 /**
  * @brief ConfigFile.save_encrypted_pass
@@ -14527,7 +14527,7 @@ GDExtensionBool gdext_copy_transform_modifier3_d_is_additive(gdext_c_object_t in
 /**
  * @brief Crypto.generate_random_bytes
  */
-gdext_c_object_t gdext_crypto_generate_random_bytes(gdext_c_object_t instance, int64_t size);
+gdext_c_packed_byte_array_t gdext_crypto_generate_random_bytes(gdext_c_object_t instance, int64_t size);
 
 /**
  * @brief Crypto.generate_rsa
@@ -14542,32 +14542,32 @@ gdext_c_object_t gdext_crypto_generate_self_signed_certificate(gdext_c_object_t 
 /**
  * @brief Crypto.sign
  */
-gdext_c_object_t gdext_crypto_sign(gdext_c_object_t instance, int32_t hash_type, gdext_c_object_t hash, gdext_c_object_t key);
+gdext_c_packed_byte_array_t gdext_crypto_sign(gdext_c_object_t instance, int32_t hash_type, gdext_c_packed_byte_array_t hash, gdext_c_object_t key);
 
 /**
  * @brief Crypto.verify
  */
-GDExtensionBool gdext_crypto_verify(gdext_c_object_t instance, int32_t hash_type, gdext_c_object_t hash, gdext_c_object_t signature, gdext_c_object_t key);
+GDExtensionBool gdext_crypto_verify(gdext_c_object_t instance, int32_t hash_type, gdext_c_packed_byte_array_t hash, gdext_c_packed_byte_array_t signature, gdext_c_object_t key);
 
 /**
  * @brief Crypto.encrypt
  */
-gdext_c_object_t gdext_crypto_encrypt(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_object_t plaintext);
+gdext_c_packed_byte_array_t gdext_crypto_encrypt(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_packed_byte_array_t plaintext);
 
 /**
  * @brief Crypto.decrypt
  */
-gdext_c_object_t gdext_crypto_decrypt(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_object_t ciphertext);
+gdext_c_packed_byte_array_t gdext_crypto_decrypt(gdext_c_object_t instance, gdext_c_object_t key, gdext_c_packed_byte_array_t ciphertext);
 
 /**
  * @brief Crypto.hmac_digest
  */
-gdext_c_object_t gdext_crypto_hmac_digest(gdext_c_object_t instance, int32_t hash_type, gdext_c_object_t key, gdext_c_object_t msg);
+gdext_c_packed_byte_array_t gdext_crypto_hmac_digest(gdext_c_object_t instance, int32_t hash_type, gdext_c_packed_byte_array_t key, gdext_c_packed_byte_array_t msg);
 
 /**
  * @brief Crypto.constant_time_compare
  */
-GDExtensionBool gdext_crypto_constant_time_compare(gdext_c_object_t instance, gdext_c_object_t trusted, gdext_c_object_t received);
+GDExtensionBool gdext_crypto_constant_time_compare(gdext_c_object_t instance, gdext_c_packed_byte_array_t trusted, gdext_c_packed_byte_array_t received);
 
 /* ============================================================================
  * Class: CryptoKey
@@ -17151,7 +17151,7 @@ void gdext_e_net_connection_channel_limit(gdext_c_object_t instance, int64_t lim
 /**
  * @brief ENetConnection.broadcast
  */
-void gdext_e_net_connection_broadcast(gdext_c_object_t instance, int64_t channel, gdext_c_object_t packet, int64_t flags);
+void gdext_e_net_connection_broadcast(gdext_c_object_t instance, int64_t channel, gdext_c_packed_byte_array_t packet, int64_t flags);
 
 /**
  * @brief ENetConnection.compress
@@ -17196,7 +17196,7 @@ gdext_c_object_t gdext_e_net_connection_get_peers(gdext_c_object_t instance);
 /**
  * @brief ENetConnection.socket_send
  */
-void gdext_e_net_connection_socket_send(gdext_c_object_t instance, gdext_c_object_t destination_address, int64_t destination_port, gdext_c_object_t packet);
+void gdext_e_net_connection_socket_send(gdext_c_object_t instance, gdext_c_object_t destination_address, int64_t destination_port, gdext_c_packed_byte_array_t packet);
 
 /* ============================================================================
  * Class: ENetMultiplayerPeer
@@ -17276,7 +17276,7 @@ void gdext_e_net_packet_peer_reset(gdext_c_object_t instance);
 /**
  * @brief ENetPacketPeer.send
  */
-int32_t gdext_e_net_packet_peer_send(gdext_c_object_t instance, int64_t channel, gdext_c_object_t packet, int64_t flags);
+int32_t gdext_e_net_packet_peer_send(gdext_c_object_t instance, int64_t channel, gdext_c_packed_byte_array_t packet, int64_t flags);
 
 /**
  * @brief ENetPacketPeer.throttle_configure
@@ -17602,7 +17602,7 @@ void gdext_editor_export_plugin_add_shared_object(gdext_c_object_t instance, gde
 /**
  * @brief EditorExportPlugin.add_file
  */
-void gdext_editor_export_plugin_add_file(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_object_t file, GDExtensionBool remap);
+void gdext_editor_export_plugin_add_file(gdext_c_object_t instance, gdext_c_object_t path, gdext_c_packed_byte_array_t file, GDExtensionBool remap);
 
 /**
  * @brief EditorExportPlugin.add_apple_embedded_platform_project_static_lib
@@ -21190,7 +21190,7 @@ gdext_c_object_t gdext_file_access_open(gdext_c_object_t path, int32_t flags);
  * @brief FileAccess.open_encrypted
  * @note Static method
  */
-gdext_c_object_t gdext_file_access_open_encrypted(gdext_c_object_t path, int32_t mode_flags, gdext_c_object_t key, gdext_c_object_t iv);
+gdext_c_object_t gdext_file_access_open_encrypted(gdext_c_object_t path, int32_t mode_flags, gdext_c_packed_byte_array_t key, gdext_c_packed_byte_array_t iv);
 
 /**
  * @brief FileAccess.open_encrypted_with_pass
@@ -21220,7 +21220,7 @@ gdext_c_object_t gdext_file_access_create_temp(int64_t mode_flags, gdext_c_objec
  * @brief FileAccess.get_file_as_bytes
  * @note Static method
  */
-gdext_c_object_t gdext_file_access_get_file_as_bytes(gdext_c_object_t path);
+gdext_c_packed_byte_array_t gdext_file_access_get_file_as_bytes(gdext_c_object_t path);
 
 /**
  * @brief FileAccess.get_file_as_string
@@ -21321,7 +21321,7 @@ double gdext_file_access_get_real(gdext_c_object_t instance);
 /**
  * @brief FileAccess.get_buffer
  */
-gdext_c_object_t gdext_file_access_get_buffer(gdext_c_object_t instance, int64_t length);
+gdext_c_packed_byte_array_t gdext_file_access_get_buffer(gdext_c_object_t instance, int64_t length);
 
 /**
  * @brief FileAccess.get_line
@@ -21413,7 +21413,7 @@ GDExtensionBool gdext_file_access_store_real(gdext_c_object_t instance, double v
 /**
  * @brief FileAccess.store_buffer
  */
-GDExtensionBool gdext_file_access_store_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+GDExtensionBool gdext_file_access_store_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief FileAccess.store_line
@@ -22223,12 +22223,12 @@ int32_t gdext_font_file_load_dynamic_font(gdext_c_object_t instance, gdext_c_obj
 /**
  * @brief FontFile.set_data
  */
-void gdext_font_file_set_data(gdext_c_object_t instance, gdext_c_object_t data);
+void gdext_font_file_set_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief FontFile.get_data
  */
-gdext_c_object_t gdext_font_file_get_data(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_font_file_get_data(gdext_c_object_t instance);
 
 /**
  * @brief FontFile.set_font_name
@@ -23084,7 +23084,7 @@ void gdext_g_l_t_f_animation_set_additional_data(gdext_c_object_t instance, gdex
 /**
  * @brief GLTFBufferView.load_buffer_view_data
  */
-gdext_c_object_t gdext_g_l_t_f_buffer_view_load_buffer_view_data(gdext_c_object_t instance, gdext_c_object_t state);
+gdext_c_packed_byte_array_t gdext_g_l_t_f_buffer_view_load_buffer_view_data(gdext_c_object_t instance, gdext_c_object_t state);
 
 /**
  * @brief GLTFBufferView.get_buffer
@@ -23296,7 +23296,7 @@ int32_t gdext_g_l_t_f_document_append_from_file(gdext_c_object_t instance, gdext
 /**
  * @brief GLTFDocument.append_from_buffer
  */
-int32_t gdext_g_l_t_f_document_append_from_buffer(gdext_c_object_t instance, gdext_c_object_t bytes, gdext_c_object_t base_path, gdext_c_object_t state, int64_t flags);
+int32_t gdext_g_l_t_f_document_append_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t bytes, gdext_c_object_t base_path, gdext_c_object_t state, int64_t flags);
 
 /**
  * @brief GLTFDocument.append_from_scene
@@ -23311,7 +23311,7 @@ gdext_c_object_t gdext_g_l_t_f_document_generate_scene(gdext_c_object_t instance
 /**
  * @brief GLTFDocument.generate_buffer
  */
-gdext_c_object_t gdext_g_l_t_f_document_generate_buffer(gdext_c_object_t instance, gdext_c_object_t state);
+gdext_c_packed_byte_array_t gdext_g_l_t_f_document_generate_buffer(gdext_c_object_t instance, gdext_c_object_t state);
 
 /**
  * @brief GLTFDocument.write_to_filesystem
@@ -24208,7 +24208,7 @@ void gdext_g_l_t_f_state_add_used_extension(gdext_c_object_t instance, gdext_c_o
 /**
  * @brief GLTFState.append_data_to_buffers
  */
-int64_t gdext_g_l_t_f_state_append_data_to_buffers(gdext_c_object_t instance, gdext_c_object_t data, GDExtensionBool deduplication);
+int64_t gdext_g_l_t_f_state_append_data_to_buffers(gdext_c_object_t instance, gdext_c_packed_byte_array_t data, GDExtensionBool deduplication);
 
 /**
  * @brief GLTFState.append_gltf_node
@@ -24258,12 +24258,12 @@ void gdext_g_l_t_f_state_set_copyright(gdext_c_object_t instance, gdext_c_object
 /**
  * @brief GLTFState.get_glb_data
  */
-gdext_c_object_t gdext_g_l_t_f_state_get_glb_data(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_g_l_t_f_state_get_glb_data(gdext_c_object_t instance);
 
 /**
  * @brief GLTFState.set_glb_data
  */
-void gdext_g_l_t_f_state_set_glb_data(gdext_c_object_t instance, gdext_c_object_t glb_data);
+void gdext_g_l_t_f_state_set_glb_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t glb_data);
 
 /**
  * @brief GLTFState.get_use_named_skin_binds
@@ -27153,17 +27153,17 @@ double gdext_groove_joint2_d_get_initial_offset(gdext_c_object_t instance);
 /**
  * @brief HMACContext.start
  */
-int32_t gdext_h_m_a_c_context_start(gdext_c_object_t instance, int32_t hash_type, gdext_c_object_t key);
+int32_t gdext_h_m_a_c_context_start(gdext_c_object_t instance, int32_t hash_type, gdext_c_packed_byte_array_t key);
 
 /**
  * @brief HMACContext.update
  */
-int32_t gdext_h_m_a_c_context_update(gdext_c_object_t instance, gdext_c_object_t data);
+int32_t gdext_h_m_a_c_context_update(gdext_c_object_t instance, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief HMACContext.finish
  */
-gdext_c_object_t gdext_h_m_a_c_context_finish(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_h_m_a_c_context_finish(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: HTTPClient
@@ -27188,7 +27188,7 @@ gdext_c_object_t gdext_h_t_t_p_client_get_connection(gdext_c_object_t instance);
 /**
  * @brief HTTPClient.request_raw
  */
-int32_t gdext_h_t_t_p_client_request_raw(gdext_c_object_t instance, int32_t method, gdext_c_object_t url, gdext_c_object_t headers, gdext_c_object_t body);
+int32_t gdext_h_t_t_p_client_request_raw(gdext_c_object_t instance, int32_t method, gdext_c_object_t url, gdext_c_object_t headers, gdext_c_packed_byte_array_t body);
 
 /**
  * @brief HTTPClient.request
@@ -27233,7 +27233,7 @@ int64_t gdext_h_t_t_p_client_get_response_body_length(gdext_c_object_t instance)
 /**
  * @brief HTTPClient.read_response_body_chunk
  */
-gdext_c_object_t gdext_h_t_t_p_client_read_response_body_chunk(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_h_t_t_p_client_read_response_body_chunk(gdext_c_object_t instance);
 
 /**
  * @brief HTTPClient.set_read_chunk_size
@@ -27293,7 +27293,7 @@ int32_t gdext_h_t_t_p_request_request(gdext_c_object_t instance, gdext_c_object_
 /**
  * @brief HTTPRequest.request_raw
  */
-int32_t gdext_h_t_t_p_request_request_raw(gdext_c_object_t instance, gdext_c_object_t url, gdext_c_object_t custom_headers, int32_t method, gdext_c_object_t request_data_raw);
+int32_t gdext_h_t_t_p_request_request_raw(gdext_c_object_t instance, gdext_c_object_t url, gdext_c_object_t custom_headers, int32_t method, gdext_c_packed_byte_array_t request_data_raw);
 
 /**
  * @brief HTTPRequest.cancel_request
@@ -27413,12 +27413,12 @@ int32_t gdext_hashing_context_start(gdext_c_object_t instance, int32_t type);
 /**
  * @brief HashingContext.update
  */
-int32_t gdext_hashing_context_update(gdext_c_object_t instance, gdext_c_object_t chunk);
+int32_t gdext_hashing_context_update(gdext_c_object_t instance, gdext_c_packed_byte_array_t chunk);
 
 /**
  * @brief HashingContext.finish
  */
-gdext_c_object_t gdext_hashing_context_finish(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_hashing_context_finish(gdext_c_object_t instance);
 
 /* ============================================================================
  * Class: HeightMapShape3D
@@ -27583,7 +27583,7 @@ int32_t gdext_image_get_format(gdext_c_object_t instance);
 /**
  * @brief Image.get_data
  */
-gdext_c_object_t gdext_image_get_data(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_image_get_data(gdext_c_object_t instance);
 
 /**
  * @brief Image.get_data_size
@@ -27661,12 +27661,12 @@ gdext_c_object_t gdext_image_create_empty(int64_t width, int64_t height, GDExten
  * @brief Image.create_from_data
  * @note Static method
  */
-gdext_c_object_t gdext_image_create_from_data(int64_t width, int64_t height, GDExtensionBool use_mipmaps, int32_t format, gdext_c_object_t data);
+gdext_c_object_t gdext_image_create_from_data(int64_t width, int64_t height, GDExtensionBool use_mipmaps, int32_t format, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief Image.set_data
  */
-void gdext_image_set_data(gdext_c_object_t instance, int64_t width, int64_t height, GDExtensionBool use_mipmaps, int32_t format, gdext_c_object_t data);
+void gdext_image_set_data(gdext_c_object_t instance, int64_t width, int64_t height, GDExtensionBool use_mipmaps, int32_t format, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief Image.is_empty
@@ -27692,7 +27692,7 @@ int32_t gdext_image_save_png(gdext_c_object_t instance, gdext_c_object_t path);
 /**
  * @brief Image.save_png_to_buffer
  */
-gdext_c_object_t gdext_image_save_png_to_buffer(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_image_save_png_to_buffer(gdext_c_object_t instance);
 
 /**
  * @brief Image.save_jpg
@@ -27702,7 +27702,7 @@ int32_t gdext_image_save_jpg(gdext_c_object_t instance, gdext_c_object_t path, d
 /**
  * @brief Image.save_jpg_to_buffer
  */
-gdext_c_object_t gdext_image_save_jpg_to_buffer(gdext_c_object_t instance, double quality);
+gdext_c_packed_byte_array_t gdext_image_save_jpg_to_buffer(gdext_c_object_t instance, double quality);
 
 /**
  * @brief Image.save_exr
@@ -27712,7 +27712,7 @@ int32_t gdext_image_save_exr(gdext_c_object_t instance, gdext_c_object_t path, G
 /**
  * @brief Image.save_exr_to_buffer
  */
-gdext_c_object_t gdext_image_save_exr_to_buffer(gdext_c_object_t instance, GDExtensionBool grayscale);
+gdext_c_packed_byte_array_t gdext_image_save_exr_to_buffer(gdext_c_object_t instance, GDExtensionBool grayscale);
 
 /**
  * @brief Image.save_dds
@@ -27722,7 +27722,7 @@ int32_t gdext_image_save_dds(gdext_c_object_t instance, gdext_c_object_t path);
 /**
  * @brief Image.save_dds_to_buffer
  */
-gdext_c_object_t gdext_image_save_dds_to_buffer(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_image_save_dds_to_buffer(gdext_c_object_t instance);
 
 /**
  * @brief Image.save_webp
@@ -27732,7 +27732,7 @@ int32_t gdext_image_save_webp(gdext_c_object_t instance, gdext_c_object_t path, 
 /**
  * @brief Image.save_webp_to_buffer
  */
-gdext_c_object_t gdext_image_save_webp_to_buffer(gdext_c_object_t instance, GDExtensionBool lossy, double quality);
+gdext_c_packed_byte_array_t gdext_image_save_webp_to_buffer(gdext_c_object_t instance, GDExtensionBool lossy, double quality);
 
 /**
  * @brief Image.detect_alpha
@@ -27892,42 +27892,42 @@ void gdext_image_adjust_bcs(gdext_c_object_t instance, double brightness, double
 /**
  * @brief Image.load_png_from_buffer
  */
-int32_t gdext_image_load_png_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_image_load_png_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief Image.load_jpg_from_buffer
  */
-int32_t gdext_image_load_jpg_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_image_load_jpg_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief Image.load_webp_from_buffer
  */
-int32_t gdext_image_load_webp_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_image_load_webp_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief Image.load_tga_from_buffer
  */
-int32_t gdext_image_load_tga_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_image_load_tga_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief Image.load_bmp_from_buffer
  */
-int32_t gdext_image_load_bmp_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_image_load_bmp_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief Image.load_ktx_from_buffer
  */
-int32_t gdext_image_load_ktx_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_image_load_ktx_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief Image.load_dds_from_buffer
  */
-int32_t gdext_image_load_dds_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_image_load_dds_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief Image.load_svg_from_buffer
  */
-int32_t gdext_image_load_svg_from_buffer(gdext_c_object_t instance, gdext_c_object_t buffer, double scale);
+int32_t gdext_image_load_svg_from_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer, double scale);
 
 /**
  * @brief Image.load_svg_from_string
@@ -30042,7 +30042,7 @@ GDExtensionBool gdext_java_script_bridge_is_js_buffer(gdext_c_object_t instance,
 /**
  * @brief JavaScriptBridge.js_buffer_to_packed_byte_array
  */
-gdext_c_object_t gdext_java_script_bridge_js_buffer_to_packed_byte_array(gdext_c_object_t instance, gdext_c_object_t javascript_buffer);
+gdext_c_packed_byte_array_t gdext_java_script_bridge_js_buffer_to_packed_byte_array(gdext_c_object_t instance, gdext_c_object_t javascript_buffer);
 
 /**
  * @brief JavaScriptBridge.create_object
@@ -30052,7 +30052,7 @@ gdext_c_object_t gdext_java_script_bridge_create_object(gdext_c_object_t instanc
 /**
  * @brief JavaScriptBridge.download_buffer
  */
-void gdext_java_script_bridge_download_buffer(gdext_c_object_t instance, gdext_c_object_t buffer, gdext_c_object_t name, gdext_c_object_t mime);
+void gdext_java_script_bridge_download_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer, gdext_c_object_t name, gdext_c_object_t mime);
 
 /**
  * @brief JavaScriptBridge.pwa_needs_update
@@ -32807,12 +32807,12 @@ gdext_c_object_t gdext_marshalls_base64_to_variant(gdext_c_object_t instance, gd
 /**
  * @brief Marshalls.raw_to_base64
  */
-gdext_c_object_t gdext_marshalls_raw_to_base64(gdext_c_object_t instance, gdext_c_object_t array);
+gdext_c_object_t gdext_marshalls_raw_to_base64(gdext_c_object_t instance, gdext_c_packed_byte_array_t array);
 
 /**
  * @brief Marshalls.base64_to_raw
  */
-gdext_c_object_t gdext_marshalls_base64_to_raw(gdext_c_object_t instance, gdext_c_object_t base64_str);
+gdext_c_packed_byte_array_t gdext_marshalls_base64_to_raw(gdext_c_object_t instance, gdext_c_object_t base64_str);
 
 /**
  * @brief Marshalls.utf8_to_base64
@@ -40368,7 +40368,7 @@ double gdext_noise_texture3_d_get_seamless_blend_skirt(gdext_c_object_t instance
 /**
  * @brief OS.get_entropy
  */
-gdext_c_object_t gdext_o_s_get_entropy(gdext_c_object_t instance, int64_t size);
+gdext_c_packed_byte_array_t gdext_o_s_get_entropy(gdext_c_object_t instance, int64_t size);
 
 /**
  * @brief OS.get_system_ca_certificates
@@ -40468,7 +40468,7 @@ gdext_c_object_t gdext_o_s_read_string_from_stdin(gdext_c_object_t instance, int
 /**
  * @brief OS.read_buffer_from_stdin
  */
-gdext_c_object_t gdext_o_s_read_buffer_from_stdin(gdext_c_object_t instance, int64_t buffer_size);
+gdext_c_packed_byte_array_t gdext_o_s_read_buffer_from_stdin(gdext_c_object_t instance, int64_t buffer_size);
 
 /**
  * @brief OS.get_stdin_type
@@ -42923,12 +42923,12 @@ int32_t gdext_packet_peer_put_var(gdext_c_object_t instance, gdext_c_object_t va
 /**
  * @brief PacketPeer.get_packet
  */
-gdext_c_object_t gdext_packet_peer_get_packet(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_packet_peer_get_packet(gdext_c_object_t instance);
 
 /**
  * @brief PacketPeer.put_packet
  */
-int32_t gdext_packet_peer_put_packet(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_packet_peer_put_packet(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /**
  * @brief PacketPeer.get_packet_error
@@ -49843,12 +49843,12 @@ gdext_c_object_t gdext_r_d_shader_file_get_base_error(gdext_c_object_t instance)
 /**
  * @brief RDShaderSPIRV.set_stage_bytecode
  */
-void gdext_r_d_shader_s_p_i_r_v_set_stage_bytecode(gdext_c_object_t instance, int32_t stage, gdext_c_object_t bytecode);
+void gdext_r_d_shader_s_p_i_r_v_set_stage_bytecode(gdext_c_object_t instance, int32_t stage, gdext_c_packed_byte_array_t bytecode);
 
 /**
  * @brief RDShaderSPIRV.get_stage_bytecode
  */
-gdext_c_object_t gdext_r_d_shader_s_p_i_r_v_get_stage_bytecode(gdext_c_object_t instance, int32_t stage);
+gdext_c_packed_byte_array_t gdext_r_d_shader_s_p_i_r_v_get_stage_bytecode(gdext_c_object_t instance, int32_t stage);
 
 /**
  * @brief RDShaderSPIRV.set_stage_compile_error
@@ -51454,12 +51454,12 @@ gdext_c_object_t gdext_rendering_device_texture_create_from_extension(gdext_c_ob
 /**
  * @brief RenderingDevice.texture_update
  */
-int32_t gdext_rendering_device_texture_update(gdext_c_object_t instance, gdext_c_object_t texture, int64_t layer, gdext_c_object_t data);
+int32_t gdext_rendering_device_texture_update(gdext_c_object_t instance, gdext_c_object_t texture, int64_t layer, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief RenderingDevice.texture_get_data
  */
-gdext_c_object_t gdext_rendering_device_texture_get_data(gdext_c_object_t instance, gdext_c_object_t texture, int64_t layer);
+gdext_c_packed_byte_array_t gdext_rendering_device_texture_get_data(gdext_c_object_t instance, gdext_c_object_t texture, int64_t layer);
 
 /**
  * @brief RenderingDevice.texture_get_data_async
@@ -51574,7 +51574,7 @@ GDExtensionBool gdext_rendering_device_sampler_is_format_supported_for_filter(gd
 /**
  * @brief RenderingDevice.vertex_buffer_create
  */
-gdext_c_object_t gdext_rendering_device_vertex_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_object_t data, gdext_c_object_t creation_bits);
+gdext_c_object_t gdext_rendering_device_vertex_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_packed_byte_array_t data, gdext_c_object_t creation_bits);
 
 /**
  * @brief RenderingDevice.vertex_format_create
@@ -51589,7 +51589,7 @@ gdext_c_object_t gdext_rendering_device_vertex_array_create(gdext_c_object_t ins
 /**
  * @brief RenderingDevice.index_buffer_create
  */
-gdext_c_object_t gdext_rendering_device_index_buffer_create(gdext_c_object_t instance, int64_t size_indices, int32_t format, gdext_c_object_t data, GDExtensionBool use_restart_indices, gdext_c_object_t creation_bits);
+gdext_c_object_t gdext_rendering_device_index_buffer_create(gdext_c_object_t instance, int64_t size_indices, int32_t format, gdext_c_packed_byte_array_t data, GDExtensionBool use_restart_indices, gdext_c_object_t creation_bits);
 
 /**
  * @brief RenderingDevice.index_array_create
@@ -51604,7 +51604,7 @@ gdext_c_object_t gdext_rendering_device_shader_compile_spirv_from_source(gdext_c
 /**
  * @brief RenderingDevice.shader_compile_binary_from_spirv
  */
-gdext_c_object_t gdext_rendering_device_shader_compile_binary_from_spirv(gdext_c_object_t instance, gdext_c_object_t spirv_data, gdext_c_object_t name);
+gdext_c_packed_byte_array_t gdext_rendering_device_shader_compile_binary_from_spirv(gdext_c_object_t instance, gdext_c_object_t spirv_data, gdext_c_object_t name);
 
 /**
  * @brief RenderingDevice.shader_create_from_spirv
@@ -51614,7 +51614,7 @@ gdext_c_object_t gdext_rendering_device_shader_create_from_spirv(gdext_c_object_
 /**
  * @brief RenderingDevice.shader_create_from_bytecode
  */
-gdext_c_object_t gdext_rendering_device_shader_create_from_bytecode(gdext_c_object_t instance, gdext_c_object_t binary_data, gdext_c_object_t placeholder_rid);
+gdext_c_object_t gdext_rendering_device_shader_create_from_bytecode(gdext_c_object_t instance, gdext_c_packed_byte_array_t binary_data, gdext_c_object_t placeholder_rid);
 
 /**
  * @brief RenderingDevice.shader_create_placeholder
@@ -51629,17 +51629,17 @@ int64_t gdext_rendering_device_shader_get_vertex_input_attribute_mask(gdext_c_ob
 /**
  * @brief RenderingDevice.uniform_buffer_create
  */
-gdext_c_object_t gdext_rendering_device_uniform_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_object_t data, gdext_c_object_t creation_bits);
+gdext_c_object_t gdext_rendering_device_uniform_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_packed_byte_array_t data, gdext_c_object_t creation_bits);
 
 /**
  * @brief RenderingDevice.storage_buffer_create
  */
-gdext_c_object_t gdext_rendering_device_storage_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_object_t data, gdext_c_object_t usage, gdext_c_object_t creation_bits);
+gdext_c_object_t gdext_rendering_device_storage_buffer_create(gdext_c_object_t instance, int64_t size_bytes, gdext_c_packed_byte_array_t data, gdext_c_object_t usage, gdext_c_object_t creation_bits);
 
 /**
  * @brief RenderingDevice.texture_buffer_create
  */
-gdext_c_object_t gdext_rendering_device_texture_buffer_create(gdext_c_object_t instance, int64_t size_bytes, int32_t format, gdext_c_object_t data);
+gdext_c_object_t gdext_rendering_device_texture_buffer_create(gdext_c_object_t instance, int64_t size_bytes, int32_t format, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief RenderingDevice.uniform_set_create
@@ -51659,7 +51659,7 @@ int32_t gdext_rendering_device_buffer_copy(gdext_c_object_t instance, gdext_c_ob
 /**
  * @brief RenderingDevice.buffer_update
  */
-int32_t gdext_rendering_device_buffer_update(gdext_c_object_t instance, gdext_c_object_t buffer, int64_t offset, int64_t size_bytes, gdext_c_object_t data);
+int32_t gdext_rendering_device_buffer_update(gdext_c_object_t instance, gdext_c_object_t buffer, int64_t offset, int64_t size_bytes, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief RenderingDevice.buffer_clear
@@ -51669,7 +51669,7 @@ int32_t gdext_rendering_device_buffer_clear(gdext_c_object_t instance, gdext_c_o
 /**
  * @brief RenderingDevice.buffer_get_data
  */
-gdext_c_object_t gdext_rendering_device_buffer_get_data(gdext_c_object_t instance, gdext_c_object_t buffer, int64_t offset_bytes, int64_t size_bytes);
+gdext_c_packed_byte_array_t gdext_rendering_device_buffer_get_data(gdext_c_object_t instance, gdext_c_object_t buffer, int64_t offset_bytes, int64_t size_bytes);
 
 /**
  * @brief RenderingDevice.buffer_get_data_async
@@ -51759,7 +51759,7 @@ void gdext_rendering_device_draw_list_bind_index_array(gdext_c_object_t instance
 /**
  * @brief RenderingDevice.draw_list_set_push_constant
  */
-void gdext_rendering_device_draw_list_set_push_constant(gdext_c_object_t instance, int64_t draw_list, gdext_c_object_t buffer, int64_t size_bytes);
+void gdext_rendering_device_draw_list_set_push_constant(gdext_c_object_t instance, int64_t draw_list, gdext_c_packed_byte_array_t buffer, int64_t size_bytes);
 
 /**
  * @brief RenderingDevice.draw_list_draw
@@ -51809,7 +51809,7 @@ void gdext_rendering_device_compute_list_bind_compute_pipeline(gdext_c_object_t 
 /**
  * @brief RenderingDevice.compute_list_set_push_constant
  */
-void gdext_rendering_device_compute_list_set_push_constant(gdext_c_object_t instance, int64_t compute_list, gdext_c_object_t buffer, int64_t size_bytes);
+void gdext_rendering_device_compute_list_set_push_constant(gdext_c_object_t instance, int64_t compute_list, gdext_c_packed_byte_array_t buffer, int64_t size_bytes);
 
 /**
  * @brief RenderingDevice.compute_list_bind_uniform_set
@@ -52324,22 +52324,22 @@ void gdext_rendering_server_mesh_clear(gdext_c_object_t instance, gdext_c_object
 /**
  * @brief RenderingServer.mesh_surface_update_vertex_region
  */
-void gdext_rendering_server_mesh_surface_update_vertex_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_object_t data);
+void gdext_rendering_server_mesh_surface_update_vertex_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief RenderingServer.mesh_surface_update_attribute_region
  */
-void gdext_rendering_server_mesh_surface_update_attribute_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_object_t data);
+void gdext_rendering_server_mesh_surface_update_attribute_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief RenderingServer.mesh_surface_update_skin_region
  */
-void gdext_rendering_server_mesh_surface_update_skin_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_object_t data);
+void gdext_rendering_server_mesh_surface_update_skin_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief RenderingServer.mesh_surface_update_index_region
  */
-void gdext_rendering_server_mesh_surface_update_index_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_object_t data);
+void gdext_rendering_server_mesh_surface_update_index_region(gdext_c_object_t instance, gdext_c_object_t mesh, int64_t surface, int64_t offset, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief RenderingServer.mesh_set_shadow_mesh
@@ -52784,7 +52784,7 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_create(gdext_c_object_t instanc
 /**
  * @brief RenderingServer.voxel_gi_allocate_data
  */
-void gdext_rendering_server_voxel_gi_allocate_data(gdext_c_object_t instance, gdext_c_object_t voxel_gi, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_object_t octree_size, gdext_c_object_t octree_cells, gdext_c_object_t data_cells, gdext_c_object_t distance_field, gdext_c_object_t level_counts);
+void gdext_rendering_server_voxel_gi_allocate_data(gdext_c_object_t instance, gdext_c_object_t voxel_gi, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_object_t octree_size, gdext_c_packed_byte_array_t octree_cells, gdext_c_packed_byte_array_t data_cells, gdext_c_packed_byte_array_t distance_field, gdext_c_object_t level_counts);
 
 /**
  * @brief RenderingServer.voxel_gi_get_octree_size
@@ -52794,17 +52794,17 @@ gdext_c_object_t gdext_rendering_server_voxel_gi_get_octree_size(gdext_c_object_
 /**
  * @brief RenderingServer.voxel_gi_get_octree_cells
  */
-gdext_c_object_t gdext_rendering_server_voxel_gi_get_octree_cells(gdext_c_object_t instance, gdext_c_object_t voxel_gi);
+gdext_c_packed_byte_array_t gdext_rendering_server_voxel_gi_get_octree_cells(gdext_c_object_t instance, gdext_c_object_t voxel_gi);
 
 /**
  * @brief RenderingServer.voxel_gi_get_data_cells
  */
-gdext_c_object_t gdext_rendering_server_voxel_gi_get_data_cells(gdext_c_object_t instance, gdext_c_object_t voxel_gi);
+gdext_c_packed_byte_array_t gdext_rendering_server_voxel_gi_get_data_cells(gdext_c_object_t instance, gdext_c_object_t voxel_gi);
 
 /**
  * @brief RenderingServer.voxel_gi_get_distance_field
  */
-gdext_c_object_t gdext_rendering_server_voxel_gi_get_distance_field(gdext_c_object_t instance, gdext_c_object_t voxel_gi);
+gdext_c_packed_byte_array_t gdext_rendering_server_voxel_gi_get_distance_field(gdext_c_object_t instance, gdext_c_object_t voxel_gi);
 
 /**
  * @brief RenderingServer.voxel_gi_get_level_counts
@@ -54741,7 +54741,7 @@ gdext_c_object_t gdext_resource_duplicate_deep(gdext_c_object_t instance, int32_
  * @brief ResourceImporterOggVorbis.load_from_buffer
  * @note Static method
  */
-gdext_c_object_t gdext_resource_importer_ogg_vorbis_load_from_buffer(gdext_c_object_t stream_data);
+gdext_c_object_t gdext_resource_importer_ogg_vorbis_load_from_buffer(gdext_c_packed_byte_array_t stream_data);
 
 /**
  * @brief ResourceImporterOggVorbis.load_from_file
@@ -56470,7 +56470,7 @@ gdext_c_object_t gdext_scene_multiplayer_get_authenticating_peers(gdext_c_object
 /**
  * @brief SceneMultiplayer.send_auth
  */
-int32_t gdext_scene_multiplayer_send_auth(gdext_c_object_t instance, int64_t id, gdext_c_object_t data);
+int32_t gdext_scene_multiplayer_send_auth(gdext_c_object_t instance, int64_t id, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief SceneMultiplayer.complete_auth
@@ -56530,7 +56530,7 @@ GDExtensionBool gdext_scene_multiplayer_is_server_relay_enabled(gdext_c_object_t
 /**
  * @brief SceneMultiplayer.send_bytes
  */
-int32_t gdext_scene_multiplayer_send_bytes(gdext_c_object_t instance, gdext_c_object_t bytes, int64_t id, int32_t mode, int64_t channel);
+int32_t gdext_scene_multiplayer_send_bytes(gdext_c_object_t instance, gdext_c_packed_byte_array_t bytes, int64_t id, int32_t mode, int64_t channel);
 
 /**
  * @brief SceneMultiplayer.get_max_sync_packet_size
@@ -61283,12 +61283,12 @@ gdext_c_object_t gdext_status_indicator_get_rect(gdext_c_object_t instance);
 /**
  * @brief StreamPeer.put_data
  */
-int32_t gdext_stream_peer_put_data(gdext_c_object_t instance, gdext_c_object_t data);
+int32_t gdext_stream_peer_put_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief StreamPeer.put_partial_data
  */
-gdext_c_object_t gdext_stream_peer_put_partial_data(gdext_c_object_t instance, gdext_c_object_t data);
+gdext_c_object_t gdext_stream_peer_put_partial_data(gdext_c_object_t instance, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief StreamPeer.get_data
@@ -61483,12 +61483,12 @@ void gdext_stream_peer_buffer_resize(gdext_c_object_t instance, int64_t size);
 /**
  * @brief StreamPeerBuffer.set_data_array
  */
-void gdext_stream_peer_buffer_set_data_array(gdext_c_object_t instance, gdext_c_object_t data);
+void gdext_stream_peer_buffer_set_data_array(gdext_c_object_t instance, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief StreamPeerBuffer.get_data_array
  */
-gdext_c_object_t gdext_stream_peer_buffer_get_data_array(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_stream_peer_buffer_get_data_array(gdext_c_object_t instance);
 
 /**
  * @brief StreamPeerBuffer.clear
@@ -65036,7 +65036,7 @@ GDExtensionBool gdext_text_server_save_support_data(gdext_c_object_t instance, g
 /**
  * @brief TextServer.get_support_data
  */
-gdext_c_object_t gdext_text_server_get_support_data(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_text_server_get_support_data(gdext_c_object_t instance);
 
 /**
  * @brief TextServer.is_locale_right_to_left
@@ -65076,7 +65076,7 @@ gdext_c_object_t gdext_text_server_create_font_linked_variation(gdext_c_object_t
 /**
  * @brief TextServer.font_set_data
  */
-void gdext_text_server_font_set_data(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_object_t data);
+void gdext_text_server_font_set_data(gdext_c_object_t instance, gdext_c_object_t font_rid, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief TextServer.font_set_face_index
@@ -67867,12 +67867,12 @@ gdext_c_object_t gdext_tile_map_layer_local_to_map(gdext_c_object_t instance, gd
 /**
  * @brief TileMapLayer.set_tile_map_data_from_array
  */
-void gdext_tile_map_layer_set_tile_map_data_from_array(gdext_c_object_t instance, gdext_c_object_t tile_map_layer_data);
+void gdext_tile_map_layer_set_tile_map_data_from_array(gdext_c_object_t instance, gdext_c_packed_byte_array_t tile_map_layer_data);
 
 /**
  * @brief TileMapLayer.get_tile_map_data_as_array
  */
-gdext_c_object_t gdext_tile_map_layer_get_tile_map_data_as_array(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_tile_map_layer_get_tile_map_data_as_array(gdext_c_object_t instance);
 
 /**
  * @brief TileMapLayer.set_enabled
@@ -73989,7 +73989,7 @@ void gdext_voxel_g_i_debug_bake(gdext_c_object_t instance);
 /**
  * @brief VoxelGIData.allocate
  */
-void gdext_voxel_g_i_data_allocate(gdext_c_object_t instance, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_vector3_t octree_size, gdext_c_object_t octree_cells, gdext_c_object_t data_cells, gdext_c_object_t distance_field, gdext_c_object_t level_counts);
+void gdext_voxel_g_i_data_allocate(gdext_c_object_t instance, gdext_c_object_t to_cell_xform, gdext_c_object_t aabb, gdext_c_vector3_t octree_size, gdext_c_packed_byte_array_t octree_cells, gdext_c_packed_byte_array_t data_cells, gdext_c_packed_byte_array_t distance_field, gdext_c_object_t level_counts);
 
 /**
  * @brief VoxelGIData.get_bounds
@@ -74009,12 +74009,12 @@ gdext_c_object_t gdext_voxel_g_i_data_get_to_cell_xform(gdext_c_object_t instanc
 /**
  * @brief VoxelGIData.get_octree_cells
  */
-gdext_c_object_t gdext_voxel_g_i_data_get_octree_cells(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_voxel_g_i_data_get_octree_cells(gdext_c_object_t instance);
 
 /**
  * @brief VoxelGIData.get_data_cells
  */
-gdext_c_object_t gdext_voxel_g_i_data_get_data_cells(gdext_c_object_t instance);
+gdext_c_packed_byte_array_t gdext_voxel_g_i_data_get_data_cells(gdext_c_object_t instance);
 
 /**
  * @brief VoxelGIData.get_level_counts
@@ -74395,7 +74395,7 @@ int32_t gdext_web_socket_peer_accept_stream(gdext_c_object_t instance, gdext_c_o
 /**
  * @brief WebSocketPeer.send
  */
-int32_t gdext_web_socket_peer_send(gdext_c_object_t instance, gdext_c_object_t message, int32_t write_mode);
+int32_t gdext_web_socket_peer_send(gdext_c_object_t instance, gdext_c_packed_byte_array_t message, int32_t write_mode);
 
 /**
  * @brief WebSocketPeer.send_text
@@ -75571,7 +75571,7 @@ int32_t gdext_x_m_l_parser_open(gdext_c_object_t instance, gdext_c_object_t file
 /**
  * @brief XMLParser.open_buffer
  */
-int32_t gdext_x_m_l_parser_open_buffer(gdext_c_object_t instance, gdext_c_object_t buffer);
+int32_t gdext_x_m_l_parser_open_buffer(gdext_c_object_t instance, gdext_c_packed_byte_array_t buffer);
 
 /* ============================================================================
  * Class: XRAnchor3D
@@ -76446,7 +76446,7 @@ int32_t gdext_z_i_p_packer_start_file(gdext_c_object_t instance, gdext_c_object_
 /**
  * @brief ZIPPacker.write_file
  */
-int32_t gdext_z_i_p_packer_write_file(gdext_c_object_t instance, gdext_c_object_t data);
+int32_t gdext_z_i_p_packer_write_file(gdext_c_object_t instance, gdext_c_packed_byte_array_t data);
 
 /**
  * @brief ZIPPacker.close_file
@@ -76481,7 +76481,7 @@ gdext_c_object_t gdext_z_i_p_reader_get_files(gdext_c_object_t instance);
 /**
  * @brief ZIPReader.read_file
  */
-gdext_c_object_t gdext_z_i_p_reader_read_file(gdext_c_object_t instance, gdext_c_object_t path, GDExtensionBool case_sensitive);
+gdext_c_packed_byte_array_t gdext_z_i_p_reader_read_file(gdext_c_object_t instance, gdext_c_object_t path, GDExtensionBool case_sensitive);
 
 /**
  * @brief ZIPReader.file_exists
