@@ -654,6 +654,18 @@ void* gdext_variant_new_packed_int32_array(void);
  */
 void* gdext_variant_new_packed_vector3_array(void);
 
+/* ============================================================================
+ * PackedByteArray (TDD #152) - For GPU buffer updates
+ * ============================================================================ */
+
+/**
+ * @brief Include PackedByteArray functions for SVO renderer buffer_update
+ * 
+ * PackedByteArray is critical for uploading binary data to GPU buffers.
+ * Used by RenderingDevice.buffer_update() in the SVO voxel renderer.
+ */
+#include "gdext_c_packed_byte_array.h"
+
 #ifdef __cplusplus
 }
 #endif
