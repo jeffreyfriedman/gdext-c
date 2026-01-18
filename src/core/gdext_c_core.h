@@ -60,7 +60,8 @@ typedef struct {
     // Singleton access
     GDExtensionInterfaceGlobalGetSingleton global_get_singleton;
     
-    // Class registration
+    // Class registration (TDD #156: Add version 2 for official example compatibility!)
+    GDExtensionInterfaceClassdbRegisterExtensionClass2 classdb_register_extension_class2;
     GDExtensionInterfaceClassdbRegisterExtensionClass3 classdb_register_extension_class3;
     
     // Property/method info

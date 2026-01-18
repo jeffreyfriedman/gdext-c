@@ -143,15 +143,15 @@ void gdext_c_register_game_node_class(void *p_userdata, void *p_level) {
     fflush(stdout);
     
     // Create ClassCreationInfo
-    // TDD #156: Set ALL boolean fields (discovered by studying godot-rust!)
-    GDExtensionClassCreationInfo3 creation_info;
-    memset(&creation_info, 0, sizeof(GDExtensionClassCreationInfo3));
+    // TDD #156: Use VERSION 2 like official example! (not version 3)
+    GDExtensionClassCreationInfo2 creation_info;
+    memset(&creation_info, 0, sizeof(GDExtensionClassCreationInfo2));
     
-    // Essential boolean fields - version 3 has 4, not 3!
+    // Essential boolean fields - version 2 has 3 bools (NO is_runtime!)
     creation_info.is_virtual = false;
     creation_info.is_abstract = false;
     creation_info.is_exposed = true;
-    creation_info.is_runtime = true;  // TDD #156: CRITICAL! Missing in previous attempts!
+    // NO is_runtime in version 2!
     
     // Instance lifecycle - REQUIRED
     creation_info.create_instance_func = gdext_c_game_node_create_instance;
@@ -160,17 +160,17 @@ void gdext_c_register_game_node_class(void *p_userdata, void *p_level) {
     // Notifications - for _ready callback
     creation_info.notification_func = game_node_notification;
     
-    printf("[gdext-c] ✅ ClassCreationInfo configured with is_runtime fix!\n");
-    printf("[gdext-c] 📝 Booleans: is_virtual=%d, is_abstract=%d, is_exposed=%d, is_runtime=%d\n", 
-           creation_info.is_virtual, creation_info.is_abstract, creation_info.is_exposed, creation_info.is_runtime);
+    printf("[gdext-c] ✅ ClassCreationInfo2 configured (version 2 like official example!)\n");
+    printf("[gdext-c] 📝 Booleans: is_virtual=%d, is_abstract=%d, is_exposed=%d\n", 
+           creation_info.is_virtual, creation_info.is_abstract, creation_info.is_exposed);
     printf("[gdext-c] 📝 Callbacks: create=%p, free=%p, notification=%p\n",
            (void*)creation_info.create_instance_func,
            (void*)creation_info.free_instance_func,
            (void*)creation_info.notification_func);
     fflush(stdout);
     
-    // Register the class
-    iface->classdb_register_extension_class3(
+    // Register the class with VERSION 2 (like official example!)
+    iface->classdb_register_extension_class2(
         gdext_c_get_library_handle(),
         class_name,
         parent_name,

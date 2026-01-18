@@ -87,7 +87,8 @@ bool gdext_c_initialize(gdext_c_proc_address_func proc_address) {
     // Singleton access
     g_interface.global_get_singleton = (GDExtensionInterfaceGlobalGetSingleton)g_proc_address("global_get_singleton");
     
-    // Class registration
+    // Class registration (TDD #156: Add version 2 for official example compatibility!)
+    g_interface.classdb_register_extension_class2 = (GDExtensionInterfaceClassdbRegisterExtensionClass2)g_proc_address("classdb_register_extension_class2");
     g_interface.classdb_register_extension_class3 = (GDExtensionInterfaceClassdbRegisterExtensionClass3)g_proc_address("classdb_register_extension_class3");
     
     // Verify critical functions were loaded
