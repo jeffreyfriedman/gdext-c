@@ -68,7 +68,9 @@ static void ensure_initialized() {
         return;
     }
     
-    char resize_name[64], size_name[64];
+    // Allocate proper StringName structures (opaque 8-byte type on 64-bit systems)
+    uint8_t resize_name[8] = {0};  // StringName is typically 8 bytes
+    uint8_t size_name[8] = {0};
     iface->string_name_new_with_latin1_chars(resize_name, "resize", 0);
     iface->string_name_new_with_latin1_chars(size_name, "size", 0);
     

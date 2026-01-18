@@ -40,13 +40,11 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
     printf("[gdext-c] 🎯 TDD #155: Initializing level: %s (PURE C - NO RUST!)\n", level_name);
     fflush(stdout);
     
-    // TODO TDD #155: Register GameNode class at SCENE level
-    // For now, skip GameNode registration - let Go game logic create nodes directly
-    // This will be implemented in a future version with proper instance creation
+    // TDD #156: Register GameNode class at SCENE level
     if (p_level == GDEXTENSION_INITIALIZATION_SCENE) {
-        printf("[gdext-c] 📝 TDD #155: Scene level initialized (GameNode registration skipped for now)\n");
-        printf("[gdext-c] 💡 Go game logic will create nodes directly using Godot built-in classes\n");
+        printf("[gdext-c] 🎮 TDD #156: Registering GameNode class in pure C...\n");
         fflush(stdout);
+        gdext_c_register_game_node_class(NULL, NULL);
     }
 }
 

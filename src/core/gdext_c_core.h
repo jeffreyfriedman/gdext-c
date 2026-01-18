@@ -60,9 +60,10 @@ typedef struct {
     // Singleton access
     GDExtensionInterfaceGlobalGetSingleton global_get_singleton;
     
-    // Class registration (TDD #156: Add version 2 for official example compatibility!)
+    // Class registration (TDD #156: Version 4/5 is what Godot 4.5 actually uses!)
     GDExtensionInterfaceClassdbRegisterExtensionClass2 classdb_register_extension_class2;
     GDExtensionInterfaceClassdbRegisterExtensionClass3 classdb_register_extension_class3;
+    GDExtensionInterfaceClassdbRegisterExtensionClass4 classdb_register_extension_class4;
     
     // Property/method info
     // (Add more as needed)

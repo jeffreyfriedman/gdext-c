@@ -18,14 +18,20 @@ typedef struct {
     int dummy; // Placeholder
 } GameNodeInstance;
 
+// StringName as opaque struct (8 bytes on 64-bit as per extension_api.json!)
+typedef struct {
+    uint8_t opaque[8];
+} StringName;
+
 /**
  * @brief Create a GameNode instance
- * TDD #156: Instance creation callback
+ * TDD #156: Instance creation callback (Version 4 signature!)
  */
-void* gdext_c_game_node_create_instance(void *p_userdata) {
+void* gdext_c_game_node_create_instance(void *p_userdata, GDExtensionBool p_notify_postinitialize) {
     (void)p_userdata;
+    (void)p_notify_postinitialize;
     
-    printf("[gdext-c] 🎮 TDD #156: Creating GameNode instance\n");
+    printf("[gdext-c] 🎮 TDD #156: Creating GameNode instance (notify_postinitialize=%d)\n", p_notify_postinitialize);
     fflush(stdout);
     
     // Allocate instance data
@@ -126,32 +132,36 @@ void gdext_c_register_game_node_class(void *p_userdata, void *p_level) {
         return;
     }
     
-    // Create StringName for "GameNode"
-    GDExtensionStringNamePtr class_name;
-    memset(&class_name, 0, sizeof(GDExtensionStringNamePtr));
-    iface->string_name_new_with_latin1_chars(&class_name, "GameNode", 0);
+    // Create StringName for "GameNode" (TDD #156: Correct usage as struct, not pointer!)
+    StringName class_name;
+    memset(&class_name, 0, sizeof(StringName));
+    iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&class_name, "GameNode", 0);
     
-    printf("[gdext-c] ✅ Created class name StringName: %p\n", (void*)class_name);
+    printf("[gdext-c] ✅ Created class name StringName\n");
     fflush(stdout);
     
     // Create StringName for "Node" (parent class)
-    GDExtensionStringNamePtr parent_name;
-    memset(&parent_name, 0, sizeof(GDExtensionStringNamePtr));
-    iface->string_name_new_with_latin1_chars(&parent_name, "Node", 0);
+    StringName parent_name;
+    memset(&parent_name, 0, sizeof(StringName));
+    iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&parent_name, "Node", 0);
     
-    printf("[gdext-c] ✅ Created parent name StringName: %p\n", (void*)parent_name);
+    printf("[gdext-c] ✅ Created parent name StringName\n");
+    printf("[gdext-c] 📝 Both StringNames created successfully\n");
     fflush(stdout);
     
     // Create ClassCreationInfo
-    // TDD #156: Use VERSION 2 like official example! (not version 3)
-    GDExtensionClassCreationInfo2 creation_info;
-    memset(&creation_info, 0, sizeof(GDExtensionClassCreationInfo2));
+    // TDD #156: Use VERSION 4/5! (Option C debugging found this!)
+    GDExtensionClassCreationInfo4 creation_info;
+    memset(&creation_info, 0, sizeof(GDExtensionClassCreationInfo4));
     
-    // Essential boolean fields - version 2 has 3 bools (NO is_runtime!)
+    // Essential boolean fields - version 4 has 4 bools (includes is_runtime!)
     creation_info.is_virtual = false;
     creation_info.is_abstract = false;
     creation_info.is_exposed = true;
-    // NO is_runtime in version 2!
+    creation_info.is_runtime = true;  // CRITICAL! Godot 4.5 checks this!
+    
+    // icon_path (new in version 4) - NULL for now
+    creation_info.icon_path = NULL;
     
     // Instance lifecycle - REQUIRED
     creation_info.create_instance_func = gdext_c_game_node_create_instance;
@@ -160,22 +170,33 @@ void gdext_c_register_game_node_class(void *p_userdata, void *p_level) {
     // Notifications - for _ready callback
     creation_info.notification_func = game_node_notification;
     
-    printf("[gdext-c] ✅ ClassCreationInfo2 configured (version 2 like official example!)\n");
-    printf("[gdext-c] 📝 Booleans: is_virtual=%d, is_abstract=%d, is_exposed=%d\n", 
-           creation_info.is_virtual, creation_info.is_abstract, creation_info.is_exposed);
+    printf("[gdext-c] ✅ ClassCreationInfo4 configured (Option C found the answer!)\n");
+    printf("[gdext-c] 📝 Booleans: is_virtual=%d, is_abstract=%d, is_exposed=%d, is_runtime=%d\n", 
+           creation_info.is_virtual, creation_info.is_abstract, creation_info.is_exposed, creation_info.is_runtime);
+    printf("[gdext-c] 📝 icon_path=%p\n", creation_info.icon_path);
     printf("[gdext-c] 📝 Callbacks: create=%p, free=%p, notification=%p\n",
            (void*)creation_info.create_instance_func,
            (void*)creation_info.free_instance_func,
            (void*)creation_info.notification_func);
     fflush(stdout);
     
-    // Register the class with VERSION 2 (like official example!)
-    iface->classdb_register_extension_class2(
-        gdext_c_get_library_handle(),
-        class_name,
-        parent_name,
+    // Register the class with VERSION 4 (Godot 4.5 expects this!)
+    GDExtensionClassLibraryPtr lib_handle = gdext_c_get_library_handle();
+    printf("[gdext-c] 📝 Library handle for registration: %p\n", (void*)lib_handle);
+    printf("[gdext-c] 📝 Calling classdb_register_extension_class4...\n");
+    printf("[gdext-c] 📝 Passing addresses: &class_name=%p, &parent_name=%p\n", (void*)&class_name, (void*)&parent_name);
+    fflush(stdout);
+    
+    // Pass addresses of StringName structs (correct way!)
+    iface->classdb_register_extension_class4(
+        lib_handle,
+        (GDExtensionConstStringNamePtr)&class_name,
+        (GDExtensionConstStringNamePtr)&parent_name,
         &creation_info
     );
+    
+    printf("[gdext-c] 🎉 classdb_register_extension_class4 returned successfully!\n");
+    fflush(stdout);
     
     printf("[gdext-c] ✅ GameNode class registered with Godot\n");
     printf("[gdext-c] ✅ Instance creation callback: %p\n", (void*)gdext_c_game_node_create_instance);

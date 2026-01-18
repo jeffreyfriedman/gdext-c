@@ -87,9 +87,10 @@ bool gdext_c_initialize(gdext_c_proc_address_func proc_address) {
     // Singleton access
     g_interface.global_get_singleton = (GDExtensionInterfaceGlobalGetSingleton)g_proc_address("global_get_singleton");
     
-    // Class registration (TDD #156: Add version 2 for official example compatibility!)
+    // Class registration (TDD #156: Version 4/5 is what Godot 4.5 actually uses!)
     g_interface.classdb_register_extension_class2 = (GDExtensionInterfaceClassdbRegisterExtensionClass2)g_proc_address("classdb_register_extension_class2");
     g_interface.classdb_register_extension_class3 = (GDExtensionInterfaceClassdbRegisterExtensionClass3)g_proc_address("classdb_register_extension_class3");
+    g_interface.classdb_register_extension_class4 = (GDExtensionInterfaceClassdbRegisterExtensionClass4)g_proc_address("classdb_register_extension_class4");
     
     // Verify critical functions were loaded
     if (!g_interface.string_name_new_with_latin1_chars || !g_interface.get_variant_from_type_constructor || !g_interface.variant_call) {
