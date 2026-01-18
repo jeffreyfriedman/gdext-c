@@ -672,6 +672,12 @@ void* gdext_variant_new_packed_vector3_array(void);
  */
 #include "gdext_c_callbacks.h"
 
+/**
+ * TDD #155: PURE C GDExtension entry point (REPLACES Rust bridge!)
+ * Main GDExtension initialization - this is what Godot loads
+ */
+#include "gdext_c_gdextension.h"
+
 #ifdef __cplusplus
 }
 #endif

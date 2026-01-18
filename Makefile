@@ -2,7 +2,7 @@
 # Simple Makefile for quick builds
 
 CC := cc
-CFLAGS := -fPIC -std=c11 -O2 -Wall -Wextra -Iinclude -Isrc -Igenerated
+CFLAGS := -fPIC -std=c11 -O2 -Wall -Wextra -Iinclude -Isrc -Isrc/core -Igenerated
 LDFLAGS := -dynamiclib
 # TDD #133: Set install_name to @rpath so the library can be found at runtime
 ifeq ($(shell uname),Darwin)
@@ -14,8 +14,9 @@ SRC_CORE := $(wildcard src/core/*.c)
 SRC_SCENE := $(wildcard src/scene/*.c)
 SRC_API := $(wildcard src/api/*.c)
 SRC_MATH := $(wildcard src/math/*.c)
+SRC_GDEXTENSION := $(wildcard src/gdextension/*.c)
 SRC_GENERATED := generated/gdext_c_generated.c
-SRCS := $(SRC_CORE) $(SRC_SCENE) $(SRC_API) $(SRC_MATH) $(SRC_GENERATED)
+SRCS := $(SRC_CORE) $(SRC_SCENE) $(SRC_API) $(SRC_MATH) $(SRC_GDEXTENSION) $(SRC_GENERATED)
 
 # Object files
 OBJS := $(SRCS:.c=.o)

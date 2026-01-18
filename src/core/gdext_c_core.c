@@ -16,6 +16,7 @@
 static GDExtensionInterfaceGetProcAddress g_proc_address = NULL;
 static GDExtensionInterface g_interface;
 static bool g_initialized = false;
+static GDExtensionClassLibraryPtr g_library_handle = NULL;
 
 // TDD #140: Export interface for generated code
 // Generated code expects this exact symbol name
@@ -123,6 +124,22 @@ bool gdext_c_is_initialized(void) {
  */
 gdext_c_proc_address_func gdext_c_get_proc_address_internal(void) {
     return (gdext_c_proc_address_func)g_proc_address;
+}
+
+/**
+ * @brief Set the library handle (TDD #155 - for GDExtension entry point)
+ * @param library The library handle from Godot
+ */
+void gdext_c_set_library_handle(GDExtensionClassLibraryPtr library) {
+    g_library_handle = library;
+}
+
+/**
+ * @brief Get the library handle (TDD #155 - for GDExtension entry point)
+ * @return The stored library handle, or NULL if not set
+ */
+GDExtensionClassLibraryPtr gdext_c_get_library_handle(void) {
+    return g_library_handle;
 }
 
 /**

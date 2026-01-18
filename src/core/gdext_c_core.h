@@ -82,6 +82,18 @@ const GDExtensionInterface* gdext_c_get_interface_functions(void);
  */
 gdext_c_proc_address_func gdext_c_get_proc_address_internal(void);
 
+/**
+ * @brief Set the library handle (TDD #155 - for GDExtension entry point)
+ * @param library The library handle from Godot
+ */
+void gdext_c_set_library_handle(GDExtensionClassLibraryPtr library);
+
+/**
+ * @brief Get the library handle (TDD #155 - for GDExtension entry point)
+ * @return The stored library handle, or NULL if not set
+ */
+GDExtensionClassLibraryPtr gdext_c_get_library_handle(void);
+
 #ifdef __cplusplus
 }
 #endif
