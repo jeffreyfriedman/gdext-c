@@ -25,29 +25,59 @@ typedef struct {
 
 /**
  * @brief Create a GameNode instance
- * TDD #156: Instance creation callback (Version 4 signature!)
+ * TDD #157: Must return Object*, not just instance data!
  */
 void* gdext_c_game_node_create_instance(void *p_userdata, GDExtensionBool p_notify_postinitialize) {
     (void)p_userdata;
-    (void)p_notify_postinitialize;
     
-    printf("[gdext-c] 🎮 TDD #156: Creating GameNode instance (notify_postinitialize=%d)\n", p_notify_postinitialize);
+    printf("[gdext-c] 🎮 TDD #157: Creating GameNode instance (notify_postinitialize=%d)\n", p_notify_postinitialize);
     fflush(stdout);
     
-    // Allocate instance data
+    // Get the interface functions
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) {
+        fprintf(stderr, "[gdext-c] ❌ Interface not initialized!\n");
+        fflush(stderr);
+        return NULL;
+    }
+    
+    // TDD #157: Create base Node object first!
+    StringName node_class_name;
+    memset(&node_class_name, 0, sizeof(StringName));
+    iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&node_class_name, "Node", 0);
+    
+    GDExtensionObjectPtr object = iface->classdb_construct_object((GDExtensionConstStringNamePtr)&node_class_name);
+    
+    if (!object) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to construct Node object!\n");
+        fflush(stderr);
+        return NULL;
+    }
+    
+    printf("[gdext-c] ✅ Created Node object: %p\n", (void*)object);
+    
+    // Allocate our custom instance data
     GameNodeInstance* instance = (GameNodeInstance*)malloc(sizeof(GameNodeInstance));
     if (!instance) {
-        fprintf(stderr, "[gdext-c] ❌ Failed to allocate GameNode instance!\n");
+        fprintf(stderr, "[gdext-c] ❌ Failed to allocate GameNode instance data!\n");
         fflush(stderr);
         return NULL;
     }
     
     instance->dummy = 0;
     
-    printf("[gdext-c] ✅ GameNode instance created: %p\n", (void*)instance);
+    // TDD #157: Attach our instance data to the object
+    StringName gamenode_class_name;
+    memset(&gamenode_class_name, 0, sizeof(StringName));
+    iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&gamenode_class_name, "GameNode", 0);
+    
+    iface->object_set_instance(object, (GDExtensionConstStringNamePtr)&gamenode_class_name, instance);
+    
+    printf("[gdext-c] ✅ GameNode instance created and attached to object\n");
     fflush(stdout);
     
-    return instance;
+    // TDD #157: Return the Object pointer, not just instance data!
+    return object;
 }
 
 /**
