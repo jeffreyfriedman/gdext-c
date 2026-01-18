@@ -11,9 +11,11 @@
 #include "gdext_c_callbacks.h"
 #include <stdio.h>
 #include <string.h>
+#include <dlfcn.h>  // TDD #158: For loading game_logic.dylib
 
 // Global storage for library handle
 static GDExtensionClassLibraryPtr g_library = NULL;
+static void* g_game_logic_handle = NULL;  // TDD #158: Handle to game_logic.dylib
 
 /**
  * @brief Initialize at specific level
@@ -39,6 +41,43 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
     
     printf("[gdext-c] 🎯 TDD #155: Initializing level: %s (PURE C - NO RUST!)\n", level_name);
     fflush(stdout);
+    
+    // TDD #158: Load game logic at CORE level (earliest possible)
+    if (p_level == GDEXTENSION_INITIALIZATION_CORE) {
+        printf("[gdext-c] 🎮 TDD #158: Loading game_logic.dylib...\n");
+        fflush(stdout);
+        
+        // Try multiple paths to find game_logic.dylib
+        const char* paths[] = {
+            "@loader_path/game_logic.dylib",           // Relative to this library
+            "@loader_path/../bin/macos/game_logic.dylib",  // From Godot binary
+            "./bin/macos/game_logic.dylib",            // From project root
+            "bin/macos/game_logic.dylib",              // Alternate
+            NULL
+        };
+        
+        for (int i = 0; paths[i] != NULL; i++) {
+            printf("[gdext-c] 📂 Trying: %s\n", paths[i]);
+            fflush(stdout);
+            
+            // TDD #158: Use RTLD_LAZY to defer symbol resolution (some symbols may not be needed)
+            g_game_logic_handle = dlopen(paths[i], RTLD_LAZY | RTLD_GLOBAL);
+            if (g_game_logic_handle) {
+                printf("[gdext-c] ✅ TDD #158: Loaded game_logic.dylib from: %s\n", paths[i]);
+                printf("[gdext-c] 📍 Handle: %p\n", g_game_logic_handle);
+                fflush(stdout);
+                break;
+            } else {
+                printf("[gdext-c] ⚠️  Failed: %s\n", dlerror());
+                fflush(stdout);
+            }
+        }
+        
+        if (!g_game_logic_handle) {
+            printf("[gdext-c] ❌ TDD #158: Failed to load game_logic.dylib from any path!\n");
+            fflush(stdout);
+        }
+    }
     
     // TDD #156: Register GameNode class at SCENE level
     if (p_level == GDEXTENSION_INITIALIZATION_SCENE) {
