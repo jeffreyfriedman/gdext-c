@@ -666,6 +666,12 @@ void* gdext_variant_new_packed_vector3_array(void);
  */
 #include "gdext_c_packed_byte_array.h"
 
+/**
+ * TDD #154b: PURE C callback registration (NO RUST!)
+ * Allows Go game logic to register callbacks for ready/process/physics_process
+ */
+#include "gdext_c_callbacks.h"
+
 #ifdef __cplusplus
 }
 #endif
