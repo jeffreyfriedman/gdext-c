@@ -44,6 +44,16 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     fprintf(stderr, "[gdext-c] 🔍 TDD #129: Got interface functions: %p\n", (void*)iface);
     
+    // TDD #160: CRITICAL FIX - variant_call expects GDExtensionVariantPtr, not Object!
+    // We need to wrap the object in a Variant first
+    fprintf(stderr, "[gdext-c] 🔍 TDD #160: Wrapping object in Variant...\n");
+    GDExtensionVariantPtr object_variant = gdext_variant_from_object(object);
+    if (!object_variant) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_call_method: gdext_variant_from_object failed!\n");
+        return NULL;
+    }
+    fprintf(stderr, "[gdext-c] ✅ TDD #160: Object wrapped in Variant: %p\n", object_variant);
+    
     // Create StringName for method (stack-allocated buffer)
     fprintf(stderr, "[gdext-c] 🔍 TDD #129: Creating StringName for method '%s'...\n", method_name);
     unsigned char method_sn_buffer[256];
@@ -56,6 +66,8 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
     GDExtensionVariantPtr ret = malloc(sizeof(GDExtensionUninitializedVariantPtr));
     if (!ret) {
         fprintf(stderr, "[gdext-c] ❌ gdext_call_method: ret malloc failed!\n");
+        iface->variant_destroy(object_variant);
+        free(object_variant);
         return NULL;
     }
     fprintf(stderr, "[gdext-c] 🔍 TDD #129: Return variant allocated: %p\n", ret);
@@ -72,6 +84,8 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
         arg_ptrs = malloc(sizeof(GDExtensionConstVariantPtr) * arg_count);
         if (!arg_ptrs) {
             fprintf(stderr, "[gdext-c] ❌ gdext_call_method: arg_ptrs malloc failed!\n");
+            iface->variant_destroy(object_variant);
+            free(object_variant);
             free(ret);
             return NULL;
         }
@@ -83,25 +97,25 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
         fprintf(stderr, "[gdext-c] 🔍 TDD #129: Arguments converted\n");
     }
     
-    // Call the method using variant_call
-    fprintf(stderr, "[gdext-c] 🔧 TDD #131: About to call variant_call...\n");
-    fprintf(stderr, "[gdext-c]   object=%p, method_sn=%p, arg_ptrs=%p, arg_count=%d, ret=%p\n",
-            object, (void*)method_sn, (void*)arg_ptrs, arg_count, ret);
+    // Call the method using variant_call (TDD #160: Pass object_variant, not raw object!)
+    fprintf(stderr, "[gdext-c] 🔧 TDD #160: About to call variant_call with wrapped object...\n");
+    fprintf(stderr, "[gdext-c]   object_variant=%p, method_sn=%p, arg_ptrs=%p, arg_count=%d, ret=%p\n",
+            object_variant, (void*)method_sn, (void*)arg_ptrs, arg_count, ret);
     fprintf(stderr, "[gdext-c]   iface->variant_call=%p\n", (void*)iface->variant_call);
     
     GDExtensionCallError error;
     memset(&error, 0, sizeof(error));
     
-    fprintf(stderr, "[gdext-c] 🔧 TDD #131: Calling variant_call NOW...\n");
+    fprintf(stderr, "[gdext-c] 🔧 TDD #160: Calling variant_call NOW (with Variant-wrapped object)...\n");
     iface->variant_call(
-        object,              // Instance (the object)
+        object_variant,      // TDD #160: Pass Variant containing object, not raw object!
         method_sn,           // Method name (StringName pointer)
         arg_ptrs,            // Arguments
         arg_count,           // Argument count
         ret,                 // Return value
         &error               // Error info
     );
-    fprintf(stderr, "[gdext-c] ✅ TDD #131: variant_call returned! error.error=%d\n", error.error);
+    fprintf(stderr, "[gdext-c] ✅ TDD #160: variant_call returned! error.error=%d\n", error.error);
     
     if (error.error != 0) {
         fprintf(stderr, "[gdext-c] ⚠️  TDD #131: Call error details:\n");
@@ -114,6 +128,9 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
         free(arg_ptrs);
     }
     // StringName is stack-allocated, no cleanup needed
+    // TDD #160: Clean up the object_variant wrapper
+    iface->variant_destroy(object_variant);
+    free(object_variant);
     
     // Check for errors
     if (error.error != 0) { // GDEXTENSION_CALL_OK = 0
@@ -125,7 +142,7 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
         return NULL;
     }
     
-    fprintf(stderr, "[gdext-c] ✅ TDD #129: gdext_call_method SUCCESS!\n");
+    fprintf(stderr, "[gdext-c] ✅ TDD #160: gdext_call_method SUCCESS!\n");
     return ret;
 }
 
