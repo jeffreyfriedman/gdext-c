@@ -70,6 +70,35 @@ make generate  # Regenerate bindings from extension_api.json
 3. **Explicit Memory Management:** Caller owns returned pointers
 4. **Simple API Surface:** Minimal, orthogonal functions
 
+## 📚 **Documentation for Language Binding Developers**
+
+**NEW**: Comprehensive guides for building language bindings on top of gdext-c!
+
+- 📖 **[GODOT_LIFECYCLE.md](docs/GODOT_LIFECYCLE.md)** - Understanding Godot's initialization phases and avoiding race conditions
+- 📖 **[BEST_PRACTICES.md](docs/BEST_PRACTICES.md)** - Patterns for safe, performant bindings
+- 💻 **[deferred_initialization.c](examples/deferred_initialization.c)** - Complete working example
+
+**Key Takeaway**: Defer visual node creation to first Update() to avoid platform-specific crashes!
+
+```c
+// ❌ DON'T: Create nodes in Initialize()
+void init(scene) {
+    for (int i = 0; i < 100; i++) {
+        create_node(); // Crashes on macOS!
+    }
+}
+
+// ✅ DO: Defer to first Update()
+void update(system) {
+    if (!system->visuals_ready) {
+        create_all_nodes(); // Safe!
+        system->visuals_ready = true;
+    }
+}
+```
+
+See [docs/](docs/) for complete guides validated across macOS, Linux, and Windows.
+
 ## 📦 Components
 
 ```
