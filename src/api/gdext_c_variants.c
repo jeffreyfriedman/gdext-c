@@ -334,24 +334,43 @@ int gdext_variant_to_bool(void* variant) {
  */
 void* gdext_variant_to_object(void* variant) {
     if (!gdext_c_is_initialized() || !variant) {
+        fprintf(stderr, "[gdext-c] ⚠️ gdext_variant_to_object: not initialized or variant is NULL!\n");
         return NULL;
     }
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     
-    // Get the object instance ID from the variant
-    // If variant is not an Object type, this returns 0
-    GDObjectInstanceID instance_id = iface->variant_get_object_instance_id(variant);
-    
-    // If instance ID is 0, the variant doesn't contain a valid object
-    if (instance_id == 0) {
+    // Check if the variant is of type OBJECT
+    GDExtensionVariantType variant_type = iface->variant_get_type(variant);
+    if (variant_type != GDEXTENSION_VARIANT_TYPE_OBJECT) {
+        fprintf(stderr, "[gdext-c] ⚠️ gdext_variant_to_object: Variant is not of type OBJECT (type: %d)!\n", variant_type);
         return NULL;
     }
+
+    // TDD: Get variant_get_object_instance_id function directly from proc_address
+    extern gdext_c_proc_address_func gdext_c_get_proc_address_internal(void);
+    GDExtensionInterfaceVariantGetObjectInstanceId get_instance_id_fn = 
+        (GDExtensionInterfaceVariantGetObjectInstanceId)gdext_c_get_proc_address_internal()("variant_get_object_instance_id");
     
-    // Get the Object pointer from the instance ID
-    // Returns NULL if the object no longer exists
+    if (!get_instance_id_fn) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_variant_to_object: variant_get_object_instance_id function not available!\n");
+        return NULL;
+    }
+
+    // Get the object instance ID from the variant
+    GDObjectInstanceID instance_id = get_instance_id_fn(variant);
+    if (instance_id == 0) {
+        fprintf(stderr, "[gdext-c] ⚠️ gdext_variant_to_object: Failed to get object instance ID from variant!\n");
+        return NULL;
+    }
+
+    // Get the Object pointer from the instance ID (this function is in our interface)
     GDExtensionObjectPtr object_ptr = iface->object_get_instance_from_id(instance_id);
-    
+    if (object_ptr == NULL) {
+        fprintf(stderr, "[gdext-c] ⚠️ gdext_variant_to_object: Failed to get object pointer from instance ID %llu!\n", instance_id);
+        return NULL;
+    }
+
     return object_ptr;
 }
 
