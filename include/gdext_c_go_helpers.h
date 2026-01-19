@@ -9,7 +9,7 @@
 #define GDEXT_C_GO_HELPERS_H
 
 #include <stdbool.h>
-#include "gdext_c_core.h"
+#include "core/gdext_c_core.h"
 
 #ifdef __cplusplus
 extern "C" {
