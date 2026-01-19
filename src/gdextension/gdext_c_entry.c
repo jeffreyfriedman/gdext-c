@@ -60,7 +60,8 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
             printf("[gdext-c] 📂 Trying: %s\n", paths[i]);
             fflush(stdout);
             
-            // TDD #158: Use RTLD_LAZY to defer symbol resolution (some symbols may not be needed)
+            // TDD #160: Use RTLD_LAZY - symbols will be resolved when actually called
+            // This allows game_logic to load even if some symbols are missing
             g_game_logic_handle = dlopen(paths[i], RTLD_LAZY | RTLD_GLOBAL);
             if (g_game_logic_handle) {
                 printf("[gdext-c] ✅ TDD #158: Loaded game_logic.dylib from: %s\n", paths[i]);

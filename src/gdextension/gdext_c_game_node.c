@@ -9,13 +9,14 @@
 #include "gdext_c_gdextension.h"
 #include "gdext_c_core.h"
 #include "gdext_c_callbacks.h"
+#include "gdext_c_generated.h"  // TDD #160: For set_process functions
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// GameNode instance data (empty for now - just triggers callbacks)
+// GameNode instance data
 typedef struct {
-    int dummy; // Placeholder
+    GDExtensionObjectPtr godot_object; // The Godot Node object this instance is attached to
 } GameNodeInstance;
 
 // StringName as opaque struct (8 bytes on 64-bit as per extension_api.json!)
@@ -64,7 +65,8 @@ void* gdext_c_game_node_create_instance(void *p_userdata, GDExtensionBool p_noti
         return NULL;
     }
     
-    instance->dummy = 0;
+    // TDD #160: Store the Godot object pointer so we can call methods on it later
+    instance->godot_object = object;
     
     // TDD #157: Attach our instance data to the object
     StringName gamenode_class_name;
@@ -109,15 +111,37 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
         case 13: // NOTIFICATION_READY
             printf("[gdext-c] 🎮 GameNode._ready() (PURE C!)\n");
             fflush(stdout);
+            
+            // TDD #160: Enable process notifications so _process and _physics_process get called
+            GameNodeInstance* instance = (GameNodeInstance*)p_instance;
+            if (instance && instance->godot_object) {
+                const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+                
+                // Call set_process(true)
+                GDExtensionBool enable = 1;
+                gdext_node_set_process((gdext_c_object_t)instance->godot_object, enable);
+                printf("[gdext-c] ✅ TDD #160: Enabled _process notifications\n");
+                fflush(stdout);
+                
+                // Call set_physics_process(true)
+                gdext_node_set_physics_process((gdext_c_object_t)instance->godot_object, enable);
+                printf("[gdext-c] ✅ TDD #160: Enabled _physics_process notifications\n");
+                fflush(stdout);
+            }
+            
             c_trigger_ready_callback();
             break;
             
         case 10: // NOTIFICATION_PROCESS
-            // Process callback will be called via virtual method
+            printf("[gdext-c] 🔍 TDD #160: _process notification received\n");
+            fflush(stdout);
+            c_trigger_process_callback(0.016); // TODO: Get actual delta
             break;
             
         case 16: // NOTIFICATION_PHYSICS_PROCESS
-            // Physics process callback will be called via virtual method
+            printf("[gdext-c] 🔍 TDD #160: _physics_process notification received\n");
+            fflush(stdout);
+            c_trigger_physics_process_callback(0.016); // TODO: Get actual delta
             break;
             
         default:
