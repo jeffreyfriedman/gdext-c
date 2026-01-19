@@ -10,6 +10,7 @@
  */
 
 #include "../../include/gdext_c.h"
+#include "../../include/gdext_c_packed_byte_array.h"
 #include "../core/gdext_c_core.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -414,5 +415,51 @@ void* gdext_variant_new() {
     iface->variant_new_nil(variant);
     
     return variant;
+}
+
+/**
+ * Create a Variant from a byte array (PackedByteArray)
+ * TDD SVO: Required for RDShaderSPIRV.SetBytecodeCompute()
+ * 
+ * This reuses the existing gdext_c_packed_byte_array helpers from
+ * src/math/gdext_c_packed_byte_array.c to avoid duplication.
+ */
+void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char* data, size_t len) {
+    fprintf(stderr, "[gdext-c] 🔍 TDD PackedByteArray: variant_ptr=%p, data=%p, len=%zu\n", variant_ptr, data, len);
+    
+    if (!gdext_c_is_initialized() || !variant_ptr) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_variant_from_packed_byte_array: not initialized or variant is NULL!\n");
+        return;
+    }
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    
+    // Create a PackedByteArray (16 bytes opaque struct per builtin types)
+    gdext_c_packed_byte_array_t pba;
+    fprintf(stderr, "[gdext-c] 🔍 TDD: Creating PackedByteArray...\n");
+    
+    // Initialize PackedByteArray with data using existing helper
+    gdext_c_packed_byte_array_from_bytes(&pba, data, len);
+    fprintf(stderr, "[gdext-c] 🔍 TDD: PackedByteArray created with %zu bytes\n", len);
+    
+    // Get constructor to convert PackedByteArray → Variant
+    GDExtensionVariantFromTypeConstructorFunc constructor = 
+        iface->get_variant_from_type_constructor(GDEXTENSION_VARIANT_TYPE_PACKED_BYTE_ARRAY);
+    
+    if (!constructor) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get PackedByteArray→Variant constructor!\n");
+        // Cleanup PackedByteArray
+        gdext_c_packed_byte_array_destroy(&pba);
+        return;
+    }
+    fprintf(stderr, "[gdext-c] 🔍 TDD: Got constructor, converting to Variant...\n");
+    
+    // Convert PackedByteArray to Variant
+    constructor(variant_ptr, &pba);
+    fprintf(stderr, "[gdext-c] ✅ TDD: PackedByteArray converted to Variant\n");
+    
+    // Cleanup temporary PackedByteArray
+    gdext_c_packed_byte_array_destroy(&pba);
+    fprintf(stderr, "[gdext-c] ✅ TDD: Temporary PackedByteArray destroyed\n");
 }
 

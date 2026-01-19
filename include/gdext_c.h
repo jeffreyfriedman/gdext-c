@@ -486,6 +486,17 @@ void* gdext_variant_from_color(float r, float g, float b, float a);
 void* gdext_variant_from_object(void* object);
 
 /**
+ * @brief Create a Variant containing a PackedByteArray
+ * @param variant_ptr Pointer to variant to initialize
+ * @param data Byte data to copy into PackedByteArray
+ * @param len Length of data in bytes
+ * 
+ * TDD SVO: Required for RDShaderSPIRV.SetBytecodeCompute()
+ * This function creates a Variant containing a PackedByteArray with the given data.
+ */
+void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char* data, size_t len);
+
+/**
  * @brief Extract int64 from a Variant
  */
 int64_t gdext_variant_to_int(void* variant);
