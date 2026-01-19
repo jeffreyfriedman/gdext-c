@@ -678,6 +678,12 @@ void* gdext_variant_new_packed_vector3_array(void);
  */
 #include "gdext_c_gdextension.h"
 
+/**
+ * TDD #159: Go helper functions
+ * Convenience functions for Go game logic (GetNodeFromScene, etc.)
+ */
+#include "gdext_c_go_helpers.h"
+
 #ifdef __cplusplus
 }
 #endif
