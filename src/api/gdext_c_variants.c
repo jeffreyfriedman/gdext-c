@@ -423,6 +423,9 @@ void* gdext_variant_new() {
  * 
  * This reuses the existing gdext_c_packed_byte_array helpers from
  * src/math/gdext_c_packed_byte_array.c to avoid duplication.
+ * 
+ * IMPORTANT: The Variant takes ownership of the PackedByteArray data.
+ * We do NOT destroy it here - the Variant will handle cleanup when freed.
  */
 void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char* data, size_t len) {
     fprintf(stderr, "[gdext-c] 🔍 TDD PackedByteArray: variant_ptr=%p, data=%p, len=%zu\n", variant_ptr, data, len);
@@ -435,11 +438,16 @@ void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     
     // Create a PackedByteArray (16 bytes opaque struct per builtin types)
-    gdext_c_packed_byte_array_t pba;
+    // Allocate on heap so it persists after this function returns
+    gdext_c_packed_byte_array_t* pba = malloc(sizeof(gdext_c_packed_byte_array_t));
+    if (!pba) {
+        fprintf(stderr, "[gdext-c] ❌ Malloc failed for PackedByteArray!\n");
+        return;
+    }
     fprintf(stderr, "[gdext-c] 🔍 TDD: Creating PackedByteArray...\n");
     
     // Initialize PackedByteArray with data using existing helper
-    gdext_c_packed_byte_array_from_bytes(&pba, data, len);
+    gdext_c_packed_byte_array_from_bytes(pba, data, len);
     fprintf(stderr, "[gdext-c] 🔍 TDD: PackedByteArray created with %zu bytes\n", len);
     
     // Get constructor to convert PackedByteArray → Variant
@@ -449,17 +457,22 @@ void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char
     if (!constructor) {
         fprintf(stderr, "[gdext-c] ❌ Failed to get PackedByteArray→Variant constructor!\n");
         // Cleanup PackedByteArray
-        gdext_c_packed_byte_array_destroy(&pba);
+        gdext_c_packed_byte_array_destroy(pba);
+        free(pba);
         return;
     }
     fprintf(stderr, "[gdext-c] 🔍 TDD: Got constructor, converting to Variant...\n");
     
     // Convert PackedByteArray to Variant
-    constructor(variant_ptr, &pba);
+    // NOTE: PackedByteArray uses internal reference counting
+    // The Variant will increment the ref count, so we must destroy our temp copy
+    constructor(variant_ptr, pba);
     fprintf(stderr, "[gdext-c] ✅ TDD: PackedByteArray converted to Variant\n");
     
-    // Cleanup temporary PackedByteArray
-    gdext_c_packed_byte_array_destroy(&pba);
-    fprintf(stderr, "[gdext-c] ✅ TDD: Temporary PackedByteArray destroyed\n");
+    // Destroy the temporary PackedByteArray
+    // The Variant has incremented the internal ref count, so the data stays alive
+    gdext_c_packed_byte_array_destroy(pba);
+    free(pba);
+    fprintf(stderr, "[gdext-c] ✅ TDD: Temporary PackedByteArray freed (Variant holds ref)\n");
 }
 

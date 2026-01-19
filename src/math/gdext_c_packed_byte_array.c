@@ -99,20 +99,38 @@ void gdext_c_packed_byte_array_from_bytes(
 ) {
     ensure_initialized();
     
+    fprintf(stderr, "[gdext-c] 🔍 TDD: packed_byte_array_from_bytes called with %zu bytes\n", size);
+    fflush(stderr);
+    
     // Create empty array
     gdext_c_packed_byte_array_create(out);
+    fprintf(stderr, "[gdext-c] 🔍 TDD: Empty array created\n");
+    fflush(stderr);
     
     // Resize to fit data
     int64_t new_size = (int64_t)size;
     const GDExtensionConstTypePtr resize_args[1] = { (GDExtensionConstTypePtr)&new_size };
     resize_method((GDExtensionTypePtr)out->opaque, resize_args, NULL, 1);
+    fprintf(stderr, "[gdext-c] 🔍 TDD: Resized to %zu bytes\n", size);
+    fflush(stderr);
     
     // Fill with data using indexed setter
+    // NOTE: This is slow for large arrays! TODO: Use bulk copy if available
+    fprintf(stderr, "[gdext-c] 🔍 TDD: Filling with data (loop of %zu iterations)...\n", size);
+    fflush(stderr);
+    
     for (size_t i = 0; i < size; i++) {
+        if (i % 1000 == 0) {  // Progress logging every 1000 bytes
+            fprintf(stderr, "[gdext-c] 🔍 TDD: Progress: %zu/%zu bytes\n", i, size);
+            fflush(stderr);
+        }
         GDExtensionInt index = (GDExtensionInt)i;
         int64_t value = (int64_t)data[i];
         indexed_setter((GDExtensionTypePtr)out->opaque, index, (GDExtensionConstTypePtr)&value);
     }
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD: All %zu bytes filled\n", size);
+    fflush(stderr);
 }
 
 size_t gdext_c_packed_byte_array_size(const gdext_c_packed_byte_array_t* arr) {
