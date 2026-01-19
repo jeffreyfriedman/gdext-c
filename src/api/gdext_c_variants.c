@@ -476,3 +476,50 @@ void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char
     fprintf(stderr, "[gdext-c] ✅ TDD: Temporary PackedByteArray freed (Variant holds ref)\n");
 }
 
+/**
+ * Extract PackedByteArray from a Variant
+ * TDD SVO: Required for RDShaderSPIRV.GetBytecodeCompute()
+ */
+void gdext_variant_to_packed_byte_array(void* variant, unsigned char** out_data, size_t* out_size) {
+    fprintf(stderr, "[gdext-c] 🔍 TDD: gdext_variant_to_packed_byte_array called\n");
+    
+    if (!gdext_c_is_initialized() || !variant || !out_data || !out_size) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_variant_to_packed_byte_array: invalid params!\n");
+        if (out_data) *out_data = NULL;
+        if (out_size) *out_size = 0;
+        return;
+    }
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    
+    // Get the to-type constructor to extract PackedByteArray from Variant
+    GDExtensionTypeFromVariantConstructorFunc to_constructor = 
+        iface->get_variant_to_type_constructor(GDEXTENSION_VARIANT_TYPE_PACKED_BYTE_ARRAY);
+    
+    if (!to_constructor) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get Variant→PackedByteArray constructor!\n");
+        *out_data = NULL;
+        *out_size = 0;
+        return;
+    }
+    
+    // Extract PackedByteArray from Variant
+    gdext_c_packed_byte_array_t pba;
+    to_constructor(&pba, variant);
+    fprintf(stderr, "[gdext-c] ✅ TDD: Extracted PackedByteArray from Variant\n");
+    
+    // Get size
+    extern size_t gdext_c_packed_byte_array_size(const gdext_c_packed_byte_array_t* arr);
+    *out_size = gdext_c_packed_byte_array_size(&pba);
+    fprintf(stderr, "[gdext-c] 🔍 TDD: PackedByteArray size: %zu bytes\n", *out_size);
+    
+    // Get pointer to data
+    extern const uint8_t* gdext_c_packed_byte_array_ptr(const gdext_c_packed_byte_array_t* arr);
+    *out_data = (unsigned char*)gdext_c_packed_byte_array_ptr(&pba);
+    fprintf(stderr, "[gdext-c] 🔍 TDD: PackedByteArray data pointer: %p\n", *out_data);
+    
+    // DO NOT destroy pba - the Variant still owns it!
+    // The caller just gets a pointer to the data
+    fprintf(stderr, "[gdext-c] ✅ TDD: gdext_variant_to_packed_byte_array complete\n");
+}
+

@@ -522,6 +522,17 @@ int gdext_variant_to_bool(void* variant);
 void* gdext_variant_to_object(void* variant);
 
 /**
+ * @brief Extract PackedByteArray from a Variant
+ * @param variant Pointer to a GDExtensionVariantPtr containing a PackedByteArray
+ * @param out_data Pointer to receive the data pointer (caller must NOT free)
+ * @param out_size Pointer to receive the size in bytes
+ * 
+ * TDD SVO: Required for RDShaderSPIRV.GetBytecodeCompute()
+ * The returned data pointer is valid as long as the Variant exists.
+ */
+void gdext_variant_to_packed_byte_array(void* variant, unsigned char** out_data, size_t* out_size);
+
+/**
  * @brief Free a Variant
  */
 void gdext_variant_free(void* variant);
