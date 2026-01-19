@@ -316,6 +316,45 @@ int gdext_variant_to_bool(void* variant) {
     return result ? 1 : 0;
 }
 
+/**
+ * TDD SVO Test 2: Extract Object pointer from a Variant
+ * 
+ * This function converts a Variant containing an Object to the actual Object pointer.
+ * It handles NULL variants correctly and returns NULL if the variant doesn't contain an object.
+ * 
+ * Process:
+ * 1. Get the object instance ID from the variant
+ * 2. Get the Object pointer using the instance ID
+ * 
+ * Returns: Object pointer (void*) or NULL if:
+ *   - gdext-c not initialized
+ *   - variant is NULL
+ *   - variant doesn't contain an object
+ *   - object instance ID is 0 (invalid/null)
+ */
+void* gdext_variant_to_object(void* variant) {
+    if (!gdext_c_is_initialized() || !variant) {
+        return NULL;
+    }
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    
+    // Get the object instance ID from the variant
+    // If variant is not an Object type, this returns 0
+    GDObjectInstanceID instance_id = iface->variant_get_object_instance_id(variant);
+    
+    // If instance ID is 0, the variant doesn't contain a valid object
+    if (instance_id == 0) {
+        return NULL;
+    }
+    
+    // Get the Object pointer from the instance ID
+    // Returns NULL if the object no longer exists
+    GDExtensionObjectPtr object_ptr = iface->object_get_instance_from_id(instance_id);
+    
+    return object_ptr;
+}
+
 // ============================================================================
 // VARIANT LIFECYCLE
 // ============================================================================

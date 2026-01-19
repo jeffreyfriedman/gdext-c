@@ -501,6 +501,16 @@ double gdext_variant_to_float(void* variant);
 int gdext_variant_to_bool(void* variant);
 
 /**
+ * @brief Extract Object pointer from a Variant (TDD SVO Test 2)
+ * @param variant Pointer to a GDExtensionVariantPtr containing an Object
+ * @return Object pointer (GDExtensionObjectPtr) or NULL if variant doesn't contain an object
+ * 
+ * This function safely extracts an Object pointer from a Variant.
+ * It handles NULL variants and non-Object variants correctly.
+ */
+void* gdext_variant_to_object(void* variant);
+
+/**
  * @brief Free a Variant
  */
 void gdext_variant_free(void* variant);
