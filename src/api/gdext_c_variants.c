@@ -523,3 +523,70 @@ void gdext_variant_to_packed_byte_array(void* variant, unsigned char** out_data,
     fprintf(stderr, "[gdext-c] ✅ TDD: gdext_variant_to_packed_byte_array complete\n");
 }
 
+
+/**
+ * Extract RID from a Variant
+ * TDD SVO: Required for shader_create_from_spirv return value
+ * 
+ * RID is Godot's Resource IDentifier - an opaque 64-bit handle used for
+ * GPU resources, shaders, textures, etc.
+ */
+void gdext_variant_to_rid(void* variant, uint64_t* out_id) {
+    fprintf(stderr, "[gdext-c] 🔍 TDD: gdext_variant_to_rid called\n");
+    
+    if (!gdext_c_is_initialized() || !variant || !out_id) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_variant_to_rid: invalid params!\n");
+        if (out_id) *out_id = 0;
+        return;
+    }
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    
+    // Get the to-type constructor to extract RID from Variant
+    GDExtensionTypeFromVariantConstructorFunc to_constructor = 
+        iface->get_variant_to_type_constructor(GDEXTENSION_VARIANT_TYPE_RID);
+    
+    if (!to_constructor) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get Variant→RID constructor!\n");
+        *out_id = 0;
+        return;
+    }
+    
+    // Extract RID from Variant
+    // RID is 8 bytes (uint64)
+    uint64_t rid_value = 0;
+    to_constructor(&rid_value, variant);
+    *out_id = rid_value;
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD: Extracted RID from Variant: %llu\n", (unsigned long long)*out_id);
+}
+
+/**
+ * Create a Variant from an RID
+ * TDD SVO: Required for passing RIDs to Godot methods
+ */
+void gdext_variant_from_rid(void* variant_ptr, uint64_t rid_id) {
+    fprintf(stderr, "[gdext-c] 🔍 TDD: gdext_variant_from_rid called with id=%llu\n", (unsigned long long)rid_id);
+    
+    if (!gdext_c_is_initialized() || !variant_ptr) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_variant_from_rid: not initialized or variant is NULL!\n");
+        return;
+    }
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    
+    // Get constructor to convert RID → Variant
+    GDExtensionVariantFromTypeConstructorFunc constructor = 
+        iface->get_variant_from_type_constructor(GDEXTENSION_VARIANT_TYPE_RID);
+    
+    if (!constructor) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get RID→Variant constructor!\n");
+        return;
+    }
+    
+    // Convert RID to Variant
+    uint64_t rid_value = rid_id;
+    constructor(variant_ptr, &rid_value);
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD: RID converted to Variant\n");
+}

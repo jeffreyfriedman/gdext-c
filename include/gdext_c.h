@@ -532,6 +532,26 @@ void* gdext_variant_to_object(void* variant);
  */
 void gdext_variant_to_packed_byte_array(void* variant, unsigned char** out_data, size_t* out_size);
 
+
+/**
+ * @brief Extract RID from a Variant
+ * @param variant Pointer to a GDExtensionVariantPtr containing an RID
+ * @param out_id Pointer to receive the RID value (uint64)
+ * 
+ * TDD SVO: Required for shader_create_from_spirv return value
+ * RID is Godot's Resource IDentifier - an opaque 64-bit handle.
+ */
+void gdext_variant_to_rid(void* variant, uint64_t* out_id);
+
+/**
+ * @brief Create a Variant from an RID
+ * @param variant_ptr Pointer to a GDExtensionVariantPtr to initialize
+ * @param rid_id The RID value (uint64)
+ * 
+ * TDD SVO: Required for passing RIDs to Godot methods
+ */
+void gdext_variant_from_rid(void* variant_ptr, uint64_t rid_id);
+/**
 /**
  * @brief Free a Variant
  */
