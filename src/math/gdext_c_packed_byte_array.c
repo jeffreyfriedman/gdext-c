@@ -139,7 +139,7 @@ void gdext_c_packed_byte_array_from_bytes(
     GDExtensionPtrBuiltInMethod append_method = get_builtin_method(
         GDEXTENSION_VARIANT_TYPE_PACKED_BYTE_ARRAY,
         append_name,
-        2090311302  // Hash for append(value: int)
+        694024632  // Hash for append(value: int) - CORRECT from extension_api.json
     );
     
     if (!append_method) {
@@ -154,7 +154,7 @@ void gdext_c_packed_byte_array_from_bytes(
         GDExtensionPtrBuiltInMethod push_back_method = get_builtin_method(
             GDEXTENSION_VARIANT_TYPE_PACKED_BYTE_ARRAY,
             push_back_name,
-            4290991271  // Hash for push_back(value: int)
+            694024632  // Hash for push_back(value: int) - CORRECT from extension_api.json
         );
         
         if (!push_back_method) {
@@ -168,6 +168,9 @@ void gdext_c_packed_byte_array_from_bytes(
         fflush(stderr);
         
         // Use push_back to add each byte
+        // NOTE: push_back returns bool, so we need storage for return value
+        uint8_t return_value = 0;
+        
         for (size_t i = 0; i < size; i++) {
             if (i % 1000 == 0) {
                 fprintf(stderr, "[gdext-c] 🔍 TDD: push_back progress: %zu/%zu bytes\n", i, size);
@@ -175,7 +178,7 @@ void gdext_c_packed_byte_array_from_bytes(
             }
             int64_t byte_value = (int64_t)data[i];
             const GDExtensionConstTypePtr push_args[1] = { (GDExtensionConstTypePtr)&byte_value };
-            push_back_method((GDExtensionTypePtr)out->opaque, push_args, NULL, 1);
+            push_back_method((GDExtensionTypePtr)out->opaque, push_args, (GDExtensionTypePtr)&return_value, 1);
         }
         
         fprintf(stderr, "[gdext-c] ✅ TDD: All %zu bytes pushed\n", size);
@@ -186,6 +189,9 @@ void gdext_c_packed_byte_array_from_bytes(
         fflush(stderr);
         
         // Use append for each byte (slower but safer)
+        // NOTE: append returns bool, so we need storage for return value
+        uint8_t return_value = 0;
+        
         for (size_t i = 0; i < size; i++) {
             if (i % 1000 == 0) {
                 fprintf(stderr, "[gdext-c] 🔍 TDD: Appending: %zu/%zu bytes\n", i, size);
@@ -193,7 +199,7 @@ void gdext_c_packed_byte_array_from_bytes(
             }
             int64_t byte_value = (int64_t)data[i];
             const GDExtensionConstTypePtr append_args[1] = { (GDExtensionConstTypePtr)&byte_value };
-            append_method((GDExtensionTypePtr)out->opaque, append_args, NULL, 1);
+            append_method((GDExtensionTypePtr)out->opaque, append_args, (GDExtensionTypePtr)&return_value, 1);
         }
         
         fprintf(stderr, "[gdext-c] ✅ TDD: All %zu bytes appended\n", size);
