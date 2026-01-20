@@ -312,8 +312,44 @@ void gdext_c_packed_byte_array_destroy(gdext_c_packed_byte_array_t* arr) {
 }
 
 const uint8_t* gdext_c_packed_byte_array_ptr(const gdext_c_packed_byte_array_t* arr) {
-    // For v0.1.0, return NULL - direct pointer access requires more API work
-    // The indexed getter/setter is sufficient for buffer_update use case
-    (void)arr; // Suppress unused warning
-    return NULL;
+    ensure_initialized();
+    
+    fprintf(stderr, "[gdext-c] 🔍 TDD: packed_byte_array_ptr called\n");
+    
+    if (!arr || !arr->opaque) {
+        fprintf(stderr, "[gdext-c] ❌ packed_byte_array_ptr: NULL array!\n");
+        return NULL;
+    }
+    
+    // Get size first - if empty, return NULL
+    int64_t size = 0;
+    size_method((GDExtensionConstTypePtr)arr->opaque, NULL, &size, 0);
+    fprintf(stderr, "[gdext-c] 🔍 TDD: Array size: %lld bytes\n", size);
+    
+    if (size == 0) {
+        fprintf(stderr, "[gdext-c] ⚠️ packed_byte_array_ptr: Array is empty\n");
+        return NULL;
+    }
+    
+    // Use packed_byte_array_operator_index_const to get const pointer to internal data
+    gdext_c_proc_address_func proc_address = gdext_c_get_proc_address_internal();
+    if (!proc_address) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get proc_address!\n");
+        return NULL;
+    }
+    
+    typedef const uint8_t* (*PackedByteArrayOperatorIndexConstFunc)(GDExtensionConstTypePtr, GDExtensionInt);
+    PackedByteArrayOperatorIndexConstFunc get_const_ptr_func = 
+        (PackedByteArrayOperatorIndexConstFunc)proc_address("packed_byte_array_operator_index_const");
+    
+    if (!get_const_ptr_func) {
+        fprintf(stderr, "[gdext-c] ❌ packed_byte_array_operator_index_const not available!\n");
+        return NULL;
+    }
+    
+    // Get pointer to element 0 (start of array)
+    const uint8_t* ptr = get_const_ptr_func((GDExtensionConstTypePtr)arr->opaque, 0);
+    fprintf(stderr, "[gdext-c] ✅ TDD: Got const pointer: %p (size: %lld bytes)\n", (const void*)ptr, size);
+    
+    return ptr;
 }
