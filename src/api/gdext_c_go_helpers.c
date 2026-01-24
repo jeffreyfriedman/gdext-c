@@ -11,6 +11,79 @@
 #include "gdext_c_generated.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+// TDD #172: Path lookup cache to avoid repeated Node.get_node() calls
+// Saw 34 lookups of '/root/Main/CanvasLayer/HUD' in 15 frames!
+#define PATH_CACHE_SIZE 256
+
+typedef struct {
+    char* path;
+    void* node;
+} PathCacheEntry;
+
+static PathCacheEntry path_cache[PATH_CACHE_SIZE];
+static int path_cache_count = 0;
+
+// Simple hash function for strings
+static unsigned int hash_string(const char* str) {
+    unsigned int hash = 5381;
+    int c;
+    while ((c = *str++)) {
+        hash = ((hash << 5) + hash) + c; // hash * 33 + c
+    }
+    return hash % PATH_CACHE_SIZE;
+}
+
+// Look up path in cache
+static void* path_cache_get(const char* path) {
+    unsigned int hash = hash_string(path);
+    
+    // Linear probing for collision resolution
+    for (int i = 0; i < PATH_CACHE_SIZE; i++) {
+        unsigned int index = (hash + i) % PATH_CACHE_SIZE;
+        if (path_cache[index].path == NULL) {
+            // Empty slot, not in cache
+            return NULL;
+        }
+        if (strcmp(path_cache[index].path, path) == 0) {
+            // Found in cache!
+            return path_cache[index].node;
+        }
+    }
+    
+    return NULL; // Cache full or not found
+}
+
+// Add path to cache
+static void path_cache_put(const char* path, void* node) {
+    unsigned int hash = hash_string(path);
+    
+    // Linear probing for collision resolution
+    for (int i = 0; i < PATH_CACHE_SIZE; i++) {
+        unsigned int index = (hash + i) % PATH_CACHE_SIZE;
+        if (path_cache[index].path == NULL) {
+            // Empty slot, add here
+            path_cache[index].path = strdup(path);
+            path_cache[index].node = node;
+            path_cache_count++;
+            return;
+        }
+        if (strcmp(path_cache[index].path, path) == 0) {
+            // Already in cache, update
+            path_cache[index].node = node;
+            return;
+        }
+    }
+    
+    // Cache full, evict oldest (index 0) and shift
+    free(path_cache[0].path);
+    for (int i = 0; i < PATH_CACHE_SIZE - 1; i++) {
+        path_cache[i] = path_cache[i + 1];
+    }
+    path_cache[PATH_CACHE_SIZE - 1].path = strdup(path);
+    path_cache[PATH_CACHE_SIZE - 1].node = node;
+}
 
 /**
  * @brief Check if a key is currently pressed
@@ -31,7 +104,14 @@ void* gdext_go_get_node(const char* path) {
         return NULL;
     }
     
-    fprintf(stderr, "[gdext-c] 🔍 gdext_go_get_node('%s')\n", path);
+    // TDD #172: Check cache first!
+    void* cached = path_cache_get(path);
+    if (cached != NULL) {
+        fprintf(stderr, "[gdext-c] ⚡ Cache hit for '%s': %p\n", path, cached);
+        return cached;
+    }
+    
+    fprintf(stderr, "[gdext-c] 🔍 Cache miss, looking up '%s'...\n", path);
     fflush(stderr);
     
     // Get interface
@@ -96,7 +176,10 @@ void* gdext_go_get_node(const char* path) {
     // If path is just "/root", return root node
     if (strcmp(path, "/root") == 0) {
         fprintf(stderr, "[gdext-c] ✅ Returning root node for path '/root'\n");
-        return (void*)(uintptr_t)root;
+        void* root_ptr = (void*)(uintptr_t)root;
+        // TDD #172: Cache the root node
+        path_cache_put(path, root_ptr);
+        return root_ptr;
     }
     
     // For other paths, use Node.get_node(NodePath) to traverse the scene tree
@@ -144,6 +227,10 @@ void* gdext_go_get_node(const char* path) {
     }
     
     fprintf(stderr, "[gdext-c] ✅ Found node at path '%s': %p\n", path, node_ptr);
+    
+    // TDD #172: Cache the looked-up node before returning
+    path_cache_put(path, node_ptr);
+    
     return node_ptr;
 }
 
