@@ -91,11 +91,60 @@ void* gdext_go_get_node(const char* path) {
     }
     
     fprintf(stderr, "[gdext-c] ✅ Got root node: %p\n", (void*)root);
-    fprintf(stderr, "[gdext-c] 💡 Returning root node (path lookup not yet implemented)\n");
     
-    // Return root node
-    // TDD #159: TODO - implement proper path lookup with Node.get_node()
-    return (void*)(uintptr_t)root;
+    // TDD #171: Implement proper path lookup using Node.get_node(path)
+    // If path is just "/root", return root node
+    if (strcmp(path, "/root") == 0) {
+        fprintf(stderr, "[gdext-c] ✅ Returning root node for path '/root'\n");
+        return (void*)(uintptr_t)root;
+    }
+    
+    // For other paths, use Node.get_node(NodePath) to traverse the scene tree
+    // First, remove "/root/" prefix if present
+    const char* relative_path = path;
+    if (strncmp(path, "/root/", 6) == 0) {
+        relative_path = path + 6; // Skip "/root/", removing the leading "/" too
+    } else if (strncmp(path, "/root", 5) == 0 && path[5] == '\0') {
+        // Just "/root" - already handled above
+        relative_path = path;
+    }
+    
+    fprintf(stderr, "[gdext-c] 🔍 Looking up path: '%s' (relative: '%s')\n", path, relative_path);
+    
+    // TDD #171: Create a NodePath variant from the string path
+    // First create a String variant, then use it to create NodePath
+    void* path_string_variant = gdext_variant_from_string(relative_path);
+    if (!path_string_variant) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to create String variant for path\n");
+        return NULL;
+    }
+    
+    // Call Node.get_node(relative_path) on root
+    void* result_variant = gdext_call_method(root, "get_node", (void*[]){path_string_variant}, 1);
+    
+    // Free the path variant
+    if (path_string_variant) {
+        gdext_variant_free(path_string_variant);
+    }
+    
+    if (result_variant == NULL) {
+        fprintf(stderr, "[gdext-c] ❌ Node not found at path '%s' (variant is NULL)\n", path);
+        return NULL;
+    }
+    
+    // TDD #171: Extract the object pointer from the returned variant
+    void* node_ptr = gdext_variant_to_object(result_variant);
+    
+    // Free the result variant
+    gdext_variant_free(result_variant);
+    
+    if (node_ptr == NULL) {
+        fprintf(stderr, "[gdext-c] ❌ Node not found at path '%s' (object extraction returned NULL)\n", path);
+        return NULL;
+    }
+    
+    fprintf(stderr, "[gdext-c] ✅ Found node at path '%s': %p\n", path, node_ptr);
+    return node_ptr;
 }
 
 /**
