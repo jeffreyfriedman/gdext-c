@@ -127,8 +127,9 @@ void gdext_c_packed_byte_array_from_bytes(
         // 1. Resize array to target size
         int64_t new_size = (int64_t)size;
         const GDExtensionConstTypePtr resize_args[1] = { (GDExtensionConstTypePtr)&new_size };
-        resize_method((GDExtensionTypePtr)out->opaque, resize_args, NULL, 1);
-        fprintf(stderr, "[gdext-c] ✅ TDD: Array resized to %zu bytes\n", size);
+        uint8_t ret_val_resize = 0; // TDD: resize returns bool/Error - MUST provide return storage!
+        resize_method((GDExtensionTypePtr)out->opaque, resize_args, &ret_val_resize, 1);
+        fprintf(stderr, "[gdext-c] ✅ TDD: Array resized (return: %d)\n", ret_val_resize);
         fflush(stderr);
         
         // 2. Get writable pointer using operator_index

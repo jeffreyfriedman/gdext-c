@@ -189,9 +189,10 @@ void* gdext_variant_from_vector3(float x, float y, float z) {
         return NULL;
     }
     
-    // Type 7 = VECTOR3
+    // TDD #162: VECTOR3 = 9 (not 7!)
+    // 0=NIL, 1=BOOL, 2=INT, 3=FLOAT, 4=STRING, 5=VECTOR2, 6=VECTOR2I, 7=RECT2, 8=RECT2I, 9=VECTOR3
     float vec3[3] = {x, y, z};
-    GDExtensionVariantFromTypeConstructorFunc constructor = iface->get_variant_from_type_constructor(7);
+    GDExtensionVariantFromTypeConstructorFunc constructor = iface->get_variant_from_type_constructor(9);
     if (!constructor) {
         free(variant);
         return NULL;
@@ -589,4 +590,150 @@ void gdext_variant_from_rid(void* variant_ptr, uint64_t rid_id) {
     constructor(variant_ptr, &rid_value);
     
     fprintf(stderr, "[gdext-c] ✅ TDD: RID converted to Variant\n");
+}
+
+/**
+ * @brief Create a Variant from an array of Object pointers (Godot Array type)
+ * 
+ * TDD SVO: Required for UniformSetCreate() which takes an Array of RDUniform objects.
+ * Creates a Godot Array variant and populates it with object references.
+ */
+void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids, size_t count) {
+    fprintf(stderr, "[gdext-c] 🔍 TDD: gdext_variant_from_object_array called with %zu objects\n", count);
+    fflush(stderr);
+    
+    if (!gdext_c_is_initialized() || !variant_ptr) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_variant_from_object_array: not initialized or variant is NULL!\n");
+        return;
+    }
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    gdext_c_proc_address_func proc_address = gdext_c_get_proc_address_internal();
+    
+    // 1. Create an empty Array (type 28)
+    typedef void (*ArrayConstructFunc)(GDExtensionTypePtr);
+    GDExtensionTypePtr array_ptr = iface->mem_alloc(256); // Allocate space for Array struct
+    if (!array_ptr) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to allocate Array struct!\n");
+        return;
+    }
+    
+    // Get Array constructor (default constructor, no args)
+    typedef GDExtensionPtrConstructor (*GetPtrConstructorFunc)(GDExtensionVariantType, int32_t);
+    GetPtrConstructorFunc get_constructor = (GetPtrConstructorFunc)proc_address("variant_get_ptr_constructor");
+    if (!get_constructor) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get variant_get_ptr_constructor!\n");
+        iface->mem_free(array_ptr);
+        return;
+    }
+    
+    // Constructor 0 is the default constructor for Array
+    GDExtensionPtrConstructor array_constructor = get_constructor(GDEXTENSION_VARIANT_TYPE_ARRAY, 0);
+    if (!array_constructor) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get Array constructor!\n");
+        iface->mem_free(array_ptr);
+        return;
+    }
+    
+    array_constructor(array_ptr, NULL); // Create empty array
+    fprintf(stderr, "[gdext-c] ✅ TDD: Created empty Array\n");
+    fflush(stderr);
+    
+    // 2. Get Array.append() method
+    typedef GDExtensionPtrBuiltInMethod (*GetPtrBuiltinMethod)(GDExtensionVariantType, GDExtensionConstStringNamePtr, GDExtensionInt);
+    GetPtrBuiltinMethod get_builtin_method = (GetPtrBuiltinMethod)proc_address("variant_get_ptr_builtin_method");
+    if (!get_builtin_method) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get variant_get_ptr_builtin_method!\n");
+        iface->mem_free(array_ptr);
+        return;
+    }
+    
+    uint8_t append_name[8] = {0};
+    iface->string_name_new_with_latin1_chars(append_name, "append", 0);
+    
+    // Array.append() hash for Godot 4.5 (checked via extension_api.json)
+    GDExtensionPtrBuiltInMethod append_method = get_builtin_method(
+        GDEXTENSION_VARIANT_TYPE_ARRAY,
+        append_name,
+        3316032543 // CORRECT hash for append(value: Variant) in Godot 4.5
+    );
+    
+    if (!append_method) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get Array.append() method!\n");
+        iface->mem_free(array_ptr);
+        return;
+    }
+    
+    // 3. For each object, create a Variant and append it
+    // TDD: Collect variants to free them AFTER array is converted to Variant
+    GDExtensionVariantPtr* obj_variants = iface->mem_alloc(count * sizeof(GDExtensionVariantPtr));
+    size_t variant_count = 0;
+    
+    for (size_t i = 0; i < count; i++) {
+        void* object_ptr = (void*)object_ids[i];
+        if (!object_ptr) {
+            fprintf(stderr, "[gdext-c] ⚠️  Object %zu is NULL, skipping...\n", i);
+            continue;
+        }
+        
+        // Create Variant from object using gdext_variant_from_object
+        // Note: gdext_variant_from_object returns a new Variant pointer
+        GDExtensionVariantPtr obj_variant = gdext_variant_from_object(object_ptr);
+        if (!obj_variant) {
+            fprintf(stderr, "[gdext-c] ❌ Failed to create Variant for object %zu!\n", i);
+            continue;
+        }
+        
+        // Store for later cleanup (don't free yet - Array holds references!)
+        obj_variants[variant_count++] = obj_variant;
+        
+        // Append to array
+        const GDExtensionConstTypePtr append_args[1] = { (GDExtensionConstTypePtr)obj_variant };
+        uint8_t ret_val = 0; // append returns void, but we still need storage
+        append_method(array_ptr, append_args, &ret_val, 1);
+    }
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD: Appended %zu objects to Array\n", count);
+    fflush(stderr);
+    
+    // 4. Convert Array to Variant
+    GDExtensionVariantFromTypeConstructorFunc from_constructor = 
+        iface->get_variant_from_type_constructor(GDEXTENSION_VARIANT_TYPE_ARRAY);
+    
+    if (!from_constructor) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get Array→Variant constructor!\n");
+        // Clean up on error
+        for (size_t i = 0; i < variant_count; i++) {
+            iface->variant_destroy(obj_variants[i]);
+            iface->mem_free(obj_variants[i]);
+        }
+        iface->mem_free(obj_variants);
+        iface->mem_free(array_ptr);
+        return;
+    }
+    
+    from_constructor(variant_ptr, array_ptr);
+    
+    // TDD: NOW it's safe to free the individual object variants
+    // The Array Variant has been created and holds its own references
+    for (size_t i = 0; i < variant_count; i++) {
+        iface->variant_destroy(obj_variants[i]);
+        iface->mem_free(obj_variants[i]);
+    }
+    iface->mem_free(obj_variants);
+    
+    // Clean up array struct (the Variant now owns the data)
+    typedef void (*ArrayDestructorFunc)(GDExtensionTypePtr);
+    typedef GDExtensionPtrDestructor (*GetPtrDestructorFunc)(GDExtensionVariantType);
+    GetPtrDestructorFunc get_destructor = (GetPtrDestructorFunc)proc_address("variant_get_ptr_destructor");
+    if (get_destructor) {
+        GDExtensionPtrDestructor array_destructor = get_destructor(GDEXTENSION_VARIANT_TYPE_ARRAY);
+        if (array_destructor) {
+            array_destructor(array_ptr);
+        }
+    }
+    iface->mem_free(array_ptr);
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD: gdext_variant_from_object_array complete! Variant contains Array with %zu objects\n", count);
+    fflush(stderr);
 }

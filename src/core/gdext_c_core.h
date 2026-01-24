@@ -35,6 +35,7 @@ typedef struct {
     GDExtensionInterfaceVariantCall variant_call;
     GDExtensionInterfaceGetVariantFromTypeConstructor get_variant_from_type_constructor;
     GDExtensionInterfaceGetVariantToTypeConstructor get_variant_to_type_constructor;
+    GDExtensionInterfaceVariantGetPtrDestructor variant_get_ptr_destructor; // TDD #161: For StringName cleanup
     GDExtensionInterfaceVariantGetType variant_get_type;
     
     // String operations

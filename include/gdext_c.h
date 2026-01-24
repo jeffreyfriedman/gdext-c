@@ -497,6 +497,17 @@ void* gdext_variant_from_object(void* object);
 void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char* data, size_t len);
 
 /**
+ * @brief Create a Variant from an array of Object pointers (Godot Array type)
+ * @param variant_ptr Pointer to variant to initialize
+ * @param object_ids Array of object pointer values (size_t, can be NULL for empty array)
+ * @param count Number of objects in the array
+ * 
+ * TDD SVO: Required for UniformSetCreate() which takes an Array of RDUniform objects.
+ * This function creates a Variant containing a Godot Array with object references.
+ */
+void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids, size_t count);
+
+/**
  * @brief Extract int64 from a Variant
  */
 int64_t gdext_variant_to_int(void* variant);
@@ -520,6 +531,25 @@ int gdext_variant_to_bool(void* variant);
  * It handles NULL variants and non-Object variants correctly.
  */
 void* gdext_variant_to_object(void* variant);
+
+/**
+ * @brief Extract Vector3 from a Variant (TDD #162)
+ * @param variant Pointer to a GDExtensionVariantPtr containing a Vector3
+ * @param out_x Pointer to store X coordinate
+ * @param out_y Pointer to store Y coordinate
+ * @param out_z Pointer to store Z coordinate
+ * 
+ * Root cause fix for "dyld: missing symbol" crashes when returning Vector3 from methods.
+ */
+void gdext_variant_to_vector3(void* variant, float* out_x, float* out_y, float* out_z);
+
+/**
+ * @brief Extract Vector2 from a Variant (TDD #162)
+ * @param variant Pointer to a GDExtensionVariantPtr containing a Vector2
+ * @param out_x Pointer to store X coordinate
+ * @param out_y Pointer to store Y coordinate
+ */
+void gdext_variant_to_vector2(void* variant, float* out_x, float* out_y);
 
 /**
  * @brief Extract PackedByteArray from a Variant

@@ -127,7 +127,24 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
     if (arg_ptrs) {
         free(arg_ptrs);
     }
-    // StringName is stack-allocated, no cleanup needed
+    
+    // TDD #161: CRITICAL FIX - StringName needs explicit cleanup!
+    // Even stack-allocated builtins like StringName have internal heap allocations
+    // We must call the destructor to free them
+    fprintf(stderr, "[gdext-c] 🔧 TDD #161: Destroying StringName (type 21)...\n");
+    
+    // Get the StringName destructor from Godot
+    // GDEXTENSION_VARIANT_TYPE_STRING_NAME = 21
+    GDExtensionPtrDestructor string_name_destructor = 
+        iface->variant_get_ptr_destructor(21); // 21 = STRING_NAME
+    
+    if (string_name_destructor) {
+        string_name_destructor(method_sn);
+        fprintf(stderr, "[gdext-c] ✅ TDD #161: StringName destroyed!\n");
+    } else {
+        fprintf(stderr, "[gdext-c] ⚠️  TDD #161: No StringName destructor found (may leak)\n");
+    }
+    
     // TDD #160: Clean up the object_variant wrapper
     iface->variant_destroy(object_variant);
     free(object_variant);
