@@ -84,7 +84,6 @@ bool gdext_c_initialize(gdext_c_proc_address_func proc_address) {
     // Method calling
     g_interface.classdb_get_method_bind = (GDExtensionInterfaceClassdbGetMethodBind)g_proc_address("classdb_get_method_bind");
     g_interface.object_method_bind_ptrcall = (GDExtensionInterfaceObjectMethodBindPtrcall)g_proc_address("object_method_bind_ptrcall");
-    g_interface.object_method_bind_call = (GDExtensionInterfaceObjectMethodBindCall)g_proc_address("object_method_bind_call");  // TDD #176: For vararg methods
     
     // Singleton access
     g_interface.global_get_singleton = (GDExtensionInterfaceGlobalGetSingleton)g_proc_address("global_get_singleton");
