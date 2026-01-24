@@ -57,6 +57,7 @@ typedef struct {
     // Method calling
     GDExtensionInterfaceClassdbGetMethodBind classdb_get_method_bind;
     GDExtensionInterfaceObjectMethodBindPtrcall object_method_bind_ptrcall;
+    GDExtensionInterfaceObjectMethodBindCall object_method_bind_call;  // TDD #176: For vararg methods like call_deferred
     
     // Singleton access
     GDExtensionInterfaceGlobalGetSingleton global_get_singleton;
