@@ -326,73 +326,142 @@ void* gdext_call_method1_deferred(void* object, const char* method_name, void* a
  * @return Variant pointer (usually NIL)
  */
 void* gdext_add_child_deferred(void* parent_object, void* child_object) {
-    fprintf(stderr, "[gdext-c] 🔧 TDD #134: gdext_add_child_deferred START (DIRECT add_child)\n");
+    fprintf(stderr, "[gdext-c] 🔧 TDD #179: gdext_add_child_deferred START (PROPERLY DEFERRED!)\n");
+    fprintf(stderr, "[gdext-c]   Using ACTUAL call_deferred (queued for idle frame)\n");
     fprintf(stderr, "[gdext-c]   parent=%p, child=%p\n", parent_object, child_object);
     
     if (!gdext_c_is_initialized()) {
-        fprintf(stderr, "[gdext-c] ❌ TDD #134: not initialized!\n");
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: not initialized!\n");
         return NULL;
     }
     
     if (!parent_object || !child_object) {
-        fprintf(stderr, "[gdext-c] ❌ TDD #134: NULL parent or child!\n");
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: NULL parent or child!\n");
         return NULL;
     }
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     
-    // Create StringName for "add_child"
-    char add_child_sn[64] = {0};
-    iface->string_name_new_with_latin1_chars(add_child_sn, "add_child", 0);
+    // TDD #179: Get method bind for Object.call_deferred (vararg method)
+    // Hash: 3400424181 for call_deferred(method: StringName, ...) -> Variant
     
-    // Create StringName for "Node" class
-    char node_class_sn[64] = {0};
-    iface->string_name_new_with_latin1_chars(node_class_sn, "Node", 0);
+    char object_class_sn[256] = {0};
+    iface->string_name_new_with_latin1_chars(object_class_sn, "Object", 0);
     
-    fprintf(stderr, "[gdext-c] 🔧 TDD #134 FINAL: Getting method bind for Node.add_child(node, force_readable, internal)...\n");
+    char call_deferred_sn[256] = {0};
+    iface->string_name_new_with_latin1_chars(call_deferred_sn, "call_deferred", 0);
     
-    // TDD #134 FINAL FIX: Use original hash with ALL 3 arguments!
-    // Hash: 3863233950 for full signature: add_child(Node, bool, InternalMode)
+    fprintf(stderr, "[gdext-c] 🔧 TDD #179: Getting method bind for Object.call_deferred...\n");
+    
     GDExtensionMethodBindPtr method_bind = iface->classdb_get_method_bind(
-        node_class_sn,
-        add_child_sn,
-        3863233950  // Original hash for Node.add_child with all args
+        object_class_sn,
+        call_deferred_sn,
+        3400424181  // Hash for Object.call_deferred (vararg)
     );
     
     if (!method_bind) {
-        fprintf(stderr, "[gdext-c] ❌ TDD #134: Failed to get method bind for add_child!\n");
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: Failed to get method bind for call_deferred!\n");
         return NULL;
     }
     
-    fprintf(stderr, "[gdext-c] ✅ TDD #134: Got method bind for add_child\n");
+    fprintf(stderr, "[gdext-c] ✅ TDD #179: Got method bind for call_deferred: %p\n", method_bind);
     
-    // TDD #134 BREAKTHROUGH: add_child has 3 arguments!
-    // add_child(node: Node, force_readable_name: bool = false, internal: InternalMode = 0)
-    // object_method_bind_ptrcall requires ALL arguments, even defaulted ones!
+    // Create arguments for call_deferred("add_child", child_node)
     
-    // Prepare default values for optional arguments
-    GDExtensionBool force_readable = 0;  // false
-    int64_t internal_mode = 0;           // INTERNAL_MODE_DISABLED = 0
+    // Argument 1: StringName "add_child"
+    char add_child_sn[256] = {0};
+    iface->string_name_new_with_latin1_chars(add_child_sn, "add_child", 0);
     
-    GDExtensionConstTypePtr args[3];
-    args[0] = (GDExtensionConstTypePtr)&child_object;    // Node* (pointer-to-pointer for objects!)
-    args[1] = (GDExtensionConstTypePtr)&force_readable;  // bool* (pointer to bool)
-    args[2] = (GDExtensionConstTypePtr)&internal_mode;   // int64_t* (pointer to enum as int)
-    
-    fprintf(stderr, "[gdext-c] 🔧 TDD #134 FINAL: Calling add_child with ALL 3 args via object_method_bind_ptrcall...\n");
-    
-    // Call using ptrcall with ALL 3 arguments!
-    iface->object_method_bind_ptrcall(method_bind, parent_object, args, NULL);
-    
-    fprintf(stderr, "[gdext-c] ✅ TDD #134: add_child SUCCESS!\n");
-    
-    // Return NIL variant
-    GDExtensionVariantPtr ret = malloc(sizeof(GDExtensionUninitializedVariantPtr));
-    if (ret) {
-        iface->variant_new_nil(ret);
+    // Create Variant from StringName
+    GDExtensionVariantPtr method_name_variant = malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    if (!method_name_variant) {
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: Failed to allocate method_name_variant!\n");
+        return NULL;
     }
     
-    fprintf(stderr, "[gdext-c] ✅ TDD #134: gdext_add_child_deferred COMPLETE!\n");
+    GDExtensionVariantFromTypeConstructorFunc string_name_to_variant = 
+        iface->get_variant_from_type_constructor(GDEXTENSION_VARIANT_TYPE_STRING_NAME);
+    
+    if (!string_name_to_variant) {
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: Failed to get string_name_to_variant constructor!\n");
+        free(method_name_variant);
+        return NULL;
+    }
+    
+    string_name_to_variant(method_name_variant, add_child_sn);
+    fprintf(stderr, "[gdext-c] ✅ TDD #179: Created StringName variant for 'add_child'\n");
+    
+    // Argument 2: Object (child_node) - create variant from object
+    GDExtensionVariantPtr child_variant = malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    if (!child_variant) {
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: Failed to allocate child_variant!\n");
+        iface->variant_destroy(method_name_variant);
+        free(method_name_variant);
+        return NULL;
+    }
+    
+    GDExtensionVariantFromTypeConstructorFunc object_to_variant = 
+        iface->get_variant_from_type_constructor(GDEXTENSION_VARIANT_TYPE_OBJECT);
+    
+    if (!object_to_variant) {
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: Failed to get object_to_variant constructor!\n");
+        iface->variant_destroy(method_name_variant);
+        free(method_name_variant);
+        free(child_variant);
+        return NULL;
+    }
+    
+    object_to_variant(child_variant, &child_object);
+    fprintf(stderr, "[gdext-c] ✅ TDD #179: Created Object variant for child node\n");
+    
+    // Call Object.call_deferred using object_method_bind_call (for vararg methods)
+    
+    GDExtensionConstVariantPtr args[2];
+    args[0] = (GDExtensionConstVariantPtr)method_name_variant;
+    args[1] = (GDExtensionConstVariantPtr)child_variant;
+    
+    GDExtensionVariantPtr ret = malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    if (!ret) {
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: Failed to allocate return variant!\n");
+        iface->variant_destroy(method_name_variant);
+        iface->variant_destroy(child_variant);
+        free(method_name_variant);
+        free(child_variant);
+        return NULL;
+    }
+    iface->variant_new_nil(ret);
+    
+    GDExtensionCallError error;
+    
+    fprintf(stderr, "[gdext-c] 🔧 TDD #179: Calling object_method_bind_call (vararg support)...\n");
+    
+    // Use object_method_bind_call for vararg methods!
+    iface->object_method_bind_call(
+        method_bind,
+        parent_object,
+        args,
+        2,  // 2 arguments: method_name, child_node
+        ret,
+        &error
+    );
+    
+    // Clean up temporary variants
+    iface->variant_destroy(method_name_variant);
+    iface->variant_destroy(child_variant);
+    free(method_name_variant);
+    free(child_variant);
+    
+    if (error.error != GDEXTENSION_CALL_OK) {
+        fprintf(stderr, "[gdext-c] ❌ TDD #179: call_deferred failed with error: %d\n", error.error);
+        if (ret) {
+            iface->variant_destroy(ret);
+            free(ret);
+        }
+        return NULL;
+    }
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD #179: add_child PROPERLY DEFERRED (will execute on idle frame)!\n");
+    
     return ret;
 }
 
