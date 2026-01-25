@@ -643,6 +643,28 @@ void gdext_variant_from_rid(void* variant_ptr, uint64_t rid_id) {
  * TDD SVO: Required for UniformSetCreate() which takes an Array of RDUniform objects.
  * Creates a Godot Array variant and populates it with object references.
  */
+/**
+ * Convert an array of Godot objects to a Variant containing a Godot Array.
+ * 
+ * CRITICAL: RefCounted Lifetime Management
+ * ----------------------------------------
+ * This function handles both regular Object types and RefCounted types:
+ * 
+ * - Object types: Have persistent instance IDs, manual lifetime management
+ * - RefCounted types: Have instance_id=0, automatic reference counting
+ * 
+ * For RefCounted objects (detected by instance_id==0), we call .reference()
+ * to increment their refcount before adding to the Array. This ensures they
+ * stay alive even after the original Go reference drops.
+ * 
+ * Cleanup: Godot automatically decrements refcounts when the Array Variant
+ * is destroyed, so we don't need manual unreference() calls.
+ * 
+ * Examples of RefCounted types:
+ * - RDUniform, RDShaderSource, RDPipelineSpecializationConstant
+ * - Texture2D, Material, Shader
+ * - Any class extending RefCounted
+ */
 void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids, size_t count) {
     fprintf(stderr, "[gdext-c] 🔍 TDD: gdext_variant_from_object_array called with %zu objects\n", count);
     fflush(stderr);
@@ -721,15 +743,58 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
             continue;
         }
         
-        // TDD STEP 1 FIX: Check if RefCounted (instance_id==0)
+        // TDD REFCOUNTED FIX: Handle RefCounted objects specially
+        bool is_refcounted = false;
         uint64_t instance_id = 0;
+        
         if (iface->object_get_instance_id) {
             instance_id = iface->object_get_instance_id(object_ptr);
-            if (instance_id == 0) {
-                // This is a RefCounted object
-                fprintf(stderr, "[gdext-c] ⚠️  STEP 1 FIX: Object %zu is RefCounted (id=0) - needs special handling!\n", i);
-                // TODO: Implement proper reference counting
-                // For now, just detect and log
+            is_refcounted = (instance_id == 0);
+            
+            if (is_refcounted) {
+                fprintf(stderr, "[gdext-c] 🔧 REFCOUNTED: Object %zu is RefCounted (id=0), incrementing refcount...\n", i);
+                
+                // Use stack-allocated StringNames like properties.c does
+                uint8_t refcounted_class_sn[16] = {0};
+                uint8_t reference_method_sn[16] = {0};
+                
+                iface->string_name_new_with_latin1_chars(refcounted_class_sn, "RefCounted", 0);
+                iface->string_name_new_with_latin1_chars(reference_method_sn, "reference", 0);
+                
+                // Get the method bind
+                GDExtensionMethodBindPtr method_bind = iface->classdb_get_method_bind(
+                    refcounted_class_sn,
+                    reference_method_sn,
+                    3872240061 // Hash for RefCounted.reference() -> bool
+                );
+                
+                fprintf(stderr, "[gdext-c] 🔍 REFCOUNTED: method_bind = %p\n", method_bind);
+                
+                if (method_bind) {
+                    // Call the method with no args (returns bool)
+                    uint8_t ret_val = 0;
+                    iface->object_method_bind_ptrcall(method_bind, object_ptr, NULL, &ret_val);
+                    
+                    if (ret_val) {
+                        fprintf(stderr, "[gdext-c] ✅ REFCOUNTED: Successfully incremented refcount for object %zu\n", i);
+                    } else {
+                        fprintf(stderr, "[gdext-c] ⚠️  REFCOUNTED: reference() returned false for object %zu\n", i);
+                    }
+                } else {
+                    fprintf(stderr, "[gdext-c] ⚠️  REFCOUNTED: Could not get method bind for reference()\n");
+                }
+                
+                // Cleanup StringNames
+                typedef void (*GDExtensionPtrDestructor)(GDExtensionTypePtr);
+                typedef GDExtensionPtrDestructor (*GetPtrDestructorFunc)(GDExtensionVariantType);
+                GetPtrDestructorFunc get_destructor_func = (GetPtrDestructorFunc)proc_address("variant_get_ptr_destructor");
+                if (get_destructor_func) {
+                    GDExtensionPtrDestructor sn_destructor = get_destructor_func(21); // StringName type
+                    if (sn_destructor) {
+                        sn_destructor(refcounted_class_sn);
+                        sn_destructor(reference_method_sn);
+                    }
+                }
             }
         }
         
@@ -816,6 +881,9 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
     
     // TDD: Free the individual object variants
     // The Array Variant should have made its own copies
+    // Note: For RefCounted objects, we incremented their refcount before adding to Array
+    // Godot will automatically decrement refcount when the Array Variant is destroyed
+    // So we don't need to manually call unreference() here
     for (size_t i = 0; i < variant_count; i++) {
         iface->variant_destroy(obj_variants[i]);
         iface->mem_free(obj_variants[i]);
