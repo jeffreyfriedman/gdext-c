@@ -762,13 +762,14 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
                 iface->string_name_new_with_latin1_chars(reference_method_sn, "reference", 0);
                 
                 // Get the method bind
+                // CORRECT HASH from extension_api.json: 2240911060
                 GDExtensionMethodBindPtr method_bind = iface->classdb_get_method_bind(
                     refcounted_class_sn,
                     reference_method_sn,
-                    3872240061 // Hash for RefCounted.reference() -> bool
+                    2240911060 // CORRECT hash for RefCounted.reference() -> bool (verified from extension_api.json)
                 );
                 
-                fprintf(stderr, "[gdext-c] 🔍 REFCOUNTED: method_bind = %p\n", method_bind);
+                fprintf(stderr, "[gdext-c] 🔍 REFCOUNTED: method_bind = %p (using CORRECT hash 2240911060)\n", method_bind);
                 
                 if (method_bind) {
                     // Call the method with no args (returns bool)

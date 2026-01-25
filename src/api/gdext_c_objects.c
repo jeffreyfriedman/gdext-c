@@ -59,7 +59,60 @@ gdext_c_object_t gdext_c_create_object(const char* class_name) {
         return NULL;
     }
     
-    printf("[gdext-c] ✅ TDD #122: Created %s object: %p (PURE C!)\n", class_name, object);
+    fprintf(stderr, "[gdext-c] 🔍 DEBUG: Object created, about to check for RefCounted...\n");
+    fflush(stderr);
+    
+    // TDD REFCOUNTED: Try to call .reference() on ALL objects
+    // For RefCounted objects, this will increment the refcount and return true
+    // For regular Objects, this will fail (return false) but that's OK
+    {
+        // Create StringNames for method binding
+        uint8_t refcounted_class_sn[16] = {0};
+        uint8_t reference_method_sn[16] = {0};
+        
+        iface->string_name_new_with_latin1_chars(refcounted_class_sn, "RefCounted", 0);
+        iface->string_name_new_with_latin1_chars(reference_method_sn, "reference", 0);
+        
+        // Get method bind for RefCounted.reference() (only exists on RefCounted, not Object)
+        fprintf(stderr, "[gdext-c] 🔍 Attempting to get method bind for RefCounted.reference...\n");
+        fflush(stderr);
+        GDExtensionMethodBindPtr method_bind = iface->classdb_get_method_bind(
+            refcounted_class_sn,
+            reference_method_sn,
+            2240911060 // Hash for reference() -> bool
+        );
+        
+        fprintf(stderr, "[gdext-c] 🔍 method_bind = %p\n", method_bind);
+        fflush(stderr);
+        
+        if (method_bind) {
+            // Call reference() to try incrementing refcount
+            uint8_t ret_val = 0;
+            iface->object_method_bind_ptrcall(method_bind, object, NULL, &ret_val);
+            
+            if (ret_val) {
+                fprintf(stderr, "[gdext-c] ✅ REFCOUNTED: %s is RefCounted, refcount incremented!\n", class_name);
+            } else {
+                // Normal Object (not RefCounted) - this is expected
+                fprintf(stderr, "[gdext-c] ℹ️  %s is regular Object (not RefCounted), no reference() needed\n", class_name);
+            }
+        }
+        
+        // Cleanup StringNames
+        typedef void (*GDExtensionPtrDestructor)(GDExtensionTypePtr);
+        typedef GDExtensionPtrDestructor (*GetPtrDestructorFunc)(GDExtensionVariantType);
+        extern gdext_c_proc_address_func gdext_c_get_proc_address_internal(void);
+        GetPtrDestructorFunc get_destructor_func = (GetPtrDestructorFunc)gdext_c_get_proc_address_internal()("variant_get_ptr_destructor");
+        if (get_destructor_func) {
+            GDExtensionPtrDestructor sn_destructor = get_destructor_func(21); // StringName type
+            if (sn_destructor) {
+                sn_destructor(refcounted_class_sn);
+                sn_destructor(reference_method_sn);
+            }
+        }
+    }
+    
+    printf("[gdext-c] ✅ TDD #122: Created %s object: %p\n", class_name, object);
     fflush(stdout);
     
     return (gdext_c_object_t)object;
