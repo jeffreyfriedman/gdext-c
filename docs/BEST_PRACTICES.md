@@ -378,3 +378,4 @@ $ leaks -atExit -- ./godot --path /path/to/project
 *Last Updated*: 2026-01-19  
 *For*: gdext-c Language Binding Developers
 
+

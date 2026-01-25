@@ -78,3 +78,4 @@ bool c_are_callbacks_registered(void) {
     return g_callbacks_registered;
 }
 
+

@@ -322,3 +322,4 @@ A: Less critical in headless (no visuals), but still good practice for consisten
 *Applies To*: Godot 4.x + GDExtension  
 *Validated On*: macOS (Metal), Linux (Vulkan), Windows (D3D12)
 
+

@@ -253,7 +253,23 @@ void* gdext_variant_from_object(void* object) {
         return NULL;
     }
     
+    // TDD DEBUG: Log object pointer and variant creation
+    fprintf(stderr, "[gdext-c] 🔍 Creating Variant from object ptr=%p\n", object);
+    
+    // The constructor expects a pointer to the type data
+    // For Object type, the data is the object pointer itself, so we pass &object
     constructor(variant, &object);
+    
+    // TDD DEBUG: Verify the variant contains the correct object
+    // Extract the object back to verify
+    GDExtensionTypeFromVariantConstructorFunc extractor = iface->get_variant_to_type_constructor(24);
+    if (extractor) {
+        void* extracted_obj = NULL;
+        extractor(&extracted_obj, variant);
+        fprintf(stderr, "[gdext-c] 🔍 Variant created: variant ptr=%p, contains object=%p (original=%p) %s\n", 
+                variant, extracted_obj, object, (extracted_obj == object) ? "✅ MATCH" : "❌ MISMATCH!");
+    }
+    
     return variant;
 }
 
@@ -712,10 +728,12 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
         return;
     }
     
+    fprintf(stderr, "[gdext-c] 🔍 TDD FIX: Converting Array to Variant...\n");
     from_constructor(variant_ptr, array_ptr);
+    fprintf(stderr, "[gdext-c] ✅ TDD FIX: Array converted to Variant: variant_ptr=%p\n", variant_ptr);
     
-    // TDD: NOW it's safe to free the individual object variants
-    // The Array Variant has been created and holds its own references
+    // TDD: Free the individual object variants
+    // The Array Variant should have made its own copies
     for (size_t i = 0; i < variant_count; i++) {
         iface->variant_destroy(obj_variants[i]);
         iface->mem_free(obj_variants[i]);
