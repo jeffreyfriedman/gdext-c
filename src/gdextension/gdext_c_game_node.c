@@ -89,14 +89,22 @@ void* gdext_c_game_node_create_instance(void *p_userdata, GDExtensionBool p_noti
 void gdext_c_game_node_free_instance(void *p_userdata, void *p_instance) {
     (void)p_userdata;
     
+    fprintf(stderr, "[gdext-c] 🔬 TDD: free_instance called (instance=%p)\n", p_instance);
+    fflush(stderr);
+    
     if (!p_instance) {
+        fprintf(stderr, "[gdext-c] ⚠️ TDD: free_instance called with NULL instance!\n");
+        fflush(stderr);
         return;
     }
     
-    printf("[gdext-c] 🗑️ TDD #156: Freeing GameNode instance: %p\n", p_instance);
-    fflush(stdout);
+    fprintf(stderr, "[gdext-c] 🗑️ TDD: About to call free() on instance %p...\n", p_instance);
+    fflush(stderr);
     
     free(p_instance);
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD: free() completed successfully\n");
+    fflush(stderr);
 }
 
 /**
