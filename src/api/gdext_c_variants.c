@@ -253,21 +253,50 @@ void* gdext_variant_from_object(void* object) {
         return NULL;
     }
     
-    // TDD DEBUG: Log object pointer and variant creation
-    fprintf(stderr, "[gdext-c] 🔍 Creating Variant from object ptr=%p\n", object);
+    // TDD STEP 1: Check object instance ID BEFORE wrapping
+    uint64_t object_id_before = 0;
+    if (iface->object_get_instance_id) {
+        object_id_before = iface->object_get_instance_id(object);
+        fprintf(stderr, "[gdext-c] 🔍 STEP 1: Object ptr=%p, instance_id=%llu (BEFORE Variant wrap)\n", 
+                object, (unsigned long long)object_id_before);
+    } else {
+        fprintf(stderr, "[gdext-c] ⚠️  STEP 1: object_get_instance_id not available!\n");
+    }
     
     // The constructor expects a pointer to the type data
     // For Object type, the data is the object pointer itself, so we pass &object
     constructor(variant, &object);
     
-    // TDD DEBUG: Verify the variant contains the correct object
-    // Extract the object back to verify
+    // TDD STEP 1: Verify the variant contains the correct object
+    // Extract the object back and check instance ID
     GDExtensionTypeFromVariantConstructorFunc extractor = iface->get_variant_to_type_constructor(24);
     if (extractor) {
         void* extracted_obj = NULL;
         extractor(&extracted_obj, variant);
-        fprintf(stderr, "[gdext-c] 🔍 Variant created: variant ptr=%p, contains object=%p (original=%p) %s\n", 
-                variant, extracted_obj, object, (extracted_obj == object) ? "✅ MATCH" : "❌ MISMATCH!");
+        
+        uint64_t object_id_after = 0;
+        if (iface->object_get_instance_id && extracted_obj != NULL) {
+            object_id_after = iface->object_get_instance_id(extracted_obj);
+            fprintf(stderr, "[gdext-c] 🔍 STEP 1: Extracted ptr=%p, instance_id=%llu (AFTER Variant wrap)\n", 
+                    extracted_obj, (unsigned long long)object_id_after);
+            
+            if (object_id_before == object_id_after) {
+                fprintf(stderr, "[gdext-c] ✅ STEP 1: Instance IDs MATCH! Object preserved correctly.\n");
+            } else {
+                fprintf(stderr, "[gdext-c] ❌ STEP 1: Instance IDs MISMATCH! %llu → %llu\n", 
+                        (unsigned long long)object_id_before, (unsigned long long)object_id_after);
+            }
+        } else if (extracted_obj == NULL) {
+            fprintf(stderr, "[gdext-c] ❌ STEP 1: Extracted object is NULL after Variant wrap!\n");
+        }
+        
+        // Also check pointer equality
+        if (extracted_obj == object) {
+            fprintf(stderr, "[gdext-c] ✅ STEP 1: Pointer MATCH (%p)\n", object);
+        } else {
+            fprintf(stderr, "[gdext-c] ❌ STEP 1: Pointer MISMATCH (original=%p, extracted=%p)\n", 
+                    object, extracted_obj);
+        }
     }
     
     return variant;
@@ -692,6 +721,18 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
             continue;
         }
         
+        // TDD STEP 1 FIX: Check if RefCounted (instance_id==0)
+        uint64_t instance_id = 0;
+        if (iface->object_get_instance_id) {
+            instance_id = iface->object_get_instance_id(object_ptr);
+            if (instance_id == 0) {
+                // This is a RefCounted object
+                fprintf(stderr, "[gdext-c] ⚠️  STEP 1 FIX: Object %zu is RefCounted (id=0) - needs special handling!\n", i);
+                // TODO: Implement proper reference counting
+                // For now, just detect and log
+            }
+        }
+        
         // Create Variant from object using gdext_variant_from_object
         // Note: gdext_variant_from_object returns a new Variant pointer
         GDExtensionVariantPtr obj_variant = gdext_variant_from_object(object_ptr);
@@ -707,6 +748,10 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
         const GDExtensionConstTypePtr append_args[1] = { (GDExtensionConstTypePtr)obj_variant };
         uint8_t ret_val = 0; // append returns void, but we still need storage
         append_method(array_ptr, append_args, &ret_val, 1);
+        
+        // TDD STEP 1: Verify object is still valid after append
+        fprintf(stderr, "[gdext-c] 🔍 STEP 1: Appended object %zu (original ptr=%p, instance_id=%llu)\n", 
+                i, object_ptr, (unsigned long long)instance_id);
     }
     
     fprintf(stderr, "[gdext-c] ✅ TDD: Appended %zu objects to Array\n", count);
@@ -731,6 +776,43 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
     fprintf(stderr, "[gdext-c] 🔍 TDD FIX: Converting Array to Variant...\n");
     from_constructor(variant_ptr, array_ptr);
     fprintf(stderr, "[gdext-c] ✅ TDD FIX: Array converted to Variant: variant_ptr=%p\n", variant_ptr);
+    
+    // TDD STEP 1: Extract Array back from Variant and inspect first element
+    fprintf(stderr, "[gdext-c] 🔍 STEP 1: Extracting Array back from Variant to verify objects...\n");
+    GDExtensionTypeFromVariantConstructorFunc array_extractor = iface->get_variant_to_type_constructor(GDEXTENSION_VARIANT_TYPE_ARRAY);
+    if (array_extractor) {
+        // Extract the Array back
+        GDExtensionTypePtr extracted_array_ptr = iface->mem_alloc(256);
+        array_extractor(extracted_array_ptr, variant_ptr);
+        
+        // Get Array.size() to verify count
+        typedef GDExtensionPtrBuiltInMethod (*GetPtrBuiltinMethod)(GDExtensionVariantType, GDExtensionConstStringNamePtr, GDExtensionInt);
+        GetPtrBuiltinMethod get_size_method = (GetPtrBuiltinMethod)proc_address("variant_get_ptr_builtin_method");
+        if (get_size_method) {
+            uint8_t size_name[8] = {0};
+            iface->string_name_new_with_latin1_chars(size_name, "size", 0);
+            GDExtensionPtrBuiltInMethod size_method = get_size_method(GDEXTENSION_VARIANT_TYPE_ARRAY, size_name, 3173160232);
+            if (size_method) {
+                int64_t array_size = 0;
+                size_method(extracted_array_ptr, NULL, &array_size, 0);
+                fprintf(stderr, "[gdext-c] 🔍 STEP 1: Extracted array size = %lld (expected %zu)\n", 
+                        (long long)array_size, count);
+                
+                // Get Array[0] to check first object
+                if (array_size > 0) {
+                    uint8_t operator_name[8] = {0};
+                    iface->string_name_new_with_latin1_chars(operator_name, "operator[]", 0);
+                    // operator[] hash for Array (int index) -> Variant
+                    GDExtensionPtrOperatorEvaluator array_get = (GDExtensionPtrOperatorEvaluator)proc_address("variant_get_ptr_operator_evaluator");
+                    // TODO: This is getting complex - may need simpler approach
+                    fprintf(stderr, "[gdext-c] ⚠️  STEP 1: Array element inspection requires operator[] which is complex\n");
+                    fprintf(stderr, "[gdext-c] 💡 STEP 1: Array has %lld elements, will verify in next iteration\n", (long long)array_size);
+                }
+            }
+        }
+        
+        iface->mem_free(extracted_array_ptr);
+    }
     
     // TDD: Free the individual object variants
     // The Array Variant should have made its own copies
