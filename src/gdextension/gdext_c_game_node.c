@@ -104,49 +104,77 @@ void gdext_c_game_node_free_instance(void *p_userdata, void *p_instance) {
  * TDD #156: Handles _ready, _process, _physics_process via notifications
  */
 static void game_node_notification(void *p_instance, int32_t p_what, GDExtensionBool p_reversed) {
-    (void)p_instance;
+    fprintf(stderr, "[gdext-c] 🔬 TDD: game_node_notification called (what=%d, reversed=%d, instance=%p)\n", 
+            p_what, p_reversed, p_instance);
+    fflush(stderr);
+    
     (void)p_reversed;
     
     switch (p_what) {
         case 13: // NOTIFICATION_READY
-            printf("[gdext-c] 🎮 GameNode._ready() (PURE C!)\n");
-            fflush(stdout);
+            fprintf(stderr, "[gdext-c] 🎮 GameNode._ready() (PURE C!)\n");
+            fflush(stderr);
             
             // TDD #160: Enable process notifications so _process and _physics_process get called
             GameNodeInstance* instance = (GameNodeInstance*)p_instance;
             if (instance && instance->godot_object) {
                 const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+                (void)iface; // Mark as used
                 
                 // Call set_process(true)
                 GDExtensionBool enable = 1;
-                gdext_node_set_process((gdext_c_object_t)instance->godot_object, enable);
-                printf("[gdext-c] ✅ TDD #160: Enabled _process notifications\n");
-                fflush(stdout);
                 
-                // Call set_physics_process(true)
+                fprintf(stderr, "[gdext-c] 🔬 TDD: About to call gdext_node_set_process...\n");
+                fflush(stderr);
+                gdext_node_set_process((gdext_c_object_t)instance->godot_object, enable);
+                fprintf(stderr, "[gdext-c] ✅ TDD: gdext_node_set_process returned\n");
+                fprintf(stderr, "[gdext-c] ✅ TDD #160: Enabled _process notifications\n");
+                fflush(stderr);
+                
+                // TDD: Re-enabled with comprehensive logging
+                fprintf(stderr, "[gdext-c] 🔬 TDD: About to call gdext_node_set_physics_process...\n");
+                fflush(stderr);
+                
                 gdext_node_set_physics_process((gdext_c_object_t)instance->godot_object, enable);
-                printf("[gdext-c] ✅ TDD #160: Enabled _physics_process notifications\n");
-                fflush(stdout);
+                
+                fprintf(stderr, "[gdext-c] ✅ TDD: gdext_node_set_physics_process returned\n");
+                fprintf(stderr, "[gdext-c] ✅ TDD #160: Enabled _physics_process notifications\n");
+                fflush(stderr);
+            } else {
+                fprintf(stderr, "[gdext-c] ❌ TDD: instance or godot_object is NULL!\n");
+                fflush(stderr);
             }
             
+            fprintf(stderr, "[gdext-c] 🔬 TDD: About to call c_trigger_ready_callback...\n");
+            fflush(stderr);
             c_trigger_ready_callback();
+            fprintf(stderr, "[gdext-c] ✅ TDD: c_trigger_ready_callback completed\n");
+            fflush(stderr);
             break;
             
         case 10: // NOTIFICATION_PROCESS
-            printf("[gdext-c] 🔍 TDD #160: _process notification received\n");
-            fflush(stdout);
+            fprintf(stderr, "[gdext-c] 🔍 TDD: _process notification received\n");
+            fflush(stderr);
             c_trigger_process_callback(0.016); // TODO: Get actual delta
+            fprintf(stderr, "[gdext-c] ✅ TDD: _process notification completed\n");
+            fflush(stderr);
             break;
             
         case 16: // NOTIFICATION_PHYSICS_PROCESS
-            printf("[gdext-c] 🔍 TDD #160: _physics_process notification received\n");
-            fflush(stdout);
+            fprintf(stderr, "[gdext-c] 🔍 TDD: _physics_process notification received (START)\n");
+            fflush(stderr);
             c_trigger_physics_process_callback(0.016); // TODO: Get actual delta
+            fprintf(stderr, "[gdext-c] ✅ TDD: _physics_process notification completed (END)\n");
+            fflush(stderr);
             break;
             
         default:
+            // Ignore other notifications silently
             break;
     }
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD: game_node_notification completed (what=%d)\n", p_what);
+    fflush(stderr);
 }
 
 /**

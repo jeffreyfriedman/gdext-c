@@ -43,8 +43,17 @@ void c_register_go_callbacks(
  * @brief Trigger the ready callback
  */
 void c_trigger_ready_callback(void) {
+    fprintf(stderr, "[gdext-c] 🔬 TDD: c_trigger_ready_callback called\n");
+    fflush(stderr);
+    
     if (g_ready_callback) {
+        fprintf(stderr, "[gdext-c] 🔬 TDD: About to call ready_callback at %p...\n", (void*)g_ready_callback);
+        fflush(stderr);
+        
         g_ready_callback();
+        
+        fprintf(stderr, "[gdext-c] ✅ TDD: ready_callback returned successfully\n");
+        fflush(stderr);
     } else {
         fprintf(stderr, "[gdext-c] ⚠️ Ready callback not registered!\n");
         fflush(stderr);
@@ -55,8 +64,17 @@ void c_trigger_ready_callback(void) {
  * @brief Trigger the process callback
  */
 void c_trigger_process_callback(double delta) {
+    fprintf(stderr, "[gdext-c] 🔬 TDD: c_trigger_process_callback called (delta=%.6f)\n", delta);
+    fflush(stderr);
+    
     if (g_process_callback) {
+        fprintf(stderr, "[gdext-c] 🔬 TDD: About to call process_callback at %p...\n", (void*)g_process_callback);
+        fflush(stderr);
+        
         g_process_callback(delta);
+        
+        fprintf(stderr, "[gdext-c] ✅ TDD: process_callback returned successfully\n");
+        fflush(stderr);
     }
     // Note: Process callback is optional, so no warning if NULL
 }
@@ -65,10 +83,21 @@ void c_trigger_process_callback(double delta) {
  * @brief Trigger the physics process callback
  */
 void c_trigger_physics_process_callback(double delta) {
+    fprintf(stderr, "[gdext-c] 🔬 TDD: c_trigger_physics_process_callback called (delta=%.6f)\n", delta);
+    fflush(stderr);
+    
     if (g_physics_process_callback) {
+        fprintf(stderr, "[gdext-c] 🔬 TDD: About to call physics_process_callback at %p...\n", (void*)g_physics_process_callback);
+        fflush(stderr);
+        
         g_physics_process_callback(delta);
+        
+        fprintf(stderr, "[gdext-c] ✅ TDD: physics_process_callback returned successfully\n");
+        fflush(stderr);
+    } else {
+        fprintf(stderr, "[gdext-c] ℹ️  TDD: physics_process_callback is NULL (not registered)\n");
+        fflush(stderr);
     }
-    // Note: Physics process callback is optional, so no warning if NULL
 }
 
 /**
