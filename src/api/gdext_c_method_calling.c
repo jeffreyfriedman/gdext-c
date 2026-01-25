@@ -106,7 +106,50 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
     GDExtensionCallError error;
     memset(&error, 0, sizeof(error));
     
-    fprintf(stderr, "[gdext-c] 🔧 TDD #160: Calling variant_call NOW (with Variant-wrapped object)...\n");
+    // TDD: CRASH DIAGNOSIS - Add comprehensive pre-call validation
+    fprintf(stderr, "[gdext-c] 🔬 CRASH DIAGNOSIS: Pre-call validation:\n");
+    fprintf(stderr, "[gdext-c]    Method: '%s'\n", method_name);
+    fprintf(stderr, "[gdext-c]    Original object: %p\n", object);
+    fprintf(stderr, "[gdext-c]    Wrapped variant: %p\n", object_variant);
+    fprintf(stderr, "[gdext-c]    Arg count: %d\n", arg_count);
+    
+    // Verify object_variant is valid
+    if (object_variant == NULL) {
+        fprintf(stderr, "[gdext-c] ❌ CRASH DIAGNOSIS: object_variant is NULL!\n");
+        free(ret);
+        if (arg_ptrs) free(arg_ptrs);
+        return NULL;
+    }
+    
+    // Verify object_variant contains an object
+    GDExtensionVariantType var_type = iface->variant_get_type(object_variant);
+    fprintf(stderr, "[gdext-c]    Variant type: %d (should be 24 for OBJECT)\n", var_type);
+    if (var_type != 24) { // GDEXTENSION_VARIANT_TYPE_OBJECT = 24
+        fprintf(stderr, "[gdext-c] ❌ CRASH DIAGNOSIS: Variant is not OBJECT type!\n");
+        iface->variant_destroy(object_variant);
+        free(object_variant);
+        free(ret);
+        if (arg_ptrs) free(arg_ptrs);
+        return NULL;
+    }
+    
+    // Verify arguments
+    for (int i = 0; i < arg_count; i++) {
+        if (arg_ptrs[i] == NULL) {
+            fprintf(stderr, "[gdext-c] ❌ CRASH DIAGNOSIS: arg[%d] is NULL!\n", i);
+            iface->variant_destroy(object_variant);
+            free(object_variant);
+            free(ret);
+            free(arg_ptrs);
+            return NULL;
+        }
+        GDExtensionVariantType arg_type = iface->variant_get_type(arg_ptrs[i]);
+        fprintf(stderr, "[gdext-c]    arg[%d] type: %d\n", i, arg_type);
+    }
+    
+    fprintf(stderr, "[gdext-c] 🔧 TDD #160: All validations passed, calling variant_call NOW...\n");
+    fflush(stderr); // Ensure logs are written before potential crash
+    
     iface->variant_call(
         object_variant,      // TDD #160: Pass Variant containing object, not raw object!
         method_sn,           // Method name (StringName pointer)
@@ -115,7 +158,21 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
         ret,                 // Return value
         &error               // Error info
     );
+    
     fprintf(stderr, "[gdext-c] ✅ TDD #160: variant_call returned! error.error=%d\n", error.error);
+    fflush(stderr);
+    
+    // TDD: CRASH DIAGNOSIS - Validate return value
+    if (ret == NULL) {
+        fprintf(stderr, "[gdext-c] ❌ CRASH DIAGNOSIS: Return value is NULL after variant_call!\n");
+        iface->variant_destroy(object_variant);
+        free(object_variant);
+        if (arg_ptrs) free(arg_ptrs);
+        return NULL;
+    }
+    
+    GDExtensionVariantType ret_type = iface->variant_get_type(ret);
+    fprintf(stderr, "[gdext-c] 🔬 CRASH DIAGNOSIS: Return value type: %d\n", ret_type);
     
     if (error.error != 0) {
         fprintf(stderr, "[gdext-c] ⚠️  TDD #131: Call error details:\n");
