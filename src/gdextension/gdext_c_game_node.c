@@ -10,6 +10,7 @@
 #include "gdext_c_core.h"
 #include "gdext_c_callbacks.h"
 #include "gdext_c_generated.h"  // TDD #160: For set_process functions
+#include "gdext_c_lifecycle.h"  // TDD 1.4: For lifecycle callback dispatch
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -153,26 +154,29 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
                 fflush(stderr);
             }
             
-            fprintf(stderr, "[gdext-c] 🔬 TDD: About to call c_trigger_ready_callback...\n");
+            // TDD 1.4: Dispatch to lifecycle system (replaces old c_trigger_ready_callback)
+            fprintf(stderr, "[gdext-c] 🔬 TDD 1.4: Dispatching ready to lifecycle system...\n");
             fflush(stderr);
-            c_trigger_ready_callback();
-            fprintf(stderr, "[gdext-c] ✅ TDD: c_trigger_ready_callback completed\n");
+            gdext_c_lifecycle_dispatch_ready();
+            fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle ready callback completed\n");
             fflush(stderr);
             break;
             
         case 10: // NOTIFICATION_PROCESS
-            fprintf(stderr, "[gdext-c] 🔍 TDD: _process notification received\n");
+            fprintf(stderr, "[gdext-c] 🔍 TDD 1.4: _process notification received\n");
             fflush(stderr);
-            c_trigger_process_callback(0.016); // TODO: Get actual delta
-            fprintf(stderr, "[gdext-c] ✅ TDD: _process notification completed\n");
+            // TDD 1.4: Dispatch to lifecycle system (replaces old c_trigger_process_callback)
+            gdext_c_lifecycle_dispatch_process(0.016); // TODO: Get actual delta from Godot
+            fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle process callback completed\n");
             fflush(stderr);
             break;
             
         case 16: // NOTIFICATION_PHYSICS_PROCESS
-            fprintf(stderr, "[gdext-c] 🔍 TDD: _physics_process notification received (START)\n");
+            fprintf(stderr, "[gdext-c] 🔍 TDD 1.4: _physics_process notification received (START)\n");
             fflush(stderr);
-            c_trigger_physics_process_callback(0.016); // TODO: Get actual delta
-            fprintf(stderr, "[gdext-c] ✅ TDD: _physics_process notification completed (END)\n");
+            // TDD 1.4: Dispatch to lifecycle system (replaces old c_trigger_physics_process_callback)
+            gdext_c_lifecycle_dispatch_physics(0.016); // TODO: Get actual delta from Godot
+            fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle physics callback completed (END)\n");
             fflush(stderr);
             break;
             
@@ -181,11 +185,13 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             break;
             
         case 2012: // NOTIFICATION_PREDELETE
-            fprintf(stderr, "[gdext-c] 🚨 TDD CRASH DEBUG: NOTIFICATION_PREDELETE received for instance=%p\n", p_instance);
-            fprintf(stderr, "[gdext-c] 🚨 This notification is sent BEFORE the node is deleted\n");
-            fprintf(stderr, "[gdext-c] 🚨 If crash happens after this, it's in Godot's cleanup code\n");
+            fprintf(stderr, "[gdext-c] 🚨 TDD 1.4: NOTIFICATION_PREDELETE received for instance=%p\n", p_instance);
+            fprintf(stderr, "[gdext-c] 🧹 TDD 1.4: Calling lifecycle shutdown...\n");
             fflush(stderr);
-            // Don't do any cleanup here - let Godot handle it
+            // TDD 1.4: Call lifecycle shutdown (which calls registered shutdown callback)
+            gdext_c_lifecycle_shutdown();
+            fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle shutdown completed\n");
+            fflush(stderr);
             break;
             
         default:
@@ -312,7 +318,8 @@ void gdext_c_register_game_node_class(void *p_userdata, void *p_level) {
     fflush(stdout);
 }
 
-// NOTE: GameNode is being replaced by the lifecycle system
-// This code will be removed in TDD 3.2
-// For now, keeping it for compatibility during transition
+// TDD 1.4: GameNode now acts as a BRIDGE to lifecycle callbacks
+// This allows us to use lifecycle system immediately without complex signal work
+// GameNode forwards its notifications to registered lifecycle callbacks
+// (lifecycle header is included at top of file)
 

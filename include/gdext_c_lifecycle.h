@@ -87,6 +87,26 @@ int gdext_c_connect_to_scene_tree(void);
  */
 void gdext_c_run_game_loop(void);
 
+/**
+ * @brief TDD 1.4: Dispatch ready callback (internal, called by GameNode bridge)
+ */
+void gdext_c_lifecycle_dispatch_ready(void);
+
+/**
+ * @brief TDD 1.4: Dispatch process callback (internal, called by GameNode bridge)
+ */
+void gdext_c_lifecycle_dispatch_process(double delta);
+
+/**
+ * @brief TDD 1.4: Dispatch physics callback (internal, called by GameNode bridge)
+ */
+void gdext_c_lifecycle_dispatch_physics(double delta);
+
+/**
+ * @brief Trigger lifecycle shutdown (calls shutdown callback)
+ */
+void gdext_c_lifecycle_shutdown(void);
+
 #ifdef __cplusplus
 }
 #endif

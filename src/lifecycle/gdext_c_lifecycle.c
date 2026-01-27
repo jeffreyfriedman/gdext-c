@@ -260,6 +260,33 @@ void gdext_c_run_game_loop(void) {
 }
 
 /**
+ * @brief TDD 1.4: Dispatch ready callback (called by GameNode bridge)
+ */
+void gdext_c_lifecycle_dispatch_ready(void) {
+    if (g_ready_callback) {
+        g_ready_callback();
+    }
+}
+
+/**
+ * @brief TDD 1.4: Dispatch process callback (called by GameNode bridge)
+ */
+void gdext_c_lifecycle_dispatch_process(double delta) {
+    if (g_process_callback) {
+        g_process_callback(delta);
+    }
+}
+
+/**
+ * @brief TDD 1.4: Dispatch physics callback (called by GameNode bridge)
+ */
+void gdext_c_lifecycle_dispatch_physics(double delta) {
+    if (g_physics_callback) {
+        g_physics_callback(delta);
+    }
+}
+
+/**
  * @brief Called during GDExtension shutdown (can trigger shutdown callback)
  */
 void gdext_c_lifecycle_shutdown(void) {
