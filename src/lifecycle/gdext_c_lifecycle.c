@@ -287,6 +287,27 @@ void gdext_c_lifecycle_dispatch_physics(double delta) {
 }
 
 /**
+ * @brief Helper for Go: Register lifecycle callbacks (like c_register_go_callbacks)
+ * 
+ * This is a convenience wrapper that Go can call directly.
+ * It's exported from libgdext_c.dylib and can be found via dlsym or extern declaration.
+ */
+void c_register_go_lifecycle_callbacks(
+    gdext_c_ready_callback ready,
+    gdext_c_process_callback process,
+    gdext_c_physics_callback physics,
+    gdext_c_shutdown_callback shutdown
+) {
+    printf("[gdext-c] 🚀 c_register_go_lifecycle_callbacks called (TDD 3.1)\n");
+    fflush(stdout);
+    
+    gdext_c_register_lifecycle_callbacks(ready, process, physics, shutdown);
+    
+    printf("[gdext-c] ✅ Go lifecycle callbacks registered\n");
+    fflush(stdout);
+}
+
+/**
  * @brief Called during GDExtension shutdown (can trigger shutdown callback)
  */
 void gdext_c_lifecycle_shutdown(void) {
