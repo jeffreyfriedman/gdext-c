@@ -81,6 +81,7 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
     }
     
     // TDD #156: Register GameNode class at SCENE level
+    // NOTE: This will be removed in TDD 3.2 when we fully switch to lifecycle system
     if (p_level == GDEXTENSION_INITIALIZATION_SCENE) {
         printf("[gdext-c] 🎮 TDD #156: Registering GameNode class in pure C...\n");
         fflush(stdout);

@@ -47,6 +47,7 @@ void gdext_c_deinitialize_level(void *p_userdata, GDExtensionInitializationLevel
 /**
  * @brief Register GameNode class with Godot
  * Called during SCENE level initialization
+ * NOTE: Being replaced by lifecycle system (will be removed in TDD 3.2)
  */
 void gdext_c_register_game_node_class(void *p_userdata, void *p_level);
 

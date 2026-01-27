@@ -176,8 +176,20 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             fflush(stderr);
             break;
             
+        case 17: // NOTIFICATION_POST_ENTER_TREE
+            // Node just entered the tree
+            break;
+            
+        case 2012: // NOTIFICATION_PREDELETE
+            fprintf(stderr, "[gdext-c] 🚨 TDD CRASH DEBUG: NOTIFICATION_PREDELETE received for instance=%p\n", p_instance);
+            fprintf(stderr, "[gdext-c] 🚨 This notification is sent BEFORE the node is deleted\n");
+            fprintf(stderr, "[gdext-c] 🚨 If crash happens after this, it's in Godot's cleanup code\n");
+            fflush(stderr);
+            // Don't do any cleanup here - let Godot handle it
+            break;
+            
         default:
-            // Ignore other notifications silently
+            // Ignore other notifications silently (don't log to reduce spam)
             break;
     }
     
@@ -299,4 +311,8 @@ void gdext_c_register_game_node_class(void *p_userdata, void *p_level) {
     
     fflush(stdout);
 }
+
+// NOTE: GameNode is being replaced by the lifecycle system
+// This code will be removed in TDD 3.2
+// For now, keeping it for compatibility during transition
 
