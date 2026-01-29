@@ -254,21 +254,44 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
 }
 
 /**
- * @brief Get virtual method for GameNode
- * TDD #156: Returns function pointers for virtual methods
+ * @brief Virtual method wrapper for _physics_process
+ * TDD Deep Dive: THIS IS THE MISSING PIECE!
+ * Physics process REQUIRES virtual method registration!
  */
-static GDExtensionClassCallVirtual game_node_get_virtual(void *p_userdata, GDExtensionConstStringNamePtr p_name) {
-    (void)p_userdata;
+static void game_node_physics_process_virtual(GDExtensionClassInstancePtr p_instance, const GDExtensionConstTypePtr *p_args) {
+    fprintf(stderr, "[gdext-c] 🎯🎯🎯 VIRTUAL: _physics_process called! THIS IS IT!\n");
+    fflush(stderr);
     
-    // Get the method name as a string
+    // The virtual method is the trigger, but notification does the work
+    // By returning a function pointer here, we tell Godot we override _physics_process
+}
+
+/**
+ * @brief Get virtual method for GameNode (VERSION 2 with hash)
+ * TDD Deep Dive: Return function pointer for _physics_process!
+ */
+static GDExtensionClassCallVirtual game_node_get_virtual(void *p_userdata, GDExtensionConstStringNamePtr p_name, uint32_t p_hash) {
+    (void)p_userdata;
+    (void)p_hash;  // Hash for _physics_process is 373806689
+    
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     if (!iface) {
         return NULL;
     }
     
-    // For now, return NULL - we'll use notifications instead of virtual methods
-    // This is simpler and works for _ready, _process, _physics_process
-    (void)p_name;
+    fprintf(stderr, "[gdext-c] 🔍 TDD Deep Dive: get_virtual called! (hash=%u)\n", p_hash);
+    fflush(stderr);
+    
+    // Check if this is _physics_process (hash = 373806689)
+    if (p_hash == 373806689) {
+        fprintf(stderr, "[gdext-c] ✅✅✅ TDD Deep Dive: Returning _physics_process virtual handler!\n");
+        fflush(stderr);
+        return (GDExtensionClassCallVirtual)game_node_physics_process_virtual;
+    }
+    
+    // For all other virtual methods, return NULL
+    fprintf(stderr, "[gdext-c] ⏭️  TDD Deep Dive: Unknown virtual (hash=%u), returning NULL\n", p_hash);
+    fflush(stderr);
     return NULL;
 }
 
@@ -328,7 +351,11 @@ void gdext_c_register_game_node_class(void *p_userdata, void *p_level) {
     // Notifications - for _ready callback
     creation_info.notification_func = game_node_notification;
     
+    // TDD Deep Dive: Virtual methods - THIS IS CRITICAL FOR PHYSICS!
+    creation_info.get_virtual_func = game_node_get_virtual;
+    
     printf("[gdext-c] ✅ ClassCreationInfo4 configured (Option C found the answer!)\n");
+    printf("[gdext-c] 🎯 TDD Deep Dive: get_virtual_func SET! This should enable physics!\n");
     printf("[gdext-c] 📝 Booleans: is_virtual=%d, is_abstract=%d, is_exposed=%d, is_runtime=%d\n", 
            creation_info.is_virtual, creation_info.is_abstract, creation_info.is_exposed, creation_info.is_runtime);
     printf("[gdext-c] 📝 icon_path=%p\n", creation_info.icon_path);
