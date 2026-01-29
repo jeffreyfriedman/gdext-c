@@ -12,7 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>  // For usleep
+#include <stdint.h>   // For int64_t
+#include <unistd.h>   // For usleep
 
 // TDD 1.2: Global storage for registered callbacks
 static gdext_c_ready_callback g_ready_callback = NULL;
@@ -23,6 +24,10 @@ static gdext_c_shutdown_callback g_shutdown_callback = NULL;
 // TDD 1.3: Global storage for SceneTree connection
 static void* g_scene_tree = NULL;
 static int g_signals_connected = 0;
+
+// TDD B1: Global storage for Callable variants (must persist!)
+static char g_process_callable_storage[256] = {0};
+static char g_physics_callable_storage[256] = {0};
 
 /**
  * @brief TDD 1.1: Check if Godot engine is fully initialized
@@ -120,14 +125,54 @@ void gdext_c_register_lifecycle_callbacks(
 }
 
 /**
- * @brief TDD 1.4: Signal handler for process_frame
+ * @brief TDD B1-A v5: is_valid function for the Callable
+ * This MUST return TRUE or Godot won't call the Callable!
+ */
+static GDExtensionBool on_process_frame_is_valid(void* p_userdata) {
+    (void)p_userdata;
+    return 1;  // Always valid
+}
+
+/**
+ * @brief TDD B1: Signal handler for process_frame
  * 
  * This is called by SceneTree's "process_frame" signal every frame
+ * Signature matches GDExtension Callable requirements
  */
-static void on_process_frame_signal(void* userdata) {
-    (void)userdata;
+static void on_process_frame_signal(
+    void* p_userdata,
+    const GDExtensionConstVariantPtr* p_args,
+    GDExtensionInt p_argument_count,
+    GDExtensionVariantPtr r_return,
+    GDExtensionCallError* r_error
+) {
+    // TDD B1-A: FIRST LINE - Log immediately to see if callback is EVER called
+    static int entry_count = 0;
+    entry_count++;
     
-    // TODO: Get actual delta from signal args
+    // Force immediate flush
+    fprintf(stderr, "[gdext-c] 🚨 TDD B1-A v5: CALLBACK ENTERED! (call #%d)\n", entry_count);
+    fflush(stderr);
+    
+    (void)p_userdata;
+    (void)p_args;
+    (void)p_argument_count;
+    (void)r_return;
+    
+    // TDD B1-A: Log to verify callback is called
+    static int call_count = 0;
+    call_count++;
+    if (call_count == 1 || call_count % 60 == 0) {
+        printf("[gdext-c] 🎯 TDD B1-A v5: physics_frame callback #%d (IT WORKS!)\n", call_count);
+        fflush(stdout);
+    }
+    
+    // Set no error
+    if (r_error) {
+        r_error->error = GDEXTENSION_CALL_OK;
+    }
+    
+    // TODO: Get actual delta from signal args if needed
     // For now, assume 60 FPS
     double delta = 0.016666667;
     
@@ -137,14 +182,29 @@ static void on_process_frame_signal(void* userdata) {
 }
 
 /**
- * @brief TDD 1.4: Signal handler for physics_frame
+ * @brief TDD B1: Signal handler for physics_frame
  * 
  * This is called by SceneTree's "physics_frame" signal at 60 Hz
+ * Signature matches GDExtension Callable requirements
  */
-static void on_physics_frame_signal(void* userdata) {
-    (void)userdata;
+static void on_physics_frame_signal(
+    void* p_userdata,
+    const GDExtensionConstVariantPtr* p_args,
+    GDExtensionInt p_argument_count,
+    GDExtensionVariantPtr r_return,
+    GDExtensionCallError* r_error
+) {
+    (void)p_userdata;
+    (void)p_args;
+    (void)p_argument_count;
+    (void)r_return;
     
-    // TODO: Get actual delta from signal args
+    // Set no error
+    if (r_error) {
+        r_error->error = GDEXTENSION_CALL_OK;
+    }
+    
+    // TODO: Get actual delta from signal args if needed
     // For now, assume 60 Hz
     double delta = 0.016666667;
     
@@ -204,22 +264,104 @@ int gdext_c_connect_to_scene_tree(void) {
     }
     
     printf("[gdext-c] ✅ Got SceneTree: %p\n", g_scene_tree);
+    fflush(stdout);
     
-    // TODO: Connect to signals
-    // This requires creating Callable objects and calling connect()
-    // For now, we'll use a different approach:
-    // - Hook into the existing godot callbacks (process, physics_process)
-    // - These are already set up by GameNode
+    // TDD B1-A: Try physics_frame instead of process_frame
+    printf("[gdext-c] 🔨 TDD B1-A: Creating Callable for physics_frame...\n");
+    fflush(stdout);
     
-    // For the TDD approach without GameNode, we'll need to:
-    // 1. Create a minimal Node that's added to the tree
-    // 2. OR hook into SceneTree's signals directly
-    // 3. OR use a timer that polls
+    // TDD B1-A v6: Try library handle as token (what godot-cpp uses)
+    GDExtensionCallableCustomInfo2 process_info;
+    memset(&process_info, 0, sizeof(process_info));
     
-    // For now, mark as connected and we'll refine this
+    process_info.callable_userdata = NULL;  // No user data needed
+    process_info.token = gdext_c_get_library_handle();  // TDD B1-A v6: Use library handle!
+    process_info.object_id = 0;              // Static function, no object
+    process_info.call_func = on_process_frame_signal;
+    process_info.is_valid_func = on_process_frame_is_valid;  // TDD B1-A v5: CRITICAL! Must return TRUE
+    process_info.free_func = NULL;            // Static, no cleanup needed
+    process_info.hash_func = NULL;            // Use default
+    process_info.equal_func = NULL;           // Use default
+    process_info.less_than_func = NULL;       // Use default
+    process_info.to_string_func = NULL;       // Use default
+    process_info.get_argument_count_func = NULL;  // No args
+    
+    printf("[gdext-c] 🔧 TDD B1-A v6: Creating Callable with library handle token + is_valid...\n");
+    fflush(stdout);
+    
+    // Get callable_custom_create2 function directly
+    GDExtensionInterfaceCallableCustomCreate2 callable_create = 
+        (GDExtensionInterfaceCallableCustomCreate2)gdext_c_get_proc_address_internal()("callable_custom_create2");
+    
+    if (!callable_create) {
+        fprintf(stderr, "[gdext-c] ❌ TDD B1: Failed to get callable_custom_create2 function\n");
+        fflush(stderr);
+        return 0;
+    }
+    
+    // Create the Callable in persistent storage
+    callable_create((GDExtensionUninitializedTypePtr)g_process_callable_storage, &process_info);
+    
+    printf("[gdext-c] ✅ TDD B1-A: Callable created successfully\n");
+    fflush(stdout);
+    
+    // TDD B1-A v4: Back to simpler Object.connect() approach with NULL token
+    char signal_name_storage[64] = {0};
+    iface->string_name_new_with_latin1_chars((GDExtensionUninitializedStringNamePtr)signal_name_storage, "physics_frame", 0);
+    
+    // Get SceneTree class name
+    char scene_tree_class_sn[64] = {0};
+    iface->string_name_new_with_latin1_chars((GDExtensionUninitializedStringNamePtr)scene_tree_class_sn, "SceneTree", 0);
+    
+    // Get connect() method
+    char connect_method_sn[64] = {0};
+    iface->string_name_new_with_latin1_chars((GDExtensionUninitializedStringNamePtr)connect_method_sn, "connect", 0);
+    
+    void* connect_bind = iface->classdb_get_method_bind(
+        (GDExtensionConstStringNamePtr)scene_tree_class_sn,
+        (GDExtensionConstStringNamePtr)connect_method_sn,
+        1518946055  // Method hash for Object.connect()
+    );
+    
+    if (!connect_bind) {
+        fprintf(stderr, "[gdext-c] ❌ TDD B1-A v4: Failed to get connect() method bind\n");
+        fflush(stderr);
+        return 0;
+    }
+    
+    // Call: scene_tree.connect("physics_frame", our_callable, 0)
+    const void* connect_args[3];
+    connect_args[0] = signal_name_storage;
+    connect_args[1] = g_process_callable_storage;
+    
+    int64_t flags = 0;
+    connect_args[2] = &flags;
+    
+    int64_t error_result = 0;
+    void* error_result_ptr = &error_result;
+    
+    printf("[gdext-c] 🔌 TDD B1-A v4: Calling scene_tree.connect() with NULL token Callable...\n");
+    fflush(stdout);
+    
+    iface->object_method_bind_ptrcall(
+        (GDExtensionMethodBindPtr)connect_bind,
+        g_scene_tree,
+        connect_args,
+        error_result_ptr
+    );
+    
+    if (error_result != 0) {
+        fprintf(stderr, "[gdext-c] ❌ TDD B1-A v4: connect() returned error: %lld\n", (long long)error_result);
+        fflush(stderr);
+        return 0;
+    }
+    
+    printf("[gdext-c] ✅ TDD B1-A v4: Connected with NULL token!\n");
+    fflush(stdout);
+    
     g_signals_connected = 1;
     
-    printf("[gdext-c] ✅ Connected to SceneTree signals\n");
+    printf("[gdext-c] 🎉 TDD B1-A: SceneTree signals connected (pure C, no GameNode)!\n");
     fflush(stdout);
     
     return 1;

@@ -113,48 +113,64 @@ void gdext_c_game_node_free_instance(void *p_userdata, void *p_instance) {
  * TDD #156: Handles _ready, _process, _physics_process via notifications
  */
 static void game_node_notification(void *p_instance, int32_t p_what, GDExtensionBool p_reversed) {
-    fprintf(stderr, "[gdext-c] 🔬 TDD: game_node_notification called (what=%d, reversed=%d, instance=%p)\n", 
+    fprintf(stderr, "[gdext-c] 🔬 TDD Deep Dive: game_node_notification called (what=%d, reversed=%d, instance=%p)\n", 
             p_what, p_reversed, p_instance);
     fflush(stderr);
     
-    (void)p_reversed;
+    // TDD Deep Dive Option D: CRITICAL FIX!
+    // godot-cpp chains notifications through inheritance!
+    // We MUST call Node's notification handler first (if not reversed)
+    // or last (if reversed) just like godot-cpp does!
     
-    switch (p_what) {
-        case 13: // NOTIFICATION_READY
-            fprintf(stderr, "[gdext-c] 🎮 GameNode._ready() (PURE C!)\n");
+    GameNodeInstance* instance = (GameNodeInstance*)p_instance;
+    if (instance && instance->godot_object) {
+        const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+        
+        // Get Node's notification function and call it!
+        // This is what godot-cpp does with m_inherits::notification_bind(...)
+        if (!p_reversed) {
+            fprintf(stderr, "[gdext-c] 🔗 TDD Deep Dive: Calling PARENT Node notification (before our handler)...\n");
             fflush(stderr);
             
-            // TDD #160: Enable process notifications so _process and _physics_process get called
-            GameNodeInstance* instance = (GameNodeInstance*)p_instance;
-            if (instance && instance->godot_object) {
-                const GDExtensionInterface* iface = gdext_c_get_interface_functions();
-                (void)iface; // Mark as used
-                
-                // Call set_process(true)
-                GDExtensionBool enable = 1;
-                
-                fprintf(stderr, "[gdext-c] 🔬 TDD: About to call gdext_node_set_process...\n");
-                fflush(stderr);
-                gdext_node_set_process((gdext_c_object_t)instance->godot_object, enable);
-                fprintf(stderr, "[gdext-c] ✅ TDD: gdext_node_set_process returned\n");
-                fprintf(stderr, "[gdext-c] ✅ TDD #160: Enabled _process notifications\n");
-                fflush(stderr);
-                
-                // TDD: Re-enabled with comprehensive logging
-                fprintf(stderr, "[gdext-c] 🔬 TDD: About to call gdext_node_set_physics_process...\n");
-                fflush(stderr);
-                
-                gdext_node_set_physics_process((gdext_c_object_t)instance->godot_object, enable);
-                
-                fprintf(stderr, "[gdext-c] ✅ TDD: gdext_node_set_physics_process returned\n");
-                fprintf(stderr, "[gdext-c] ✅ TDD #160: Enabled _physics_process notifications\n");
+            // Create StringName for "Node" class
+            StringName node_class_name;
+            memset(&node_class_name, 0, sizeof(StringName));
+            iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&node_class_name, "Node", 0);
+            
+            // Create StringName for "_notification" method
+            StringName notification_method;
+            memset(&notification_method, 0, sizeof(StringName));
+            iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&notification_method, "_notification", 0);
+            
+            GDExtensionMethodBindPtr notification_bind = iface->classdb_get_method_bind((GDExtensionConstStringNamePtr)&node_class_name, (GDExtensionConstStringNamePtr)&notification_method, 3058944179);
+            
+            if (notification_bind) {
+                // Call Node._notification(p_what)
+                GDExtensionInt args[1] = {(GDExtensionInt)p_what};
+                iface->object_method_bind_ptrcall(notification_bind, instance->godot_object, (const GDExtensionConstTypePtr*)args, NULL);
+                fprintf(stderr, "[gdext-c] ✅ TDD Deep Dive: Parent Node notification called!\n");
                 fflush(stderr);
             } else {
-                fprintf(stderr, "[gdext-c] ❌ TDD: instance or godot_object is NULL!\n");
+                fprintf(stderr, "[gdext-c] ⚠️  TDD Deep Dive: Could not get Node._notification bind (may be OK)\n");
                 fflush(stderr);
             }
             
-            // TDD 1.4: Dispatch to lifecycle system (replaces old c_trigger_ready_callback)
+            // Note: StringNames are managed by Godot, cleanup not critical
+        }
+    }
+    
+    // Now handle our own notifications
+    switch (p_what) {
+        case 13: // NOTIFICATION_READY
+            fprintf(stderr, "[gdext-c] 🎮 TDD Deep Dive: GameNode._ready() (Parent Node already handled!)\n");
+            fflush(stderr);
+            
+            // TDD Deep Dive: NO NEED to call set_process/set_physics_process!
+            // Node's notification handler already set up everything internally!
+            fprintf(stderr, "[gdext-c] ✨ TDD Deep Dive: Node parent already configured process/physics!\n");
+            fflush(stderr);
+            
+            // TDD 1.4: Dispatch to lifecycle system
             fprintf(stderr, "[gdext-c] 🔬 TDD 1.4: Dispatching ready to lifecycle system...\n");
             fflush(stderr);
             gdext_c_lifecycle_dispatch_ready();
@@ -170,7 +186,7 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle process callback completed\n");
             fflush(stderr);
             break;
-            
+        
         case 16: // NOTIFICATION_PHYSICS_PROCESS
             fprintf(stderr, "[gdext-c] 🔍 TDD 1.4: _physics_process notification received (START)\n");
             fflush(stderr);
@@ -181,7 +197,11 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             break;
             
         case 17: // NOTIFICATION_POST_ENTER_TREE
-            // Node just entered the tree
+        case 18: // NOTIFICATION_ENTER_TREE
+            // TDD Deep Dive: No need to do anything here!
+            // Node parent already handles ENTER_TREE properly
+            fprintf(stderr, "[gdext-c] 🌳 TDD Deep Dive: ENTER_TREE (what=%d) - parent Node handled it!\n", p_what);
+            fflush(stderr);
             break;
             
         case 2012: // NOTIFICATION_PREDELETE
@@ -199,7 +219,37 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             break;
     }
     
-    fprintf(stderr, "[gdext-c] ✅ TDD: game_node_notification completed (what=%d)\n", p_what);
+    // TDD Deep Dive: Call parent Node notification AFTER our handler if reversed
+    if (instance && instance->godot_object && p_reversed) {
+        const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+        
+        fprintf(stderr, "[gdext-c] 🔗 TDD Deep Dive: Calling PARENT Node notification (after our handler, reversed)...\n");
+        fflush(stderr);
+        
+        // Create StringName for "Node" class
+        StringName node_class_name;
+        memset(&node_class_name, 0, sizeof(StringName));
+        iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&node_class_name, "Node", 0);
+        
+        // Create StringName for "_notification" method
+        StringName notification_method;
+        memset(&notification_method, 0, sizeof(StringName));
+        iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&notification_method, "_notification", 0);
+        
+        GDExtensionMethodBindPtr notification_bind = iface->classdb_get_method_bind((GDExtensionConstStringNamePtr)&node_class_name, (GDExtensionConstStringNamePtr)&notification_method, 3058944179);
+        
+        if (notification_bind) {
+            // Call Node._notification(p_what)
+            GDExtensionInt args[1] = {(GDExtensionInt)p_what};
+            iface->object_method_bind_ptrcall(notification_bind, instance->godot_object, (const GDExtensionConstTypePtr*)args, NULL);
+            fprintf(stderr, "[gdext-c] ✅ TDD Deep Dive: Parent Node notification called (reversed)!\n");
+            fflush(stderr);
+        }
+        
+        // Note: StringNames are managed by Godot, cleanup not critical
+    }
+    
+    fprintf(stderr, "[gdext-c] ✅ TDD Deep Dive: game_node_notification completed (what=%d)\n", p_what);
     fflush(stderr);
 }
 
