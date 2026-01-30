@@ -9,7 +9,8 @@
 #include "gdext_c_gdextension.h"
 #include "gdext_c_core.h"
 #include "gdext_c_callbacks.h"
-#include "threading/gdext_c_thread.h"  // TDD: Thread detection for GPU safety
+#include "threading/gdext_c_thread.h"     // TDD: Thread detection for GPU safety
+#include "threading/gdext_c_gpu_queue.h"  // TDD: GPU operation queue
 #include <stdio.h>
 #include <string.h>
 #include <dlfcn.h>  // TDD #158: For loading game_logic.dylib
@@ -30,6 +31,8 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
             level_name = "CORE";
             // TDD: Initialize thread detection (MUST be on main thread!)
             gdext_thread_init();
+            // TDD: Initialize GPU operation queue
+            gdext_gpu_queue_init();
             break;
         case GDEXTENSION_INITIALIZATION_SERVERS:
             level_name = "SERVERS";

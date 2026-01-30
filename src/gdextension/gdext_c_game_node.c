@@ -11,6 +11,7 @@
 #include "gdext_c_callbacks.h"
 #include "gdext_c_generated.h"  // TDD #160: For set_process functions
 #include "gdext_c_lifecycle.h"  // TDD 1.4: For lifecycle callback dispatch
+#include "threading/gdext_c_gpu_queue.h"  // TDD: GPU operation queue processing
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -193,14 +194,23 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             fflush(stderr);
             break;
             
-        case 10: // NOTIFICATION_PROCESS
-            fprintf(stderr, "[gdext-c] 🔍 TDD 1.4: _process notification received\n");
-            fflush(stderr);
+        case 10: { // NOTIFICATION_PROCESS (braces for variable declaration)
+            // fprintf(stderr, "[gdext-c] 🔍 TDD 1.4: _process notification received\n");
+            // fflush(stderr);
+            
+            // TDD: Process queued GPU operations (CRITICAL for Metal threading!)
+            int processed = gdext_gpu_queue_process(0);  // 0 = process all pending
+            if (processed > 0) {
+                fprintf(stderr, "[gdext-c] ⚡ TDD: Processed %d GPU operation(s) this frame\n", processed);
+                fflush(stderr);
+            }
+            
             // TDD 1.4: Dispatch to lifecycle system (replaces old c_trigger_process_callback)
             gdext_c_lifecycle_dispatch_process(0.016); // TODO: Get actual delta from Godot
-            fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle process callback completed\n");
-            fflush(stderr);
+            // fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle process callback completed\n");
+            // fflush(stderr);
             break;
+        }
         
         case 16: // NOTIFICATION_PHYSICS_PROCESS
             fprintf(stderr, "[gdext-c] 🔍 TDD 1.4: _physics_process notification received (START)\n");
