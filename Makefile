@@ -16,8 +16,9 @@ SRC_API := $(wildcard src/api/*.c)
 SRC_MATH := $(wildcard src/math/*.c)
 SRC_GDEXTENSION := $(wildcard src/gdextension/*.c)
 SRC_LIFECYCLE := $(wildcard src/lifecycle/*.c)
+SRC_THREADING := $(wildcard src/threading/*.c)
 SRC_GENERATED := generated/gdext_c_generated.c
-SRCS := $(SRC_CORE) $(SRC_SCENE) $(SRC_API) $(SRC_MATH) $(SRC_GDEXTENSION) $(SRC_LIFECYCLE) $(SRC_GENERATED)
+SRCS := $(SRC_CORE) $(SRC_SCENE) $(SRC_API) $(SRC_MATH) $(SRC_GDEXTENSION) $(SRC_LIFECYCLE) $(SRC_THREADING) $(SRC_GENERATED)
 
 # Object files
 OBJS := $(SRCS:.c=.o)

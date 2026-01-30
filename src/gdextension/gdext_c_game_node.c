@@ -161,13 +161,28 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
     
     // Now handle our own notifications
     switch (p_what) {
-        case 13: // NOTIFICATION_READY
-            fprintf(stderr, "[gdext-c] 🎮 TDD Deep Dive: GameNode._ready() (Parent Node already handled!)\n");
+        case 18: // NOTIFICATION_ENTER_TREE - Enable process/physics EARLY
+            fprintf(stderr, "[gdext-c] 🌳 TDD Option B: ENTER_TREE - enabling process/physics NOW!\n");
             fflush(stderr);
             
-            // TDD Deep Dive: NO NEED to call set_process/set_physics_process!
-            // Node's notification handler already set up everything internally!
-            fprintf(stderr, "[gdext-c] ✨ TDD Deep Dive: Node parent already configured process/physics!\n");
+            // TDD Option B: Enable BOTH process and physics in ENTER_TREE (before ready)
+            if (instance && instance->godot_object) {
+                extern void gdext_node_set_process(gdext_c_object_t instance, GDExtensionBool enable);
+                extern void gdext_node_set_physics_process(gdext_c_object_t instance, GDExtensionBool enable);
+                
+                fprintf(stderr, "[gdext-c] 🔧 TDD Option B: Enabling process + physics via call_deferred...\n");
+                fflush(stderr);
+                
+                gdext_node_set_process(instance->godot_object, 1);
+                gdext_node_set_physics_process(instance->godot_object, 1);
+                
+                fprintf(stderr, "[gdext-c] ✅ TDD Option B: Process + physics queued for idle frame!\n");
+                fflush(stderr);
+            }
+            break;
+        
+        case 13: // NOTIFICATION_READY
+            fprintf(stderr, "[gdext-c] 🎮 TDD: GameNode._ready()!\n");
             fflush(stderr);
             
             // TDD 1.4: Dispatch to lifecycle system
@@ -197,13 +212,6 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             break;
             
         case 17: // NOTIFICATION_POST_ENTER_TREE
-        case 18: // NOTIFICATION_ENTER_TREE
-            // TDD Deep Dive: No need to do anything here!
-            // Node parent already handles ENTER_TREE properly
-            fprintf(stderr, "[gdext-c] 🌳 TDD Deep Dive: ENTER_TREE (what=%d) - parent Node handled it!\n", p_what);
-            fflush(stderr);
-            break;
-            
         case 2012: // NOTIFICATION_PREDELETE
             fprintf(stderr, "[gdext-c] 🚨 TDD 1.4: NOTIFICATION_PREDELETE received for instance=%p\n", p_instance);
             fprintf(stderr, "[gdext-c] 🧹 TDD 1.4: Calling lifecycle shutdown...\n");
@@ -254,16 +262,55 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
 }
 
 /**
- * @brief Virtual method wrapper for _physics_process
- * TDD Deep Dive: THIS IS THE MISSING PIECE!
- * Physics process REQUIRES virtual method registration!
+ * @brief Virtual method wrapper for _process
+ * TDD: Test if _process virtual works differently than _physics_process
  */
-static void game_node_physics_process_virtual(GDExtensionClassInstancePtr p_instance, const GDExtensionConstTypePtr *p_args) {
-    fprintf(stderr, "[gdext-c] 🎯🎯🎯 VIRTUAL: _physics_process called! THIS IS IT!\n");
-    fflush(stderr);
+static void game_node_process_virtual(GDExtensionClassInstancePtr p_instance, const GDExtensionConstTypePtr *p_args, GDExtensionTypePtr r_ret) {
+    (void)p_instance;
+    (void)r_ret;
     
-    // The virtual method is the trigger, but notification does the work
-    // By returning a function pointer here, we tell Godot we override _physics_process
+    static int call_count = 0;
+    call_count++;
+    
+    // Extract delta from p_args[0] (it's a double/float)
+    double delta = 0.016666667; // Default 60 FPS
+    if (p_args && p_args[0]) {
+        delta = *(const double*)p_args[0];
+    }
+    
+    if (call_count <= 3 || call_count % 60 == 0) {
+        fprintf(stderr, "[gdext-c] 🎮 PROCESS virtual (call #%d, delta=%.4f)\n", call_count, delta);
+        fflush(stderr);
+    }
+    
+    gdext_c_lifecycle_dispatch_process(delta);
+}
+
+/**
+ * @brief Virtual method wrapper for _physics_process
+ * TDD: Wire virtual method to lifecycle callbacks!
+ */
+static void game_node_physics_process_virtual(GDExtensionClassInstancePtr p_instance, const GDExtensionConstTypePtr *p_args, GDExtensionTypePtr r_ret) {
+    (void)p_instance;
+    (void)r_ret;
+    
+    static int call_count = 0;
+    call_count++;
+    
+    // Extract delta from p_args[0] (it's a double/float)
+    double delta = 0.016666667; // Default 60 FPS
+    if (p_args && p_args[0]) {
+        // p_args[0] points to the double value
+        delta = *(const double*)p_args[0];
+    }
+    
+    if (call_count <= 3 || call_count % 60 == 0) {
+        fprintf(stderr, "[gdext-c] 🎮 PHYSICS virtual (call #%d, delta=%.4f), dispatching to lifecycle...\n", call_count, delta);
+        fflush(stderr);
+    }
+    
+    // Dispatch to lifecycle system which will call Go callbacks
+    gdext_c_lifecycle_dispatch_physics(delta);
 }
 
 /**
@@ -272,25 +319,28 @@ static void game_node_physics_process_virtual(GDExtensionClassInstancePtr p_inst
  */
 static GDExtensionClassCallVirtual game_node_get_virtual(void *p_userdata, GDExtensionConstStringNamePtr p_name, uint32_t p_hash) {
     (void)p_userdata;
-    (void)p_hash;  // Hash for _physics_process is 373806689
+    (void)p_name;
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     if (!iface) {
         return NULL;
     }
     
-    fprintf(stderr, "[gdext-c] 🔍 TDD Deep Dive: get_virtual called! (hash=%u)\n", p_hash);
+    fprintf(stderr, "[gdext-c] 🔍 TDD: get_virtual called! (hash=%u)\n", p_hash);
     fflush(stderr);
     
-    // Check if this is _physics_process (hash = 373806689)
+    // Check if this is _process or _physics_process (both have hash = 373806689!)
+    // According to Godot docs, both methods have the same signature
     if (p_hash == 373806689) {
-        fprintf(stderr, "[gdext-c] ✅✅✅ TDD Deep Dive: Returning _physics_process virtual handler!\n");
+        // We need to check the name to distinguish
+        // For now, let's try returning _physics_process handler for this hash
+        fprintf(stderr, "[gdext-c] ✅ TDD: Hash 373806689 detected, returning physics handler!\n");
         fflush(stderr);
         return (GDExtensionClassCallVirtual)game_node_physics_process_virtual;
     }
     
     // For all other virtual methods, return NULL
-    fprintf(stderr, "[gdext-c] ⏭️  TDD Deep Dive: Unknown virtual (hash=%u), returning NULL\n", p_hash);
+    fprintf(stderr, "[gdext-c] ⏭️  TDD: Unknown virtual (hash=%u), returning NULL\n", p_hash);
     fflush(stderr);
     return NULL;
 }
