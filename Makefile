@@ -80,6 +80,24 @@ install: $(LIB)
 	@cp include/*.h /usr/local/include/gdext_c/
 	@echo "✅ Installed to /usr/local"
 
+# Install to game project (for development)
+# Detects action-adventure-framework automatically
+install-game: $(LIB)
+	@echo "📦 Installing gdext-c to game project..."
+	@if [ -d "../action-adventure-framework/bin/macos" ]; then \
+		cp $(LIB) ../action-adventure-framework/bin/macos/$(LIB); \
+		echo "✅ Installed to ../action-adventure-framework/bin/macos/"; \
+	elif [ -d "$(GAME_PROJECT)/bin/macos" ]; then \
+		cp $(LIB) $(GAME_PROJECT)/bin/macos/$(LIB); \
+		echo "✅ Installed to $(GAME_PROJECT)/bin/macos/"; \
+	else \
+		echo "❌ Game project not found. Set GAME_PROJECT=/path/to/project"; \
+		exit 1; \
+	fi
+
+# Convenience: build and install to game in one step
+game: all install-game
+
 # Uninstall
 uninstall:
 	@echo "🗑️  Uninstalling gdext-c..."
