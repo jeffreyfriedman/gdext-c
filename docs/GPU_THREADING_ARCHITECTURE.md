@@ -420,3 +420,4 @@ metal.QueueGPUOperationAsync(func() interface{} {
 **Estimated Time:** ~7 hours for complete solution  
 **Benefit:** Solves Metal threading for ALL current and future language bindings!
 
+

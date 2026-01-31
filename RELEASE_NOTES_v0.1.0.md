@@ -207,3 +207,4 @@ void* hud = gdext_go_get_node("/root/Main/HUD");
 
 *This release represents a major milestone in pure C GDExtension bindings. All critical bugs have been fixed, performance is excellent, and the API is production-ready.*
 
+

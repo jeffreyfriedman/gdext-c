@@ -82,3 +82,4 @@ bool gdext_thread_is_initialized(void);
 
 #endif // GDEXT_C_THREAD_H
 
+

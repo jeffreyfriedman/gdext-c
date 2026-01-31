@@ -76,3 +76,4 @@ bool gdext_c_is_gpu_safe_context(void);
 
 #endif // GDEXT_C_THREAD_H
 
+

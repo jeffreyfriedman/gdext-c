@@ -264,3 +264,4 @@ This is exactly what gdext-c was created for - to solve godot-rust's array seria
 **Next**: Complete the SVO renderer and ship v0.1.0! 🚀
 
 
+

@@ -186,14 +186,8 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             fprintf(stderr, "[gdext-c] 🎮 TDD: GameNode._ready()!\n");
             fflush(stderr);
             
-            // TDD FIX: Enable physics processing to receive NOTIFICATION_PHYSICS_PROCESS (16)
-            fprintf(stderr, "[gdext-c] 🔧 TDD: Enabling physics processing...\n");
-            fflush(stderr);
-            gdext_node_set_physics_process(self_ptr, 1); // Enable physics processing
-            fprintf(stderr, "[gdext-c] ✅ TDD: Physics processing enabled\n");
-            fflush(stderr);
-            
             // TDD 1.4: Dispatch to lifecycle system
+            // NOTE: Physics processing is already enabled in ENTER_TREE (line 178)
             fprintf(stderr, "[gdext-c] 🔬 TDD 1.4: Dispatching ready to lifecycle system...\n");
             fflush(stderr);
             gdext_c_lifecycle_dispatch_ready();
@@ -229,6 +223,11 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             break;
             
         case 17: // NOTIFICATION_POST_ENTER_TREE
+            // Just log it, don't trigger shutdown!
+            fprintf(stderr, "[gdext-c] 🌳 TDD: POST_ENTER_TREE notification received\n");
+            fflush(stderr);
+            break;
+            
         case 2012: // NOTIFICATION_PREDELETE
             fprintf(stderr, "[gdext-c] 🚨 TDD 1.4: NOTIFICATION_PREDELETE received for instance=%p\n", p_instance);
             fprintf(stderr, "[gdext-c] 🧹 TDD 1.4: Calling lifecycle shutdown...\n");
@@ -240,7 +239,9 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             break;
             
         default:
-            // Ignore other notifications silently (don't log to reduce spam)
+            // TDD: Log ALL other notifications during debugging
+            fprintf(stderr, "[gdext-c] 🔔 Notification %d received (not handled)\n", p_what);
+            fflush(stderr);
             break;
     }
     
