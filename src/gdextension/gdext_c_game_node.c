@@ -186,6 +186,13 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             fprintf(stderr, "[gdext-c] 🎮 TDD: GameNode._ready()!\n");
             fflush(stderr);
             
+            // TDD FIX: Enable physics processing to receive NOTIFICATION_PHYSICS_PROCESS (16)
+            fprintf(stderr, "[gdext-c] 🔧 TDD: Enabling physics processing...\n");
+            fflush(stderr);
+            gdext_node_set_physics_process(self_ptr, 1); // Enable physics processing
+            fprintf(stderr, "[gdext-c] ✅ TDD: Physics processing enabled\n");
+            fflush(stderr);
+            
             // TDD 1.4: Dispatch to lifecycle system
             fprintf(stderr, "[gdext-c] 🔬 TDD 1.4: Dispatching ready to lifecycle system...\n");
             fflush(stderr);
