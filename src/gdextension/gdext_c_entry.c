@@ -11,6 +11,7 @@
 #include "gdext_c_callbacks.h"
 #include "threading/gdext_c_thread.h"     // TDD: Thread detection for GPU safety
 #include "threading/gdext_c_gpu_queue.h"  // TDD: GPU operation queue
+#include "threading/gdext_c_gpu_safe.h"   // TDD Phase 3: Safe GPU wrappers
 #include <stdio.h>
 #include <string.h>
 #include <dlfcn.h>  // TDD #158: For loading game_logic.dylib
@@ -36,6 +37,8 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
             break;
         case GDEXTENSION_INITIALIZATION_SERVERS:
             level_name = "SERVERS";
+            // TDD Phase 3: Initialize GPU safe wrappers (RenderingServer available now)
+            gdext_gpu_safe_init();
             break;
         case GDEXTENSION_INITIALIZATION_SCENE:
             level_name = "SCENE";
