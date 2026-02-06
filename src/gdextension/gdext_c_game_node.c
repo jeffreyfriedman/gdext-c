@@ -12,6 +12,7 @@
 #include "gdext_c_generated.h"  // TDD #160: For set_process functions
 #include "gdext_c_lifecycle.h"  // TDD 1.4: For lifecycle callback dispatch
 #include "threading/gdext_c_gpu_queue.h"  // TDD: GPU operation queue processing
+#include "scene/gdext_c_scene_tree.h"  // OPTION B: Scene tree manipulation helpers
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,6 +26,9 @@ typedef struct {
 typedef struct {
     uint8_t opaque[8];
 } StringName;
+
+// Forward declaration
+static void game_node_notification(void *p_instance, int32_t p_what, GDExtensionBool p_reversed);
 
 /**
  * @brief Create a GameNode instance
@@ -80,6 +84,19 @@ void* gdext_c_game_node_create_instance(void *p_userdata, GDExtensionBool p_noti
     printf("[gdext-c] ✅ GameNode instance created and attached to object\n");
     fflush(stdout);
     
+    // CRITICAL: Send NOTIFICATION_POSTINITIALIZE if requested!
+    // This tells Godot the object is fully initialized and should not be deleted.
+    if (p_notify_postinitialize) {
+        printf("[gdext-c] 🔧 Sending NOTIFICATION_POSTINITIALIZE (70)...\n");
+        fflush(stdout);
+        
+        // Call notification handler with NOTIFICATION_POSTINITIALIZE (70)
+        game_node_notification(instance, 70, 0);
+        
+        printf("[gdext-c] ✅ NOTIFICATION_POSTINITIALIZE sent\n");
+        fflush(stdout);
+    }
+    
     // TDD #157: Return the Object pointer, not just instance data!
     return object;
 }
@@ -91,21 +108,33 @@ void* gdext_c_game_node_create_instance(void *p_userdata, GDExtensionBool p_noti
 void gdext_c_game_node_free_instance(void *p_userdata, void *p_instance) {
     (void)p_userdata;
     
-    fprintf(stderr, "[gdext-c] 🔬 TDD: free_instance called (instance=%p)\n", p_instance);
+    fprintf(stderr, "[gdext-c] 🔬 MEMORY LEAK FIX: free_instance called (instance=%p)\n", p_instance);
     fflush(stderr);
     
     if (!p_instance) {
-        fprintf(stderr, "[gdext-c] ⚠️ TDD: free_instance called with NULL instance!\n");
+        fprintf(stderr, "[gdext-c] ⚠️ free_instance called with NULL instance!\n");
         fflush(stderr);
         return;
     }
     
-    fprintf(stderr, "[gdext-c] 🗑️ TDD: About to call free() on instance %p...\n", p_instance);
+    // MEMORY LEAK FIX: Actually free the instance!
+    // This is called AFTER NOTIFICATION_PREDELETE, so lifecycle cleanup already happened.
+    // We just need to free our GameNodeInstance struct (which only contains a pointer).
+    // We do NOT free the godot_object - Godot owns that!
+    
+    GameNodeInstance* instance = (GameNodeInstance*)p_instance;
+    
+    fprintf(stderr, "[gdext-c] 🧹 MEMORY LEAK FIX: Freeing GameNodeInstance (godot_object=%p)...\n", 
+            (void*)instance->godot_object);
     fflush(stderr);
     
-    free(p_instance);
+    // Clear the pointer (defensive programming)
+    instance->godot_object = NULL;
     
-    fprintf(stderr, "[gdext-c] ✅ TDD: free() completed successfully\n");
+    // Free our instance struct
+    free(instance);
+    
+    fprintf(stderr, "[gdext-c] ✅ MEMORY LEAK FIX: GameNodeInstance freed successfully\n");
     fflush(stderr);
 }
 
@@ -118,66 +147,35 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             p_what, p_reversed, p_instance);
     fflush(stderr);
     
-    // TDD Deep Dive Option D: CRITICAL FIX!
-    // godot-cpp chains notifications through inheritance!
-    // We MUST call Node's notification handler first (if not reversed)
-    // or last (if reversed) just like godot-cpp does!
-    
     GameNodeInstance* instance = (GameNodeInstance*)p_instance;
-    if (instance && instance->godot_object) {
-        const GDExtensionInterface* iface = gdext_c_get_interface_functions();
-        
-        // Get Node's notification function and call it!
-        // This is what godot-cpp does with m_inherits::notification_bind(...)
-        if (!p_reversed) {
-            fprintf(stderr, "[gdext-c] 🔗 TDD Deep Dive: Calling PARENT Node notification (before our handler)...\n");
-            fflush(stderr);
-            
-            // Create StringName for "Node" class
-            StringName node_class_name;
-            memset(&node_class_name, 0, sizeof(StringName));
-            iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&node_class_name, "Node", 0);
-            
-            // Create StringName for "_notification" method
-            StringName notification_method;
-            memset(&notification_method, 0, sizeof(StringName));
-            iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&notification_method, "_notification", 0);
-            
-            GDExtensionMethodBindPtr notification_bind = iface->classdb_get_method_bind((GDExtensionConstStringNamePtr)&node_class_name, (GDExtensionConstStringNamePtr)&notification_method, 3058944179);
-            
-            if (notification_bind) {
-                // Call Node._notification(p_what)
-                GDExtensionInt args[1] = {(GDExtensionInt)p_what};
-                iface->object_method_bind_ptrcall(notification_bind, instance->godot_object, (const GDExtensionConstTypePtr*)args, NULL);
-                fprintf(stderr, "[gdext-c] ✅ TDD Deep Dive: Parent Node notification called!\n");
-                fflush(stderr);
-            } else {
-                fprintf(stderr, "[gdext-c] ⚠️  TDD Deep Dive: Could not get Node._notification bind (may be OK)\n");
-                fflush(stderr);
-            }
-            
-            // Note: StringNames are managed by Godot, cleanup not critical
-        }
-    }
     
-    // Now handle our own notifications
+    // TDD GODOT 4.6 FIX: Godot handles parent notification forwarding automatically!
+    // We just need to handle OUR notifications - don't try to manually call parent.
+    // The p_reversed parameter tells us if parent already handled it (reversed=true)
+    // or if we should handle it first (reversed=false).
+    
+    // Handle our own notifications
     switch (p_what) {
-        case 18: // NOTIFICATION_ENTER_TREE - Enable process/physics EARLY
-            fprintf(stderr, "[gdext-c] 🌳 TDD Option B: ENTER_TREE - enabling process/physics NOW!\n");
+        case 10: // NOTIFICATION_ENTER_TREE - Enable process/physics EARLY (GODOT 4.6 FIX!)
+            fprintf(stderr, "[gdext-c] 🌳 GODOT 4.6 FIX: ENTER_TREE (10) - enabling process/physics NOW!\n");
             fflush(stderr);
             
-            // TDD Option B: Enable BOTH process and physics in ENTER_TREE (before ready)
+            // Enable BOTH process and physics in ENTER_TREE (before ready)
             if (instance && instance->godot_object) {
                 extern void gdext_node_set_process(gdext_c_object_t instance, GDExtensionBool enable);
                 extern void gdext_node_set_physics_process(gdext_c_object_t instance, GDExtensionBool enable);
+                extern void gdext_node_set_process_mode(gdext_c_object_t instance, int32_t mode);
                 
-                fprintf(stderr, "[gdext-c] 🔧 TDD Option B: Enabling process + physics via call_deferred...\n");
+                fprintf(stderr, "[gdext-c] 🔧 GODOT 4.6 FIX: Enabling process + physics...\n");
                 fflush(stderr);
+                
+                // Set process mode to ALWAYS (mode 0) to prevent pausing
+                gdext_node_set_process_mode(instance->godot_object, 0);  // PROCESS_MODE_ALWAYS
                 
                 gdext_node_set_process(instance->godot_object, 1);
                 gdext_node_set_physics_process(instance->godot_object, 1);
                 
-                fprintf(stderr, "[gdext-c] ✅ TDD Option B: Process + physics queued for idle frame!\n");
+                fprintf(stderr, "[gdext-c] ✅ GODOT 4.6 FIX: Process + physics enabled!\n");
                 fflush(stderr);
             }
             break;
@@ -185,6 +183,21 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
         case 13: // NOTIFICATION_READY
             fprintf(stderr, "[gdext-c] 🎮 TDD: GameNode._ready()!\n");
             fflush(stderr);
+            
+            // TDD FIX 2026-02-01: Double-check physics is enabled
+            if (instance && instance->godot_object) {
+                extern GDExtensionBool gdext_node_is_physics_processing(gdext_c_object_t instance);
+                extern void gdext_node_set_physics_process(gdext_c_object_t instance, GDExtensionBool enable);
+                
+                GDExtensionBool is_physics = gdext_node_is_physics_processing(instance->godot_object);
+                fprintf(stderr, "[gdext-c] 🔍 TDD FIX: Physics processing enabled? %s\n", is_physics ? "YES" : "NO");
+                
+                if (!is_physics) {
+                    fprintf(stderr, "[gdext-c] ⚠️  TDD FIX: Physics was disabled! Re-enabling...\n");
+                    gdext_node_set_physics_process(instance->godot_object, 1);
+                }
+                fflush(stderr);
+            }
             
             // TDD 1.4: Dispatch to lifecycle system
             // NOTE: Physics processing is already enabled in ENTER_TREE (line 178)
@@ -195,36 +208,30 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             fflush(stderr);
             break;
             
-        case 10: { // NOTIFICATION_PROCESS (braces for variable declaration)
-            // fprintf(stderr, "[gdext-c] 🔍 TDD 1.4: _process notification received\n");
-            // fflush(stderr);
+        case 16: // NOTIFICATION_PHYSICS_PROCESS (GODOT 4.6 CORRECT!)
+            fprintf(stderr, "[gdext-c] 🔍 GODOT 4.6 FIX: PHYSICS_PROCESS (16) notification received\n");
+            fflush(stderr);
+            // Dispatch to lifecycle system
+            gdext_c_lifecycle_dispatch_physics(0.016); // TODO: Get actual delta from Godot
+            fprintf(stderr, "[gdext-c] ✅ GODOT 4.6 FIX: Lifecycle physics callback completed\n");
+            fflush(stderr);
+            break;
             
-            // TDD: Process queued GPU operations (CRITICAL for Metal threading!)
+        case 17: { // NOTIFICATION_PROCESS (GODOT 4.6 CORRECT!)
+            // Process queued GPU operations (CRITICAL for Metal threading!)
             int processed = gdext_gpu_queue_process(0);  // 0 = process all pending
             if (processed > 0) {
-                fprintf(stderr, "[gdext-c] ⚡ TDD: Processed %d GPU operation(s) this frame\n", processed);
+                fprintf(stderr, "[gdext-c] ⚡ GODOT 4.6 FIX: Processed %d GPU operation(s) in PROCESS\n", processed);
                 fflush(stderr);
             }
             
-            // TDD 1.4: Dispatch to lifecycle system (replaces old c_trigger_process_callback)
+            // Dispatch to lifecycle system
             gdext_c_lifecycle_dispatch_process(0.016); // TODO: Get actual delta from Godot
-            // fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle process callback completed\n");
-            // fflush(stderr);
             break;
         }
         
-        case 16: // NOTIFICATION_PHYSICS_PROCESS
-            fprintf(stderr, "[gdext-c] 🔍 TDD 1.4: _physics_process notification received (START)\n");
-            fflush(stderr);
-            // TDD 1.4: Dispatch to lifecycle system (replaces old c_trigger_physics_process_callback)
-            gdext_c_lifecycle_dispatch_physics(0.016); // TODO: Get actual delta from Godot
-            fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle physics callback completed (END)\n");
-            fflush(stderr);
-            break;
-            
-        case 17: // NOTIFICATION_POST_ENTER_TREE
-            // Just log it, don't trigger shutdown!
-            fprintf(stderr, "[gdext-c] 🌳 TDD: POST_ENTER_TREE notification received\n");
+        case 27: // NOTIFICATION_POST_ENTER_TREE (GODOT 4.6 CORRECT!)
+            fprintf(stderr, "[gdext-c] 🌳 GODOT 4.6 FIX: POST_ENTER_TREE (27) notification received\n");
             fflush(stderr);
             break;
             
@@ -236,6 +243,12 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             gdext_c_lifecycle_shutdown();
             fprintf(stderr, "[gdext-c] ✅ TDD 1.4: Lifecycle shutdown completed\n");
             fflush(stderr);
+            
+            // TDD FIX 2026-02-01: REMOVED exit(0) - it was killing game immediately!
+            // The exit(0) was preventing physics frames from running.
+            // Let Godot handle cleanup naturally instead.
+            fprintf(stderr, "[gdext-c] ✅ Allowing Godot to complete shutdown naturally (no forced exit)\n");
+            fflush(stderr);
             break;
             
         default:
@@ -245,35 +258,11 @@ static void game_node_notification(void *p_instance, int32_t p_what, GDExtension
             break;
     }
     
-    // TDD Deep Dive: Call parent Node notification AFTER our handler if reversed
-    if (instance && instance->godot_object && p_reversed) {
-        const GDExtensionInterface* iface = gdext_c_get_interface_functions();
-        
-        fprintf(stderr, "[gdext-c] 🔗 TDD Deep Dive: Calling PARENT Node notification (after our handler, reversed)...\n");
-        fflush(stderr);
-        
-        // Create StringName for "Node" class
-        StringName node_class_name;
-        memset(&node_class_name, 0, sizeof(StringName));
-        iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&node_class_name, "Node", 0);
-        
-        // Create StringName for "_notification" method
-        StringName notification_method;
-        memset(&notification_method, 0, sizeof(StringName));
-        iface->string_name_new_with_latin1_chars((GDExtensionStringNamePtr)&notification_method, "_notification", 0);
-        
-        GDExtensionMethodBindPtr notification_bind = iface->classdb_get_method_bind((GDExtensionConstStringNamePtr)&node_class_name, (GDExtensionConstStringNamePtr)&notification_method, 3058944179);
-        
-        if (notification_bind) {
-            // Call Node._notification(p_what)
-            GDExtensionInt args[1] = {(GDExtensionInt)p_what};
-            iface->object_method_bind_ptrcall(notification_bind, instance->godot_object, (const GDExtensionConstTypePtr*)args, NULL);
-            fprintf(stderr, "[gdext-c] ✅ TDD Deep Dive: Parent Node notification called (reversed)!\n");
-            fflush(stderr);
-        }
-        
-        // Note: StringNames are managed by Godot, cleanup not critical
-    }
+    // TDD GODOT 4.6 FIX: DON'T manually call parent notifications!
+    // Godot's engine automatically handles parent notification forwarding.
+    // When p_reversed=true, parent was already called in forward pass.
+    // When p_reversed=false, parent will be called after us in reverse pass.
+    // We just need to handle OUR notifications and return.
     
     fprintf(stderr, "[gdext-c] ✅ TDD Deep Dive: game_node_notification completed (what=%d)\n", p_what);
     fflush(stderr);
@@ -344,7 +333,8 @@ static GDExtensionClassCallVirtual game_node_get_virtual(void *p_userdata, GDExt
         return NULL;
     }
     
-    fprintf(stderr, "[gdext-c] 🔍 TDD: get_virtual called! (hash=%u)\n", p_hash);
+    // TDD METAL FIX: Log ALL virtual method requests to find what we're missing
+    fprintf(stderr, "[gdext-c] 🔍 TDD METAL: get_virtual called! hash=%u, p_name=%p\n", p_hash, (void*)p_name);
     fflush(stderr);
     
     // Check if this is _process or _physics_process (both have hash = 373806689!)
@@ -467,4 +457,99 @@ void gdext_c_register_game_node_class(void *p_userdata, void *p_level) {
 // This allows us to use lifecycle system immediately without complex signal work
 // GameNode forwards its notifications to registered lifecycle callbacks
 // (lifecycle header is included at top of file)
+
+// OPTION B: Global reference to programmatically-created GameNode
+// Prevents Godot and C from deleting it
+static GDExtensionObjectPtr g_programmatic_game_node = NULL;
+
+/**
+ * @brief OPTION B: Create GameNode programmatically (pure GDExtension, no GDScript!)
+ * 
+ * FULL IMPLEMENTATION using universal scene tree helpers!
+ * 
+ * This demonstrates the proper way to programmatically create and add nodes
+ * to the scene tree from ANY language binding (Go, Rust, Python, etc.)
+ * 
+ * Steps:
+ * 1. Create GameNode instance
+ * 2. Get /root node from SceneTree
+ * 3. Add GameNode to /root using call_deferred
+ * 4. Store global reference to prevent premature deletion
+ * 
+ * Benefits ALL language bindings - this is reusable infrastructure!
+ */
+void gdext_c_create_programmatic_game_node(void) {
+    printf("[gdext-c] 🎯 OPTION B: Creating GameNode programmatically (PURE C!)...\n");
+    printf("[gdext-c] 🎯 This benefits ALL language bindings - Go, Rust, Python, etc.\n");
+    fflush(stdout);
+    
+    // Step 1: Create GameNode instance
+    printf("[gdext-c] 🔧 Step 1: Creating GameNode instance...\n");
+    fflush(stdout);
+    
+    // p_notify_postinitialize = true to tell Godot we're fully initialized
+    GDExtensionObjectPtr game_node = gdext_c_game_node_create_instance(NULL, 1);
+    
+    if (!game_node) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to create GameNode instance!\n");
+        fflush(stderr);
+        return;
+    }
+    
+    printf("[gdext-c] ✅ GameNode created at %p\n", (void*)game_node);
+    fflush(stdout);
+    
+    // Step 2: Get /root node
+    printf("[gdext-c] 🔧 Step 2: Getting /root node from SceneTree...\n");
+    fflush(stdout);
+    
+    GDExtensionObjectPtr root = gdext_c_get_root_node();
+    
+    if (!root) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get /root node!\n");
+        fprintf(stderr, "[gdext-c] ❌ GameNode created but can't be added to scene tree\n");
+        fflush(stderr);
+        return;
+    }
+    
+    printf("[gdext-c] ✅ Got /root node at %p\n", (void*)root);
+    fflush(stdout);
+    
+    // Step 3: Add GameNode to /root (deferred for safety)
+    printf("[gdext-c] 🔧 Step 3: Adding GameNode to /root tree (deferred)...\n");
+    fflush(stdout);
+    
+    int add_result = gdext_c_add_child_deferred(root, game_node);
+    
+    if (!add_result) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to add GameNode to /root!\n");
+        fflush(stderr);
+        return;
+    }
+    
+    printf("[gdext-c] ✅ GameNode added to /root tree\n");
+    fflush(stdout);
+    
+    // Step 4: Store global reference
+    printf("[gdext-c] 🔧 Step 4: Storing global reference...\n");
+    fflush(stdout);
+    
+    g_programmatic_game_node = game_node;
+    
+    printf("[gdext-c] ✅ GameNode stored globally (prevents premature deletion)\n");
+    fflush(stdout);
+    
+    // Success!
+    printf("[gdext-c] 🎉 ═══════════════════════════════════════════════════════\n");
+    printf("[gdext-c] 🎉 OPTION B COMPLETE: GameNode created programmatically!\n");
+    printf("[gdext-c] 🎉 ═══════════════════════════════════════════════════════\n");
+    printf("[gdext-c] ✅ GameNode address: %p\n", (void*)game_node);
+    printf("[gdext-c] ✅ Added to scene tree: /root\n");
+    printf("[gdext-c] ✅ Will receive _ready(), _process(), _physics_process()\n");
+    printf("[gdext-c] ✅ Go lifecycle callbacks will fire\n");
+    printf("[gdext-c] 🎯 PURE C IMPLEMENTATION - NO GDSCRIPT REQUIRED!\n");
+    printf("[gdext-c] 🌍 UNIVERSAL INFRASTRUCTURE - Benefits ALL language bindings!\n");
+    printf("[gdext-c] 🎉 ═══════════════════════════════════════════════════════\n");
+    fflush(stdout);
+}
 

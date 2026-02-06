@@ -464,6 +464,16 @@ void gdext_c_lifecycle_shutdown(void) {
         fflush(stdout);
     }
     
+    // CRITICAL FIX: Process any remaining GPU operations before clearing state
+    printf("[gdext-c] 🧹 CRITICAL FIX: Processing remaining GPU operations...\n");
+    fflush(stdout);
+    extern int gdext_gpu_queue_process(int max_operations);
+    int remaining = gdext_gpu_queue_process(0);  // Process all
+    if (remaining > 0) {
+        printf("[gdext-c] ⚡ Processed %d remaining GPU operation(s)\n", remaining);
+        fflush(stdout);
+    }
+    
     // Clear callbacks
     g_ready_callback = NULL;
     g_process_callback = NULL;

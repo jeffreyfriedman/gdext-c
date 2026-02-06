@@ -9,6 +9,9 @@
 #include "gdext_c_gdextension.h"
 #include "gdext_c_core.h"
 #include "gdext_c_callbacks.h"
+#include "gdext_c_signal_handler.h"       // TDD Option 3: Crash signal handlers
+#include "gdext_c_object_registry.h"      // TDD #202: Object lifetime tracking
+#include "../core/gdext_c_refcounted_cleanup.h"  // PLATFORM FIX: Thread-safe RefCounted cleanup
 #include "threading/gdext_c_thread.h"     // TDD: Thread detection for GPU safety
 #include "threading/gdext_c_gpu_queue.h"  // TDD: GPU operation queue
 #include "threading/gdext_c_gpu_safe.h"   // TDD Phase 3: Safe GPU wrappers
@@ -30,6 +33,12 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
     switch (p_level) {
         case GDEXTENSION_INITIALIZATION_CORE:
             level_name = "CORE";
+            // TDD Option 3: Initialize crash signal handlers FIRST
+            gdext_c_signal_handler_init();
+            // TDD #202: Initialize object lifetime tracking
+            gdext_registry_init();
+            // PLATFORM FIX: Initialize RefCounted cleanup queue (thread-safe!)
+            gdext_refcounted_cleanup_init();
             // TDD: Initialize thread detection (MUST be on main thread!)
             gdext_thread_init();
             // TDD: Initialize GPU operation queue
@@ -95,6 +104,12 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
         printf("[gdext-c] 🎮 TDD 3.1: Registering GameNode class...\n");
         fflush(stdout);
         gdext_c_register_game_node_class(NULL, NULL);
+        
+        // OPTION B: Create GameNode programmatically WILL BE DONE LATER
+        // We can't create it now because SceneTree isn't ready yet during SCENE init!
+        // Instead, we'll create it on the first frame (see gdext_c_lifecycle.c)
+        printf("[gdext-c] 🔧 OPTION B: GameNode will be created on first frame (deferred)\n");
+        fflush(stdout);
     }
 }
 
@@ -108,19 +123,57 @@ void gdext_c_deinitialize_level(void *p_userdata, GDExtensionInitializationLevel
     switch (p_level) {
         case GDEXTENSION_INITIALIZATION_CORE:
             level_name = "CORE";
+            // CRITICAL FIX: Clean up in reverse order of initialization!
+            printf("[gdext-c] 🧹 CRITICAL FIX: Cleaning up CORE level resources...\n");
+            fflush(stdout);
+            
+            // Shutdown GPU queue (processes remaining operations, destroys mutex)
+            extern void gdext_gpu_queue_shutdown(void);
+            gdext_gpu_queue_shutdown();
+            printf("[gdext-c] ✅ GPU queue shutdown complete\n");
+            fflush(stdout);
+            
+            // Shutdown GPU safe wrapper
+            extern void gdext_gpu_safe_shutdown(void);
+            gdext_gpu_safe_shutdown();
+            printf("[gdext-c] ✅ GPU safe wrapper shutdown complete\n");
+            fflush(stdout);
+            
+            // PLATFORM FIX: Shutdown RefCounted cleanup queue (processes remaining cleanups)
+            gdext_refcounted_cleanup_shutdown();
+            printf("[gdext-c] ✅ RefCounted cleanup queue shutdown complete\n");
+            fflush(stdout);
+            
+            // Shutdown object registry
+            extern void gdext_registry_shutdown(void);
+            gdext_registry_shutdown();
+            printf("[gdext-c] ✅ Object registry shutdown complete\n");
+            fflush(stdout);
+            
+            // Destroy object creation mutex
+            extern void gdext_c_objects_shutdown(void);
+            gdext_c_objects_shutdown();
+            printf("[gdext-c] ✅ Object creation mutex destroyed\n");
+            fflush(stdout);
+            
+            // Note: Thread detection and signal handlers don't need explicit cleanup
+            // (they're just TLS and signal registrations)
             break;
         case GDEXTENSION_INITIALIZATION_SERVERS:
             level_name = "SERVERS";
             break;
         case GDEXTENSION_INITIALIZATION_SCENE:
             level_name = "SCENE";
+            printf("[gdext-c] 🧹 CRITICAL FIX: Cleaning up SCENE level resources...\n");
+            fflush(stdout);
+            // Lifecycle cleanup happens via PREDELETE notification
             break;
         case GDEXTENSION_INITIALIZATION_EDITOR:
             level_name = "EDITOR";
             break;
     }
     
-    printf("[gdext-c] 🔽 TDD #155: Deinitializing level: %s\n", level_name);
+    printf("[gdext-c] 🔽 TDD #155: Deinitializing level: %s - COMPLETE\n", level_name);
     fflush(stdout);
 }
 

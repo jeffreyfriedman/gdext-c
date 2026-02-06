@@ -20,6 +20,8 @@ SRC_THREADING := $(wildcard src/threading/*.c)
 SRC_GENERATED := generated/gdext_c_generated.c
 SRCS := $(SRC_CORE) $(SRC_SCENE) $(SRC_API) $(SRC_MATH) $(SRC_GDEXTENSION) $(SRC_LIFECYCLE) $(SRC_THREADING) $(SRC_GENERATED)
 
+# Note: SRC_SCENE now includes gdext_c_scene_tree.c (universal infrastructure!)
+
 # Object files
 OBJS := $(SRCS:.c=.o)
 

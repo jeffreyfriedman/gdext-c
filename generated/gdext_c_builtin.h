@@ -2,7 +2,7 @@
  * @file gdext_c_builtin.h
  * @brief Godot builtin types (Vector2, Vector3, Color, etc.)
  * 
- * Generated for Godot Godot Engine v4.5.stable.official - TDD #142
+ * Generated for Godot Godot Engine v4.6.stable.official - TDD #142
  */
 
 #ifndef GDEXT_C_BUILTIN_H

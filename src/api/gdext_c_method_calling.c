@@ -11,6 +11,8 @@
 
 #include "../../include/gdext_c.h"
 #include "../core/gdext_c_core.h"
+#include "../core/gdext_c_signal_handler.h"  // TDD Option 3: Crash signal handlers
+#include "../core/gdext_c_object_registry.h"  // TDD #202: Object lifetime tracking
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,8 +43,90 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
     }
     fprintf(stderr, "[gdext-c] 🔍 TDD #129: object and method_name valid\n");
     
+    // TDD #202: Validate object before calling method
+    char error_buf[256];
+    if (gdext_registry_check_valid(object, method_name, error_buf, sizeof(error_buf)) != 0) {
+        fprintf(stderr, "[gdext-c] 🚨 OBJECT LIFETIME ERROR: %s\n", error_buf);
+        fflush(stderr);
+        // Print stack trace if available (signal handler provides this)
+        fprintf(stderr, "[gdext-c] 🚨 This is a use-after-free bug! Aborting to prevent corruption.\n");
+        fflush(stderr);
+        abort(); // Crash immediately with clear error message
+    }
+    
+    // TDD Phase 2: Enhanced logging for critical methods
+    bool is_critical_method = (
+        strcmp(method_name, "set_position") == 0 ||
+        strcmp(method_name, "get_position") == 0 ||
+        strcmp(method_name, "set_global_position") == 0 ||
+        strcmp(method_name, "get_global_position") == 0 ||
+        strcmp(method_name, "get_node") == 0 ||
+        strcmp(method_name, "add_child") == 0 ||
+        strcmp(method_name, "remove_child") == 0 ||
+        strcmp(method_name, "queue_free") == 0 ||
+        strcmp(method_name, "is_inside_tree") == 0
+    );
+    
+    if (is_critical_method) {
+        fprintf(stderr, "\n╔═════════════════════════════════════════════════════════╗\n");
+        fprintf(stderr, "║ 🎯 PHASE 2: CRITICAL METHOD CALL                       ║\n");
+        fprintf(stderr, "╠═════════════════════════════════════════════════════════╣\n");
+        fprintf(stderr, "║ Method: %-47s ║\n", method_name);
+        fprintf(stderr, "║ Object: %p                                 ║\n", object);
+        fprintf(stderr, "║ Args:   %-47d ║\n", arg_count);
+        fprintf(stderr, "╚═════════════════════════════════════════════════════════╝\n");
+        fflush(stderr);
+    }
+    
+    // TDD Phase 3: Detect deferred operations
+    bool is_deferred_operation = (
+        strcmp(method_name, "call_deferred") == 0 ||
+        strcmp(method_name, "queue_free") == 0
+    );
+    
+    if (is_deferred_operation) {
+        fprintf(stderr, "\n╔═══════════════════════════════════════════════════════════════╗\n");
+        fprintf(stderr, "║ 🚨 PHASE 3: DEFERRED OPERATION DETECTED                      ║\n");
+        fprintf(stderr, "╠═══════════════════════════════════════════════════════════════╣\n");
+        fprintf(stderr, "║ Method: %-57s ║\n", method_name);
+        fprintf(stderr, "║ Object: %p                                       ║\n", object);
+        fprintf(stderr, "║ Args:   %-57d ║\n", arg_count);
+        
+        // For call_deferred, try to extract the deferred method name
+        if (strcmp(method_name, "call_deferred") == 0 && arg_count > 0 && args != NULL) {
+            fprintf(stderr, "║                                                               ║\n");
+            fprintf(stderr, "║ 🔍 Attempting to extract deferred method name...             ║\n");
+            // Note: args[0] should be a StringName variant containing the method name
+            // We'll add extraction code after we get the interface
+        }
+        
+        fprintf(stderr, "╚═══════════════════════════════════════════════════════════════╝\n");
+        fflush(stderr);
+    }
+    
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     fprintf(stderr, "[gdext-c] 🔍 TDD #129: Got interface functions: %p\n", (void*)iface);
+    
+    // TDD Phase 3: Extract deferred method name if this is call_deferred
+    if (is_deferred_operation && strcmp(method_name, "call_deferred") == 0 && 
+        arg_count > 0 && args != NULL && iface != NULL) {
+        
+        // Try to extract the method name from first argument
+        GDExtensionVariantType arg0_type = iface->variant_get_type(args[0]);
+        fprintf(stderr, "[gdext-c] 🔍 PHASE 3: Deferred method arg type: %d\n", arg0_type);
+        
+        // Type 21 = StringName, Type 4 = String
+        // For now, just log that we detected call_deferred
+        // Extracting the actual method name is complex, we'll just log the detection
+        fprintf(stderr, "\n╔═══════════════════════════════════════════════════════════════╗\n");
+        fprintf(stderr, "║ 🎯 DEFERRED OPERATION REGISTERED                             ║\n");
+        fprintf(stderr, "╠═══════════════════════════════════════════════════════════════╣\n");
+        fprintf(stderr, "║ Type: call_deferred                                          ║\n");
+        fprintf(stderr, "║ On Object:       %p                               ║\n", object);
+        fprintf(stderr, "║ Arg Type:        %d (21=StringName, 4=String)               ║\n", arg0_type);
+        fprintf(stderr, "╚═══════════════════════════════════════════════════════════════╝\n");
+        fflush(stderr);
+    }
     
     // TDD #160: CRITICAL FIX - variant_call expects GDExtensionVariantPtr, not Object!
     // We need to wrap the object in a Variant first
@@ -147,8 +231,31 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
         fprintf(stderr, "[gdext-c]    arg[%d] type: %d\n", i, arg_type);
     }
     
+    // TDD DEEP DIVE: Check object registry before calling variant_call
+    char registry_error[256];
+    int registry_check = gdext_registry_check_valid(object, method_name, registry_error, sizeof(registry_error));
+    if (registry_check != 0) {
+        fprintf(stderr, "\n");
+        fprintf(stderr, "╔═══════════════════════════════════════════════════════════════╗\n");
+        fprintf(stderr, "║ 🚨 DEEP DIVE: OBJECT REGISTRY ERROR BEFORE variant_call      ║\n");
+        fprintf(stderr, "╠═══════════════════════════════════════════════════════════════╣\n");
+        fprintf(stderr, "║ %s\n", registry_error);
+        fprintf(stderr, "║ Method: %s\n", method_name);
+        fprintf(stderr, "║ This object should NOT be used!\n");
+        fprintf(stderr, "╚═══════════════════════════════════════════════════════════════╝\n");
+        fprintf(stderr, "\n");
+        fflush(stderr);
+        // Continue anyway to see if this is the crash cause
+    } else {
+        fprintf(stderr, "[gdext-c] ✅ DEEP DIVE: Object %p passed registry check for method '%s'\n", object, method_name);
+        fflush(stderr);
+    }
+    
     fprintf(stderr, "[gdext-c] 🔧 TDD #160: All validations passed, calling variant_call NOW...\n");
     fflush(stderr); // Ensure logs are written before potential crash
+    
+    // TDD Option 3: Set signal context for crash diagnosis
+    gdext_c_signal_set_context("variant_call", method_name, object);
     
     iface->variant_call(
         object_variant,      // TDD #160: Pass Variant containing object, not raw object!
@@ -158,6 +265,9 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
         ret,                 // Return value
         &error               // Error info
     );
+    
+    // TDD Option 3: Clear signal context after successful call
+    gdext_c_signal_set_context("idle", "none", NULL);
     
     fprintf(stderr, "[gdext-c] ✅ TDD #160: variant_call returned! error.error=%d\n", error.error);
     fflush(stderr);
@@ -173,6 +283,34 @@ void* gdext_call_method(void* object, const char* method_name, void** args, int 
     
     GDExtensionVariantType ret_type = iface->variant_get_type(ret);
     fprintf(stderr, "[gdext-c] 🔬 CRASH DIAGNOSIS: Return value type: %d\n", ret_type);
+    
+    // TDD FINAL FIX: Check for NULL returns from get_node
+    // This is THE root cause of the SIGSEGV crash!
+    if (strcmp(method_name, "get_node") == 0) {
+        // Type 0 = NIL, means node not found
+        if (ret_type == 0) {
+            fprintf(stderr, "\n");
+            fprintf(stderr, "╔═══════════════════════════════════════════════════════════════╗\n");
+            fprintf(stderr, "║ 🚨 TDD FINAL FIX: get_node RETURNED NULL                    ║\n");
+            fprintf(stderr, "╠═══════════════════════════════════════════════════════════════╣\n");
+            fprintf(stderr, "║ This would have caused SIGSEGV if used!                      ║\n");
+            fprintf(stderr, "║ Returning NULL safely to prevent crash.                      ║\n");
+            fprintf(stderr, "╚═══════════════════════════════════════════════════════════════╝\n");
+            fprintf(stderr, "\n");
+            fflush(stderr);
+            
+            // Clean up and return NULL safely
+            iface->variant_destroy(object_variant);
+            free(object_variant);
+            if (arg_ptrs) free(arg_ptrs);
+            
+            // Don't return ret - it's NIL variant, return actual NULL
+            // This prevents Go/other languages from trying to use it
+            return NULL;
+        } else {
+            fprintf(stderr, "[gdext-c] ✅ TDD FINAL FIX: get_node succeeded (type=%d)\n", ret_type);
+        }
+    }
     
     if (error.error != 0) {
         fprintf(stderr, "[gdext-c] ⚠️  TDD #131: Call error details:\n");

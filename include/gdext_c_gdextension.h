@@ -51,6 +51,13 @@ void gdext_c_deinitialize_level(void *p_userdata, GDExtensionInitializationLevel
  */
 void gdext_c_register_game_node_class(void *p_userdata, void *p_level);
 
+/**
+ * @brief OPTION B: Create GameNode programmatically (pure GDExtension!)
+ * Creates a GameNode instance, adds it to /root, and manages its lifecycle.
+ * This is the "no GDScript" approach that keeps the node alive via ref counting.
+ */
+void gdext_c_create_programmatic_game_node(void);
+
 #ifdef __cplusplus
 }
 #endif

@@ -56,14 +56,9 @@ gdext_c_object_t gdext_c_create_object(const char* class_name) {
     iface->string_name_new_with_latin1_chars(class_name_sn, class_name, 0);
     
     // Step 3: Construct the object
+    GDExtensionObjectPtr object = iface->classdb_construct_object(class_name_sn);
     
-    // TDD: Protect object construction with mutex (prevents Metal/GPU race conditions on macOS)
-    pthread_mutex_lock(&object_creation_mutex);
-        GDExtensionObjectPtr object = iface->classdb_construct_object(class_name_sn);
-    
-    
-    pthread_mutex_unlock(&object_creation_mutex);
-        if (!object) {
+    if (!object) {
         fprintf(stderr, "[gdext-c] ❌ TDD #122: Failed to construct object of class '%s'\n", class_name);
         return NULL;
     }
@@ -76,17 +71,17 @@ gdext_c_object_t gdext_c_create_object(const char* class_name) {
     // For regular Objects, this will fail (return false) but that's OK
     {
         // Create StringNames for method binding
-        // TDD FIX: Use class_name_sn (the object's class), not "RefCounted"!
+        uint8_t refcounted_class_sn[16] = {0};
         uint8_t reference_method_sn[16] = {0};
         
+        iface->string_name_new_with_latin1_chars(refcounted_class_sn, "RefCounted", 0);
         iface->string_name_new_with_latin1_chars(reference_method_sn, "reference", 0);
         
-        // Get method bind for THIS OBJECT'S reference() method
-        // If it exists, this object is RefCounted. If not, it's a regular Object.
-        fprintf(stderr, "[gdext-c] 🔍 Checking if %s has reference() method...\n", class_name);
+        // Get method bind for RefCounted.reference() (only exists on RefCounted, not Object)
+        fprintf(stderr, "[gdext-c] 🔍 Attempting to get method bind for RefCounted.reference...\n");
         fflush(stderr);
         GDExtensionMethodBindPtr method_bind = iface->classdb_get_method_bind(
-            class_name_sn,  // TDD FIX: Use the object's class, not "RefCounted"!
+            refcounted_class_sn,
             reference_method_sn,
             2240911060 // Hash for reference() -> bool
         );
@@ -111,7 +106,7 @@ gdext_c_object_t gdext_c_create_object(const char* class_name) {
         if (get_destructor_func) {
             GDExtensionPtrDestructor sn_destructor = get_destructor_func(21); // StringName type
             if (sn_destructor) {
-                // TDD FIX: Only destroy reference_method_sn, not refcounted_class_sn (doesn't exist anymore)
+                sn_destructor(refcounted_class_sn);
                 sn_destructor(reference_method_sn);
             }
         }

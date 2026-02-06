@@ -10,6 +10,7 @@
 #include "gdext_c_core.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
 
 // Global state (exported for use by other gdext-c files)
@@ -176,5 +177,47 @@ void gdext_c_cleanup(void) {
     
     printf("[gdext-c] ✅ TDD #122: gdext-c cleanup complete\n");
     fflush(stdout);
+}
+
+/**
+ * @brief Create a StringName from a C string
+ * 
+ * Universal helper for creating StringNames in C code.
+ * Returns an opaque StringName handle that must be freed with gdext_c_free_string_name().
+ * 
+ * @param str C string to convert
+ * @return Opaque StringName handle (typedef'd as void*)
+ */
+gdext_c_string_name_t gdext_c_create_string_name(const char* str) {
+    if (!g_initialized || !str) {
+        return NULL;
+    }
+    
+    // Allocate storage for StringName (8 bytes on 64-bit)
+    gdext_c_string_name_t sn = malloc(8);
+    if (!sn) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to allocate StringName\n");
+        return NULL;
+    }
+    
+    // Create StringName using Godot API
+    g_interface.string_name_new_with_latin1_chars((GDExtensionUninitializedStringNamePtr)sn, str, 0);
+    
+    return sn;
+}
+
+/**
+ * @brief Free a StringName created with gdext_c_create_string_name()
+ * 
+ * @param string_name StringName to free
+ */
+void gdext_c_free_string_name(gdext_c_string_name_t string_name) {
+    if (!g_initialized || !string_name) {
+        return;
+    }
+    
+    // StringName is a lightweight value type (just 8 bytes)
+    // No special destructor needed, just free the memory
+    free(string_name);
 }
 
