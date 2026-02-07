@@ -35,6 +35,21 @@ extern "C" {
 // TDD #122: Include Godot GDExtension interface
 #include "gdextension_interface.h"
 
+/**
+ * @brief Size of a Godot Variant in bytes.
+ *
+ * In Godot 4.x a Variant consists of:
+ *   - Type enum (4 bytes)
+ *   - Padding (4 bytes for alignment)
+ *   - Data union (16 bytes, largest member: double/int64/pointer)
+ *   = 24 bytes total
+ *
+ * CRITICAL: Using sizeof(GDExtensionUninitializedVariantPtr) (8 bytes) instead
+ * of this constant causes heap buffer overflows and SIGSEGV crashes during
+ * idle processing when deferred Variant data is accessed.
+ */
+#define GDEXT_VARIANT_SIZE 24
+
 /* ============================================================================
  * Version Information
  * ============================================================================ */
@@ -581,7 +596,7 @@ void gdext_variant_to_rid(void* variant, uint64_t* out_id);
  * TDD SVO: Required for passing RIDs to Godot methods
  */
 void gdext_variant_from_rid(void* variant_ptr, uint64_t rid_id);
-/**
+
 /**
  * @brief Free a Variant
  */

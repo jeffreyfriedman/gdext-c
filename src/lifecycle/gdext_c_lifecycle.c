@@ -109,18 +109,12 @@ void gdext_c_register_lifecycle_callbacks(
     gdext_c_physics_callback physics,
     gdext_c_shutdown_callback shutdown
 ) {
-    printf("[gdext-c] 📋 Registering lifecycle callbacks...\n");
-    
     g_ready_callback = ready;
     g_process_callback = process;
     g_physics_callback = physics;
     g_shutdown_callback = shutdown;
     
-    printf("[gdext-c] ✅ Lifecycle callbacks registered:\n");
-    printf("[gdext-c]    Ready:    %p\n", (void*)ready);
-    printf("[gdext-c]    Process:  %p\n", (void*)process);
-    printf("[gdext-c]    Physics:  %p\n", (void*)physics);
-    printf("[gdext-c]    Shutdown: %p\n", (void*)shutdown);
+    printf("[gdext-c] ✅ Lifecycle callbacks registered\n");
     fflush(stdout);
 }
 
@@ -146,34 +140,17 @@ static void on_process_frame_signal(
     GDExtensionVariantPtr r_return,
     GDExtensionCallError* r_error
 ) {
-    // TDD B1-A: FIRST LINE - Log immediately to see if callback is EVER called
-    static int entry_count = 0;
-    entry_count++;
-    
-    // Force immediate flush
-    fprintf(stderr, "[gdext-c] 🚨 TDD B1-A v5: CALLBACK ENTERED! (call #%d)\n", entry_count);
-    fflush(stderr);
-    
     (void)p_userdata;
     (void)p_args;
     (void)p_argument_count;
     (void)r_return;
-    
-    // TDD B1-A: Log to verify callback is called
-    static int call_count = 0;
-    call_count++;
-    if (call_count == 1 || call_count % 60 == 0) {
-        printf("[gdext-c] 🎯 TDD B1-A v5: physics_frame callback #%d (IT WORKS!)\n", call_count);
-        fflush(stdout);
-    }
     
     // Set no error
     if (r_error) {
         r_error->error = GDEXTENSION_CALL_OK;
     }
     
-    // TODO: Get actual delta from signal args if needed
-    // For now, assume 60 FPS
+    // HOT PATH - no logging
     double delta = 0.016666667;
     
     if (g_process_callback) {
@@ -263,49 +240,32 @@ int gdext_c_connect_to_scene_tree(void) {
         return 0;
     }
     
-    printf("[gdext-c] ✅ Got SceneTree: %p\n", g_scene_tree);
-    fflush(stdout);
+    // Create Callable for physics_frame
     
-    // TDD B1-A: Try physics_frame instead of process_frame
-    printf("[gdext-c] 🔨 TDD B1-A: Creating Callable for physics_frame...\n");
-    fflush(stdout);
-    
-    // TDD B1-A v6: Try library handle as token (what godot-cpp uses)
     GDExtensionCallableCustomInfo2 process_info;
     memset(&process_info, 0, sizeof(process_info));
     
-    process_info.callable_userdata = NULL;  // No user data needed
-    process_info.token = gdext_c_get_library_handle();  // TDD B1-A v6: Use library handle!
-    process_info.object_id = 0;              // Static function, no object
+    process_info.callable_userdata = NULL;
+    process_info.token = gdext_c_get_library_handle();
+    process_info.object_id = 0;
     process_info.call_func = on_process_frame_signal;
-    process_info.is_valid_func = on_process_frame_is_valid;  // TDD B1-A v5: CRITICAL! Must return TRUE
-    process_info.free_func = NULL;            // Static, no cleanup needed
-    process_info.hash_func = NULL;            // Use default
-    process_info.equal_func = NULL;           // Use default
-    process_info.less_than_func = NULL;       // Use default
-    process_info.to_string_func = NULL;       // Use default
-    process_info.get_argument_count_func = NULL;  // No args
+    process_info.is_valid_func = on_process_frame_is_valid;
+    process_info.free_func = NULL;
+    process_info.hash_func = NULL;
+    process_info.equal_func = NULL;
+    process_info.less_than_func = NULL;
+    process_info.to_string_func = NULL;
+    process_info.get_argument_count_func = NULL;
     
-    printf("[gdext-c] 🔧 TDD B1-A v6: Creating Callable with library handle token + is_valid...\n");
-    fflush(stdout);
-    
-    // Get callable_custom_create2 function directly
     GDExtensionInterfaceCallableCustomCreate2 callable_create = 
         (GDExtensionInterfaceCallableCustomCreate2)gdext_c_get_proc_address_internal()("callable_custom_create2");
     
     if (!callable_create) {
-        fprintf(stderr, "[gdext-c] ❌ TDD B1: Failed to get callable_custom_create2 function\n");
-        fflush(stderr);
+        fprintf(stderr, "[gdext-c] ❌ Failed to get callable_custom_create2\n");
         return 0;
     }
     
-    // Create the Callable in persistent storage
     callable_create((GDExtensionUninitializedTypePtr)g_process_callable_storage, &process_info);
-    
-    printf("[gdext-c] ✅ TDD B1-A: Callable created successfully\n");
-    fflush(stdout);
-    
-    // TDD B1-A v4: Back to simpler Object.connect() approach with NULL token
     char signal_name_storage[64] = {0};
     iface->string_name_new_with_latin1_chars((GDExtensionUninitializedStringNamePtr)signal_name_storage, "physics_frame", 0);
     
@@ -340,9 +300,6 @@ int gdext_c_connect_to_scene_tree(void) {
     int64_t error_result = 0;
     void* error_result_ptr = &error_result;
     
-    printf("[gdext-c] 🔌 TDD B1-A v4: Calling scene_tree.connect() with NULL token Callable...\n");
-    fflush(stdout);
-    
     iface->object_method_bind_ptrcall(
         (GDExtensionMethodBindPtr)connect_bind,
         g_scene_tree,
@@ -351,17 +308,13 @@ int gdext_c_connect_to_scene_tree(void) {
     );
     
     if (error_result != 0) {
-        fprintf(stderr, "[gdext-c] ❌ TDD B1-A v4: connect() returned error: %lld\n", (long long)error_result);
-        fflush(stderr);
+        fprintf(stderr, "[gdext-c] ❌ connect() returned error: %lld\n", (long long)error_result);
         return 0;
     }
     
-    printf("[gdext-c] ✅ TDD B1-A v4: Connected with NULL token!\n");
-    fflush(stdout);
-    
     g_signals_connected = 1;
     
-    printf("[gdext-c] 🎉 TDD B1-A: SceneTree signals connected (pure C, no GameNode)!\n");
+    printf("[gdext-c] ✅ SceneTree signals connected\n");
     fflush(stdout);
     
     return 1;
@@ -371,34 +324,17 @@ int gdext_c_connect_to_scene_tree(void) {
  * @brief TDD 1.5: Run the game loop (blocks until shutdown)
  */
 void gdext_c_run_game_loop(void) {
-    printf("[gdext-c] 🎮 Starting game loop...\n");
-    fflush(stdout);
-    
-    // Connect to SceneTree signals
     if (!gdext_c_connect_to_scene_tree()) {
         fprintf(stderr, "[gdext-c] ❌ Failed to connect to SceneTree\n");
-        fflush(stderr);
         return;
     }
     
-    // Call ready callback once
     if (g_ready_callback) {
-        printf("[gdext-c] 🎯 Calling ready callback...\n");
-        fflush(stdout);
         g_ready_callback();
-        printf("[gdext-c] ✅ Ready callback completed\n");
-        fflush(stdout);
     }
     
-    printf("[gdext-c] ✅ Game loop started (callbacks will fire via SceneTree signals)\n");
-    printf("[gdext-c] 💡 This function does NOT block - callbacks are signal-driven\n");
+    printf("[gdext-c] ✅ Game loop started (signal-driven)\n");
     fflush(stdout);
-    
-    // NOTE: Unlike a traditional game loop, we don't block here!
-    // The callbacks are triggered by Godot's SceneTree signals.
-    // The game will continue running via Godot's main loop.
-    
-    // Shutdown callback will be called by gdext_c_deinitialize_level() or similar
 }
 
 /**
@@ -440,48 +376,28 @@ void c_register_go_lifecycle_callbacks(
     gdext_c_physics_callback physics,
     gdext_c_shutdown_callback shutdown
 ) {
-    printf("[gdext-c] 🚀 c_register_go_lifecycle_callbacks called (TDD 3.1)\n");
-    fflush(stdout);
-    
     gdext_c_register_lifecycle_callbacks(ready, process, physics, shutdown);
-    
-    printf("[gdext-c] ✅ Go lifecycle callbacks registered\n");
-    fflush(stdout);
 }
 
 /**
  * @brief Called during GDExtension shutdown (can trigger shutdown callback)
  */
 void gdext_c_lifecycle_shutdown(void) {
-    printf("[gdext-c] 🛑 Lifecycle shutdown requested...\n");
-    fflush(stdout);
-    
     if (g_shutdown_callback) {
-        printf("[gdext-c] 🧹 Calling shutdown callback...\n");
-        fflush(stdout);
         g_shutdown_callback();
-        printf("[gdext-c] ✅ Shutdown callback completed\n");
-        fflush(stdout);
     }
     
-    // CRITICAL FIX: Process any remaining GPU operations before clearing state
-    printf("[gdext-c] 🧹 CRITICAL FIX: Processing remaining GPU operations...\n");
-    fflush(stdout);
+    // Process remaining GPU operations before clearing state
     extern int gdext_gpu_queue_process(int max_operations);
-    int remaining = gdext_gpu_queue_process(0);  // Process all
-    if (remaining > 0) {
-        printf("[gdext-c] ⚡ Processed %d remaining GPU operation(s)\n", remaining);
-        fflush(stdout);
-    }
+    gdext_gpu_queue_process(0);
     
-    // Clear callbacks
     g_ready_callback = NULL;
     g_process_callback = NULL;
     g_physics_callback = NULL;
     g_shutdown_callback = NULL;
     g_signals_connected = 0;
     
-    printf("[gdext-c] ✅ Lifecycle shutdown complete\n");
+    printf("[gdext-c] Lifecycle shutdown complete\n");
     fflush(stdout);
 }
 

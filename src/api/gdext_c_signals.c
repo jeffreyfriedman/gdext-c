@@ -15,37 +15,22 @@
  * TDD #160: Returns 0 (not yet implemented)
  */
 uintptr_t gdext_connect_signal(uintptr_t object_ptr, const char* signal_name) {
-    fprintf(stderr, "[gdext-c] ⚠️  TDD #160: gdext_connect_signal('%s') - stub\n", signal_name);
-    (void)object_ptr;
-    return 0; // Return 0 = no callback ID
+    (void)object_ptr; (void)signal_name;
+    return 0; // Stub
 }
 
-/**
- * @brief Disconnect a signal (stub for now)
- */
 int gdext_disconnect_signal(uintptr_t object_ptr, const char* signal_name) {
-    fprintf(stderr, "[gdext-c] ⚠️  TDD #160: gdext_disconnect_signal('%s') - stub\n", signal_name);
-    (void)object_ptr;
-    return 0;
+    (void)object_ptr; (void)signal_name;
+    return 0; // Stub
 }
 
-/**
- * @brief Emit a signal (stub for now)
- */
 int gdext_emit_signal(uintptr_t object_ptr, const char* signal_name, void** args, uintptr_t arg_count) {
-    fprintf(stderr, "[gdext-c] ⚠️  TDD #160: gdext_emit_signal('%s') - stub\n", signal_name);
-    (void)object_ptr;
-    (void)args;
-    (void)arg_count;
-    return 0;
+    (void)object_ptr; (void)signal_name; (void)args; (void)arg_count;
+    return 0; // Stub
 }
 
-/**
- * @brief Initialize signals (stub for now)
- */
 void gdext_init_signals(void* callback) {
-    fprintf(stderr, "[gdext-c] ⚠️  TDD #160: gdext_init_signals() - stub\n");
-    (void)callback;
+    (void)callback; // Stub
 }
 
 // ============================================================================

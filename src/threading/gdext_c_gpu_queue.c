@@ -157,10 +157,6 @@ gdext_gpu_operation_t gdext_gpu_queue_submit(
     
     MUTEX_UNLOCK(&g_gpu_queue.lock);
     
-    printf("[gdext-c] 📦 TDD: GPU operation queued (pending: %d)\n", 
-           g_gpu_queue.pending_count);
-    fflush(stdout);
-    
     return op;
 }
 
@@ -217,11 +213,6 @@ int gdext_gpu_queue_process(int max_operations) {
         free(op);
         
         processed++;
-    }
-    
-    if (processed > 0) {
-        printf("[gdext-c] ⚡ TDD: Processed %d GPU operation(s)\n", processed);
-        fflush(stdout);
     }
     
     return processed;

@@ -43,8 +43,7 @@ bool gdext_c_initialize(gdext_c_proc_address_func proc_address) {
         return false;
     }
     
-    printf("[gdext-c] 🚀 TDD #122: Initializing gdext-c library...\n");
-    fflush(stdout);
+    // Initializing gdext-c library
     
     // Store proc_address for later use
     g_proc_address = (GDExtensionInterfaceGetProcAddress)proc_address;
@@ -107,9 +106,7 @@ bool gdext_c_initialize(gdext_c_proc_address_func proc_address) {
     // TDD #140: Copy interface to exported symbol for generated code
     memcpy(&iface_impl, &g_interface, sizeof(GDExtensionInterface));
     
-    printf("[gdext-c] ✅ TDD #122: gdext-c initialized successfully!\n");
-    printf("[gdext-c] 🎉 TDD #127: Variant/method calling functions ready!\n");
-    printf("[gdext-c] 🎉 TDD #140: Interface exported for generated code!\n");
+    printf("[gdext-c] ✅ Core initialized\n");
     fflush(stdout);
     
     return true;

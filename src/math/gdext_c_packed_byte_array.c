@@ -99,11 +99,6 @@ void gdext_c_packed_byte_array_from_bytes(
 ) {
     ensure_initialized();
     
-    fprintf(stderr, "[gdext-c] 🔍 TDD: packed_byte_array_from_bytes called with %zu bytes\n", size);
-    fflush(stderr);
-    
-    // TDD FIX: Try using the GDExtension typed array constructor instead of resize
-    // PackedByteArray has a constructor that takes a native array
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     if (!iface) {
         fprintf(stderr, "[gdext-c] ❌ Failed to get interface functions!\n");
@@ -116,24 +111,14 @@ void gdext_c_packed_byte_array_from_bytes(
     
     // Create empty array
     gdext_c_packed_byte_array_create(out);
-    fprintf(stderr, "[gdext-c] 🔍 TDD: Empty array created\n");
-    fflush(stderr);
     
-    // TDD OPTIMIZATION: For large arrays (>=100KB), use resize + bulk copy
+    // Large arrays (>=100KB): use resize + bulk copy (fast path)
     if (size >= 100000) {
-        fprintf(stderr, "[gdext-c] 🚀 TDD: Large array (%zu bytes), using resize + memcpy\n", size);
-        fflush(stderr);
-        
-        // 1. Resize array to target size
         int64_t new_size = (int64_t)size;
         const GDExtensionConstTypePtr resize_args[1] = { (GDExtensionConstTypePtr)&new_size };
-        uint8_t ret_val_resize = 0; // TDD: resize returns bool/Error - MUST provide return storage!
+        uint8_t ret_val_resize = 0;
         resize_method((GDExtensionTypePtr)out->opaque, resize_args, &ret_val_resize, 1);
-        fprintf(stderr, "[gdext-c] ✅ TDD: Array resized (return: %d)\n", ret_val_resize);
-        fflush(stderr);
         
-        // 2. Get writable pointer using operator_index
-        // Use proc_address to get the packed_byte_array_operator_index function
         gdext_c_proc_address_func proc_address = gdext_c_get_proc_address_internal();
         if (!proc_address) {
             fprintf(stderr, "[gdext-c] ❌ Failed to get proc_address!\n");
@@ -154,23 +139,12 @@ void gdext_c_packed_byte_array_from_bytes(
             fprintf(stderr, "[gdext-c] ❌ Failed to get writable pointer from operator_index!\n");
             return;
         }
-        fprintf(stderr, "[gdext-c] 🔍 TDD: Got writable pointer: %p\n", (void*)dest_ptr);
-        fflush(stderr);
         
-        // 3. Bulk copy with memcpy
         memcpy(dest_ptr, data, size);
-        fprintf(stderr, "[gdext-c] ✅ TDD: Bulk copied %zu bytes with memcpy (10,000x faster than append!)\n", size);
-        fflush(stderr);
-        
-        return;  // Done!
+        return;
     }
     
-    // Small arrays: use append() method (existing code below)
-    fprintf(stderr, "[gdext-c] 🔍 TDD: Small array (%zu bytes), using append method\n", size);
-    fflush(stderr);
-    
-    // TDD: Try using append() method instead of resize + indexed_setter
-    // Get append method (might be safer than resize)
+    // Small arrays: use append() method
     gdext_c_proc_address_func proc_address = gdext_c_get_proc_address_internal();
     if (!proc_address) {
         fprintf(stderr, "[gdext-c] ❌ Failed to get proc_address!\n");
@@ -193,86 +167,37 @@ void gdext_c_packed_byte_array_from_bytes(
     );
     
     if (!append_method) {
-        fprintf(stderr, "[gdext-c] ❌ Failed to get append method\n");
-        fprintf(stderr, "[gdext-c] 🔍 TDD: Trying workaround - fill array byte by byte without resize\n");
-        fflush(stderr);
-        
-        // TDD WORKAROUND: Don't resize! Just append bytes one at a time using push_back
-        // Get push_back method (adds one element to end)
+        // Fallback: use push_back
         uint8_t push_back_name[8] = {0};
         iface->string_name_new_with_latin1_chars(push_back_name, "push_back", 0);
         GDExtensionPtrBuiltInMethod push_back_method = get_builtin_method(
             GDEXTENSION_VARIANT_TYPE_PACKED_BYTE_ARRAY,
             push_back_name,
-            694024632  // Hash for push_back(value: int) - CORRECT from extension_api.json
+            694024632
         );
         
         if (!push_back_method) {
-            fprintf(stderr, "[gdext-c] ❌ Failed to get push_back method either!\n");
-            fprintf(stderr, "[gdext-c] ⚠️  Giving up on PackedByteArray creation\n");
-            fflush(stderr);
+            fprintf(stderr, "[gdext-c] ❌ Failed to get push_back method\n");
             return;
         }
         
-        fprintf(stderr, "[gdext-c] ✅ TDD: Got push_back method, adding %zu bytes...\n", size);
-        fflush(stderr);
-        
-        // Use push_back to add each byte
-        // NOTE: push_back returns bool, so we need storage for return value
         uint8_t return_value = 0;
-        
         for (size_t i = 0; i < size; i++) {
-            if (i % 1000 == 0) {
-                fprintf(stderr, "[gdext-c] 🔍 TDD: push_back progress: %zu/%zu bytes\n", i, size);
-                fflush(stderr);
-            }
             int64_t byte_value = (int64_t)data[i];
             const GDExtensionConstTypePtr push_args[1] = { (GDExtensionConstTypePtr)&byte_value };
             push_back_method((GDExtensionTypePtr)out->opaque, push_args, (GDExtensionTypePtr)&return_value, 1);
         }
-        
-        fprintf(stderr, "[gdext-c] ✅ TDD: All %zu bytes pushed\n", size);
-        fflush(stderr);
         return;
     } else {
-        fprintf(stderr, "[gdext-c] ✅ TDD: Using append method (safer)\n");
-        fflush(stderr);
-        
-        // Use append for each byte (slower but safer)
-        // NOTE: append returns bool, so we need storage for return value
+        // Use append for each byte
         uint8_t return_value = 0;
-        
         for (size_t i = 0; i < size; i++) {
-            if (i % 1000 == 0) {
-                fprintf(stderr, "[gdext-c] 🔍 TDD: Appending: %zu/%zu bytes\n", i, size);
-                fflush(stderr);
-            }
             int64_t byte_value = (int64_t)data[i];
             const GDExtensionConstTypePtr append_args[1] = { (GDExtensionConstTypePtr)&byte_value };
             append_method((GDExtensionTypePtr)out->opaque, append_args, (GDExtensionTypePtr)&return_value, 1);
         }
-        
-        fprintf(stderr, "[gdext-c] ✅ TDD: All %zu bytes appended\n", size);
-        fflush(stderr);
         return;
     }
-    
-    // Fill with data using indexed setter (only if resize succeeded)
-    fprintf(stderr, "[gdext-c] 🔍 TDD: Filling with indexed setter...\n");
-    fflush(stderr);
-    
-    for (size_t i = 0; i < size; i++) {
-        if (i % 1000 == 0) {
-            fprintf(stderr, "[gdext-c] 🔍 TDD: Progress: %zu/%zu bytes\n", i, size);
-            fflush(stderr);
-        }
-        GDExtensionInt index = (GDExtensionInt)i;
-        int64_t value = (int64_t)data[i];
-        indexed_setter((GDExtensionTypePtr)out->opaque, index, (GDExtensionConstTypePtr)&value);
-    }
-    
-    fprintf(stderr, "[gdext-c] ✅ TDD: All %zu bytes filled\n", size);
-    fflush(stderr);
 }
 
 size_t gdext_c_packed_byte_array_size(const gdext_c_packed_byte_array_t* arr) {
@@ -315,27 +240,20 @@ void gdext_c_packed_byte_array_destroy(gdext_c_packed_byte_array_t* arr) {
 const uint8_t* gdext_c_packed_byte_array_ptr(const gdext_c_packed_byte_array_t* arr) {
     ensure_initialized();
     
-    fprintf(stderr, "[gdext-c] 🔍 TDD: packed_byte_array_ptr called\n");
-    
     if (!arr || !arr->opaque) {
-        fprintf(stderr, "[gdext-c] ❌ packed_byte_array_ptr: NULL array!\n");
         return NULL;
     }
     
     // Get size first - if empty, return NULL
     int64_t size = 0;
     size_method((GDExtensionConstTypePtr)arr->opaque, NULL, &size, 0);
-    fprintf(stderr, "[gdext-c] 🔍 TDD: Array size: %lld bytes\n", size);
     
     if (size == 0) {
-        fprintf(stderr, "[gdext-c] ⚠️ packed_byte_array_ptr: Array is empty\n");
         return NULL;
     }
     
-    // Use packed_byte_array_operator_index_const to get const pointer to internal data
     gdext_c_proc_address_func proc_address = gdext_c_get_proc_address_internal();
     if (!proc_address) {
-        fprintf(stderr, "[gdext-c] ❌ Failed to get proc_address!\n");
         return NULL;
     }
     
@@ -344,13 +262,8 @@ const uint8_t* gdext_c_packed_byte_array_ptr(const gdext_c_packed_byte_array_t* 
         (PackedByteArrayOperatorIndexConstFunc)proc_address("packed_byte_array_operator_index_const");
     
     if (!get_const_ptr_func) {
-        fprintf(stderr, "[gdext-c] ❌ packed_byte_array_operator_index_const not available!\n");
         return NULL;
     }
     
-    // Get pointer to element 0 (start of array)
-    const uint8_t* ptr = get_const_ptr_func((GDExtensionConstTypePtr)arr->opaque, 0);
-    fprintf(stderr, "[gdext-c] ✅ TDD: Got const pointer: %p (size: %lld bytes)\n", (const void*)ptr, size);
-    
-    return ptr;
+    return get_const_ptr_func((GDExtensionConstTypePtr)arr->opaque, 0);
 }

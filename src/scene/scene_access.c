@@ -31,14 +31,10 @@ gdext_c_object_t gdext_c_get_root_node(void) {
         return NULL;
     }
     
-    printf("[gdext-c] 🌳 TDD #122: Getting scene tree root node...\n");
-    fflush(stdout);
-    
     // Step 1: Get Engine singleton
     char engine_sn[64] = {0};
     iface->string_name_new_with_latin1_chars(engine_sn, "Engine", 0);
     void* engine = iface->global_get_singleton(engine_sn);
-    
     if (!engine) {
         fprintf(stderr, "[gdext-c] ❌ Failed to get Engine singleton!\n");
         return NULL;
@@ -58,7 +54,6 @@ gdext_c_object_t gdext_c_get_root_node(void) {
     
     void* scene_tree = NULL;
     iface->object_method_bind_ptrcall(get_main_loop_bind, engine, NULL, &scene_tree);
-    
     if (!scene_tree) {
         fprintf(stderr, "[gdext-c] ❌ Failed to get SceneTree!\n");
         return NULL;
@@ -78,14 +73,10 @@ gdext_c_object_t gdext_c_get_root_node(void) {
     
     void* root_node = NULL;
     iface->object_method_bind_ptrcall(get_root_bind, scene_tree, NULL, &root_node);
-    
     if (!root_node) {
         fprintf(stderr, "[gdext-c] ❌ Failed to get root node!\n");
         return NULL;
     }
-    
-    printf("[gdext-c] ✅ TDD #122: Got scene tree root node: %p\n", root_node);
-    fflush(stdout);
     
     return (gdext_c_object_t)root_node;
 }

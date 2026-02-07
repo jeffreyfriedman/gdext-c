@@ -130,7 +130,7 @@ void* gdext_variant_new_array() {
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     
-    GDExtensionVariantPtr variant = malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
     if (!variant) {
         fprintf(stderr, "[gdext-c] ❌ gdext_variant_new_array: malloc failed!\n");
         return NULL;
@@ -165,7 +165,7 @@ void* gdext_variant_from_packed_int32_array(int32_t* values, int count) {
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     
-    GDExtensionVariantPtr variant = malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
     if (!variant) {
         return NULL;
     }
@@ -192,7 +192,7 @@ void* gdext_variant_from_packed_vector3_array(float* values, int count) {
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     
-    GDExtensionVariantPtr variant = malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
     if (!variant) {
         return NULL;
     }
@@ -219,7 +219,7 @@ void* gdext_variant_new_packed_int32_array() {
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     
-    GDExtensionVariantPtr variant = malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
     if (!variant) {
         return NULL;
     }
@@ -247,7 +247,7 @@ void* gdext_variant_new_packed_vector3_array() {
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     
-    GDExtensionVariantPtr variant = malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
     if (!variant) {
         return NULL;
     }

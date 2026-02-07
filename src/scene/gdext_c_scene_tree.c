@@ -238,9 +238,6 @@ int gdext_c_add_child_deferred(GDExtensionObjectPtr parent, GDExtensionObjectPtr
         return 0;
     }
     
-    printf("[gdext-c] 🔧 add_child_deferred: parent=%p, child=%p\n", (void*)parent, (void*)child);
-    fflush(stdout);
-    
     // Create variant for child object using Object to Variant constructor
     uint8_t child_variant_storage[24] = {0};
     GDExtensionVariantPtr child_variant = (GDExtensionVariantPtr)child_variant_storage;
@@ -261,10 +258,7 @@ int gdext_c_add_child_deferred(GDExtensionObjectPtr parent, GDExtensionObjectPtr
     
     iface->variant_destroy(child_variant);
     
-    if (result) {
-        printf("[gdext-c] ✅ add_child_deferred succeeded\n");
-        fflush(stdout);
-    } else {
+    if (!result) {
         fprintf(stderr, "[gdext-c] ❌ add_child_deferred failed\n");
         fflush(stderr);
     }

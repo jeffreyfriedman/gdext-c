@@ -42,8 +42,6 @@ bool gdext_c_object_set_property(
         return false;
     }
     
-    printf("[gdext-c] 🔧 TDD #128: Setting property '%s' on object %p\n", property_name, object);
-    fflush(stdout);
     
     /* Create StringNames as char buffers (like in scene_access.c) */
     char property_sn[64] = {0};
@@ -74,9 +72,6 @@ bool gdext_c_object_set_property(
     
     /* Call the method (no return value expected) */
     iface->object_method_bind_ptrcall(set_method, object, args, NULL);
-    
-    printf("[gdext-c] ✅ TDD #128: Property '%s' set successfully!\n", property_name);
-    fflush(stdout);
     
     return true;
 }
@@ -135,7 +130,7 @@ GDExtensionVariantPtr gdext_c_object_get_property(
     args[0] = (GDExtensionConstTypePtr)property_sn;
     
     /* Prepare return value */
-    GDExtensionVariantPtr result = (GDExtensionVariantPtr)malloc(sizeof(GDExtensionUninitializedVariantPtr));
+    GDExtensionVariantPtr result = (GDExtensionVariantPtr)malloc(GDEXT_VARIANT_SIZE);
     if (!result) {
         fprintf(stderr, "[gdext-c] ❌ Malloc failed for result variant!\n");
         return NULL;

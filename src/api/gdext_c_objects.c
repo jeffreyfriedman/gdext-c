@@ -15,7 +15,6 @@
 
 // TDD: Global mutex for object creation (prevents Metal/GPU race conditions on macOS)
 static pthread_mutex_t object_creation_mutex = PTHREAD_MUTEX_INITIALIZER;
-// TDD #127: Use new interface-based approach
 #include "../core/gdext_c_core.h"
 
 // Function pointer types we need
@@ -25,7 +24,7 @@ typedef void (*ObjectSetInstanceFunc)(GDExtensionObjectPtr, GDExtensionConstStri
 /**
  * @brief Create a Godot object by class name
  * 
- * TDD #122: Pure C object creation (no Rust bridge!)
+ * Pure C object creation (no Rust bridge!)
  * Uses Godot's classdb_construct_object API
  * 
  * @param class_name Name of the Godot class (e.g. "Node3D", "CPUParticles3D")
@@ -33,122 +32,73 @@ typedef void (*ObjectSetInstanceFunc)(GDExtensionObjectPtr, GDExtensionConstStri
  */
 gdext_c_object_t gdext_c_create_object(const char* class_name) {
     if (!class_name) {
-        fprintf(stderr, "[gdext-c] ❌ TDD #122: NULL class_name\n");
+        fprintf(stderr, "[gdext-c] ❌ gdext_c_create_object: NULL class_name\n");
         return NULL;
     }
     
     if (!gdext_c_is_initialized()) {
-        fprintf(stderr, "[gdext-c] ❌ TDD #122: Library not initialized! Call gdext_c_initialize() first\n");
+        fprintf(stderr, "[gdext-c] ❌ gdext_c_create_object: Library not initialized!\n");
         return NULL;
     }
-    
-    printf("[gdext-c] 🔧 TDD #122: Creating object of class: %s (PURE C, NO RUST!)\n", class_name);
-    fflush(stdout);
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     if (!iface || !iface->classdb_construct_object || !iface->string_name_new_with_latin1_chars) {
-        fprintf(stderr, "[gdext-c] ❌ TDD #122: Required functions not available!\n");
+        fprintf(stderr, "[gdext-c] ❌ gdext_c_create_object: Required functions not available!\n");
         return NULL;
     }
     
-    // Step 2: Create StringName for the class
+    // Create StringName for the class
     char class_name_sn[256] = {0};
     iface->string_name_new_with_latin1_chars(class_name_sn, class_name, 0);
     
-    // Step 3: Construct the object
-    
-    // TDD: Protect object construction with mutex (prevents Metal/GPU race conditions on macOS)
+    // Construct the object (mutex-protected for macOS Metal safety)
     pthread_mutex_lock(&object_creation_mutex);
-        GDExtensionObjectPtr object = iface->classdb_construct_object(class_name_sn);
-    
-    
+    GDExtensionObjectPtr object = iface->classdb_construct_object(class_name_sn);
     pthread_mutex_unlock(&object_creation_mutex);
-        if (!object) {
-        fprintf(stderr, "[gdext-c] ❌ TDD #122: Failed to construct object of class '%s'\n", class_name);
+    
+    if (!object) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_c_create_object: Failed to construct '%s'\n", class_name);
         return NULL;
     }
     
-    fprintf(stderr, "[gdext-c] 🔍 DEBUG: Object created, about to check for RefCounted...\n");
-    fflush(stderr);
-    
-    // TDD REFCOUNTED: Try to call .reference() on ALL objects
-    // For RefCounted objects, this will increment the refcount and return true
-    // For regular Objects, this will fail (return false) but that's OK
+    // Check if this is a RefCounted object (for lifecycle management)
     {
-        // Create StringNames for method binding
-        // TDD FIX: Use class_name_sn (the object's class), not "RefCounted"!
         uint8_t reference_method_sn[16] = {0};
-        
         iface->string_name_new_with_latin1_chars(reference_method_sn, "reference", 0);
         
-        // Get method bind for THIS OBJECT'S reference() method
-        // If it exists, this object is RefCounted. If not, it's a regular Object.
-        fprintf(stderr, "[gdext-c] 🔍 Checking if %s has reference() method...\n", class_name);
-        fflush(stderr);
         GDExtensionMethodBindPtr method_bind = iface->classdb_get_method_bind(
-            class_name_sn,  // TDD FIX: Use the object's class, not "RefCounted"!
+            class_name_sn,
             reference_method_sn,
             2240911060 // Hash for reference() -> bool
         );
         
-        fprintf(stderr, "[gdext-c] 🔍 method_bind = %p\n", method_bind);
-        fflush(stderr);
+        // If RefCounted, Go layer manages refcount via finalizers
+        // We do NOT call reference() here - Godot gives us refcount=1 already
+        (void)method_bind;
         
-        if (method_bind) {
-            // TDD REFCOUNTED FIX: DON'T call reference()!
-            // Godot gives us refcount=1. If we increment it, we leak memory.
-            // The Go layer will manage refcount via finalizers.
-            fprintf(stderr, "[gdext-c] ✅ TDD REFCOUNTED: %s is RefCounted (refcount=1, Go will manage)\n", class_name);
-        } else {
-            fprintf(stderr, "[gdext-c] ℹ️  TDD: %s is regular Object (not RefCounted)\n", class_name);
-        }
-        
-        // Cleanup StringNames
-        typedef void (*GDExtensionPtrDestructor)(GDExtensionTypePtr);
-        typedef GDExtensionPtrDestructor (*GetPtrDestructorFunc)(GDExtensionVariantType);
-        extern gdext_c_proc_address_func gdext_c_get_proc_address_internal(void);
-        GetPtrDestructorFunc get_destructor_func = (GetPtrDestructorFunc)gdext_c_get_proc_address_internal()("variant_get_ptr_destructor");
-        if (get_destructor_func) {
-            GDExtensionPtrDestructor sn_destructor = get_destructor_func(21); // StringName type
-            if (sn_destructor) {
-                // TDD FIX: Only destroy reference_method_sn, not refcounted_class_sn (doesn't exist anymore)
-                sn_destructor(reference_method_sn);
-            }
+        // Cleanup StringName
+        GDExtensionPtrDestructor sn_destructor = iface->variant_get_ptr_destructor(21);
+        if (sn_destructor) {
+            sn_destructor(reference_method_sn);
         }
     }
-    
-    printf("[gdext-c] ✅ TDD #122: Created %s object: %p\n", class_name, object);
-    fflush(stdout);
     
     return (gdext_c_object_t)object;
 }
 
 /**
  * @brief Free a Godot object
- * 
- * Note: Usually not needed - Godot manages object lifetime via reference counting.
- * Only use if you explicitly need to free an unmanaged object.
- * 
- * @param object Object to free
  */
 void gdext_c_free_object(gdext_c_object_t object) {
     if (!object) {
         return;
     }
-    
-    // TODO: Implement proper object freeing if needed
-    // For now, Godot handles reference counting automatically
-    printf("[gdext-c] 💡 TDD #122: Object free requested (Godot manages lifetime)\n");
-    fflush(stdout);
+    // Godot manages object lifetime via reference counting
 }
 
 /**
  * @brief Cleanup object creation resources
  */
 void gdext_c_objects_shutdown(void) {
-    fprintf(stderr, "[gdext-c] 🧹 TDD: Shutting down object creation...\n");
-    fflush(stderr);
     pthread_mutex_destroy(&object_creation_mutex);
-    fprintf(stderr, "[gdext-c] ✅ Object creation mutex destroyed\n");
-    fflush(stderr);
 }
