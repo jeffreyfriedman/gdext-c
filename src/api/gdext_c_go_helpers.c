@@ -92,6 +92,53 @@ int gdext_go_is_key_pressed(int keycode) {
     return 0; // Stub
 }
 
+// Cached StringName destructor and Engine singleton (initialized on first use)
+static GDExtensionPtrDestructor g_sn_destructor = NULL;
+static GDExtensionObjectPtr g_cached_engine = NULL;
+static gdext_c_object_t g_cached_root = 0;
+static int g_get_node_init_done = 0;
+
+// Initialize cached state for gdext_go_get_node
+static int ensure_get_node_initialized(void) {
+    if (g_get_node_init_done) return 1;
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) return 0;
+    
+    // Cache StringName destructor
+    if (!g_sn_destructor && iface->variant_get_ptr_destructor) {
+        g_sn_destructor = iface->variant_get_ptr_destructor(21); // GDEXTENSION_VARIANT_TYPE_STRING_NAME
+    }
+    
+    // Get Engine singleton (p_is_static=1: "Engine" is a string literal)
+    char engine_sn[64] = {0};
+    iface->string_name_new_with_latin1_chars(engine_sn, "Engine", 1);
+    g_cached_engine = iface->global_get_singleton(engine_sn);
+    // No need to destroy p_is_static=1 StringName
+    
+    if (!g_cached_engine) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get Engine singleton\n");
+        return 0;
+    }
+    
+    // Get main loop
+    gdext_c_object_t main_loop = gdext_engine_get_main_loop((gdext_c_object_t)g_cached_engine);
+    if (main_loop == 0) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get main loop\n");
+        return 0;
+    }
+    
+    // Get scene tree root
+    g_cached_root = gdext_scene_tree_get_root(main_loop);
+    if (g_cached_root == 0) {
+        fprintf(stderr, "[gdext-c] ❌ Failed to get root node\n");
+        return 0;
+    }
+    
+    g_get_node_init_done = 1;
+    return 1;
+}
+
 /**
  * @brief Get a node by path from the scene tree
  * This is the CRITICAL function needed for game initialization
@@ -108,40 +155,14 @@ void* gdext_go_get_node(const char* path) {
         return cached;
     }
     
-    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
-    if (!iface) {
-        fprintf(stderr, "[gdext-c] ❌ No interface!\n");
-        return NULL;
-    }
-    
-    // Create StringName for "Engine"
-    char engine_sn[64] = {0};
-    iface->string_name_new_with_latin1_chars(engine_sn, "Engine", 0);
-    
-    // Get Engine singleton
-    GDExtensionObjectPtr engine = iface->global_get_singleton(engine_sn);
-    if (!engine) {
-        fprintf(stderr, "[gdext-c] ❌ Failed to get Engine singleton\n");
-        return NULL;
-    }
-    
-    // Call Engine.get_main_loop()
-    gdext_c_object_t main_loop = gdext_engine_get_main_loop((gdext_c_object_t)engine);
-    if (main_loop == 0) {
-        fprintf(stderr, "[gdext-c] ❌ Failed to get main loop\n");
-        return NULL;
-    }
-    
-    // Call SceneTree.get_root()
-    gdext_c_object_t root = gdext_scene_tree_get_root(main_loop);
-    if (root == 0) {
-        fprintf(stderr, "[gdext-c] ❌ Failed to get root node\n");
+    if (!ensure_get_node_initialized()) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_go_get_node: initialization failed\n");
         return NULL;
     }
     
     // If path is just "/root", return root node
     if (strcmp(path, "/root") == 0) {
-        void* root_ptr = (void*)(uintptr_t)root;
+        void* root_ptr = (void*)(uintptr_t)g_cached_root;
         path_cache_put(path, root_ptr);
         return root_ptr;
     }
@@ -160,14 +181,14 @@ void* gdext_go_get_node(const char* path) {
     }
     
     // Call Node.get_node(relative_path) on root
-    void* result_variant = gdext_call_method(root, "get_node", (void*[]){path_string_variant}, 1);
+    void* result_variant = gdext_call_method(g_cached_root, "get_node", (void*[]){path_string_variant}, 1);
     
     if (path_string_variant) {
         gdext_variant_free(path_string_variant);
     }
     
     if (result_variant == NULL) {
-        fprintf(stderr, "[gdext-c] ❌ Node not found at path '%s'\n", path);
+        // Not found - don't log for expected misses (scene scanner probes many paths)
         return NULL;
     }
     
@@ -175,7 +196,6 @@ void* gdext_go_get_node(const char* path) {
     gdext_variant_free(result_variant);
     
     if (node_ptr == NULL) {
-        fprintf(stderr, "[gdext-c] ❌ Node not found at path '%s' (object extraction returned NULL)\n", path);
         return NULL;
     }
     

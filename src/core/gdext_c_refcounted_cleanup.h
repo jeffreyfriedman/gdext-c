@@ -2,6 +2,7 @@
 #define GDEXT_C_REFCOUNTED_CLEANUP_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 /*
  * RefCounted Cleanup Queue - Platform-Level Solution
@@ -19,17 +20,16 @@
  * 
  * Architecture:
  * 1. Language binding detects object is being GC'd (finalizer/destructor)
- * 2. Binding calls gdext_queue_refcounted_cleanup(ptr) - thread-safe!
- * 3. Queue stores pointer for later processing
+ * 2. Binding calls gdext_queue_refcounted_cleanup_with_id(ptr, instance_id) - thread-safe!
+ * 3. Queue stores {ptr, instance_id} for later processing
  * 4. Game loop calls gdext_process_refcounted_cleanup() each frame
- * 5. Process function calls unreference() on main thread - safe!
+ * 5. Process function validates via object_get_instance_from_id() then
+ *    calls the GENERATED gdext_ref_counted_unreference() - safe!
  * 
- * Benefits:
- * - ✅ Thread-safe by construction
- * - ✅ Works for ANY language binding (Go, Rust, Python, C#)
- * - ✅ Bounded queue (graceful degradation if full)
- * - ✅ No finalizer timing issues
- * - ✅ Deterministic cleanup timing
+ * Key Design Decisions:
+ * - Uses instance ID to validate objects are still alive (prevents use-after-free)
+ * - Calls the codegen'd gdext_ref_counted_unreference() (correct hash guaranteed)
+ * - Never duplicates method bind lookups that codegen already handles
  */
 
 #ifdef __cplusplus
@@ -49,30 +49,34 @@ void gdext_refcounted_cleanup_init(void);
 void gdext_refcounted_cleanup_shutdown(void);
 
 /**
- * Queue a RefCounted object for cleanup.
+ * Queue a RefCounted object for cleanup (DEPRECATED - use _with_id variant).
+ * Kept for backward compatibility; instance_id will be 0 (skips validation).
+ */
+void gdext_queue_refcounted_cleanup(void* object_ptr);
+
+/**
+ * Queue a RefCounted object for cleanup WITH instance ID for validation.
  * 
  * THREAD-SAFE: Can be called from ANY thread (including GC threads).
  * 
- * This function should be called from language binding finalizers when
- * a RefCounted object wrapper is being garbage collected.
+ * The instance_id is used to validate the object is still alive before
+ * calling unreference(). This prevents use-after-free when Go GC runs
+ * the finalizer after Godot has already freed the object.
  * 
- * @param object_ptr Pointer to the Godot RefCounted object
- * 
- * Note: If queue is full, the object will leak (safe fallback).
- * This is better than crashing due to thread safety violations.
+ * @param object_ptr  Pointer to the Godot RefCounted object
+ * @param instance_id The Godot instance ID (from object_get_instance_id)
  */
-void gdext_queue_refcounted_cleanup(void* object_ptr);
+void gdext_queue_refcounted_cleanup_with_id(void* object_ptr, uint64_t instance_id);
 
 /**
  * Process queued RefCounted cleanups.
  * 
  * MAIN THREAD ONLY: Must be called from the main game loop thread.
  * 
- * This function calls unreference() on all queued objects, which is
- * thread-safe because it's guaranteed to run on the main thread.
- * 
- * Should be called once per frame at the beginning of the game loop,
- * before any game logic runs.
+ * For each queued object:
+ * 1. If instance_id != 0, validate via object_get_instance_from_id()
+ * 2. If still alive, call gdext_ref_counted_unreference() (generated code)
+ * 3. If dead (already freed by Godot), skip silently
  * 
  * @return Number of objects cleaned up this frame
  */
@@ -80,10 +84,6 @@ int gdext_process_refcounted_cleanup(void);
 
 /**
  * Get statistics about the cleanup queue.
- * 
- * @param queued_count Output: Number of objects currently queued
- * @param total_processed Output: Total objects processed since init
- * @param total_dropped Output: Total objects dropped (queue full)
  */
 void gdext_refcounted_cleanup_stats(int* queued_count, int* total_processed, int* total_dropped);
 

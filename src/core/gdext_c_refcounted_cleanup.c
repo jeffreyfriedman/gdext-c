@@ -1,5 +1,6 @@
 #include "gdext_c_refcounted_cleanup.h"
 #include "gdext_c_core.h"
+#include "gdext_c_generated.h"  // For gdext_ref_counted_unreference() - CORRECT hash from codegen!
 #include <stdio.h>
 #include <pthread.h>
 #include <stdatomic.h>
@@ -22,9 +23,15 @@
 // Queue configuration
 #define CLEANUP_QUEUE_SIZE 1000
 
+// Queue entry: stores both object pointer AND instance ID for validation
+typedef struct {
+    void*    object_ptr;
+    uint64_t instance_id;  // 0 = no validation (legacy), >0 = validate before unreference
+} cleanup_entry_t;
+
 // Circular queue structure
 typedef struct {
-    void* queue[CLEANUP_QUEUE_SIZE];
+    cleanup_entry_t queue[CLEANUP_QUEUE_SIZE];
     int head;  // Next write position
     int tail;  // Next read position
     int count; // Current number of items
@@ -34,15 +41,12 @@ typedef struct {
     // Statistics (atomic for thread-safe reads)
     atomic_int total_processed;
     atomic_int total_dropped;
+    atomic_int total_skipped_dead;  // Objects already freed by Godot
     
     int initialized;
 } cleanup_queue_t;
 
 static cleanup_queue_t g_cleanup_queue = {0};
-
-// Cached method bind for RefCounted.unreference() (looked up once, used many times)
-static GDExtensionMethodBindPtr g_unreference_method_bind = NULL;
-static int g_unreference_method_bind_checked = 0;
 
 // ============================================================
 // Initialization / Shutdown
@@ -50,23 +54,21 @@ static int g_unreference_method_bind_checked = 0;
 
 void gdext_refcounted_cleanup_init(void) {
     if (g_cleanup_queue.initialized) {
-        fprintf(stderr, "[gdext-c] ⚠️ RefCounted cleanup already initialized\n");
         return;
     }
-    
-    fprintf(stderr, "[gdext-c] 🧹 Initializing RefCounted cleanup queue (size=%d)...\n", CLEANUP_QUEUE_SIZE);
     
     g_cleanup_queue.head = 0;
     g_cleanup_queue.tail = 0;
     g_cleanup_queue.count = 0;
     atomic_init(&g_cleanup_queue.total_processed, 0);
     atomic_init(&g_cleanup_queue.total_dropped, 0);
+    atomic_init(&g_cleanup_queue.total_skipped_dead, 0);
     
     MUTEX_INIT(&g_cleanup_queue.lock);
     
     g_cleanup_queue.initialized = 1;
     
-    fprintf(stderr, "[gdext-c] ✅ RefCounted cleanup queue initialized\n");
+    fprintf(stderr, "[gdext-c] ✅ RefCounted cleanup queue initialized (size=%d, instance-ID validation enabled)\n", CLEANUP_QUEUE_SIZE);
 }
 
 void gdext_refcounted_cleanup_shutdown(void) {
@@ -74,68 +76,56 @@ void gdext_refcounted_cleanup_shutdown(void) {
         return;
     }
     
-    fprintf(stderr, "[gdext-c] 🧹 Shutting down RefCounted cleanup queue...\n");
-    
     // Process remaining items
     int remaining = gdext_process_refcounted_cleanup();
-    if (remaining > 0) {
-        fprintf(stderr, "[gdext-c] 🧹 Processed %d remaining RefCounted cleanups during shutdown\n", remaining);
-    }
     
     // Print final stats
     int queued, processed, dropped;
     gdext_refcounted_cleanup_stats(&queued, &processed, &dropped);
-    fprintf(stderr, "[gdext-c] 📊 RefCounted cleanup stats:\n");
-    fprintf(stderr, "[gdext-c]    Total processed: %d\n", processed);
-    fprintf(stderr, "[gdext-c]    Total dropped: %d\n", dropped);
-    fprintf(stderr, "[gdext-c]    Remaining queued: %d\n", queued);
+    int skipped = atomic_load(&g_cleanup_queue.total_skipped_dead);
+    fprintf(stderr, "[gdext-c] 📊 RefCounted cleanup final stats: processed=%d, skipped_dead=%d, dropped=%d, remaining=%d\n",
+            processed, skipped, dropped, remaining);
     
     MUTEX_DESTROY(&g_cleanup_queue.lock);
-    
     g_cleanup_queue.initialized = 0;
-    g_unreference_method_bind = NULL;
-    g_unreference_method_bind_checked = 0;
-    
-    fprintf(stderr, "[gdext-c] ✅ RefCounted cleanup queue shut down\n");
 }
 
 // ============================================================
 // Queue Operation (Called from ANY thread - GC, finalizers, etc.)
 // ============================================================
 
-void gdext_queue_refcounted_cleanup(void* object_ptr) {
-    if (!g_cleanup_queue.initialized) {
-        fprintf(stderr, "[gdext-c] ⚠️ Cannot queue cleanup - system not initialized\n");
-        return;
-    }
-    
-    if (object_ptr == NULL) {
+// Internal helper to enqueue
+static void enqueue_cleanup(void* object_ptr, uint64_t instance_id) {
+    if (!g_cleanup_queue.initialized || object_ptr == NULL) {
         return;
     }
     
     MUTEX_LOCK(&g_cleanup_queue.lock);
     
-    // Check if queue is full
     if (g_cleanup_queue.count >= CLEANUP_QUEUE_SIZE) {
         MUTEX_UNLOCK(&g_cleanup_queue.lock);
         
-        // Queue full - drop this cleanup (safe fallback: object leaks)
-        atomic_fetch_add(&g_cleanup_queue.total_dropped, 1);
-        
-        // Log every 100 drops to avoid spam
-        int dropped = atomic_load(&g_cleanup_queue.total_dropped);
+        int dropped = atomic_fetch_add(&g_cleanup_queue.total_dropped, 1) + 1;
         if (dropped % 100 == 1) {
             fprintf(stderr, "[gdext-c] ⚠️ RefCounted cleanup queue full! Dropped %d objects (they will leak)\n", dropped);
         }
         return;
     }
     
-    // Add to queue
-    g_cleanup_queue.queue[g_cleanup_queue.head] = object_ptr;
+    g_cleanup_queue.queue[g_cleanup_queue.head].object_ptr = object_ptr;
+    g_cleanup_queue.queue[g_cleanup_queue.head].instance_id = instance_id;
     g_cleanup_queue.head = (g_cleanup_queue.head + 1) % CLEANUP_QUEUE_SIZE;
     g_cleanup_queue.count++;
     
     MUTEX_UNLOCK(&g_cleanup_queue.lock);
+}
+
+void gdext_queue_refcounted_cleanup(void* object_ptr) {
+    enqueue_cleanup(object_ptr, 0);  // 0 = legacy, no validation
+}
+
+void gdext_queue_refcounted_cleanup_with_id(void* object_ptr, uint64_t instance_id) {
+    enqueue_cleanup(object_ptr, instance_id);
 }
 
 // ============================================================
@@ -149,79 +139,65 @@ int gdext_process_refcounted_cleanup(void) {
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     if (!iface) {
-        fprintf(stderr, "[gdext-c] ⚠️ Cannot process cleanups - interface not available\n");
         return 0;
     }
     
     int processed_count = 0;
+    int skipped_count = 0;
     
-    // Process all queued items
     while (1) {
-        void* object_ptr = NULL;
+        cleanup_entry_t entry = {0};
         
-        // Get next item from queue
+        // Get next item from queue (under lock)
         MUTEX_LOCK(&g_cleanup_queue.lock);
         
         if (g_cleanup_queue.count == 0) {
             MUTEX_UNLOCK(&g_cleanup_queue.lock);
-            break; // Queue empty
+            break;
         }
         
-        object_ptr = g_cleanup_queue.queue[g_cleanup_queue.tail];
+        entry = g_cleanup_queue.queue[g_cleanup_queue.tail];
         g_cleanup_queue.tail = (g_cleanup_queue.tail + 1) % CLEANUP_QUEUE_SIZE;
         g_cleanup_queue.count--;
         
         MUTEX_UNLOCK(&g_cleanup_queue.lock);
         
-        // Now call unreference() on main thread (safe!)
-        if (object_ptr != NULL) {
-            // Look up method bind once and cache it
-            if (!g_unreference_method_bind && !g_unreference_method_bind_checked) {
-                g_unreference_method_bind_checked = 1;
-                
-                char class_sn[64];
-                iface->string_name_new_with_latin1_chars(class_sn, "RefCounted", 0);
-                
-                char method_sn[64];
-                iface->string_name_new_with_latin1_chars(method_sn, "unreference", 0);
-                
-                // Hash 2240911060 = RefCounted.unreference() from Godot API
-                g_unreference_method_bind = iface->classdb_get_method_bind(
-                    class_sn, method_sn, 2240911060
-                );
-                
-                if (!g_unreference_method_bind) {
-                    fprintf(stderr, "[gdext-c] ⚠️ Failed to get method bind for RefCounted.unreference() - cleanup disabled\n");
-                }
-                
-                // Clean up StringNames
-                GDExtensionPtrDestructor string_name_destructor = iface->variant_get_ptr_destructor(21);
-                if (string_name_destructor) {
-                    string_name_destructor(class_sn);
-                    string_name_destructor(method_sn);
-                }
-            }
-            
-            if (g_unreference_method_bind) {
-                // TODO: Safely validate object is still alive before unreferencing.
-                // Go GC finalizers run at unpredictable times — the Godot object
-                // may already be freed. We need instance-ID-based validation:
-                //   1. Store instance ID when queuing (in Go finalizer)
-                //   2. Use object_get_instance_from_id() to validate before unreference
-                // For now, just count as processed — Godot cleans up on exit.
-                processed_count++;
-            }
+        if (entry.object_ptr == NULL) {
+            continue;
         }
+        
+        // Validate object is still alive using instance ID
+        if (entry.instance_id != 0) {
+            // Use object_get_instance_from_id to check if Godot still knows about this object.
+            // If it returns NULL, Godot already freed it — skip silently.
+            GDExtensionObjectPtr validated = iface->object_get_instance_from_id(entry.instance_id);
+            if (validated == NULL) {
+                // Object already freed by Godot — this is normal and expected.
+                skipped_count++;
+                continue;
+            }
+            // Use the validated pointer (guaranteed alive) instead of the potentially-stale one
+            entry.object_ptr = validated;
+        }
+        
+        // Call the GENERATED unreference function — correct hash guaranteed by codegen!
+        // No hand-written method bind lookup needed.
+        gdext_ref_counted_unreference((GDExtensionObjectPtr)entry.object_ptr);
+        processed_count++;
     }
     
     if (processed_count > 0) {
         atomic_fetch_add(&g_cleanup_queue.total_processed, processed_count);
-        
-        // Log periodically (every 100 processed)
-        int total = atomic_load(&g_cleanup_queue.total_processed);
-        if (total % 100 == 0 && total > 0) {
-            fprintf(stderr, "[gdext-c] 🧹 RefCounted cleanup: Processed %d objects total\n", total);
-        }
+    }
+    if (skipped_count > 0) {
+        atomic_fetch_add(&g_cleanup_queue.total_skipped_dead, skipped_count);
+    }
+    
+    // Periodic summary log (every 500 total processed)
+    int total = atomic_load(&g_cleanup_queue.total_processed);
+    if (total > 0 && total % 500 == 0) {
+        int skipped_total = atomic_load(&g_cleanup_queue.total_skipped_dead);
+        fprintf(stderr, "[gdext-c] 🧹 RefCounted cleanup: processed=%d, skipped_dead=%d\n", total, skipped_total);
     }
     
     return processed_count;
