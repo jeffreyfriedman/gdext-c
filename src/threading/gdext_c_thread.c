@@ -55,17 +55,15 @@ bool gdext_thread_is_main(void) {
     uint64_t current = GET_CURRENT_THREAD_ID();
     bool is_main = (current == g_main_thread_id);
     
-    // Debug logging (can be disabled in production)
-    static int log_count = 0;
-    if (log_count < 5 || log_count % 100 == 0) {
-        printf("[gdext-c] 🧵 TDD: Thread check #%d: current=%llu, main=%llu, is_main=%s\n",
-               log_count,
+    // Only log the first call and mismatches (non-main thread access)
+    static int first_call = 1;
+    if (first_call) {
+        first_call = 0;
+    } else if (!is_main) {
+        fprintf(stderr, "[gdext-c] ⚠️ Non-main thread detected: current=%llu, main=%llu\n",
                (unsigned long long)current,
-               (unsigned long long)g_main_thread_id,
-               is_main ? "YES" : "NO");
-        fflush(stdout);
+               (unsigned long long)g_main_thread_id);
     }
-    log_count++;
     
     return is_main;
 }

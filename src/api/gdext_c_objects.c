@@ -61,27 +61,8 @@ gdext_c_object_t gdext_c_create_object(const char* class_name) {
         return NULL;
     }
     
-    // Check if this is a RefCounted object (for lifecycle management)
-    {
-        uint8_t reference_method_sn[16] = {0};
-        iface->string_name_new_with_latin1_chars(reference_method_sn, "reference", 0);
-        
-        GDExtensionMethodBindPtr method_bind = iface->classdb_get_method_bind(
-            class_name_sn,
-            reference_method_sn,
-            2240911060 // Hash for reference() -> bool
-        );
-        
-        // If RefCounted, Go layer manages refcount via finalizers
-        // We do NOT call reference() here - Godot gives us refcount=1 already
-        (void)method_bind;
-        
-        // Cleanup StringName
-        GDExtensionPtrDestructor sn_destructor = iface->variant_get_ptr_destructor(21);
-        if (sn_destructor) {
-            sn_destructor(reference_method_sn);
-        }
-    }
+    // RefCounted lifecycle is managed by Go finalizers (see gdext-go/pkg/classdb/refcounted.go)
+    // No need to check or call reference() here — Godot gives refcount=1 on construction.
     
     return (gdext_c_object_t)object;
 }
