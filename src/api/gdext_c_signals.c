@@ -1,38 +1,436 @@
 /**
  * @file gdext_c_signals.c
- * @brief Signal connection helpers and Input singleton integration for Go
+ * @brief Signal connection and Input singleton integration for Go
  * 
- * TDD #160: Real implementations for Input singleton methods
- * Uses cached method binds for optimal performance (ptrcall).
+ * TDD #160: Real implementations for signal connect/disconnect/emit
+ * and Input singleton methods. Uses cached method binds for optimal
+ * performance (ptrcall).
+ *
+ * Signal system architecture:
+ *   Go callback → goSignalCallbackBridge(callbackID, argCount, args)
+ *                    ↑
+ *   C bridge    → on_signal_callback() invokes stored GoSignalCallbackFn
+ *                    ↑
+ *   Godot       → Callable fires when signal is emitted
+ *
+ * Each connection creates a Callable with userdata=callbackID.
+ * When the signal fires, Godot calls our Callable, which calls back to Go.
  */
 
-#include "gdext_c_core.h"
+#include "../core/gdext_c_core.h"
 #include "gdext_c_generated.h"  // For generated singleton access
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdlib.h>
 
 // ============================================================================
-// Signal connection stubs (not yet implemented)
+// Signal Connection Registry
 // ============================================================================
 
-uintptr_t gdext_connect_signal(uintptr_t object_ptr, const char* signal_name) {
-    (void)object_ptr; (void)signal_name;
-    return 0;
+// Function pointer type for the Go callback bridge
+typedef void (*GoSignalCallbackFn)(uintptr_t callback_id, uintptr_t arg_count, void** args);
+
+// Stored Go callback bridge (set by gdext_init_signals)
+static GoSignalCallbackFn g_go_signal_callback = NULL;
+
+// Maximum number of concurrent signal connections
+#define MAX_SIGNAL_CONNECTIONS 256
+
+// Callable storage size (must hold a full Godot Callable)
+#define CALLABLE_STORAGE_SIZE 256
+
+// Signal connection entry in the registry
+typedef struct {
+    int active;                              // 1 if this slot is in use
+    uintptr_t callback_id;                   // Unique ID for this connection
+    uintptr_t object_ptr;                    // The Godot object this is connected to
+    char signal_name[128];                   // Signal name (e.g., "pressed")
+    char callable_storage[CALLABLE_STORAGE_SIZE]; // Callable data (must persist!)
+} SignalConnection;
+
+// Global connection registry
+static SignalConnection g_connections[MAX_SIGNAL_CONNECTIONS];
+static uintptr_t g_next_callback_id = 1;  // Start at 1 (0 = error)
+static int g_signal_system_initialized = 0;
+
+// Cached Object.connect() and Object.disconnect() method binds
+static GDExtensionMethodBindPtr g_object_connect_mb = NULL;
+static GDExtensionMethodBindPtr g_object_disconnect_mb = NULL;
+
+// Cached callable_custom_create2 function pointer
+static GDExtensionInterfaceCallableCustomCreate2 g_callable_create = NULL;
+
+// Cached StringName destructor
+static GDExtensionPtrDestructor g_sn_destructor = NULL;
+
+// ============================================================================
+// Signal Handler (called by Godot when a signal fires)
+// ============================================================================
+
+/**
+ * @brief Callable is_valid function - must return TRUE or Godot won't call it
+ */
+static GDExtensionBool on_signal_is_valid(void* p_userdata) {
+    (void)p_userdata;
+    return 1;  // Always valid
 }
 
-int gdext_disconnect_signal(uintptr_t object_ptr, const char* signal_name) {
-    (void)object_ptr; (void)signal_name;
-    return 0;
+/**
+ * @brief Signal handler called by Godot when a connected signal fires.
+ *
+ * This is the call_func for our custom Callable. Godot calls this with
+ * the signal arguments, and we forward them to Go via the stored callback.
+ *
+ * @param p_userdata  Our callback_id (cast from uintptr_t)
+ * @param p_args      Array of Variant pointers (signal arguments)
+ * @param p_argument_count Number of arguments
+ * @param r_return    Return value (unused for signals)
+ * @param r_error     Error output
+ */
+static void on_signal_callback(
+    void* p_userdata,
+    const GDExtensionConstVariantPtr* p_args,
+    GDExtensionInt p_argument_count,
+    GDExtensionVariantPtr r_return,
+    GDExtensionCallError* r_error
+) {
+    (void)r_return;
+
+    // Set no error
+    if (r_error) {
+        r_error->error = GDEXTENSION_CALL_OK;
+    }
+
+    uintptr_t callback_id = (uintptr_t)p_userdata;
+
+    // Forward to Go callback bridge
+    if (g_go_signal_callback) {
+        g_go_signal_callback(callback_id, (uintptr_t)p_argument_count, (void**)p_args);
+    }
 }
 
-int gdext_emit_signal(uintptr_t object_ptr, const char* signal_name, void** args, uintptr_t arg_count) {
-    (void)object_ptr; (void)signal_name; (void)args; (void)arg_count;
-    return 0;
+// ============================================================================
+// Signal System Initialization
+// ============================================================================
+
+/**
+ * @brief Lazily initialize signal system internals.
+ *
+ * Caches Object.connect() and Object.disconnect() method binds
+ * and the callable_custom_create2 function pointer.
+ */
+static void ensure_signal_system_initialized(void) {
+    if (g_signal_system_initialized) return;
+
+    if (!gdext_c_is_initialized()) return;
+
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) return;
+
+    // Cache StringName destructor (type 21 = STRING_NAME)
+    if (iface->variant_get_ptr_destructor) {
+        g_sn_destructor = iface->variant_get_ptr_destructor(21);
+    }
+
+    // Cache Object.connect() method bind
+    // Signature: connect(signal: StringName, callable: Callable, flags: int = 0) -> Error
+    // Hash: 1518946055
+    {
+        char class_sn[64] = {0};
+        char method_sn[64] = {0};
+        iface->string_name_new_with_latin1_chars(class_sn, "Object", 1);
+        iface->string_name_new_with_latin1_chars(method_sn, "connect", 1);
+        g_object_connect_mb = iface->classdb_get_method_bind(class_sn, method_sn, 1518946055);
+    }
+
+    // Cache Object.disconnect() method bind
+    // Signature: disconnect(signal: StringName, callable: Callable)
+    // Hash: 1874754934
+    {
+        char class_sn[64] = {0};
+        char method_sn[64] = {0};
+        iface->string_name_new_with_latin1_chars(class_sn, "Object", 1);
+        iface->string_name_new_with_latin1_chars(method_sn, "disconnect", 1);
+        g_object_disconnect_mb = iface->classdb_get_method_bind(class_sn, method_sn, 1874754934);
+    }
+
+    // Cache callable_custom_create2
+    {
+        gdext_c_proc_address_func proc = gdext_c_get_proc_address_internal();
+        if (proc) {
+            g_callable_create = (GDExtensionInterfaceCallableCustomCreate2)proc("callable_custom_create2");
+        }
+    }
+
+    if (g_object_connect_mb && g_object_disconnect_mb && g_callable_create) {
+        g_signal_system_initialized = 1;
+        fprintf(stderr, "[gdext-c] ✅ Signal system initialized: connect=%p, disconnect=%p, callable_create=%p\n",
+                (void*)g_object_connect_mb, (void*)g_object_disconnect_mb, (void*)g_callable_create);
+    } else {
+        fprintf(stderr, "[gdext-c] ⚠️ Signal system partial init: connect=%p, disconnect=%p, callable_create=%p\n",
+                (void*)g_object_connect_mb, (void*)g_object_disconnect_mb, (void*)g_callable_create);
+    }
 }
 
+// ============================================================================
+// Signal API Implementation
+// ============================================================================
+
+/**
+ * @brief Initialize the signal system with the Go callback bridge.
+ *
+ * @param callback  The Go function to call when any signal fires.
+ *                  Signature: func(callbackID, argCount, args)
+ */
 void gdext_init_signals(void* callback) {
-    (void)callback;
+    g_go_signal_callback = (GoSignalCallbackFn)callback;
+
+    // Zero out the connection registry
+    memset(g_connections, 0, sizeof(g_connections));
+    g_next_callback_id = 1;
+
+    fprintf(stderr, "[gdext-c] ✅ Signal callback registered: %p\n", callback);
+}
+
+/**
+ * @brief Connect a Go callback to a Godot signal on an object.
+ *
+ * Creates a custom Callable wrapping the callback_id as userdata,
+ * then calls Object.connect(signal_name, callable, 0) via ptrcall.
+ *
+ * @param object_ptr  The Godot object to connect the signal on
+ * @param signal_name The signal name (e.g., "pressed", "body_entered")
+ * @return callback_id on success, 0 on failure
+ */
+uintptr_t gdext_connect_signal(uintptr_t object_ptr, const char* signal_name) {
+    if (!object_ptr || !signal_name) return 0;
+
+    ensure_signal_system_initialized();
+
+    if (!g_signal_system_initialized) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_connect_signal: signal system not initialized\n");
+        return 0;
+    }
+
+    if (!g_go_signal_callback) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_connect_signal: no Go callback registered (call gdext_init_signals first)\n");
+        return 0;
+    }
+
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) return 0;
+
+    // Find a free slot in the registry
+    int slot = -1;
+    for (int i = 0; i < MAX_SIGNAL_CONNECTIONS; i++) {
+        if (!g_connections[i].active) {
+            slot = i;
+            break;
+        }
+    }
+
+    if (slot < 0) {
+        fprintf(stderr, "[gdext-c] ❌ gdext_connect_signal: registry full (%d max)\n", MAX_SIGNAL_CONNECTIONS);
+        return 0;
+    }
+
+    // Allocate callback ID
+    uintptr_t callback_id = g_next_callback_id++;
+
+    // Store connection info
+    SignalConnection* conn = &g_connections[slot];
+    conn->active = 1;
+    conn->callback_id = callback_id;
+    conn->object_ptr = object_ptr;
+    strncpy(conn->signal_name, signal_name, sizeof(conn->signal_name) - 1);
+    conn->signal_name[sizeof(conn->signal_name) - 1] = '\0';
+
+    // Create custom Callable with callback_id as userdata
+    GDExtensionCallableCustomInfo2 callable_info;
+    memset(&callable_info, 0, sizeof(callable_info));
+    callable_info.callable_userdata = (void*)callback_id;
+    callable_info.token = gdext_c_get_library_handle();
+    callable_info.object_id = 0;
+    callable_info.call_func = on_signal_callback;
+    callable_info.is_valid_func = on_signal_is_valid;
+    callable_info.free_func = NULL;
+    callable_info.hash_func = NULL;
+    callable_info.equal_func = NULL;
+    callable_info.less_than_func = NULL;
+    callable_info.to_string_func = NULL;
+    callable_info.get_argument_count_func = NULL;
+
+    g_callable_create(
+        (GDExtensionUninitializedTypePtr)conn->callable_storage,
+        &callable_info
+    );
+
+    // Create StringName for signal (p_is_static=0: signal_name from Go, temporary)
+    char signal_sn[64] = {0};
+    iface->string_name_new_with_latin1_chars(signal_sn, signal_name, 0);
+
+    // Call Object.connect(signal_name, callable, flags=0) via ptrcall
+    int64_t flags = 0;
+    const void* connect_args[3] = {
+        signal_sn,
+        conn->callable_storage,
+        &flags
+    };
+
+    int64_t error_result = 0;
+    iface->object_method_bind_ptrcall(
+        g_object_connect_mb,
+        (GDExtensionObjectPtr)object_ptr,
+        connect_args,
+        &error_result
+    );
+
+    // Cleanup StringName
+    if (g_sn_destructor) g_sn_destructor(signal_sn);
+
+    if (error_result != 0) {
+        fprintf(stderr, "[gdext-c] ❌ Object.connect('%s') failed with error %lld\n",
+                signal_name, (long long)error_result);
+        conn->active = 0;
+        return 0;
+    }
+
+    fprintf(stderr, "[gdext-c] ✅ Signal connected: '%s' → callback_id=%lu (slot %d)\n",
+            signal_name, (unsigned long)callback_id, slot);
+
+    return callback_id;
+}
+
+/**
+ * @brief Disconnect a signal from a Godot object.
+ *
+ * Looks up the connection in the registry by object + signal name,
+ * then calls Object.disconnect(signal_name, callable) via ptrcall.
+ *
+ * @param object_ptr  The Godot object
+ * @param signal_name The signal to disconnect
+ * @return 1 on success, 0 on failure
+ */
+int gdext_disconnect_signal(uintptr_t object_ptr, const char* signal_name) {
+    if (!object_ptr || !signal_name) return 0;
+
+    ensure_signal_system_initialized();
+
+    if (!g_signal_system_initialized || !g_object_disconnect_mb) return 0;
+
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) return 0;
+
+    // Find the connection in the registry
+    int slot = -1;
+    for (int i = 0; i < MAX_SIGNAL_CONNECTIONS; i++) {
+        if (g_connections[i].active &&
+            g_connections[i].object_ptr == object_ptr &&
+            strcmp(g_connections[i].signal_name, signal_name) == 0) {
+            slot = i;
+            break;
+        }
+    }
+
+    if (slot < 0) {
+        fprintf(stderr, "[gdext-c] ⚠️ gdext_disconnect_signal: no connection found for '%s'\n", signal_name);
+        return 0;
+    }
+
+    SignalConnection* conn = &g_connections[slot];
+
+    // Create StringName for signal
+    char signal_sn[64] = {0};
+    iface->string_name_new_with_latin1_chars(signal_sn, signal_name, 0);
+
+    // Call Object.disconnect(signal_name, callable) via ptrcall
+    const void* disconnect_args[2] = {
+        signal_sn,
+        conn->callable_storage
+    };
+
+    iface->object_method_bind_ptrcall(
+        g_object_disconnect_mb,
+        (GDExtensionObjectPtr)object_ptr,
+        disconnect_args,
+        NULL  // disconnect returns void
+    );
+
+    // Cleanup StringName
+    if (g_sn_destructor) g_sn_destructor(signal_sn);
+
+    // Mark slot as free
+    conn->active = 0;
+
+    fprintf(stderr, "[gdext-c] ✅ Signal disconnected: '%s' (slot %d, callback_id=%lu)\n",
+            signal_name, slot, (unsigned long)conn->callback_id);
+
+    return 1;
+}
+
+/**
+ * @brief Emit a signal on a Godot object.
+ *
+ * Uses Godot's variant_call to call emit_signal() on the object.
+ *
+ * @param object_ptr  The Godot object to emit the signal on
+ * @param signal_name The signal name
+ * @param args        Array of Variant pointers (signal arguments)
+ * @param arg_count   Number of arguments
+ * @return 1 on success, 0 on failure
+ */
+int gdext_emit_signal(uintptr_t object_ptr, const char* signal_name, void** args, uintptr_t arg_count) {
+    if (!object_ptr || !signal_name) return 0;
+
+    if (!gdext_c_is_initialized()) return 0;
+
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) return 0;
+
+    // Create StringName variant for the signal name
+    // emit_signal takes (signal: StringName, ...) as variant_call args
+    void* signal_variant = gdext_variant_from_string(signal_name);
+    if (!signal_variant) return 0;
+
+    // Build combined args array: [signal_name_variant, ...user_args]
+    uintptr_t total_args = 1 + arg_count;
+    void** all_args = (void**)malloc(total_args * sizeof(void*));
+    if (!all_args) {
+        gdext_variant_free(signal_variant);
+        return 0;
+    }
+
+    all_args[0] = signal_variant;
+    for (uintptr_t i = 0; i < arg_count; i++) {
+        all_args[i + 1] = args[i];
+    }
+
+    // Call emit_signal via gdext_call_method (variant_call)
+    void* result = gdext_call_method((void*)object_ptr, "emit_signal", all_args, (int)total_args);
+
+    // Cleanup
+    if (result) gdext_variant_free(result);
+    gdext_variant_free(signal_variant);
+    free(all_args);
+
+    return 1;
+}
+
+/**
+ * @brief Free signal argument variants.
+ *
+ * @param args      Array of Variant pointers
+ * @param arg_count Number of arguments
+ */
+void gdext_free_signal_args(void** args, uintptr_t arg_count) {
+    if (!args) return;
+
+    for (uintptr_t i = 0; i < arg_count; i++) {
+        if (args[i]) {
+            gdext_variant_free(args[i]);
+        }
+    }
 }
 
 // ============================================================================
@@ -52,6 +450,7 @@ static GDExtensionMethodBindPtr g_is_action_just_released_mb = NULL;
 static GDExtensionMethodBindPtr g_get_action_strength_mb = NULL;
 static GDExtensionMethodBindPtr g_is_joy_button_pressed_mb = NULL;
 static GDExtensionMethodBindPtr g_get_joy_axis_mb = NULL;
+static GDExtensionMethodBindPtr g_get_last_mouse_velocity_mb = NULL;
 
 // Cached StringName destructor (for proper cleanup of per-frame StringNames)
 static GDExtensionPtrDestructor g_string_name_destructor = NULL;
@@ -65,6 +464,7 @@ static GDExtensionPtrDestructor g_string_name_destructor = NULL;
 #define HASH_GET_ACTION_STRENGTH     801543509
 #define HASH_IS_JOY_BUTTON_PRESSED   787208542
 #define HASH_GET_JOY_AXIS            4063175957
+#define HASH_GET_LAST_MOUSE_VELOCITY 1497962370
 
 /**
  * @brief Lazily initialize the Input singleton and cache method binds.
@@ -139,8 +539,12 @@ static void ensure_input_initialized(void) {
     iface->string_name_new_with_latin1_chars(method_sn, "get_joy_axis", 1);
     g_get_joy_axis_mb = iface->classdb_get_method_bind(class_sn, method_sn, HASH_GET_JOY_AXIS);
     
-    fprintf(stderr, "[gdext-c] ✅ Input system initialized: action_pressed=%p, just_pressed=%p, key_pressed=%p\n",
-            (void*)g_is_action_pressed_mb, (void*)g_is_action_just_pressed_mb, (void*)g_is_key_pressed_mb);
+    memset(method_sn, 0, sizeof(method_sn));
+    iface->string_name_new_with_latin1_chars(method_sn, "get_last_mouse_velocity", 1);
+    g_get_last_mouse_velocity_mb = iface->classdb_get_method_bind(class_sn, method_sn, HASH_GET_LAST_MOUSE_VELOCITY);
+    
+    fprintf(stderr, "[gdext-c] ✅ Input system initialized: action_pressed=%p, just_pressed=%p, key_pressed=%p, mouse_vel=%p\n",
+            (void*)g_is_action_pressed_mb, (void*)g_is_action_just_pressed_mb, (void*)g_is_key_pressed_mb, (void*)g_get_last_mouse_velocity_mb);
 }
 
 // ============================================================================
@@ -269,9 +673,32 @@ float gdext_get_action_strength(const char* action) {
 }
 
 void* gdext_get_mouse_position() {
-    // TODO: Implement via Viewport.get_mouse_position() 
+    // TODO: Implement via Viewport.get_mouse_position()
     // Input singleton doesn't have get_mouse_position directly
     return NULL;
+}
+
+/**
+ * @brief Get the last mouse velocity from the Input singleton.
+ * Returns mouse velocity in pixels/second via output pointers.
+ * Callers multiply by frame delta to get per-frame pixel delta.
+ */
+void gdext_get_last_mouse_velocity(float* out_x, float* out_y) {
+    if (out_x) *out_x = 0.0f;
+    if (out_y) *out_y = 0.0f;
+
+    ensure_input_initialized();
+    if (!g_input_singleton || !g_get_last_mouse_velocity_mb) return;
+
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+
+    // get_last_mouse_velocity() -> Vector2 (no arguments)
+    // Vector2 ptrcall returns 2x float (8 bytes)
+    float result[2] = {0.0f, 0.0f};
+    iface->object_method_bind_ptrcall(g_get_last_mouse_velocity_mb, g_input_singleton, NULL, result);
+
+    if (out_x) *out_x = result[0];
+    if (out_y) *out_y = result[1];
 }
 
 int gdext_is_joy_button_pressed(int device, int button) {
@@ -366,16 +793,113 @@ void* gdext_preload_resource(const char* path) {
 // Logging function stubs
 // ============================================================================
 
+// TDD: Log to Godot console using print_rich() utility function
+// CRITICAL FIX: printf/fprintf go to stdout (invisible in Godot extension)
+// Must use Godot's UtilityFunctions.print_rich() instead
 void gdext_log_message(const char* message) {
-    printf("[Godot] %s\n", message);
+    // ALWAYS output to stderr so we can see if this is being called
+    fprintf(stderr, "[GO_LOG] %s\n", message);
+    fflush(stderr);
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) {
+        fprintf(stderr, "[gdext_c] WARNING: Cannot log, interface not available\n");
+        fflush(stderr);
+        return;
+    }
+    
+    // Stack-allocate Variant and String (no malloc needed)
+    GDExtensionVariant str_variant;
+    GDExtensionString gd_str;
+    
+    // Create String from C string
+    iface->string_new_with_utf8_chars(&gd_str, message);
+    
+    // Convert String to Variant
+    iface->variant_from_type_constructor(4)(&str_variant, &gd_str); // 4 = STRING type
+    
+    // Call print_rich() utility function
+    // Hash: 2648703342 (verified from Godot 4.6 source)
+    GDExtensionPtrUtilityFunction print_fn = iface->variant_get_ptr_utility_function("print_rich", 2648703342);
+    if (print_fn) {
+        GDExtensionVariant ret;
+        iface->variant_new_nil(&ret);
+        GDExtensionCallError error;
+        const GDExtensionConstVariantPtr args[1] = { &str_variant };
+        print_fn(&ret, args, 1);
+        iface->variant_destroy(&ret);
+    } else {
+        fprintf(stderr, "[Godot] print_rich not available, message was: %s\n", message);
+        fflush(stderr);
+    }
+    
+    // Cleanup
+    iface->variant_destroy(&str_variant);
+    iface->string_destroy(&gd_str);
 }
 
 void gdext_log_warning(const char* message) {
-    fprintf(stderr, "[Godot Warning] %s\n", message);
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) {
+        fprintf(stderr, "[Godot Warning] %s\n", message);
+        return;
+    }
+    
+    // Stack-allocate
+    GDExtensionVariant str_variant;
+    GDExtensionString gd_str;
+    
+    iface->string_new_with_utf8_chars(&gd_str, message);
+    iface->variant_from_type_constructor(4)(&str_variant, &gd_str);
+    
+    // Call push_warning() utility function
+    // Hash: 4258349099
+    GDExtensionPtrUtilityFunction warn_fn = iface->variant_get_ptr_utility_function("push_warning", 4258349099);
+    if (warn_fn) {
+        GDExtensionVariant ret;
+        iface->variant_new_nil(&ret);
+        GDExtensionCallError error;
+        const GDExtensionConstVariantPtr args[1] = { &str_variant };
+        warn_fn(&ret, args, 1);
+        iface->variant_destroy(&ret);
+    } else {
+        fprintf(stderr, "[Godot Warning] %s\n", message);
+    }
+    
+    iface->variant_destroy(&str_variant);
+    iface->string_destroy(&gd_str);
 }
 
 void gdext_log_error(const char* message) {
-    fprintf(stderr, "[Godot Error] %s\n", message);
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface) {
+        fprintf(stderr, "[Godot Error] %s\n", message);
+        return;
+    }
+    
+    // Stack-allocate
+    GDExtensionVariant str_variant;
+    GDExtensionString gd_str;
+    
+    iface->string_new_with_utf8_chars(&gd_str, message);
+    iface->variant_from_type_constructor(4)(&str_variant, &gd_str);
+    
+    // Call push_error() utility function
+    // Hash: 2658742239
+    GDExtensionPtrUtilityFunction error_fn = iface->variant_get_ptr_utility_function("push_error", 2658742239);
+    if (error_fn) {
+        GDExtensionVariant ret;
+        iface->variant_new_nil(&ret);
+        GDExtensionCallError error;
+        const GDExtensionConstVariantPtr args[1] = { &str_variant };
+        error_fn(&ret, args, 1);
+        iface->variant_destroy(&ret);
+    } else {
+        fprintf(stderr, "[Godot Error] %s\n", message);
+    }
+    
+    iface->variant_destroy(&str_variant);
+    iface->string_destroy(&gd_str);
 }
 
 // ============================================================================
@@ -410,13 +934,4 @@ int gdext_is_scene_tree_traversing() {
 
 void gdext_set_scene_tree_traversing(int traversing) {
     (void)traversing;
-}
-
-// ============================================================================
-// Signal helper stubs
-// ============================================================================
-
-void gdext_free_signal_args(void** args, uintptr_t arg_count) {
-    (void)args;
-    (void)arg_count;
 }

@@ -10,6 +10,7 @@
 #define GDEXT_C_GDEXTENSION_H
 
 #include "gdextension_interface.h"
+#include "gdext_c_defs.h"  // TDD #206: Export macros for entry point
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,12 +22,15 @@ extern "C" {
  * This is the entry point that Godot calls when loading the extension.
  * REPLACES Rust bridge's gdext_initialize function.
  * 
+ * TDD #206: MUST use GDE_EXPORT to make this symbol visible!
+ * Without this, Godot cannot find the entry point and the extension won't load.
+ * 
  * @param p_get_proc_address Function to get GDExtension API functions
  * @param p_library Library handle
  * @param r_initialization Initialization structure to fill
  * @return GDExtensionBool 1 on success, 0 on failure
  */
-GDExtensionBool gdext_c_library_init(
+GDExtensionBool GDE_EXPORT gdext_c_library_init(
     GDExtensionInterfaceGetProcAddress p_get_proc_address,
     const GDExtensionClassLibraryPtr p_library,
     GDExtensionInitialization *r_initialization

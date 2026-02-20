@@ -62,6 +62,9 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
     
     // Load game logic at CORE level
     if (p_level == GDEXTENSION_INITIALIZATION_CORE) {
+        fprintf(stderr, "[gdext-c] 📚 Attempting to load game_logic.dylib...\n");
+        fflush(stderr);
+        
         const char* paths[] = {
             "@loader_path/game_logic.dylib",
             "@loader_path/../bin/macos/game_logic.dylib",
@@ -71,16 +74,26 @@ void gdext_c_initialize_level(void *p_userdata, GDExtensionInitializationLevel p
         };
         
         for (int i = 0; paths[i] != NULL; i++) {
+            fprintf(stderr, "[gdext-c] 🔍 Trying: %s\n", paths[i]);
+            fflush(stderr);
+            
             g_game_logic_handle = dlopen(paths[i], RTLD_LAZY | RTLD_GLOBAL);
             if (g_game_logic_handle) {
-                printf("[gdext-c] ✅ Loaded game_logic.dylib from: %s\n", paths[i]);
-                fflush(stdout);
+                fprintf(stderr, "[gdext-c] ✅ Loaded game_logic.dylib from: %s\n", paths[i]);
+                fflush(stderr);
                 break;
+            } else {
+                fprintf(stderr, "[gdext-c] ❌ dlopen('%s') failed: %s\n", paths[i], dlerror());
+                fflush(stderr);
             }
         }
         
         if (!g_game_logic_handle) {
-            fprintf(stderr, "[gdext-c] ❌ Failed to load game_logic.dylib!\n");
+            fprintf(stderr, "[gdext-c] ❌ CRITICAL: Failed to load game_logic.dylib from all paths!\n");
+            fprintf(stderr, "[gdext-c] 💡 Last dlerror: %s\n", dlerror());
+            fflush(stderr);
+        } else {
+            fprintf(stderr, "[gdext-c] 🎮 game_logic.dylib loaded, Go init() should run now...\n");
             fflush(stderr);
         }
     }
@@ -140,14 +153,17 @@ void gdext_c_deinitialize_level(void *p_userdata, GDExtensionInitializationLevel
  * 
  * This is THE entry point that Godot calls.
  * REPLACES Rust bridge's gdext_initialize function entirely!
+ * 
+ * TDD #206: MUST use GDE_EXPORT to make this symbol visible!
+ * Without this, Godot cannot find the entry point and the extension won't load.
  */
-GDExtensionBool gdext_c_library_init(
+GDExtensionBool GDE_EXPORT gdext_c_library_init(
     GDExtensionInterfaceGetProcAddress p_get_proc_address,
     const GDExtensionClassLibraryPtr p_library,
     GDExtensionInitialization *r_initialization
 ) {
-    printf("[gdext-c] 🚀 Library init\n");
-    fflush(stdout);
+    fprintf(stderr, "[gdext-c] 🚀 Library init CALLED!\n");
+    fflush(stderr);
     
     // Store library handle
     g_library = p_library;
@@ -161,6 +177,9 @@ GDExtensionBool gdext_c_library_init(
         return 0;
     }
     
+    fprintf(stderr, "[gdext-c] ✅ Core initialized\n");
+    fflush(stderr);
+    
     // Store library handle for class registration
     gdext_c_set_library_handle(p_library);
     
@@ -170,8 +189,8 @@ GDExtensionBool gdext_c_library_init(
     r_initialization->initialize = gdext_c_initialize_level;
     r_initialization->deinitialize = gdext_c_deinitialize_level;
     
-    printf("[gdext-c] ✅ Library initialized\n");
-    fflush(stdout);
+    fprintf(stderr, "[gdext-c] ✅ Library initialized, will load game_logic.dylib at CORE level\n");
+    fflush(stderr);
     
     return 1; // Success!
 }
