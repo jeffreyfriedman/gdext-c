@@ -192,20 +192,20 @@ static int g_physics_virtual_frame_count = 0;
 static void game_node_physics_process_virtual(GDExtensionClassInstancePtr p_instance, const GDExtensionConstTypePtr *p_args, GDExtensionTypePtr r_ret) {
     (void)p_instance;
     (void)r_ret;
-    
+
     g_physics_virtual_frame_count++;
-    
-    // Diagnostic: log first few frames and then every 1000 to confirm virtual fires
+
+    // Minimal logging: first 5 frames + every 1000th
     if (g_physics_virtual_frame_count <= 5 || g_physics_virtual_frame_count % 1000 == 0) {
         fprintf(stderr, "[gdext-c] _physics_process virtual frame=%d\n", g_physics_virtual_frame_count);
         fflush(stderr);
     }
-    
+
     double delta = 0.016666667; // Default 60 FPS
     if (p_args && p_args[0]) {
         delta = *(const double*)p_args[0];
     }
-    
+
     gdext_c_lifecycle_dispatch_physics(delta);
 }
 
