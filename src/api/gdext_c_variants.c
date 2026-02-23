@@ -195,6 +195,11 @@ void* gdext_variant_to_object(void* variant) {
     return object_ptr;
 }
 
+// TDD: Alias for gdext-go compatibility (Go code expects this symbol name)
+void* gdext_get_object_from_variant(void* variant) {
+    return gdext_variant_to_object(variant);
+}
+
 // ============================================================================
 // VARIANT LIFECYCLE
 // ============================================================================

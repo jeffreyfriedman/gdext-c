@@ -548,6 +548,14 @@ int gdext_variant_to_bool(void* variant);
 void* gdext_variant_to_object(void* variant);
 
 /**
+ * @brief Alias for gdext_variant_to_object (gdext-go compatibility)
+ * 
+ * Go code expects this symbol name for historical reasons.
+ * Both functions do exactly the same thing.
+ */
+void* gdext_get_object_from_variant(void* variant);
+
+/**
  * @brief Extract Vector3 from a Variant (TDD #162)
  * @param variant Pointer to a GDExtensionVariantPtr containing a Vector3
  * @param out_x Pointer to store X coordinate
@@ -742,6 +750,11 @@ void* gdext_variant_from_packed_int32_array(int32_t* values, int count);
 void* gdext_variant_from_packed_vector3_array(float* values, int count);
 
 /**
+ * @brief Create PackedColorArray Variant from flat float array (R,G,B,A per color)
+ */
+void* gdext_variant_from_packed_color_array(float* values, int count);
+
+/**
  * @brief Create new empty PackedInt32Array Variant
  */
 void* gdext_variant_new_packed_int32_array(void);
@@ -750,6 +763,72 @@ void* gdext_variant_new_packed_int32_array(void);
  * @brief Create new empty PackedVector3Array Variant
  */
 void* gdext_variant_new_packed_vector3_array(void);
+
+/* Packed array element operations */
+void gdext_packed_vector3_array_append(void* array, float x, float y, float z);
+void gdext_packed_int32_array_append(void* array, int32_t value);
+int64_t gdext_packed_vector3_array_size(void* array);
+int64_t gdext_packed_int32_array_size(void* array);
+
+/* Bulk append operations - avoid per-element malloc/StringName overhead */
+void gdext_packed_vector3_array_append_bulk(void* array, const float* data, int count);
+void gdext_packed_int32_array_append_bulk(void* array, const int32_t* data, int count);
+void gdext_packed_color_array_append_bulk(void* array, const float* data, int count);
+
+/* ============================================================================
+ * PackedColorArray (TDD Cycle 3) - For biome vertex colors
+ * ============================================================================ */
+
+/**
+ * Create a new empty PackedColorArray Variant
+ */
+void* gdext_variant_new_packed_color_array(void);
+
+/**
+ * Append a Color (RGBA) to a PackedColorArray
+ */
+void gdext_packed_color_array_append(void* array, float r, float g, float b, float a);
+
+/* ============================================================================
+ * Mesh Pipeline (TDD Cycle 1) - Direct ArrayMesh.add_surface_from_arrays
+ * Uses object_method_bind_call instead of variant_call to avoid SIGSEGV
+ * ============================================================================ */
+
+/**
+ * @brief Call ArrayMesh.add_surface_from_arrays using object_method_bind_call
+ * 
+ * This bypasses the variant_call path (which wraps the object in a Variant)
+ * and calls the method directly on the Object, which is the correct way to
+ * call methods on Godot Object-derived classes.
+ *
+ * @param mesh_object The ArrayMesh object pointer (GDExtensionObjectPtr)
+ * @param primitive_type Mesh primitive type (0=POINTS, 3=TRIANGLES, etc.)
+ * @param arrays_variant Variant containing the mesh Array (13 elements)
+ * @return 0 on success, non-zero on error
+ */
+int gdext_mesh_add_surface_from_arrays(void* mesh_object, int primitive_type, void* arrays_variant);
+
+/**
+ * @brief Create an ArrayMesh object
+ * @return Object pointer for the new ArrayMesh (caller must manage lifetime)
+ */
+void* gdext_create_array_mesh(void);
+
+/**
+ * Create a StandardMaterial3D with vertex color display enabled and apply it
+ * to surface 0 of the given ArrayMesh. Uses object_method_bind_call to bypass
+ * the variant_call double-wrapping issue.
+ *
+ * @param mesh_object Raw GDExtensionObjectPtr for the ArrayMesh
+ * @return 0 on success, negative error code on failure
+ */
+int gdext_mesh_apply_vertex_color_material(void* mesh_object);
+
+/**
+ * Create a StandardMaterial3D with a specific albedo color and apply it
+ * to a surface of the given mesh.
+ */
+int gdext_mesh_apply_albedo_material(void* mesh_object, int surface_idx, float r, float g, float b, float a);
 
 /* ============================================================================
  * PackedByteArray (TDD #152) - For GPU buffer updates
