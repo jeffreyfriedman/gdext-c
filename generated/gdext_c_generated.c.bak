@@ -231998,7 +231998,6 @@ double gdext_base_material3_d_get_alpha_antialiasing_edge(gdext_c_object_t insta
 
 void gdext_base_material3_d_set_shading_mode(gdext_c_object_t instance, int32_t shading_mode) {
     // Get method bind
-    (void)instance; (void)shading_mode; return;
     // TDD FIX: Godot 4.6 API change - skip broken method
     (void)instance; (void)shading_mode;
     return;

@@ -496,6 +496,16 @@ void* gdext_variant_from_vector3(float x, float y, float z);
 void* gdext_variant_from_color(float r, float g, float b, float a);
 
 /**
+ * @brief Create a Variant from Rect2
+ */
+void* gdext_variant_from_rect2(float x, float y, float width, float height);
+
+/**
+ * @brief Create a Variant from Vector4
+ */
+void* gdext_variant_from_vector4(float x, float y, float z, float w);
+
+/**
  * @brief Create a Variant from an object pointer
  */
 void* gdext_variant_from_object(void* object);
@@ -509,18 +519,18 @@ void* gdext_variant_from_object(void* object);
  * TDD SVO: Required for RDShaderSPIRV.SetBytecodeCompute()
  * This function creates a Variant containing a PackedByteArray with the given data.
  */
-void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char* data, size_t len);
+void* gdext_variant_from_packed_byte_array(const unsigned char* data, size_t len);
 
 /**
  * @brief Create a Variant from an array of Object pointers (Godot Array type)
- * @param variant_ptr Pointer to variant to initialize
  * @param object_ids Array of object pointer values (size_t, can be NULL for empty array)
  * @param count Number of objects in the array
+ * @return Allocated variant (caller must free)
  * 
- * TDD SVO: Required for UniformSetCreate() which takes an Array of RDUniform objects.
+ * TDD: Required for UniformSetCreate() which takes an Array of RDUniform objects.
  * This function creates a Variant containing a Godot Array with object references.
  */
-void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids, size_t count);
+void* gdext_variant_from_object_array(const size_t* object_ids, size_t count);
 
 /**
  * @brief Extract int64 from a Variant
@@ -536,6 +546,12 @@ double gdext_variant_to_float(void* variant);
  * @brief Extract bool from a Variant
  */
 int gdext_variant_to_bool(void* variant);
+
+/**
+ * @brief Extract String from a Variant
+ * @return Allocated C string (caller must free())
+ */
+char* gdext_variant_to_string(void* variant);
 
 /**
  * @brief Extract Object pointer from a Variant (TDD SVO Test 2)
@@ -575,6 +591,16 @@ void gdext_variant_to_vector3(void* variant, float* out_x, float* out_y, float* 
 void gdext_variant_to_vector2(void* variant, float* out_x, float* out_y);
 
 /**
+ * @brief Extract Rect2 from a Variant
+ */
+void gdext_variant_to_rect2(void* variant, float* out_x, float* out_y, float* out_w, float* out_h);
+
+/**
+ * @brief Extract Color from a Variant
+ */
+void gdext_variant_to_color(void* variant, float* out_r, float* out_g, float* out_b, float* out_a);
+
+/**
  * @brief Extract PackedByteArray from a Variant
  * @param variant Pointer to a GDExtensionVariantPtr containing a PackedByteArray
  * @param out_data Pointer to receive the data pointer (caller must NOT free)
@@ -598,12 +624,12 @@ void gdext_variant_to_rid(void* variant, uint64_t* out_id);
 
 /**
  * @brief Create a Variant from an RID
- * @param variant_ptr Pointer to a GDExtensionVariantPtr to initialize
  * @param rid_id The RID value (uint64)
+ * @return Allocated variant (caller must free)
  * 
- * TDD SVO: Required for passing RIDs to Godot methods
+ * TDD: Required for passing RIDs to Godot methods
  */
-void gdext_variant_from_rid(void* variant_ptr, uint64_t rid_id);
+void* gdext_variant_from_rid(uint64_t rid_id);
 
 /**
  * @brief Free a Variant
@@ -743,6 +769,21 @@ void* gdext_variant_new_array(void);
  * @brief Create PackedInt32Array Variant
  */
 void* gdext_variant_from_packed_int32_array(int32_t* values, int count);
+
+/**
+ * @brief Create PackedInt64Array Variant
+ */
+void* gdext_variant_from_packed_int64_array(int64_t* values, int count);
+
+/**
+ * @brief Create PackedFloat32Array Variant
+ */
+void* gdext_variant_from_packed_float32_array(float* values, int count);
+
+/**
+ * @brief Create PackedFloat64Array Variant
+ */
+void* gdext_variant_from_packed_float64_array(double* values, int count);
 
 /**
  * @brief Create PackedVector3Array Variant

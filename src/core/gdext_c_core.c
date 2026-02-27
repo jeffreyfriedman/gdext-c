@@ -62,6 +62,7 @@ bool gdext_c_initialize(gdext_c_proc_address_func proc_address) {
     g_interface.variant_call = (GDExtensionInterfaceVariantCall)g_proc_address("variant_call");
     g_interface.get_variant_from_type_constructor = (GDExtensionInterfaceGetVariantFromTypeConstructor)g_proc_address("get_variant_from_type_constructor");
     g_interface.get_variant_to_type_constructor = (GDExtensionInterfaceGetVariantToTypeConstructor)g_proc_address("get_variant_to_type_constructor");
+    g_interface.variant_get_ptr_constructor = (GDExtensionInterfaceVariantGetPtrConstructor)g_proc_address("variant_get_ptr_constructor");
     g_interface.variant_get_ptr_destructor = (GDExtensionInterfaceVariantGetPtrDestructor)g_proc_address("variant_get_ptr_destructor"); // TDD #161: For StringName cleanup
     g_interface.variant_get_type = (GDExtensionInterfaceVariantGetType)g_proc_address("variant_get_type");
     

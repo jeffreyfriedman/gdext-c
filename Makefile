@@ -28,10 +28,13 @@ OBJS := $(SRCS:.c=.o)
 # Output library
 ifeq ($(OS),Windows_NT)
     LIB := libgdext_c.dll
+    STATIC_LIB := libgdext_c.a
 else ifeq ($(shell uname),Darwin)
     LIB := libgdext_c.dylib
+    STATIC_LIB := libgdext_c.a
 else
     LIB := libgdext_c.so
+    STATIC_LIB := libgdext_c.a
 endif
 
 # TDD #137: Code generation
@@ -47,13 +50,19 @@ generate:
 	@echo "✅ Generated bindings in generated/"
 
 # Default target
-all: $(LIB)
+all: $(LIB) $(STATIC_LIB)
 
-# Build library
+# Build shared library
 $(LIB): $(OBJS)
-	@echo "🔗 Linking $@..."
+	@echo "🔗 Linking shared library $@..."
 	@$(CC) $(LDFLAGS) -o $@ $^
-	@echo "✅ Built gdext-c: $@"
+	@echo "✅ Built gdext-c shared library: $@"
+
+# Build static library (for standalone linking)
+$(STATIC_LIB): $(OBJS)
+	@echo "📚 Creating static library $@..."
+	@ar rcs $@ $^
+	@echo "✅ Built gdext-c static library: $@"
 
 # Ensure generated code exists before compiling
 generated/gdext_c_generated.o: generated/gdext_c_generated.c
@@ -70,7 +79,7 @@ generated/gdext_c_generated.c:
 # Clean build artifacts
 clean:
 	@echo "🧹 Cleaning..."
-	@rm -f $(OBJS) $(LIB)
+	@rm -f $(OBJS) $(LIB) $(STATIC_LIB)
 	@echo "✅ Clean complete"
 
 # Install (copy to standard location)

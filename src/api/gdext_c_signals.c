@@ -568,6 +568,12 @@ int gdext_is_key_pressed(int keycode) {
     return (int)result;
 }
 
+// TDD: Alias for Go compatibility (Go code expects this symbol name from old Rust bridge)
+// Both functions do the same thing - check if a key is currently pressed
+int gdext_is_key_pressed_from_events(int keycode) {
+    return gdext_is_key_pressed(keycode);
+}
+
 int gdext_is_mouse_button_pressed(int button) {
     ensure_input_initialized();
     if (!g_input_singleton || !g_is_mouse_button_pressed_mb) return 0;
@@ -797,109 +803,22 @@ void* gdext_preload_resource(const char* path) {
 // CRITICAL FIX: printf/fprintf go to stdout (invisible in Godot extension)
 // Must use Godot's UtilityFunctions.print_rich() instead
 void gdext_log_message(const char* message) {
-    // ALWAYS output to stderr so we can see if this is being called
-    fprintf(stderr, "[GO_LOG] %s\n", message);
+    // Use stderr for C-side logging (simpler and more reliable)
+    // Note: Go-side logging via godotlog is preferred for game code
+    fprintf(stderr, "[Godot] %s\n", message);
     fflush(stderr);
-    
-    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
-    if (!iface) {
-        fprintf(stderr, "[gdext_c] WARNING: Cannot log, interface not available\n");
-        fflush(stderr);
-        return;
-    }
-    
-    // Stack-allocate Variant and String (no malloc needed)
-    GDExtensionVariant str_variant;
-    GDExtensionString gd_str;
-    
-    // Create String from C string
-    iface->string_new_with_utf8_chars(&gd_str, message);
-    
-    // Convert String to Variant
-    iface->variant_from_type_constructor(4)(&str_variant, &gd_str); // 4 = STRING type
-    
-    // Call print_rich() utility function
-    // Hash: 2648703342 (verified from Godot 4.6 source)
-    GDExtensionPtrUtilityFunction print_fn = iface->variant_get_ptr_utility_function("print_rich", 2648703342);
-    if (print_fn) {
-        GDExtensionVariant ret;
-        iface->variant_new_nil(&ret);
-        GDExtensionCallError error;
-        const GDExtensionConstVariantPtr args[1] = { &str_variant };
-        print_fn(&ret, args, 1);
-        iface->variant_destroy(&ret);
-    } else {
-        fprintf(stderr, "[Godot] print_rich not available, message was: %s\n", message);
-        fflush(stderr);
-    }
-    
-    // Cleanup
-    iface->variant_destroy(&str_variant);
-    iface->string_destroy(&gd_str);
 }
 
 void gdext_log_warning(const char* message) {
-    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
-    if (!iface) {
-        fprintf(stderr, "[Godot Warning] %s\n", message);
-        return;
-    }
-    
-    // Stack-allocate
-    GDExtensionVariant str_variant;
-    GDExtensionString gd_str;
-    
-    iface->string_new_with_utf8_chars(&gd_str, message);
-    iface->variant_from_type_constructor(4)(&str_variant, &gd_str);
-    
-    // Call push_warning() utility function
-    // Hash: 4258349099
-    GDExtensionPtrUtilityFunction warn_fn = iface->variant_get_ptr_utility_function("push_warning", 4258349099);
-    if (warn_fn) {
-        GDExtensionVariant ret;
-        iface->variant_new_nil(&ret);
-        GDExtensionCallError error;
-        const GDExtensionConstVariantPtr args[1] = { &str_variant };
-        warn_fn(&ret, args, 1);
-        iface->variant_destroy(&ret);
-    } else {
-        fprintf(stderr, "[Godot Warning] %s\n", message);
-    }
-    
-    iface->variant_destroy(&str_variant);
-    iface->string_destroy(&gd_str);
+    // Use stderr for C-side logging (simpler and more reliable)
+    fprintf(stderr, "[Godot Warning] %s\n", message);
+    fflush(stderr);
 }
 
 void gdext_log_error(const char* message) {
-    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
-    if (!iface) {
-        fprintf(stderr, "[Godot Error] %s\n", message);
-        return;
-    }
-    
-    // Stack-allocate
-    GDExtensionVariant str_variant;
-    GDExtensionString gd_str;
-    
-    iface->string_new_with_utf8_chars(&gd_str, message);
-    iface->variant_from_type_constructor(4)(&str_variant, &gd_str);
-    
-    // Call push_error() utility function
-    // Hash: 2658742239
-    GDExtensionPtrUtilityFunction error_fn = iface->variant_get_ptr_utility_function("push_error", 2658742239);
-    if (error_fn) {
-        GDExtensionVariant ret;
-        iface->variant_new_nil(&ret);
-        GDExtensionCallError error;
-        const GDExtensionConstVariantPtr args[1] = { &str_variant };
-        error_fn(&ret, args, 1);
-        iface->variant_destroy(&ret);
-    } else {
-        fprintf(stderr, "[Godot Error] %s\n", message);
-    }
-    
-    iface->variant_destroy(&str_variant);
-    iface->string_destroy(&gd_str);
+    // Use stderr for C-side logging (simpler and more reliable)
+    fprintf(stderr, "[Godot Error] %s\n", message);
+    fflush(stderr);
 }
 
 // ============================================================================

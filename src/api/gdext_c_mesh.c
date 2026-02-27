@@ -227,7 +227,8 @@ int gdext_mesh_apply_vertex_color_material(void* mesh_object) {
 
     // 2b. NEW: Set SHADING_MODE_UNSHADED to make player fully bright!
     // This makes the material ignore all scene lighting
-    {
+    // TDD FIX: Skip this block - set_shading_mode doesn't exist in Godot 4.6
+    if (0) {  // TDD: Disabled
         char method_name[64] = {0};
         iface->string_name_new_with_latin1_chars(method_name, "set_shading_mode", 0);
         

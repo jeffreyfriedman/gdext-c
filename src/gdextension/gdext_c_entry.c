@@ -195,3 +195,17 @@ GDExtensionBool GDE_EXPORT gdext_c_library_init(
     return 1; // Success!
 }
 
+/**
+ * @brief Godot standard entry point
+ * TDD: Wrapper that calls gdext_c_library_init
+ * Godot expects this specific function name for GDExtension loading
+ */
+GDExtensionBool GDE_EXPORT gdextension_init(
+    GDExtensionInterfaceGetProcAddress p_get_proc_address,
+    const GDExtensionClassLibraryPtr p_library,
+    GDExtensionInitialization *r_initialization
+) {
+    // Simply forward to the main initialization function
+    return gdext_c_library_init(p_get_proc_address, p_library, r_initialization);
+}
+

@@ -126,6 +126,37 @@ void* gdext_variant_from_color(float r, float g, float b, float a) {
     return variant;
 }
 
+// TDD: Additional geometry types for Go compatibility
+void* gdext_variant_from_rect2(float x, float y, float width, float height) {
+    if (!gdext_c_is_initialized()) return NULL;
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
+    if (!variant) return NULL;
+    
+    float rect[4] = {x, y, width, height};
+    GDExtensionVariantFromTypeConstructorFunc constructor = iface->get_variant_from_type_constructor(6); // RECT2
+    if (!constructor) { free(variant); return NULL; }
+    
+    constructor(variant, rect);
+    return variant;
+}
+
+void* gdext_variant_from_vector4(float x, float y, float z, float w) {
+    if (!gdext_c_is_initialized()) return NULL;
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
+    if (!variant) return NULL;
+    
+    float vec4[4] = {x, y, z, w};
+    GDExtensionVariantFromTypeConstructorFunc constructor = iface->get_variant_from_type_constructor(12); // VECTOR4
+    if (!constructor) { free(variant); return NULL; }
+    
+    constructor(variant, vec4);
+    return variant;
+}
+
 void* gdext_variant_from_object(void* object) {
     if (!gdext_c_is_initialized()) return NULL;
     
@@ -172,6 +203,31 @@ int gdext_variant_to_bool(void* variant) {
     GDExtensionTypeFromVariantConstructorFunc constructor = iface->get_variant_to_type_constructor(1);
     if (constructor) constructor(&result, variant);
     return result ? 1 : 0;
+}
+
+// TDD: String conversion for Go compatibility
+char* gdext_variant_to_string(void* variant) {
+    if (!gdext_c_is_initialized() || !variant) return NULL;
+    
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    
+    // Extract String from variant
+    unsigned char str_buffer[256];
+    GDExtensionStringPtr str = (GDExtensionStringPtr)str_buffer;
+    GDExtensionTypeFromVariantConstructorFunc constructor = iface->get_variant_to_type_constructor(4); // STRING
+    if (!constructor) return NULL;
+    
+    constructor(str, variant);
+    
+    // Convert Godot String to C string
+    int32_t length = iface->string_to_latin1_chars(str, NULL, 0);
+    char* result = (char*)malloc(length + 1);
+    if (!result) return NULL;
+    
+    iface->string_to_latin1_chars(str, result, length);
+    result[length] = '\0';
+    
+    return result; // Caller must free()
 }
 
 void* gdext_variant_to_object(void* variant) {
@@ -230,13 +286,19 @@ void* gdext_variant_new() {
 // PACKED BYTE ARRAY
 // ============================================================================
 
-void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char* data, size_t len) {
-    if (!gdext_c_is_initialized() || !variant_ptr) return;
+// TDD: C-style API - allocate and return variant
+void* gdext_variant_from_packed_byte_array(const unsigned char* data, size_t len) {
+    if (!gdext_c_is_initialized()) return NULL;
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
+    if (!variant) return NULL;
     
     gdext_c_packed_byte_array_t* pba = malloc(sizeof(gdext_c_packed_byte_array_t));
-    if (!pba) return;
+    if (!pba) {
+        free(variant);
+        return NULL;
+    }
     
     gdext_c_packed_byte_array_from_bytes(pba, data, len);
     
@@ -246,13 +308,15 @@ void gdext_variant_from_packed_byte_array(void* variant_ptr, const unsigned char
     if (!constructor) {
         gdext_c_packed_byte_array_destroy(pba);
         free(pba);
-        return;
+        free(variant);
+        return NULL;
     }
     
-    constructor(variant_ptr, pba);
+    constructor(variant, pba);
     
     gdext_c_packed_byte_array_destroy(pba);
     free(pba);
+    return variant;
 }
 
 void gdext_variant_to_packed_byte_array(void* variant, unsigned char** out_data, size_t* out_size) {
@@ -308,47 +372,74 @@ void gdext_variant_to_rid(void* variant, uint64_t* out_id) {
     *out_id = rid_value;
 }
 
-void gdext_variant_from_rid(void* variant_ptr, uint64_t rid_id) {
-    if (!gdext_c_is_initialized() || !variant_ptr) return;
+// TDD: C-style API - allocate and return variant
+void* gdext_variant_from_rid(uint64_t rid_id) {
+    if (!gdext_c_is_initialized()) return NULL;
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    GDExtensionVariantPtr variant = malloc(GDEXT_VARIANT_SIZE);
+    if (!variant) return NULL;
     
     GDExtensionVariantFromTypeConstructorFunc constructor = 
         iface->get_variant_from_type_constructor(GDEXTENSION_VARIANT_TYPE_RID);
     
-    if (!constructor) return;
+    if (!constructor) {
+        free(variant);
+        return NULL;
+    }
     
     uint64_t rid_value = rid_id;
-    constructor(variant_ptr, &rid_value);
+    constructor(variant, &rid_value);
+    return variant;
 }
 
 // ============================================================================
 // OBJECT ARRAY
 // ============================================================================
 
-void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids, size_t count) {
-    if (!gdext_c_is_initialized() || !variant_ptr) return;
+// TDD: C-style API - allocate and return variant
+void* gdext_variant_from_object_array(const size_t* object_ids, size_t count) {
+    if (!gdext_c_is_initialized()) return NULL;
+    
+    // Allocate variant
+    GDExtensionVariantPtr variant_ptr = malloc(GDEXT_VARIANT_SIZE);
+    if (!variant_ptr) return NULL;
     
     const GDExtensionInterface* iface = gdext_c_get_interface_functions();
     gdext_c_proc_address_func proc_address = gdext_c_get_proc_address_internal();
     
     // Create an empty Array (type 28)
     GDExtensionTypePtr array_ptr = iface->mem_alloc(256);
-    if (!array_ptr) return;
+    if (!array_ptr) {
+        free(variant_ptr);
+        return NULL;
+    }
     
     typedef GDExtensionPtrConstructor (*GetPtrConstructorFunc)(GDExtensionVariantType, int32_t);
     GetPtrConstructorFunc get_constructor = (GetPtrConstructorFunc)proc_address("variant_get_ptr_constructor");
-    if (!get_constructor) { iface->mem_free(array_ptr); return; }
+    if (!get_constructor) { 
+        iface->mem_free(array_ptr); 
+        free(variant_ptr);
+        return NULL;
+    }
     
     GDExtensionPtrConstructor array_constructor = get_constructor(GDEXTENSION_VARIANT_TYPE_ARRAY, 0);
-    if (!array_constructor) { iface->mem_free(array_ptr); return; }
+    if (!array_constructor) { 
+        iface->mem_free(array_ptr); 
+        free(variant_ptr);
+        return NULL;
+    }
     
     array_constructor(array_ptr, NULL);
     
     // Get Array.append() method
     typedef GDExtensionPtrBuiltInMethod (*GetPtrBuiltinMethod)(GDExtensionVariantType, GDExtensionConstStringNamePtr, GDExtensionInt);
     GetPtrBuiltinMethod get_builtin_method = (GetPtrBuiltinMethod)proc_address("variant_get_ptr_builtin_method");
-    if (!get_builtin_method) { iface->mem_free(array_ptr); return; }
+    if (!get_builtin_method) { 
+        iface->mem_free(array_ptr); 
+        free(variant_ptr);
+        return NULL;
+    }
     
     uint8_t append_name[8] = {0};
     iface->string_name_new_with_latin1_chars(append_name, "append", 0);
@@ -356,7 +447,11 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
     GDExtensionPtrBuiltInMethod append_method = get_builtin_method(
         GDEXTENSION_VARIANT_TYPE_ARRAY, append_name, 3316032543);
     
-    if (!append_method) { iface->mem_free(array_ptr); return; }
+    if (!append_method) { 
+        iface->mem_free(array_ptr); 
+        free(variant_ptr);
+        return NULL;
+    }
     
     // Collect variants for cleanup
     GDExtensionVariantPtr* obj_variants = iface->mem_alloc(count * sizeof(GDExtensionVariantPtr));
@@ -413,7 +508,8 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
         }
         iface->mem_free(obj_variants);
         iface->mem_free(array_ptr);
-        return;
+        free(variant_ptr);
+        return NULL;
     }
     
     from_constructor(variant_ptr, array_ptr);
@@ -432,4 +528,6 @@ void gdext_variant_from_object_array(void* variant_ptr, const size_t* object_ids
         if (array_destructor) array_destructor(array_ptr);
     }
     iface->mem_free(array_ptr);
+    
+    return variant_ptr;
 }

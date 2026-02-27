@@ -87,6 +87,16 @@ int gdext_process_refcounted_cleanup(void);
  */
 void gdext_refcounted_cleanup_stats(int* queued_count, int* total_processed, int* total_dropped);
 
+/**
+ * Get the Godot instance ID for a given object pointer.
+ * Safe to call even if the interface is not initialized (returns 0).
+ * This is provided as a function to avoid exposing g_interface to external dylibs.
+ *
+ * @param object_ptr  Raw pointer to a Godot object
+ * @return The instance ID, or 0 if invalid/uninitialized
+ */
+uint64_t gdext_get_object_instance_id(void* object_ptr);
+
 #ifdef __cplusplus
 }
 #endif

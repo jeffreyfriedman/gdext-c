@@ -225,3 +225,44 @@ void gdext_go_set_node_text(void* node, const char* text) {
 void gdext_go_set_node_size(void* node, float width, float height) {
     (void)node; (void)width; (void)height; // Stub
 }
+
+// ============================================================================
+// TDD: Operation Queue Stubs (Old Rust Bridge Compatibility)
+// ============================================================================
+// These functions were part of the old Rust bridge's operation queue system.
+// They allowed thread-safe queuing of operations to run on Godot's main thread.
+// Currently implemented as no-op stubs to allow game to load.
+// TODO: Implement proper operation queue if needed for production.
+
+void gdext_queue_show_control(const char* node_path) {
+    (void)node_path;
+    // fprintf(stderr, "[gdext-c] ⚠️  gdext_queue_show_control() stub: %s\n", node_path);
+}
+
+void gdext_queue_hide_control(const char* node_path) {
+    (void)node_path;
+    // fprintf(stderr, "[gdext-c] ⚠️  gdext_queue_hide_control() stub: %s\n", node_path);
+}
+
+void gdext_queue_set_text(const char* node_path, const char* text) {
+    (void)node_path;
+    (void)text;
+    // fprintf(stderr, "[gdext-c] ⚠️  gdext_queue_set_text() stub: %s = %s\n", node_path, text);
+}
+
+void gdext_queue_change_scene(const char* scene_path) {
+    (void)scene_path;
+    // fprintf(stderr, "[gdext-c] ⚠️  gdext_queue_change_scene() stub: %s\n", scene_path);
+}
+
+void gdext_queue_play_sound(const char* sound_path, float volume) {
+    (void)sound_path;
+    (void)volume;
+    // fprintf(stderr, "[gdext-c] ⚠️  gdext_queue_play_sound() stub: %s (vol=%.2f)\n", sound_path, volume);
+}
+
+void gdext_queue_play_animation(const char* node_path, const char* animation_name) {
+    (void)node_path;
+    (void)animation_name;
+    // fprintf(stderr, "[gdext-c] ⚠️  gdext_queue_play_animation() stub: %s/%s\n", node_path, animation_name);
+}

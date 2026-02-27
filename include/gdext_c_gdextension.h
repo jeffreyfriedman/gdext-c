@@ -37,6 +37,17 @@ GDExtensionBool GDE_EXPORT gdext_c_library_init(
 );
 
 /**
+ * @brief Godot entry point (standard name expected by GDExtension)
+ * TDD: Wrapper that calls gdext_c_library_init
+ * This allows Godot to find the standard "gdextension_init" symbol
+ */
+GDExtensionBool GDE_EXPORT gdextension_init(
+    GDExtensionInterfaceGetProcAddress p_get_proc_address,
+    const GDExtensionClassLibraryPtr p_library,
+    GDExtensionInitialization *r_initialization
+);
+
+/**
  * @brief Initialize at specific level
  * Called by Godot for each initialization level
  */

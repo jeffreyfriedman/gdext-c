@@ -20,8 +20,9 @@
     #define MUTEX_UNLOCK(m) pthread_mutex_unlock(m)
 #endif
 
-// Queue configuration
-#define CLEANUP_QUEUE_SIZE 1000
+// Queue configuration - sized for burst chunk generation (voxel world creates
+// hundreds of MeshInstance3D + ArrayMesh + Material objects during loading)
+#define CLEANUP_QUEUE_SIZE 4096
 
 // Queue entry: stores both object pointer AND instance ID for validation
 typedef struct {
@@ -228,4 +229,11 @@ void gdext_refcounted_cleanup_stats(int* queued_count, int* total_processed, int
     if (total_dropped) {
         *total_dropped = atomic_load(&g_cleanup_queue.total_dropped);
     }
+}
+
+uint64_t gdext_get_object_instance_id(void* object_ptr) {
+    if (object_ptr == NULL) return 0;
+    const GDExtensionInterface* iface = gdext_c_get_interface_functions();
+    if (!iface || !iface->object_get_instance_id) return 0;
+    return iface->object_get_instance_id(object_ptr);
 }
