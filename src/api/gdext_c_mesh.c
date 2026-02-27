@@ -310,10 +310,12 @@ int gdext_mesh_apply_vertex_color_material(void* mesh_object) {
             GDExtensionVariantPtr color_var = malloc(GDEXT_VARIANT_SIZE);
             
             // Initialize Color variant
-            GDExtensionTypePtr type_ptr = (GDExtensionTypePtr)iface->variant_get_ptr_constructor(GDEXTENSION_VARIANT_TYPE_COLOR, 2); // Constructor with 4 floats
-            if (type_ptr) {
+            // TDD FIX: variant_get_ptr_constructor returns a function pointer, not just void*
+            typedef void (*VariantConstructor)(GDExtensionTypePtr, const GDExtensionConstTypePtr*);
+            VariantConstructor constructor = (VariantConstructor)iface->variant_get_ptr_constructor(GDEXTENSION_VARIANT_TYPE_COLOR, 2);
+            if (constructor) {
                 float color_data[4] = {1.0f, 0.95f, 0.9f, 1.0f}; // Warm white
-                type_ptr(color_var, (GDExtensionConstTypePtr*)&color_data);
+                constructor(color_var, (GDExtensionConstTypePtr*)&color_data);
             } else {
                 iface->variant_new_nil(color_var);
             }

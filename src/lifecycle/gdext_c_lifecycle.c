@@ -14,6 +14,7 @@
 #include <string.h>
 #include <stdint.h>   // For int64_t
 #include <unistd.h>   // For usleep
+#include <dlfcn.h>    // For dlsym (TDD: find Go trampolines)
 
 // TDD 1.2: Global storage for registered callbacks
 static gdext_c_ready_callback g_ready_callback = NULL;
@@ -369,6 +370,9 @@ void gdext_c_lifecycle_dispatch_physics(double delta) {
  * 
  * This is a convenience wrapper that Go can call directly.
  * It's exported from libgdext_c.dylib and can be found via dlsym or extern declaration.
+ * 
+ * TDD FIX: Instead of requiring function pointers from Go (CGO limitation),
+ * we use dlsym to find the //export trampolines by name.
  */
 void c_register_go_lifecycle_callbacks(
     gdext_c_ready_callback ready,
@@ -376,7 +380,38 @@ void c_register_go_lifecycle_callbacks(
     gdext_c_physics_callback physics,
     gdext_c_shutdown_callback shutdown
 ) {
-    gdext_c_register_lifecycle_callbacks(ready, process, physics, shutdown);
+    // TDD: If pointers are provided, use them (backward compat)
+    if (ready || process || physics || shutdown) {
+        gdext_c_register_lifecycle_callbacks(ready, process, physics, shutdown);
+        return;
+    }
+    
+    // TDD FIX: Use dlsym to find Go //export trampolines
+    // Use RTLD_SELF on macOS to search the current binary (statically linked Go code)
+    #ifdef __APPLE__
+        void* handle = RTLD_SELF;
+    #else
+        void* handle = RTLD_DEFAULT;
+    #endif
+    
+    void* ready_fn = dlsym(handle, "go_ready_trampoline");
+    void* process_fn = dlsym(handle, "go_process_trampoline");
+    void* physics_fn = dlsym(handle, "go_physics_trampoline");
+    void* shutdown_fn = dlsym(handle, "go_shutdown_trampoline");
+    
+    if (physics_fn) {
+        fprintf(stderr, "[gdext-c] ✅ Found Go trampolines via dlsym (physics=%p)\n", physics_fn);
+        fflush(stderr);
+        gdext_c_register_lifecycle_callbacks(
+            (gdext_c_ready_callback)ready_fn,
+            (gdext_c_process_callback)process_fn,
+            (gdext_c_physics_callback)physics_fn,
+            (gdext_c_shutdown_callback)shutdown_fn
+        );
+    } else {
+        fprintf(stderr, "[gdext-c] ⚠️  dlsym could not find Go trampolines\n");
+        fflush(stderr);
+    }
 }
 
 /**
